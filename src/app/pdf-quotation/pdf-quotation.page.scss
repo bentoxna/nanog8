@@ -1,0 +1,32 @@
+.pop{
+    position: absolute; 
+    top: 0px; 
+    right: -10px;
+    animation: popupeffect 200ms ease-in;
+}
+
+.popx{
+    position: absolute; 
+    top: 0px; 
+    right: -10px;
+    animation: closeeffect 200ms ease-in;
+}
+
+
+@keyframes popupeffect {
+    0%{
+        transform: translateX(100px);
+    }
+    100%{
+        transform: translateX(0);
+    }
+}
+
+@keyframes closeeffect {
+    0%{
+        transform: translateX(100px);
+    }
+    100%{
+        transform: translateX(0);
+    }
+}

@@ -1,0 +1,66 @@
+<ion-content>
+  <div style="width: 100%;  display: flex; flex-direction: column; align-items: center;">
+    <div style="width: 95%;">
+
+      <div style="margin-top: 10px; font-size: 13px;">
+        <div>Enter Name</div>
+        <ion-textarea placeholder="" [(ngModel)]="custom.name" style="box-shadow: 0 0 4px 0 #ccc;"></ion-textarea>
+      </div>
+
+      <!-- <div style="margin-top: 10px; font-size: 13px;">
+        <div style="padding:0 0 5px 0;">Enter Name</div>
+        <ion-input placeholder="" [(ngModel)]="custom.name" style="box-shadow: 0 0 4px 0 #ccc;"></ion-input>
+      </div>
+
+
+      <div style="margin-top: 10px; font-size: 13px;">
+        <div>Enter Remark</div>
+        <ion-textarea placeholder="" [(ngModel)]="custom.remark" style="box-shadow: 0 0 4px 0 #ccc;"></ion-textarea>
+      </div> -->
+
+      <div style="display: flex; justify-content:space-between; width: 100%; margin-top: 15px;">
+
+        <div (click)="percentageOrNumber('percentage')" style="width: 50%; text-align: center; font-size: 13px;">
+          <div style="font-size: 13px;">
+            <ion-icon *ngIf="percentage == false" name="square-outline"></ion-icon>
+            <ion-icon *ngIf="percentage == true" name="checkbox-outline"></ion-icon>
+          </div>
+          <div>Percentage</div>
+        </div>
+
+        <div (click)="percentageOrNumber('number')" style="width: 50%; text-align: center; font-size: 13px;">
+          <div style="font-size: 13px;">
+            <ion-icon *ngIf="percentage == true" name="square-outline"></ion-icon>
+            <ion-icon *ngIf="percentage == false" name="checkbox-outline"></ion-icon>
+          </div>
+          <div>Number</div>
+        </div>
+      </div>
+
+      <div *ngIf="percentage == true" style="box-shadow: 0 0 4px 0 #ccc; margin-top: 10px; font-size: 13px;">
+        <ion-input [(ngModel)]="custom.haoma" type="number" placeholder="percentage"></ion-input>
+      </div>
+
+      <div *ngIf="percentage == false" style="box-shadow: 0 0 4px 0 #ccc; margin-top: 10px; font-size: 13px;" >
+        <ion-input [(ngModel)]="custom.haoma" type="number" placeholder="number"></ion-input>
+      </div>
+
+      <div *ngIf="!sapid" (click)="photoOrNot()" style="display:flex; margin-top: 20px;">
+        <div style="font-size: 13px; margin-right:5px; margin-top: 1px;">
+          <ion-icon *ngIf="photoornot == false" name="square-outline"></ion-icon>
+          <ion-icon *ngIf="photoornot == true" name="checkbox-outline"></ion-icon>
+        </div>
+        <div style="font-size: 13px;">Require Photo</div>
+      </div>
+
+    </div>
+
+
+  </div>
+</ion-content>
+<ion-footer>
+  <div style="width: 100%; display: flex; justify-content: space-around; align-items: flex-end;padding: 10px 0;font-size: 13px;">
+    <div (click)="cancel()" style="width: 35%; text-align: center; padding: 10px 0; background: #ccc; border-radius: 4px;">Cancel</div>
+    <div (click)="createcustomdiscount()" style="width: 35%; text-align: center; padding: 10px 0; background: #6DAD48; color: #ffffff;border-radius: 4px;">Create</div>
+  </div>
+</ion-footer>

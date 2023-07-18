@@ -1,0 +1,95 @@
+<ion-header class="ion-no-border">
+  <div style="width: 100%; display: flex; flex-direction: column; justify-content: center; background-color: #6DAD48; border-radius: 0 0 30px 30px; padding-bottom: 10px;">
+    <div style="width: 100%;display: flex; justify-content:space-between; align-items: center; padding: 10px 16px;">
+      <ion-icon (click)='back()' style='font-size:16px;color: #FFFFFF;' name="chevron-back-outline"></ion-icon>
+
+      <div style="color: white; font-weight: 900;">Meeting</div>
+
+      <!-- <div style="display:flex; justify-content:center; align-items:center; padding: 5px; border: 1px solid #ffffff; border-radius: 50%; visibility: hidden;"></div> -->
+      <ion-icon (click)="refresher()" style="color: white;" name="refresh-outline"></ion-icon>
+    </div>
+
+
+    <div style="width: 100%; display: flex; flex-direction: column; align-items: center; margin-top: 5px; gap: 5px;">
+      <div style="width: 90%; text-align: left; color: white; font-size: 12px;">Date Range:</div>
+      <div style="width: 90%; display: flex; justify-content: space-between; font-size: 14px;">
+        <input type="date" [(ngModel)]="startdate" (change)="control()" style="background: white; color: black;">
+        <div style="color: white;">-</div>
+        <input type="date" [(ngModel)]="enddate"  min="{{minenddate}}" max="{{maxenddate}}" style="background: white; color: black;">
+      </div>
+      <div style="width: 90%; font-size: 12px; display: flex; justify-content: right; margin-top: 5px;">
+        <div (click)="search()" style="width: max-content; background: tomato; padding: 5px 10px; border-radius: 10px; color: white;">Submit</div>
+      </div>
+
+    </div>
+  </div>
+
+  </ion-header>
+
+  <!-- <div [ngClass]="buttonstatus ? 'buttoncaller' : 'buttoncallerx'" (click)="buttons()"
+  style=" box-shadow: 0 0 6px 0 #ddd; height: 55px; width: 55px; font-size: 16px; font-weight: 600;
+        display: flex; justify-content: center; align-items: center; top: 5px;  position: fixed; border-radius: 50%; z-index: 3000;">
+  <div [ngClass]="buttonstatus ? 'buttoncaller2' : 'buttoncallerx2'">
+      :)
+  </div>
+</div>
+
+<div *ngIf="buttonstatus" style="background: transparent; color: black; width: max-content; display: flex; flex-direction: column; justify-content: center; z-index: 3030; right: 10px; top: 55px;  position: fixed;">
+<div [ngClass]="'buttonstatus ? button1 : button1x'" (click)="refresher()"
+style="background:#6DAD48; color: white; height: 30px; width: max-content; font-size: 16px; font-weight: 600; padding: 0 10px;
+                    display: flex; justify-content: center; align-items: center; text-align: center; border-radius: 10px;margin-bottom: 5px; gap: 5px; box-shadow: 0 0 2px 0 #fff ">
+<ion-icon name="refresh-outline"></ion-icon>Reset</div>
+</div> -->
+
+  <ion-content>
+    <div *ngIf="meetings" style="width: 100%; display: flex; flex-direction: column; align-items: center; padding: 10px 0 0; margin-top: 5px; margin-bottom: 20px; border-radius: 30px 30px 0 0;">
+      <div (click)="x.open ? x.open = false : x.open = true" *ngFor="let x of meetings" style="width: 95%; padding:5px 10px 10px 10px; gap: 5px; border-bottom: 1px dashed rgb(132, 132, 132);">
+
+        <div>You have a meeting on <span style="font-weight: 600;">{{x.starttime | date : 'EEEE, MMMM d, y h:mm a'}} </span></div>
+
+        <div style="display: flex; flex-wrap: wrap; margin-bottom: 5px;">
+          <div style="margin-right: 5px;">Title:</div>
+          <div style="font-weight: 600;">{{x.event_title}}</div>
+        </div>
+
+        <div  style="width: 100%; display: flex; align-items: center; margin: 5px 0; color: red; font-size: 20px;">
+          <ion-icon *ngIf="x.open" name="caret-down-circle-outline"></ion-icon>
+          <ion-icon *ngIf="!x.open" name="caret-forward-circle-outline"></ion-icon>
+        </div>
+
+        <div *ngIf=x.open style="width: 100%;">
+  
+          <div style="display: flex; flex-direction: column; flex-wrap: wrap; margin-bottom: 5px; gap: 2px;">
+            <div style="font-size: 14px;">Desc:</div>
+            <div style="font-weight: 600;">{{x.event_desc || ''}} </div>
+          </div>
+  
+  
+          <div style="display: flex; flex-direction: column; width: 100%; margin-bottom: 5px; gap: 2px;">
+            <div style="width: max-content; font-size: 14px;">Participants:</div>
+            <div style="display: flex; font-weight: 600; flex-wrap: wrap;">
+              <div *ngFor="let y of x.participants; let i = index"  style="display: flex; width: max-content;">
+                  {{y.name}}<span *ngIf="i + 1 < x.participants.length">,&nbsp;</span>
+              </div>
+            </div>
+          </div>
+  
+          <div style="display: flex; flex-direction: column; width: max-content; font-size: 14px; gap: 2px;">
+            <div style="font-size: 14px;">Meeting Time:</div>
+          <div style="font-weight: 600;">
+            {{x.starttime | date : 'h:mm a'}} ~ {{x.endtime | date : 'h:mm a'}}
+          </div>
+          </div>
+        </div>
+        
+
+
+      </div>
+    </div>
+  
+    <div *ngIf="meetings && meetings.length < 1" style="width: 100%; display: flex; align-items: center; justify-content: center; text-align: center; margin-top: 20px;">
+      <div style="font-weight: 600;">
+        You did not have any meeting yet
+      </div>
+    </div>
+  </ion-content>

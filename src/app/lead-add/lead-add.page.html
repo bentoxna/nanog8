@@ -1,0 +1,421 @@
+<ion-header>
+  <div
+    style="width: 100%; display: flex; justify-content:space-between; align-items: center; padding: 16px 24px; background: #6DAD48;">
+
+    <ion-icon (click)='back()' style='font-size:16px;color: #FFFFFF;' name="chevron-back-outline"></ion-icon>
+
+    <div style="color: #FFFFFF; font-size:16px; font-weight:600;">Add Lead</div>
+
+    <ion-icon style='font-size:20px;color: #FFFFFF; visibility: hidden;' name="chevron-back-outline"></ion-icon>
+  </div>
+</ion-header>
+
+<ion-content>
+
+  <div style="width: 100%;display: flex;flex-direction: column;align-items: center;justify-content: center;">
+
+    <div
+      style="width: 100%;border-radius: 10px;background: white;box-shadow: 0 5px 8px rgba(0, 0, 0, 0.12);padding: 40px;">
+
+
+      <!-- Title -->
+      <div style="display: flex;align-items: center; margin-top: 15px;">
+        <ion-icon name="caret-forward-outline" style="color: #87BB69; font-size: 16px;"></ion-icon>
+        <div style="font-weight: 600;font-size: 12px;color: black;">Title</div>
+      </div>
+
+      <div style="width: 100%;background: #F0F8ED;border-radius: 10px;margin-top: 5px;position: relative;">
+
+        <ion-input clearInput placeholder="Select Title" [(ngModel)]="keywordTitle"
+          (ionFocus)="focus(true, 'this.selectionTitle')" (ionBlur)="focus(false, 'this.selectionTitle')"
+          style="font-size: 12px; letter-spacing: 0.5px; --padding-start: 16px;">
+        </ion-input>
+
+        <div *ngIf="selectionTitle"
+          style="width: 100%;max-height: 200px;overflow-y: scroll;border-radius: 5px 2px 2px 5px;z-index: 11;position: absolute;">
+          <div *ngFor="let x of filterer(title, 'this.keywordTitle'); let i = index" class="dropdown"
+            (click)="selected(x, 'this.keywordTitle', 'this.lead.customer_title')"
+            style="display: flex;align-items: center;  height: 36px; display: flex; align-items: center;  cursor: pointer; width: 100%;">
+            <div style="font-size: 12px; width: calc( 100% -30px );padding-left: 10px;">{{x}}</div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Name -->
+      <div style="display: flex;align-items: center; margin-top: 15px;">
+        <ion-icon name="caret-forward-outline" style="color: #87BB69; font-size: 16px;"></ion-icon>
+        <div style="font-weight: 600;font-size: 12px;color: black;">Customer Name<span style="color: red;"> *</span>
+        </div>
+      </div>
+
+      <div style="background: #F0F8ED;border-radius: 10px;margin-top: 5px;">
+        <ion-input placeholder="Eg. Rebecca" [(ngModel)]="lead['name']"
+          style="font-size: 12px; letter-spacing: 0.5px; --padding-start: 16px">
+        </ion-input>
+      </div>
+
+      <!-- Phone -->
+      <div style="display: flex;align-items: center;margin-top: 15px;">
+        <ion-icon name="caret-forward-outline" style="color: #87BB69; font-size: 16px;"></ion-icon>
+        <div style="font-weight: 600;font-size: 12px;color: black;">Customer Phone<span style="color: red;"> *</span>
+        </div>
+      </div>
+
+      <div style="background: #F0F8ED;border-radius: 10px;margin-top: 5px;">
+        <ion-input type="number" placeholder="Eg. 60101234566" [(ngModel)]="lead['phone']"
+          style="font-size: 12px; letter-spacing: 0.5px; --padding-start: 16px">
+        </ion-input>
+      </div>
+
+      <!-- Email -->
+      <div style="display: flex;align-items: center; margin-top: 15px;">
+        <ion-icon name="caret-forward-outline" style="color: #87BB69; font-size: 16px;"></ion-icon>
+        <div style="font-weight: 600;font-size: 12px;color: black;">Customer Email</div>
+      </div>
+
+      <div style="width: 100%;background: #F0F8ED;border-radius: 10px;margin-top: 5px;">
+        <ion-input placeholder="Eg. rebecca@mail.com" [(ngModel)]="lead['email']"
+          style="font-size: 12px; letter-spacing: 0.5px; --padding-start: 16px">
+        </ion-input>
+      </div>
+
+      <!-- gender -->
+      <div style="display: flex;align-items: center; margin-top: 15px;">
+        <ion-icon name="caret-forward-outline" style="color: #87BB69; font-size: 16px;"></ion-icon>
+        <div style="font-weight: 600;font-size: 12px;color: black;">Gender</div>
+      </div>
+
+      <div style="width: 100%;background: #F0F8ED;border-radius: 10px;margin-top: 5px;position: relative;">
+
+        <ion-input clearInput placeholder="Select Gender" [(ngModel)]="keywordGender"
+          (ionFocus)="focus(true, 'this.selectionGender')" (ionBlur)="focus(false, 'this.selectionGender')"
+          style="font-size: 12px; letter-spacing: 0.5px; --padding-start: 16px;">
+        </ion-input>
+
+        <div *ngIf="selectionGender"
+          style="width: 100%;max-height: 200px;overflow-y: scroll;border-radius: 5px 2px 2px 5px;z-index: 11;position: absolute;">
+          <div *ngFor="let x of filterer(gender, 'this.keywordGender'); let i = index" class="dropdown"
+            (click)="selected(x, 'this.keywordGender', 'this.lead.gender')"
+            style="display: flex;align-items: center;  height: 36px; display: flex; align-items: center;  cursor: pointer; width: 100%;">
+            <div style="font-size: 12px; width: calc( 100% -30px );padding-left: 10px;">{{x}}</div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- race -->
+      <div style="display: flex;align-items: center; margin-top: 15px;">
+        <ion-icon name="caret-forward-outline" style="color: #87BB69; font-size: 16px;"></ion-icon>
+        <div style="font-weight: 600;font-size: 12px;color: black;">Race</div>
+      </div>
+
+      <div style="width: 100%;background: #F0F8ED;border-radius: 10px;margin-top: 5px;position: relative;">
+
+        <ion-input clearInput placeholder="Select Race" [(ngModel)]="keywordRace"
+          (ionFocus)="focus(true, 'this.selectionRace')" (ionBlur)="focus(false, 'this.selectionRace')"
+          style="font-size: 12px; letter-spacing: 0.5px; --padding-start: 16px;">
+        </ion-input>
+
+        <div *ngIf="selectionRace"
+          style="width: 100%;max-height: 200px;overflow-y: scroll;border-radius: 5px 2px 2px 5px;z-index: 11;position: absolute;">
+          <div *ngFor="let x of filterer(race, 'this.keywordRace'); let i = index" class="dropdown"
+            (click)="selected(x, 'this.keywordRace', 'this.lead.race')"
+            style="display: flex;align-items: center;  height: 36px; display: flex; align-items: center;  cursor: pointer; width: 100%;">
+            <div style="font-size: 12px; width: calc( 100% -30px );padding-left: 10px;">{{x}}</div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- State -->
+      <div style="display: flex;align-items: center; margin-top: 15px;">
+        <ion-icon name="caret-forward-outline" style="color: #87BB69; font-size: 16px;"></ion-icon>
+        <div style="font-weight: 600;font-size: 12px;color: black;">State
+          <!-- <span style="color: red;"> *</span> -->
+        </div>
+      </div>
+
+      <div style="width: 100%;background: #F0F8ED;border-radius: 10px;margin-top: 5px;position: relative;">
+
+        <ion-input clearInput placeholder="Select State" [(ngModel)]="keywordState"
+          (ionFocus)="focus(true, 'this.selectionState')" (ionBlur)="focus(false, 'this.selectionState')"
+          style="font-size: 12px; letter-spacing: 0.5px; --padding-start: 16px;">
+        </ion-input>
+
+        <div *ngIf="selectionState"
+          style="width: 100%;max-height: 200px;overflow-y: scroll;border-radius: 5px 2px 2px 5px;z-index: 11;position: absolute;">
+          <div *ngFor="let x of filterer(state, 'this.keywordState'); let i = index" class="dropdown"
+            (click)="selected(x, 'this.keywordState', 'this.lead.state')"
+            style="display: flex;align-items: center;  height: 36px; display: flex; align-items: center;  cursor: pointer; width: 100%;">
+            <div style="font-size: 12px; width: calc( 100% -30px );padding-left: 10px;">{{x}}</div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- City -->
+      <div *ngIf="keywordState" style="display: flex;align-items: center; margin-top: 15px;">
+        <ion-icon name="caret-forward-outline" style="color: #87BB69; font-size: 16px;"></ion-icon>
+        <div style="font-weight: 600;font-size: 12px;color: black;">City
+          <!-- <span style="color: red;"> *</span> -->
+        </div>
+      </div>
+
+      <div *ngIf="keywordState"
+        style="width: 100%;background: #F0F8ED;border-radius: 10px;margin-top: 5px;position: relative;">
+
+        <ion-input clearInput placeholder="Select City" [(ngModel)]="keywordCity"
+          (ionFocus)="focus(true, 'this.selectionCity')" (ionBlur)="focus(false, 'this.selectionCity')"
+          style="font-size: 12px; letter-spacing: 0.5px; --padding-start: 16px;">
+        </ion-input>
+
+        <div *ngIf="selectionCity"
+          style="width: 100%;max-height: 200px;overflow-y: scroll;border-radius: 5px 2px 2px 5px;z-index: 11;position: absolute;">
+          <div *ngFor="let x of filterer(city, 'this.keywordCity'); let i = index" class="dropdown"
+            (click)="selected(x, 'this.keywordCity', 'this.lead.city')"
+            style="display: flex;align-items: center;  height: 36px; display: flex; align-items: center;  cursor: pointer; width: 100%;">
+            <div style="font-size: 12px; width: calc( 100% -30px );padding-left: 10px;">{{x}}</div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Services -->
+      <div style="display: flex;align-items: center; margin-top: 15px;">
+        <ion-icon name="caret-forward-outline" style="color: #87BB69; font-size: 16px;"></ion-icon>
+        <div style="font-weight: 600;font-size: 12px;color: black;">Services</div>
+      </div>
+
+      <div style="width: 100%;background: #F0F8ED;border-radius: 10px;margin-top: 5px;position: relative;">
+
+        <ion-input clearInput placeholder="Select Services" [(ngModel)]="keywordServices"
+          (ionFocus)="focus(true, 'this.selectionServices')" (ionBlur)="focus(false, 'this.selectionServices')"
+          style="font-size: 12px; letter-spacing: 0.5px; --padding-start: 16px;">
+        </ion-input>
+
+        <div *ngIf="selectionServices"
+          style="width: 100%;max-height: 200px;overflow-y: scroll;border-radius: 5px 2px 2px 5px;z-index: 11;position: absolute;">
+          <div *ngFor="let x of filterer(services_list, 'this.keywordServices'); let i = index" class="dropdown"
+            (click)="selected(x, 'this.keywordServices', 'this.lead.services')"
+            style="display: flex;align-items: center;  height: 36px; display: flex; align-items: center;  cursor: pointer; width: 100%;">
+            <div style="font-size: 12px; width: calc( 100% -30px );padding-left: 10px;">{{x}}</div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Issues -->
+      <div style="display: flex;align-items: center; margin-top: 15px;">
+        <ion-icon name="caret-forward-outline" style="color: #87BB69; font-size: 16px;"></ion-icon>
+        <div style="font-weight: 600;font-size: 12px;color: black;">Issues <span
+            style="color: #999;font-size: 10px;">(After each area typed, Press ENTER to register)</span></div>
+      </div>
+
+      <div style="width: 100%;background: #F0F8ED;border-radius: 10px;margin-top: 5px;">
+        <!-- <ion-textarea rows="1" auto-grow="true" placeholder="Eg. Kitchen" [(ngModel)]="issuesText"
+          (keyup.enter)="handleIssues(issuesText)" (keydown.enter)="onKeydown($event)" -->
+        <ion-textarea rows="1" auto-grow="true" placeholder="Eg. Kitchen" [(ngModel)]="issuesText"
+          style="font-size: 12px; letter-spacing: 0.5px; --padding-start: 16px">
+          <div style="display: flex;flex-wrap: wrap;">
+            <div *ngFor="let x of lead.issues" style="width: fit-content;display: flex;align-items: center;margin-left: 10px;padding: 0 5px;margin-top: 5px;
+              background: #87BB69;border-radius: 5px;">
+              <div style="padding: 5px;color: white;">{{x}}</div>
+              <ion-icon (click)="issuesSplice(x)" name="close-outline" style="cursor: pointer;"></ion-icon>
+            </div>
+          </div>
+        </ion-textarea>
+        <!-- <ion-icon style="text-align: center;" (click)="handleIssues(issuesText)" name="arrow-up-outline"></ion-icon> -->
+        <div style="width: 100%; display: flex; justify-content: flex-end;">
+          <div (click)="handleIssues(issuesText)"
+            style="margin-right: 5px; margin-bottom: 5px; width: max-content; padding: 5px 10px; color: white; background: #6DAD48; font-size: 14px; border-radius: 4px;">
+            Enter</div>
+        </div>
+      </div>
+
+      <!-- Address -->
+      <div style="display: flex;align-items: center; margin-top: 15px;">
+        <ion-icon name="caret-forward-outline" style="color: #87BB69; font-size: 16px;"></ion-icon>
+        <div style="font-weight: 600;font-size: 12px;color: black;">Address</div>
+      </div>
+      
+
+      <div style="width: 100%;background: #F0F8ED;border-radius: 10px;margin-top: 5px;">
+        <ion-textarea rows="2" auto-grow="true" auto-grow="true" placeholder="Eg. No.1 Jalan PJ"
+          [(ngModel)]="lead['address']" (ngModelChange)="clearLatLong()"
+          style="font-size: 12px; letter-spacing: 0.5px; --padding-start: 16px;">
+        </ion-textarea>
+      </div>
+
+              <!-- Unit -->
+              <div style="display: flex;align-items: center;margin-top: 15px;">
+                <ion-icon name="caret-forward-outline" style="color: #87BB69; font-size: 16px;"></ion-icon>
+                <div style="font-weight: 600;font-size: 12px;color: black;">Floor/Unit #
+                </div>
+              </div>
+      
+              <div style="background: #F0F8ED;border-radius: 10px;margin-top: 5px;">
+                <ion-input placeholder="Eg. A-16-08" [(ngModel)]="lead['customer_unit']"
+                  style="font-size: 12px; letter-spacing: 0.5px; --padding-start: 16px">
+                </ion-input>
+              </div>
+
+      <!-- Search Info -->
+      <div style="color: #888;font-size: 11px;padding: 5px 0;">(Please use search bar inside google map
+        for better location accurary. Only use the above field when location not searchable)</div>
+
+      <div style="margin-top: 10px;">
+        <div style="width: 100%; display: flex; align-items: center; margin-bottom: 4px; background: #ffffff;">
+          <input style="background: #ffffff !important; width: 90%;height: 40px; margin-right: 5px; border: 1px solid rgba(0, 0, 0, 0.5);" type="text"
+            class="my-search-box" (keydown.enter)="$event.preventDefault()" placeholder="Search Location" #search />
+          <ion-icon (click)="clear()" name="close-outline"></ion-icon>
+        </div>
+
+        <google-map #myGoogleMap height="430px" width="100%" [zoom]="zoom" [center]="center" [options]="options"
+          (mapClick)="eventHandler($event,'mapClick')" (mapDblclick)="eventHandler($event,'mapDblclick')"
+          (mapDrag)="eventHandler($event,'mapDrag')" (mapDragend)="eventHandler($event,'mapDragend')"
+          (mapRightclick)="eventHandler($event,'mapRightclick')"
+          (positionChanged)="eventHandler($event,'marker_positionChanged')"
+          (zoomChanged)="eventHandler($event,'zoomChanged')">
+
+          <map-marker #markerElem="mapMarker" *ngFor="let marker of markers" [position]="marker.position"
+            [label]="marker.label" [title]="marker.title" [options]="marker.options"
+            (mapDrag)="eventHandler($event,'mapDragMarker')" (mapDragend)="eventHandler($event,'mapDragend')">
+          </map-marker>
+
+        </google-map>
+      </div>
+
+
+
+      <!-- Company Address -->
+      <div style="display: flex;align-items: center; margin-top: 15px;">
+        <ion-icon name="caret-forward-outline" style="color: #87BB69; font-size: 16px;"></ion-icon>
+        <div style="font-weight: 600;font-size: 12px;color: black;">Company Address</div>
+      </div>
+
+      <div style="width: 100%;background: #F0F8ED;border-radius: 10px;margin-top: 5px;">
+        <ion-textarea rows="2" auto-grow="true" placeholder="Eg. No.1 Jalan PJ" [(ngModel)]="lead['comp_address']"
+          style="font-size: 12px; letter-spacing: 0.5px; --padding-start: 16px; ">
+        </ion-textarea>
+      </div>
+
+      <!-- Channel -->
+      <!-- <div style="display: flex;align-items: center; margin-top: 15px;">
+        <ion-icon name="caret-forward-outline" style="color: #87BB69; font-size: 16px;"></ion-icon>
+        <div style="font-weight: 600;font-size: 12px;color: black;">Channel</div>
+      </div>
+
+      <div style="width: 100%;background: #F0F8ED;border-radius: 10px;margin-top: 5px;position: relative;">
+
+        <ion-input clearInput placeholder="Select Channel" [(ngModel)]="keywordChannel"
+          (ionFocus)="focus(true, 'this.selectionChannel')" (ionBlur)="focus(false, 'this.selectionChannel')"
+          style="font-size: 12px; letter-spacing: 0.5px; --padding-start: 16px;">
+        </ion-input>
+
+        <div *ngIf="selectionChannel"
+          style="width: 100%;max-height: 200px;overflow-y: scroll;border-radius: 5px 2px 2px 5px;z-index: 11;position: absolute;">
+          <div *ngFor="let x of filtererAdsChannel(channel_list, 'this.keywordChannel'); let i = index"
+            class="dropdown" (click)="selectedAdsChannel(x, 'this.keywordChannel', 'this.lead.channel')"
+            style="display: flex;align-items: center;  height: 36px; display: flex; align-items: center; cursor: pointer; width: 100%;">
+            <div style="font-size: 12px; width: calc( 100% -30px );padding-left: 10px;">{{x.name}}</div>
+          </div>
+        </div>
+
+      </div> -->
+
+      <!-- Ads -->
+      <div style="display: flex;align-items: center; margin-top: 15px;">
+        <ion-icon name="caret-forward-outline" style="color: #87BB69; font-size: 16px;"></ion-icon>
+        <div style="font-weight: 600;font-size: 12px;color: black;">Ads</div>
+      </div>
+
+      <div style="width: 100%;background: #F0F8ED;border-radius: 10px;margin-top: 5px;position: relative;">
+
+        <ion-input clearInput placeholder="Select Ads" [(ngModel)]="keywordAds"
+          (ionFocus)="focus(true, 'this.selectionAds')" (ionBlur)="focus(false, 'this.selectionAds')"
+          style="font-size: 12px; letter-spacing: 0.5px; --padding-start: 16px;">
+        </ion-input>
+
+        <div *ngIf="selectionAds"
+          style="width: 100%;max-height: 200px;overflow-y: scroll;border-radius: 5px 2px 2px 5px;z-index: 11;position: absolute;">
+          <div *ngFor="let x of filtererAdsChannel(ads_list, 'this.keywordAds'); let i = index" class="dropdown"
+            (click)="selectedAdsChannel(x, 'this.keywordAds', 'this.lead.ads')"
+            style="display: flex;align-items: center;  height: 36px; display: flex; align-items: center; cursor: pointer; width: 100%;">
+            <div style="font-size: 12px; width: calc( 100% -30px );padding-left: 10px;">{{x.name}}</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Note to Sales -->
+      <!-- <div style="display: flex;align-items: center; margin-top: 15px;">
+        <ion-icon name="caret-forward-outline" style="color: #87BB69; font-size: 16px;"></ion-icon>
+        <div style="font-weight: 600;font-size: 12px;color: black;">Notes to Sales Exec</div>
+      </div>
+
+      <div style="width: 100%;background: #F0F8ED;border-radius: 10px;margin-top: 5px;">
+        <ion-textarea auto-grow="true" rows="4" placeholder="Eg. Notes" [(ngModel)]="lead['sales_note']"
+          style="font-size: 12px; letter-spacing: 0.5px; --padding-start: 16px; ">
+        </ion-textarea>
+      </div> -->
+
+
+      <!-- Sales Coordinator -->
+      <!-- <div *ngIf="user">
+        <div *ngIf="user.user_role != 'Sales Coordinator'">
+          <div style="display: flex;align-items: center; margin-top: 15px;">
+            <ion-icon name="caret-forward-outline" style="color: #87BB69; font-size: 16px;"></ion-icon>
+            <div style="font-weight: 600;font-size: 12px;color: black;">Sales Coordinator <span
+                style="color: #999;font-size: 10px;">(Auto-assign if leave empty.)</span>
+            </div>
+          </div>
+
+          <div style="width: 100%;background: #F0F8ED;border-radius: 10px;margin-top: 5px;position: relative;">
+
+            <ion-input clearInput placeholder="Select Sales Coordinator" [(ngModel)]="keywordSalesCoord"
+              (ionFocus)="focus(true, 'this.selectionSalesCoord')"
+              (ionBlur)="focus(false, 'this.selectionSalesCoord')"
+              style="font-size: 12px; letter-spacing: 0.5px; --padding-start: 16px;">
+            </ion-input>
+
+            <div *ngIf="selectionSalesCoord"
+              style="width: 100%;max-height: 200px;overflow-y: scroll;border-radius: 5px 2px 2px 5px;z-index: 11;position: absolute;">
+              <div *ngFor="let x of filtererSalesCoord(sales_coor, 'this.keywordSalesCoord'); let i = index"
+                class="dropdown" (click)="selected(x.user_name, 'this.keywordSalesCoord', 'this.lead.coordinator')"
+                style="display: flex;align-items: center;  height: 36px; display: flex; align-items: center;  cursor: pointer; width: 100%;">
+                <div style="font-size: 12px; width: calc( 100% -30px );padding-left: 10px;">{{x.user_name}}</div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div> -->
+
+      <!-- Remark -->
+      <div style="display: flex;align-items: center; margin-top: 15px;">
+        <ion-icon name="caret-forward-outline" style="color: #87BB69; font-size: 16px;"></ion-icon>
+        <div style="font-weight: 600;font-size: 12px;color: black;">Remarks<span style="color: red;">
+          *</span></div>
+      </div>
+
+      <div style="width: 100%;background: #F0F8ED;border-radius: 10px;margin-top: 5px;">
+        <ion-textarea auto-grow="true" rows="4" placeholder="Eg. Remarks" [(ngModel)]="lead['remark']"
+          style="font-size: 12px; letter-spacing: 0.5px; --padding-start: 16px">
+        </ion-textarea>
+      </div>
+
+      <!-- Button -->
+      <div style="display: flex;justify-content: flex-end;">
+
+        <div (click)="createLead()" class="create_button"
+          style="width: 140px; cursor: pointer; padding: 8px 15px; border-radius: 10px;margin-top: 20px;">
+          <div style="width: 100%; text-align: center; font-size: 11px; font-weight: 500; letter-spacing: 0.5px; ">
+            Create Lead</div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+</ion-content>

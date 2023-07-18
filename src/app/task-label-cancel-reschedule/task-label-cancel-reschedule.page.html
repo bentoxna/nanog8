@@ -1,0 +1,112 @@
+<ion-header>
+  <div
+    style="padding: 10px 0; width:100%; box-shadow: 0 2px 10px 0 #eeeeee; background: #6DAD48; display:flex; justify-content: center; color: #ffffff;">
+    <div style="width:90%; display:flex; justify-content: space-between; align-items: center;">
+      <ion-icon name="close-outline" style="visibility: hidden;"></ion-icon>
+      <div style="color: #ffffff; display:flex; justify-content:center; font-size: 16px; font-weight: 600;">
+       {{tab == 1 ? 'Cancel Appointment' : 'Re-schedule Appointment'}}
+      </div>
+      <ion-icon (click)="back()" name="close-outline" style="font-size: 16px; color: #ffffff;"></ion-icon>
+    </div>
+  </div>
+</ion-header>
+
+<ion-content>
+
+  <div style="width: 100%; display: flex; justify-content: center;">
+
+    <div style="width: 90%; margin-bottom: 24px;">
+
+      <div style="margin-top: 25px; width: 100%;">
+
+        <div
+        style="display: flex; justify-content:space-between; align-items: center; padding: 10px 0 0; border-bottom: 1px solid black; width: fit-content;">
+          <div style="font-size: 13px; font-weight:600;">Remark</div>
+        </div>
+
+      <div style="background: #DEE9CB; margin-top: 10px; border-radius: 8px; padding:0 16px;">
+        <ion-textarea [(ngModel)]="label.remark" placeholder="{{tab == 1 ? 'Remark for Cancel' : 'Remarks for Re-schedule'}}" rows="6"
+          style="font-size: 14px; --padding-start: 0; --padding-end:0; --padding-start: 0; --padding-bottom: 0;">
+        </ion-textarea>
+      </div>
+
+      </div>
+
+
+      <div style="margin-top: 25px; width: 100%;">
+
+        <div
+        style="display: flex; justify-content:space-between; align-items: center; padding: 10px 0 0; border-bottom: 1px solid black; width: fit-content;">
+          <div style="font-size: 13px; font-weight:600;">Main Label</div>
+        </div>
+
+        <div style="width: 100%; display: flex; justify-content: flex-start; margin-top: 10px; flex-wrap: wrap;">
+          <div *ngFor="let x of mainlabel; let i = index"
+            style="width: max-content; margin-right: 5px; margin-bottom: 5px;">
+            <div
+              [ngStyle]="{'background': label.mainlabel == x ? '#6DAD48' : '#DEE9CB', 'color' : label.mainlabel == x ? '#ffffff' : '#000000'}"
+              style="font-size: 11px; width: 100%; border-radius: 8px; display: flex; text-align: center; justify-content: center;  padding: 5px 10px 5px; align-items: center; height: 40px; box-shadow: 0 0 4px 0 #ddd;">
+              <div [style.background]="x.colour" style="width: 10px; height: 10px; margin-right: 2px;"></div>
+              {{x.name}}
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+
+      <div style="margin-top: 10px; width: 100%;">
+
+        <div
+        style="display: flex; justify-content:space-between; align-items: center; padding: 10px 0 0; border-bottom: 1px solid black; width: fit-content;">
+          <div style="font-size: 13px; font-weight:600;">Sub Label</div>
+        </div>
+
+        <div style="width: 100%; display: flex; justify-content: flex-start; margin-top: 10px; flex-wrap: wrap;">
+          <div *ngFor="let x of sublabelDependMainLabel; let i = index"
+            style="width: max-content; margin-right: 5px; margin-bottom: 5px;">
+            <div
+              [ngStyle]="{'background': label.sublabel == x ? '#6DAD48' : '#DEE9CB', 'color' : label.sublabel == x ? '#ffffff' : '#000000'}"
+              style="font-size: 11px; width: 100%; border-radius: 8px; display: flex; text-align: center; justify-content: center; padding: 5px 10px ; align-items: center; height: 40px; box-shadow:  0 0 4px 0 #ddd;">
+              <div [style.background]="x.colour" style="width: 10px; height: 10px; margin-right: 2px;"></div>{{x.name}}
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+
+      <!-- image -->
+      <!-- <div
+        style="background: #DEE9CB; margin-top: 20px; border-radius: 8px; padding: 16px; display: flex;justify-content: flex-start; flex-wrap: wrap;">
+        <div *ngFor="let x of imageurl; let i = index;"
+          style="min-width: calc( (100% - 18px) /3); max-width: calc((100% - 18px) / 3); height:100px;  margin-right:6px; margin-bottom: 6px; position: relative;">
+          <img src='{{x}}' (click)="viewPhoto(i)" style="width: 100%; height: 100%;  object-fit:cover;" />
+          <ion-icon (click)="removePhoto(i)" name="close-outline"
+            style="position: absolute; color: #FFFFFF; background: #000000; top:0; right: 0;"></ion-icon>
+        </div>
+        <div (click)="selectMedia()" style="display: flex; justify-content:center; align-items:center; min-width: calc( (100% - 26px) /3); max-width: calc((100% - 26px) / 3); 
+  border: 1px solid #6DAD48; margin-right: 6px; height: 100px; ">
+          <ion-icon name="camera" style="color: #CCCCCC; font-size:40px;"></ion-icon>
+        </div>
+      </div>
+
+      <label for="uploadfiles" id="uploadlabel"></label>
+      <input readonly (change)="fileChange2($event, 600)" type="file" id="uploadfiles" accept="image/*" multiple
+        name="files[]" style="display: none;" /> -->
+
+
+    </div>
+  </div>
+
+</ion-content>
+
+<ion-footer>
+  <div style="width: 100%; background: white; display: flex; justify-content: center; padding: 10px 0;">
+    <div (click)="submit()"
+    style="width: 90%; background: #6DAD48; color: #ffffff; text-align: center; padding: 10px 0; border-radius: 20px;">
+    Submit
+  </div>
+  </div>
+
+</ion-footer>

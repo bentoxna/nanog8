@@ -1,0 +1,91 @@
+<ion-content>
+
+  <div style="background: #6DAD48; color: #ffffff; padding: 10px 0; width:100%; box-shadow: 0 2px 10px 0 #eeeeee; display:flex; justify-content: center;">
+    <div style="width:90%; display:flex; justify-content: space-between; align-items: center;">
+      <ion-icon name="close-outline" style="visibility: hidden;"></ion-icon>
+      <div style="color: #ffffff; display:flex; justify-content:center; font-size: 16px; font-weight: 600;">
+        Service Details
+      </div>
+      <ion-icon (click)="back()" name="close-outline" style="font-size: 16px;"></ion-icon>
+    </div>
+  </div>
+
+  <div style="width: 100%; display: flex; justify-content: center;">
+
+    <div style="width: 90%; margin-bottom: 24px;">
+
+      <div style="width: 100%; display: flex; justify-content: center; margin-top: 20px; border-radius: 4px; box-shadow: 0 0 4px 0 #ddd;">
+        <div style="width: 100%;">
+                <!-- <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px; background: #ddd; 
+                margin-bottom: 1.5px; border-bottom: 1px solid #E4E1D8; border-radius: 4px;">
+                    <div style="font-size: 14px; font-weight:600;">Previous Services</div>
+                </div> -->
+
+        
+                <div style="background:#FFFFFF; width:100%; padding: 8px 16px; display: flex; justify-content: space-between; align-items: center; 
+                        margin-bottom: 1px; border-bottom: 1px solid #E4E1D8;">
+                        <div style="width: 100%;">
+                            <div style="width: 100%;">
+                                <div style="font-size: 13px; font-weight:600; margin-bottom: 4px;">{{otherpackage.area == 'others' ? otherpackage.other_area : otherpackage.area}}</div>
+                                <div style="display: flex; flex-wrap: wrap; align-items: center;">
+                                    <div style="font-size: 12px;">{{otherpackage.package ? otherpackage.package.name : 'Other Package'}}</div>
+                                    <div style="margin:0 2px;">|</div>
+                                    <div style="font-size: 12px;">{{otherpackage.services}}</div>
+                                    <div style="margin:0 2px;">|</div>
+                                    <div style="font-size: 12px;">{{otherpackage.sqft == 'others' ? otherpackage.size : otherpackage.sqft}} sqft
+                                    </div>                 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+        </div>
+
+    </div>
+     
+      <div
+        style="background: #DEE9CB; margin-top: 20px; border-radius: 8px; padding: 16px; display: flex;justify-content: flex-start; flex-wrap: wrap;">
+        <div *ngFor="let x of imageurl; let i = index;"
+          style="min-width: calc( (100% - 18px) /3); max-width: calc((100% - 18px) / 3); height:100px;  margin-right:6px; margin-bottom: 6px; position: relative;">
+          <img src='{{x}}' (click)="viewPhoto(i)" style="width: 100%; height: 100%;  object-fit:cover;" />
+        </div>
+        <!-- <div (click)="selectMedia()" style="display: flex; justify-content:center; align-items:center; min-width: calc( (100% - 26px) /3); max-width: calc((100% - 26px) / 3); 
+        border: 1px solid #6DAD48; margin-right: 6px; height: 100px; ">
+          <ion-icon name="camera" style="color: #CCCCCC; font-size:40px;"></ion-icon>
+        </div> -->
+
+        <div *ngIf="imageurl && imageurl.length < 1" style="font-weight: 600; font-size: 13px;">There is no photo for this services</div>
+      </div>
+
+      <label for="uploadfiles" id="uploadlabel"></label>
+      <!-- <input readonly (change)="fileChange2($event, 600)" type="file" id="uploadfiles" accept="image/*" multiple
+        name="files[]" style="display: none;" /> -->
+
+      <div style="background: #DEE9CB; margin-top: 16px; border-radius: 8px; padding:16px;">
+        <div [ngStyle]="{'font-weight': service.remark ? '400' : '600'}" style="font-size: 13px;">
+        {{service.remark ? service.remark : 'There is no remark for this services'}}</div>
+        <!-- <ion-textarea [(ngModel)]="service.remark" placeholder="Remarks" rows="6"
+          style="font-size: 14px; --padding-start: 0; --padding-end:0; --padding-start: 0; --padding-bottom: 0;">
+        </ion-textarea> -->
+      </div>
+
+    </div>
+  </div>
+
+
+</ion-content>
+
+<ion-footer class="ion-no-border">
+  <div style="width: 100%; background:#dddddd; height:0.5px; padding: 0; margin: 0;"></div>
+  <div style="width: 100%; display: flex; justify-content: flex-end; background: #6DAD48; padding: 15px 0;">
+    <div style="width: 95%; display: flex; justify-content:space-between; align-items: center;">
+      <div style="font-size: 14px; width: max-content; margin-right: 10px; color: #ffffff;">Price</div>
+      <div style="display: flex; align-items: center;">
+        <div style="font-size: 18px; font-weight: 600; color:#ffffff; margin-right: 8px; width: max-content;">
+          {{nonpackagestatus ? (otherpackage.total | currency : 'RM ') : (service.total | currency : 'RM ') || (0 | currency : 'RM ')}}
+        </div>
+        <!-- <div (click)="confirm()" style="font-size: 18px; font-weight: 600; color: #FFFFFF; background: #6DAD48; padding: 20px 36px;">Comfirm
+        </div> -->
+      </div>
+    </div>
+  </div>
+</ion-footer>

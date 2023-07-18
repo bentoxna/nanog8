@@ -1,0 +1,223 @@
+<ion-header class="ion-no-border" style="--background: #fff;">
+  <div style="width: 100%; background: #fff;">
+    <div style="width: 100%; position: relative; background: #fff;">
+
+      <div style="width: 100%; background: transparent;">
+
+        <div
+          style="display: flex; justify-content:space-between; align-items: center; padding: 10px 16px; background-color: #fff;">
+          <ion-icon (click)='back()' style='font-size:16px; color: #000;' name="chevron-back-outline"></ion-icon>
+
+          <div style="color: #000; font-size: 16px; font-weight: 600;">Reminder</div>
+
+          <div
+            style="display:flex; justify-content:center; align-items:center; padding: 5px; border: 1px solid #ffffff; border-radius: 50%; visibility: hidden;">
+            <!-- <ion-icon *ngIf="tab1 == true" (click)="changetab('filter')" name="calendar-outline" style="font-size:20px; color: #ffffff;"></ion-icon>
+            <ion-icon *ngIf="tab2 == true" (click)="changetab('calendar')" name="options-outline" style="font-size:20px; color: #ffffff;"></ion-icon> -->
+          </div>
+        </div>
+
+
+
+        <div style="width: 100%; display: flex; justify-content: center; ">
+          <div
+            style="display: flex; justify-content:space-between; align-items: center; height: 40px; background-color: #fff; color: #000; font-size: 12px; width: 100%; border-bottom: 1px solid #ccc;">
+
+            <div (click)="changetab(1)" [ngClass]="tab == 1 ? 'tab-container' : '' "
+              style="width: 33.33%; height: 100%; display: flex; justify-content:center; align-items: center;">1 Day
+              Before
+            </div>
+
+            <div (click)="changetab(3)" [ngClass]="tab == 3 ? 'tab-container' : '' "
+              style="width: 33.33%; height: 100%; display: flex; justify-content:center; align-items: center;">3 Days
+              Before
+            </div>
+
+            <div (click)="changetab(7)" [ngClass]="tab == 7 ? 'tab-container' : '' "
+              style="width: 33.33%; height: 100%; display: flex; justify-content:center; align-items: center;">7 Days
+              Before
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-header>
+
+<ion-content>
+  <div style="height: 100%;">
+    <div class='task-container'
+      style="display: flex; width: 100%; flex-direction: column; align-items: center; height: 100%;">
+
+
+      <div
+        *ngIf="(tab == 7 && appointmentsevendaysbefore == '') || (tab == 3 && appointmentthreedaysbefore == '') || (tab == 1 && appointmentonedaysbefore == '')"
+        style="width: 100%; display: flex; justify-content: center; align-items: center; height: 90%;">
+        <div style="width: 100%; display:flex; flex-direction: column; align-items: center; text-align: center;">
+          <img src="assets/icon/nocontent-nobackground.gif" style="width: 90%;" />
+          <div style="font-size: 18px; font-weight:600;">No Task Yet...</div>
+        </div>
+      </div>
+
+
+
+      <div
+        *ngFor="let x of tab == 7 ? appointmentsevendaysbefore : tab == 3 ? appointmentthreedaysbefore : tab == 1 ? appointmentonedaysbefore : appointmentsevendaysbefore"
+        style="display: flex; width: 92%;  margin:10px 0 0 0; position: relative;">
+
+        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-25deg); z-index: 1000;  text-align: center; 
+        display: flex; flex-direction: column; justify-content: center; align-items: center;">
+          <div *ngIf="x.label_s == 81" style="background: rgba(255, 255, 255, 0.5); text-align: center; color: rgb(255, 255, 255); border: 2.5px solid rgb(109,78,78); border-radius: 10px; padding: 2px; font-size: 14px; font-weight:700;
+                display: flex; align-items: center; justify-content: center; margin: 5px 0;">
+            <div style="border: 3px dashed rgb(109,78,78); width: 200px; height: max-content; padding: 2px 0; border-radius: 10px; background: rgba(109,78,78, 0.65);
+                     display: flex; align-items: center; justify-content: center;">
+              RE-SCHEDULE
+            </div>
+          </div>
+
+          <div *ngIf="x.label_s == 80" style="background: rgba(255, 255, 255, 0.5); text-align: center; color: rgb(255, 255, 255); border: 2.5px solid red; border-radius: 10px; padding: 2px; font-size: 14px; font-weight:700;
+                display: flex; align-items: center; justify-content: center;  margin: 5px 0;">
+            <div style="border: 3px dashed red; width: 200px; height: max-content; padding: 2px 0; border-radius: 10px; background: rgba(255, 0, 0, 0.5);
+                     display: flex; align-items: center; justify-content: center;">
+              CANCELLED
+            </div>
+          </div>
+
+          <div *ngIf="x.kiv == true && x.label_s != 80 && x.label_s != 81" style="background: rgba(255, 255, 255, 0.5); text-align: center; color: rgb(255, 255, 255); border: 2.5px solid YELLOW; border-radius: 10px; padding: 2px; font-size: 14px; font-weight:700;
+                display: flex; align-items: center; justify-content: center;  margin: 5px 0;">
+            <div style="border: 3px dashed YELLOW; width: 200px; height: max-content; padding: 2px 0; border-radius: 10px; background: rgba(255, 255, 0, 0.65);
+                     display: flex; align-items: center; justify-content: center; text-shadow: 0 0 2px black;">
+              KIV
+            </div>
+          </div>
+        </div>
+
+        <div [ngStyle]="{'background':(x.appointment_status == true && x.kiv == false) ? '#B9D6A8' : '#ccc'}"
+          style="width: 3%; border-radius: 5px 0 2.5px 5px; box-shadow: 0 1px 0 0 #B9D6A8;">
+        </div>
+
+        <div [ngStyle]="{'background':(x.appointment_status == true && x.kiv == false) ? '#E4EFDE' : '#ddd'}"
+          style="display: flex; flex-direction: column; width: 97%;  padding:15px 12px 10px; border-radius: 0 4px 4px 0;">
+
+
+          <div (click)="godetail(x.appointment_id)" style="width: 100%;">
+            <div style="display: flex; justify-content:space-between; align-items:center; padding-bottom: 8px;">
+              <div style="font-size: 16px; font-weight:600; width: 70%;">{{x.customer_name}}</div>
+
+              <div
+                style="color:#446828; font-size: 12px; font-weight:600; display: flex; flex-direction: column; align-items: flex-end;">
+
+                <div style="display: flex; justify-content: flex-end; text-align: right;">{{x.appointment_time | date :
+                  'MMM d, y'}}</div>
+                <div style="display: flex; justify-content: flex-end; text-align: right;">{{x.appointment_time | date :
+                  'h:mm:ss a'}}</div>
+              </div>
+            </div>
+
+            <div>
+              <div style="display:flex; padding-bottom: 4px; align-items: center;">
+                <ion-icon name="call"
+                  style="min-width: 14px; max-width: 14px; min-height:14px; max-height:14px; color: #999; padding-right: 8px;">
+                </ion-icon>
+                <div style="font-size: 12px; user-select: text;">{{x.customer_phone}}</div>
+              </div>
+
+              <div style="display: flex; align-items: flex-start;">
+                <ion-icon name="location"
+                  style="min-width: 14px; max-width: 14px; min-height:14px; max-height:14px; color: #999; padding-right: 8px;">
+                </ion-icon>
+                <div style="font-size: 12px; user-select: text;">{{x.address}}</div>
+              </div>
+            </div>
+
+            <div style="padding: 6px 0 0 0; width: 100%;">
+              <div style="height: 1px; background: #6DAD48;width: 100%;"></div>
+            </div>
+
+            <div style="display: flex; align-items:center;width: 100%; padding-bottom: 5px; padding-top: 6px;">
+              <div style="font-size: 12px; padding: 4px 8px;background: #7BB6A0; color: #FFFFFF; border-radius: 4px;">
+                {{x.services}}</div>
+            </div>
+
+            <div style="display:flex; flex-wrap: wrap; padding-bottom: 4px;">
+              <div *ngFor="let item of x.issues"
+                style="min-width: max-content; margin-bottom: 3px; margin-right: 6px; color: #FFFFFF; font-size: 12px; padding: 4px 8px; border-radius: 4px; background: #2A3C62;">
+                {{item}}</div>
+            </div>
+
+            <div style="font-size: 12px;">*{{x.saleexec_note || '*There is no remark here'}}</div>
+            <div style="font-size: 12px; font-weight: 600;">Assd. by : {{x.sc_name || ''}}</div>
+
+          </div>
+
+
+          <!--button for whatsapp and map v1-->
+          <div
+            style="width: 100%; display:flex; justify-content:space-between; align-items: flex-end; margin-top: 5px;">
+
+            <div style="display: flex;">
+
+              <div *ngIf="x.warranty_id"
+                style="margin-right: 3px; width: max-content; text-align: center; padding: 4px 8px; font-size: 10px; font-weight: 400; box-shadow: 0 0 6px 0 #ccc; background: #ffffff; color: #6DAD48; display: flex; align-items: flex-end;">
+                Warranty
+              </div>
+
+              <div
+                [ngStyle]="{'background': x.sales_status == null ? 'black' : x.sales_status == 'Quotation' ? '#a3ed53' : x.sales_status == 'Deposit' ? '#80e316' : x.sales_status == 'Full Payment' ? '#6DAD48' : ''}"
+                style="width: max-content; text-align: center; padding: 4px 8px; font-size: 10px; font-weight: 400; box-shadow: 0 0 6px 0 #ccc; background: #6DAD48; color: #FFFFFF; display: flex; align-items: flex-end;">
+                {{x.sales_status || 'Appointment'}}
+              </div>
+
+            </div>
+
+            <div style="display: flex; align-items: center;">
+
+              <ion-button
+                style="margin: 0; margin-right: 2.5px; padding: 0; color: black; font-size: 10px; --background:white !important; min-width: 45px; max-width: 45px; min-height: 25px; 
+              max-height: 25px; font-weight: 600; display: flex; justify-content: center; align-items: center; box-shadow: 0 0 6px 0 #ddd;"
+                (click)="mapnavigate(x.lattitude, x.longtitude, x.address)">MAP</ion-button>
+
+
+              <div (click)="sendWhatsAppMessage(x)"
+                style="width: fit-content; display: flex; justify-content: center; align-items: center; text-align: center; background: white; color: #000; padding: 5px 10px; font-size: 12px;"
+                *ngIf="x.customer_phone">
+                <div>Send Reminder</div>
+              </div>
+
+              <!-- <a
+                style="width: fit-content; display: flex; justify-content: center; align-items: center; text-align: center; background: white; color: #000; padding: 5px 10px; font-size: 12px;"
+                *ngIf="x.customer_phone && x.customer_phone.slice(0, 1) == '6'"
+                href="{{x.customer_phone.slice(0, 1) == '6' ? whatsapplinkheader + x.customer_phone : whatsapplinkheader + '6' + x.customer_phone}}">
+                <div>Send Reminder -></div>
+            </a> -->
+            </div>
+
+          </div>
+
+          <!-- sc photo -->
+          <!-- <div *ngIf="x.sc_photo && x.sc_photo.length > 0"
+            style="width: 100%; display: flex; justify-content: center; margin: 5px 0 0; flex-wrap: wrap;">
+            <div
+              style="width: 100%; display: flex; align-items: center; gap: 5px; background: #ffffff; border-radius: 10px; padding: 5px 10px; height: max-content; flex-wrap: wrap;">
+              <div (click)="magnify(y)" *ngFor="let y of x.sc_photo"
+              style="width: calc((100% - 10px - 30px) / 6); border-radius: 8px;height: 40px; display: flex; justify-content: center;">
+                <img src="{{y}}" style="border-radius: 8px; height: 40px; object-fit: contain;" />
+              </div>
+            </div>
+          </div> -->
+
+        </div>
+
+      </div>
+      <!-- <div *ngIf="appointmentsevendaysbefore && appointmentsevendaysbefore.length > 5"
+        style="width: 90%; display:flex; justify-content:flex-end; font-size: 12px;">
+        <pagination-controls (pageChange)="p = $event"></pagination-controls>
+      </div> -->
+
+    </div>
+
+
+
+  </div>
+</ion-content>

@@ -1,0 +1,35 @@
+.task-container{
+    animation: dropdown 300ms ease-in-out forwards;
+    transform-origin: top center;
+  }
+  
+  @keyframes dropdown{
+    0%{
+      transform: scaleY(0);
+    }
+    80%{
+      transform: scaleY(1.1);
+    }
+    100%{
+      transform: scaleY(1);
+    }
+  }
+
+  .calendar-box{
+    animation: dropdown 300ms ease-in-out forwards;
+    transform-origin: top center;
+  }
+
+  .calendar-boxx{
+    animation: dropup 100ms ease-in-out forwards;
+    transform-origin: top center;
+  }
+
+  @keyframes dropup{
+    0%{
+      transform: scaleY(1.1);
+    }
+    100%{
+      transform: scaleY(0);
+    }
+  }

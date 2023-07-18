@@ -1,0 +1,123 @@
+<ion-header>
+  <div style="background: #FFFFFF; display: flex; justify-content:space-between; align-items: center; padding: 12px 16px; background-color: transparent; box-shadow: 0 0 4px 0 #ddd;">
+    <ion-icon (click)='back()' style='font-size:16px;color: #000000;' name="chevron-back-outline"></ion-icon>
+    <div style="color: #000000; font-size:16px; font-weight:600; display: flex; justify-content: center; align-items: center;">
+      Schedule Work</div>
+    <ion-icon style='font-size:20px;color: #FFFFFF; visibility: hidden;' name="chevron-back-outline"></ion-icon>
+  </div>
+  </ion-header>
+<ion-content>
+
+  <!-- <div style="width: 100%; display: flex; justify-content: center; margin-top: 20px;">
+  <div style="width: 90%; box-shadow: 0 0 6px #ddd; border-radius: 6px; font-size: 14px; margin-right: 3px; z-index: 999;">
+    <ion-input placeholder="Search..." [(ngModel)]="filterword" (ionChange)="filtererSchedule()" style="border-radius: 6px;"></ion-input>
+  </div>
+  </div> -->
+
+  <div style="width: 100%; display: flex; flex-direction: column; align-items: center; margin-top: 20px;">
+    <div style="width: 90%; font-weight: 600; margin-bottom: 5px;">
+      Schedule List
+    </div>
+    <div [ngStyle]="{'background': !x.approve_status ? x.approve_status == false ? 'red' : '#ccc' :  '#6DAD48',  'color':!x.approve_status ? x.approve_status == false ? '#ffffff' : '#000000' :  '#ffffff'}" style="border-radius: 4px; width: 90%; display: flex; flex-direction: column; align-items: space-between; padding: 5px; margin: 5px 0;"
+      *ngFor="let x of schedulework | paginate: { itemsPerPage: 8, currentPage: p }">
+      <div style="width: 100%; display: flex; margin-bottom: 4px;">
+        <div style="font-size: 14px; width: 100%">{{x.remark}}</div>
+      </div>
+      <div style="font-size: 13px; display: flex; margin-top: 10px;">
+        <div style="min-width: 90px; max-width: 90px;">Schedule :&nbsp;</div>
+        <div>{{x.schedule_date | date : 'medium'}}</div>
+      </div>
+      <div style="font-size: 13px; display: flex;">
+        <div style="min-width: 90px; max-width: 90px;">Create Time :&nbsp;</div>
+        <div>{{x.created_date | date : 'medium'}}</div>
+      </div>
+    </div>
+
+    <div *ngIf="schedulework.length > 8"
+      style="width: 100%; display:flex; justify-content:flex-end; font-size: 12px;">
+      <pagination-controls (pageChange)="p = $event"></pagination-controls>
+    </div>
+
+    <div *ngIf="schedulework.length < 1" style="width: 90%; text-align: center; font-size: 13px; margin-top: 20px;">There is not scheduled work created yet</div>
+  </div>
+  <!-- <div style="width: 100%; display: flex; flex-direction: column; align-items: center; margin-top: 30px;">
+    <div style="width: 90%; font-weight: 600; margin-bottom: 5px;">
+      Approved Schedule
+    </div>
+    <div style="background: #6DAD48; color: white; border-radius: 4px; width: 90%; display: flex; flex-direction: column; align-items: space-between; padding: 5px; margin: 5px 0;"
+      *ngFor="let x of scheduleworkapprove  | paginate: { itemsPerPage: 5, currentPage: o }">
+      <div style="width: 100%; display: flex; margin-bottom: 4px;">
+        <div style="width: 100%">{{x.remark}}</div>
+      </div>
+      <div style="font-size: 14px; display: flex; margin-top: 10px;">
+        <div style="min-width: 90px; max-width: 90px;">Schedule :&nbsp;</div>
+        <div>{{x.schedule_date | date : 'medium'}}</div>
+      </div>
+      <div style="font-size: 14px; display: flex;">
+        <div style="min-width: 90px; max-width: 90px;">Create Time :&nbsp;</div>
+        <div>{{x.created_date | date : 'medium'}}</div>
+      </div>
+    </div>
+
+    <div *ngIf="scheduleworkapprove.length > 0"
+      style="width: 100%; display:flex; justify-content:flex-end; font-size: 12px;">
+      <pagination-controls (pageChange)="o = $event"></pagination-controls>
+    </div>
+
+    <div *ngIf="scheduleworkapprove.length < 1" style="width: 90%; text-align: center; font-size: 13px; margin-top: 20px;">There is not approved scheduled work</div>
+  </div>
+
+  <div style="width: 100%; display: flex; flex-direction: column; align-items: center; margin-top: 30px;">
+    <div style="width: 90%; font-weight: 600; margin-bottom: 5px;">
+      Rejected Schedule
+    </div>
+    <div style="background: red; color: white; border-radius: 4px; width: 90%; display: flex; flex-direction: column; align-items: space-between; padding: 5px; margin: 5px 0;"
+      *ngFor="let x of scheduleworkreject  | paginate: { itemsPerPage: 5, currentPage: q }">
+      <div style="width: 100%; display: flex; margin-bottom: 4px;">
+        <div style="width: 100%">{{x.remark}}</div>
+      </div>
+      <div style="font-size: 14px; display: flex; margin-top: 10px;">
+        <div style="min-width: 90px; max-width: 90px;">Schedule :&nbsp;</div>
+        <div>{{x.schedule_date | date : 'medium'}}</div>
+      </div>
+      <div style="font-size: 14px; display: flex;">
+        <div style="min-width: 90px; max-width: 90px;">Create Time :&nbsp;</div>
+        <div>{{x.created_date | date : 'medium'}}</div>
+      </div>
+    </div>
+
+    <div *ngIf="scheduleworkreject.length > 5"
+      style="width: 100%; display:flex; justify-content:flex-end; font-size: 12px;">
+      <pagination-controls (pageChange)="q = $event"></pagination-controls>
+    </div>
+
+    <div *ngIf="scheduleworkreject.length < 1" style="width: 90%; text-align: center; font-size: 13px; margin-top: 20px;">There is not rejected scheduled work</div>
+  </div>
+
+  <div style="width: 100%; display: flex; flex-direction: column; align-items: center; margin-top: 30px;">
+    <div style="width: 90%; font-weight: 600; margin-bottom: 5px;">
+      Pending Schedule
+    </div>
+    <div style="background: #ccc; color: black; border-radius: 4px; width: 90%; display: flex; flex-direction: column; align-items: space-between; padding: 5px; margin: 5px 0;"
+      *ngFor="let x of scheduleworknull | paginate: { itemsPerPage: 5, currentPage: p }">
+      <div style="width: 100%; display: flex; margin-bottom: 4px;">
+        <div style="width: 100%">{{x.remark}}</div>
+      </div>
+      <div style="font-size: 14px; display: flex; margin-top: 10px;">
+        <div style="min-width: 90px; max-width: 90px;">Schedule :&nbsp;</div>
+        <div>{{x.schedule_date | date : 'medium'}}</div>
+      </div>
+      <div style="font-size: 14px; display: flex;">
+        <div style="min-width: 90px; max-width: 90px;">Create Time :&nbsp;</div>
+        <div>{{x.created_date | date : 'medium'}}</div>
+      </div>
+    </div>
+
+    <div *ngIf="scheduleworknull.length > 5"
+      style="width: 100%; display:flex; justify-content:flex-end; font-size: 12px;">
+      <pagination-controls (pageChange)="p = $event"></pagination-controls>
+    </div>
+
+    <div *ngIf="scheduleworknull.length < 1" style="width: 90%; text-align: center; font-size: 13px; margin-top: 20px;">There is not scheduled work that has not been rejected or approved</div>
+  </div> -->
+</ion-content>

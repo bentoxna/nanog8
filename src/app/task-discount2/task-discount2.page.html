@@ -1,0 +1,191 @@
+<ion-header *ngIf="tab == 1">
+  <div
+    style="display: flex; justify-content:space-between; align-items: center; padding: 8px 16px; border-bottom: 1px solid #ddd; background-color: #6DAD48;">
+    <ion-icon (click)='back()' style='font-size:16px;color: #FFFFFF;' name="chevron-back-outline"></ion-icon>
+
+    <div style="color: white; letter-spacing: 0.3em;">Discount</div>
+
+    <div (click)="addcustomdiscount()"
+      style="display:flex; justify-content:center; align-items:center; padding: 5px; border: 1px solid #ffffff; border-radius: 50%;">
+      <ion-icon name="add-outline" style="font-size:20px; color: #ffffff;"></ion-icon>
+    </div>
+  </div>
+</ion-header>
+<ion-content *ngIf="tab == 1">
+
+  <div style="width: 100%; height: 100%; display:flex; flex-direction: column; align-items:center; margin-top: 20px;">
+
+    <div style="width: 90%; ">
+      Applied Custom Discount
+    </div>
+    <div *ngFor="let x of custom" style="width: 90%; display: flex;">
+      <div (click)="delete(x)"
+        style="width: 10%; display: flex; align-items: center; justify-content: center; color: red;">
+        <ion-icon name="trash-outline"></ion-icon>
+      </div>
+
+      <div style="width: 100%; padding: 16px 0; margin-left: 8px;">
+        <div style="display: flex; font-size: 14px;">
+          <div>{{x.name}}</div>
+        </div>
+        <div style="display: flex; font-size: 14px;">
+          Discount : {{x.type ? x.percentage + '%' : (x.percentage | currency : 'RM ')}}
+        </div>
+        <div style="font-size: 12px; color: red;">{{x.need_photo ? '*Require Photo' : ''}}</div>
+      </div>
+    </div>
+
+
+    <div style="width: 90%; margin-top: 20px;">
+      Non Custom Discount
+    </div>
+    <div style="width: 90%;">
+
+      <div (click)="getclick(i)" style="width: 100%; display: flex; align-items: center;"
+        *ngFor="let x of discounts;let i = index">
+
+        <div style="width: 10%; display: flex; align-items: center; justify-content: center;">
+          <div *ngIf="!x.selected || x.selected == false"
+            style="border-radius: 6px; border: 1px solid black; min-width: 20px; max-width: 20px; min-height: 20px; max-height: 20px;">
+          </div>
+          <ion-icon *ngIf="x.selected == true"
+            style="border-radius: 6px; border: 1px solid black; min-width: 20px; max-width: 20px; min-height: 20px; max-height: 20px;"
+            name="checkmark-outline"></ion-icon>
+        </div>
+
+        <div style="width: 90%; padding: 16px 0; margin-left: 8px;">
+          <div style="display: flex; font-size: 14px;">
+            <div>{{x.name}}</div>
+          </div>
+          <div style="display: flex; font-size: 14px;">
+            <div>Percentage : </div>
+            <div>{{x.percentage}}%</div>
+          </div>
+          <div style="font-size: 12px; color: red;">{{x.need_photo ? '*Require Photo' : ''}}</div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</ion-content>
+
+<ion-footer *ngIf="tab == 1">
+  <div style="height: 40px; width: 100%; background: #FFFFFF; display: flex; align-items: center; font-size: 14px; ">
+    <div style="display: flex; width:100%; justify-content:space-between; align-items: center; ">
+      <div (click)="back()"
+        style="color:#ffffff; background-color: red; height: 40px; width:49.9%; display: flex; justify-content: center; align-items: center; text-align: center;">
+        Cancel</div>
+      <div (click)="confirm()"
+        style="height: 40px; width:49.9%; display: flex; justify-content: center; align-items: center; text-align: center; background: #6DAD48; color: #ffffff;">
+        Confirm</div>
+    </div>
+  </div>
+</ion-footer>
+
+
+<ion-header *ngIf="tab == 2">
+  <div
+    style="display: flex; justify-content:space-between; align-items: center; padding: 8px 16px; border-bottom: 1px solid #ddd; background-color: #6DAD48;">
+    <ion-icon (click)='back()' style='font-size:16px;color: #FFFFFF;' name="chevron-back-outline"></ion-icon>
+
+    <div style="color: white; letter-spacing: 0.3em;">Discount</div>
+
+    <div
+      style="display:flex; justify-content:center; align-items:center; padding: 5px; border: 1px solid #ffffff; border-radius: 50%; visibility: hidden;">
+      <ion-icon name="add-outline" style="font-size:20px; color: #ffffff;"></ion-icon>
+    </div>
+  </div>
+</ion-header>
+<ion-content *ngIf="tab == 2">
+
+  <div style="width: 100%; display: flex; justify-content: center;">
+
+    <div style="width: 100%;">
+
+      <div *ngFor="let x of mainService;let i = index;"
+        style="background-color: #dbf0d3; width:100%; border-radius:0 0 20px 20px; padding: 25px 0 15px 5px; display: flex; justify-content: center; box-shadow: 0 0 10px 0 #ddd, 0 0 20px #fff;">
+
+        <div style="width: 90%;">
+          <div style="font-size: 13px; font-weight:600; margin-bottom: 4px; letter-spacing: 0.1em;">{{x.area2 == 'others'? x.other_area : x.area2}}</div>
+              <div style="font-size: 11px;">- {{x.name ? x.name : 'Other Package'}}</div>
+              <div style="font-size: 11px;">- {{x.services}}</div>
+              <div style="font-size: 11px;">- size : {{x.sqft2 == 'others' ? x.size : x.sqft2}}</div>
+              <div style="font-size: 11px;">- {{x.total | currency : 'RM '}}</div>
+        </div>
+      </div>
+
+      <!-- <div style="width: 100%; display: flex; justify-content: center;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin: 20px 0 10px; width: 90%; padding: 0 5px;">
+          <div style="font-weight: bolder; letter-spacing: 0.5em; text-shadow: 0 0 10px #ddd;">Add On List</div>
+          <div style="background: #6DAD48; color: #ffffff; box-shadow: 0 0 4px 0 #c2c2c2; border: 1px solid #5e9b3b; border-radius: 10px;padding: 5px 10px; font-size: 11px; text-align: center;">Add On</div>
+        </div>
+  
+      </div> -->
+
+    </div>
+  </div>
+
+  <div style="width: 100%; height: 100%; display:flex; flex-direction: column; align-items:center; margin-top: 20px;">
+
+    <div style="width: 90%; display: flex; justify-content: space-between; align-items: center;">
+      <div>
+        Discount List
+      </div>
+      <div (click)="addcustomdiscount()" style="padding: 5px 10px; background: #6DAD48; color: #fff; border-radius: 10px; font-size: 12px;">
+        ADD
+      </div>
+    </div>
+
+    <div *ngFor="let x of custom" style="width: 90%; display: flex;">
+      <div (click)="delete(x)"
+        style="width: 10%; display: flex; align-items: center; justify-content: center; color: red;">
+        <ion-icon name="trash-outline"></ion-icon>
+      </div>
+
+      <div style="width: 100%; padding: 16px 0; margin-left: 8px;">
+        <div style="display: flex; font-size: 14px;">
+          <div>{{x.name}}</div>
+        </div>
+        <div style="display: flex; font-size: 14px;">
+          Discount : {{x.type ? x.percentage + '%' : (x.percentage | currency : 'RM ')}}
+        </div>
+        <div style="font-size: 12px; color: red;">{{x.need_photo ? '*Require Photo' : ''}}</div>
+      </div>
+    </div>
+
+
+    <!-- <div style="width: 90%; margin-top: 20px;">
+        Non Custom Discount
+      </div>
+      <div style="width: 90%;">
+    
+      <div (click)="getclick(i)" style="width: 100%; display: flex; align-items: center;" *ngFor="let x of discounts;let i = index">
+    
+      <div  style="width: 10%; display: flex; align-items: center; justify-content: center;">
+        <div *ngIf="!x.selected || x.selected == false" style="border-radius: 6px; border: 1px solid black; min-width: 20px; max-width: 20px; min-height: 20px; max-height: 20px;"></div>
+        <ion-icon *ngIf="x.selected == true" style="border-radius: 6px; border: 1px solid black; min-width: 20px; max-width: 20px; min-height: 20px; max-height: 20px;" name="checkmark-outline"></ion-icon>
+      </div>
+    
+      <div style="width: 90%; padding: 16px 0; margin-left: 8px;" >
+        <div style="display: flex; font-size: 14px;"><div>{{x.name}}</div></div>
+        <div style="display: flex; font-size: 14px;"><div>Percentage : </div><div>{{x.percentage}}%</div></div>
+        <div style="font-size: 12px; color: red;">{{x.need_photo ? '*Require Photo' : ''}}</div>
+      </div>
+    
+    </div>
+    </div> -->
+  </div>
+</ion-content>
+
+<!-- <ion-footer *ngIf="tab == 2">
+  <div style="height: 40px; width: 100%; background: #FFFFFF; display: flex; align-items: center; font-size: 14px; ">
+    <div style="display: flex; width:100%; justify-content:space-between; align-items: center; ">
+      <div (click)="back()"
+        style="color:#ffffff; background-color: red; height: 40px; width:49.9%; display: flex; justify-content: center; align-items: center; text-align: center;">
+        Cancel</div>
+      <div (click)="confirm()"
+        style="height: 40px; width:49.9%; display: flex; justify-content: center; align-items: center; text-align: center; background: #6DAD48; color: #ffffff;">
+        Confirm</div>
+    </div>
+  </div>
+</ion-footer> -->

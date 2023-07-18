@@ -1,0 +1,51 @@
+<ion-content style="--background:black; --color:white;">
+  <div style="padding: 20px;">
+    <div style="display: flex; justify-content: space-between; font-size: 20px;">
+      <div routerLink="/">
+        <ion-icon name="chevron-back"></ion-icon>
+      </div>
+      <div>Register now</div>
+      <div></div>
+    </div>
+
+    <div style="margin-top: 50px;">
+
+      <div style="margin: 30px auto;">
+        <ion-label for="email">Email</ion-label>
+        <ion-input style="border-bottom: 1px solid white; margin-top: 30px; margin-bottom: 50px;" type="email" 
+        placeholder="Please enter your email" [(ngModel)]="user.email"></ion-input>
+      </div>
+
+      <div style="margin: 30px auto;">
+        <ion-label for="name">Name</ion-label>
+        <ion-input style="border-bottom: 1px solid white; margin-top: 15px; margin-bottom: 50px;" type="text" 
+        placeholder="Please enter your name" [(ngModel)]="user.name"></ion-input>
+      </div>
+
+      <div style="margin: 30px auto;">
+        <ion-label for="password">Password</ion-label>
+        <ion-input class="input-box" style="border-bottom: 1px solid white; margin-top: 15px; margin-bottom: 30px;" type="password" 
+        placeholder="Please enter your password" [(ngModel)]="user.password"></ion-input>
+      </div>
+
+
+      <div style="margin: 30px auto;">
+        <ion-label for="image">Image</ion-label>
+        <ion-input class="input-box" style="border-bottom: 1px solid white; margin-top: 15px; margin-bottom: 30px;" type="text" 
+        placeholder="Please input imageurl" [(ngModel)]="user.image"></ion-input>
+      </div>
+
+    </div>
+
+    <div>
+      
+    </div>
+
+
+  </div>
+</ion-content>
+<ion-footer style="--background-color:#000; --color:white;">
+  <div style="background:black; color:white;display:flex; justify-content: center; padding-bottom: 20px;" (click)="register()">
+  <button style="padding:20px 130px; color: black; border-radius: 70px; background-color: #FEE715FF; font-size: 20px;">Register</button>
+</div>
+</ion-footer>

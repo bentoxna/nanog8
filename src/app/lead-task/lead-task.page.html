@@ -1,0 +1,199 @@
+<!-- <ion-header>
+  <div style="width: 100%; display: flex; justify-content:space-between; align-items: center; padding: 16px 24px; background: #6DAD48;">
+
+    <ion-icon (click)='back()' style='font-size:16px;color: #FFFFFF;' name="chevron-back-outline"></ion-icon>
+
+    <div style="color: #FFFFFF; font-size:16px; font-weight:600;">Lead List</div>
+
+    <ion-icon style='font-size:20px;color: #FFFFFF; visibility: hidden;' name="chevron-back-outline"></ion-icon>
+    </div>
+</ion-header> -->
+<!--Start here-->
+<ion-header style=" --background: #fff;">
+  <div style="width: 100%; background: #fff;">
+    <div style="width: 100%; position: relative;">
+  
+      <div style="width: 100%; background: transparent;">
+        <div
+          style="display: flex; justify-content:space-between; align-items: center; padding: 10px 16px; border-bottom: 1px solid #ddd; background-color: #6DAD48;">
+          <ion-icon (click)='back()' style='font-size:16px;color: #FFFFFF;' name="chevron-back-outline"></ion-icon>
+  
+          <div style="color: white;">Lead List</div>
+  
+          <div style="display:flex; justify-content:center; align-items:center; padding: 5px; border: 1px solid #ffffff; border-radius: 50%; visibility: hidden;">
+            <!-- <ion-icon *ngIf="tab1 == true" (click)="changetab('filter')" name="calendar-outline" style="font-size:20px; color: #ffffff;"></ion-icon>
+            <ion-icon *ngIf="tab2 == true" (click)="changetab('calendar')" name="options-outline" style="font-size:20px; color: #ffffff;"></ion-icon> -->
+          </div>
+        </div>
+
+  
+      </div>
+  
+      <!--Tab 1 Calendar-->
+      <div *ngIf="calendar == false && !searchmode" (click)="showcalendar('on')"
+        style="height: 50%; color: #23232b; border-radius:4px; background: #C9E1BD;
+              display: flex; justify-content: space-between; align-items: center; width: 100%; padding: 5px 24px; box-shadow: 0 0 10px 0 rgb(236, 236, 236);">
+          <div style="font-size: 12px; font-weight: 600;">{{outsidedate + " " + months[outsidemnth] + " " +
+            outsideyear }}</div>
+  
+  
+        <ion-icon
+          style="color: #FFFFFF; font-size: 12px; min-width: 12px; min-height: 12px; padding: 6px; background-color: #6DAD48; border-radius: 6px;"
+          (click)="showcalendar('off')" name="caret-down-outline"></ion-icon>
+      </div>
+  
+      <div *ngIf="calendar == true && !searchmode" style="height: 50%; width: 100%; color: #23232b; border-radius:4px; background: #C9E1BD; display: flex; justify-content:space-between; 
+      padding:5px 24px; align-items: center; box-shadow: 0 0 10px 0 rgb(236, 236, 236);">
+  
+        <div style="display: flex; align-items:center; justify-content: space-between; width: 100%;">
+  
+          <div style="font-size: 14px; font-weight: 600; color: #23232b; padding-right: 4px;">{{ months[smonth] + " " +
+            syear }}</div>
+  
+          <div style="display: flex; align-items: center;">
+            <ion-icon
+              style="color: #FFFFFF; font-size: 14px; min-width: 14px; min-height: 14px; padding: 6px; background-color: #6DAD48; border-radius: 8px; margin-right: 5px;"
+              (click)="previous()" name="chevron-back-outline"></ion-icon>
+            <ion-icon
+              style="color: #FFFFFF; font-size: 14px; min-width: 14px; min-height: 14px; padding: 6px; background-color: #6DAD48; border-radius: 8px; margin-right: 8px;"
+              (click)="next()" name="chevron-forward-outline"></ion-icon>
+  
+            <ion-icon
+              style="color: #FFFFFF; font-size: 14px; min-width: 14px; min-height: 14px; padding: 6px; background-color: #6DAD48; border-radius: 8px;"
+              (click)="showcalendar('off')" name="caret-up-outline"></ion-icon>
+  
+          </div>
+  
+        </div>
+  
+      </div>
+  
+      <div *ngIf="!searchmode" [ngClass]="calendar == false ? 'calendar-boxx' : 'calendar-box' " style="top: -1; width: 100%; color: #23232b; background: #C9E1BD; width: 100%; margin-bottom:24px; display: flex;
+         justify-content: center; position: absolute; z-index:999;">
+  
+        <div
+          style="width: 100%; color: #23232b; border-radius: 12px; background: #C9E1BD; box-shadow: 0 0 10px 0 rgb(236, 236, 236);">
+  
+          <div style="display: flex; flex-wrap: wrap; padding: 10px 16px;">
+  
+            <div *ngFor="let x of days"
+              style="width: calc(100% / 7); font-size: 12px; font-weight: 600; text-align: center; margin-bottom: 10px; color: #23232b;">
+              {{ x }}
+            </div>
+
+            <div (click)="getdate(x,i)" *ngFor="let x of dates;let i = index;" style="width: calc(100% / 7); display: flex; justify-content: center;">
+              <div [ngStyle]="{background: x.selected ? 'green' : 'transparent', color : x.selected ? 'white' : 'black'}" 
+              style="display: flex; justify-content: center; align-items: center; height: 30px; width: 30px; border-radius: 50%; font-size: 14px;position: relative;">
+                {{x.date}}
+                <div *ngIf="x.marker" style="width: 3px; height: 3px; background: red; border-radius: 50%; position: absolute; bottom: 5px; left: 50%; transform: translate(-50%, 0);"></div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </ion-header>
+<ion-content>
+  <div style="width: 100%; min-height: 90vh; display: flex; flex-direction: column; align-items: center; padding: 0 0 10px 0;">
+
+    <div *ngIf="searchmode" (click)="offsearchmode()"
+    style="width: 50px; height: 50px; background: #000; border: 1px solid #fff; display: flex; justify-content: center; align-items: center; border-radius: 50%; 
+    z-index: 1003; color: white;box-shadow: 0 5px 8px rgba(0, 0, 0, 0.12); position: fixed; bottom: 75px; right: 10px;">
+    ❌
+  </div>
+
+    <div class="add-button" (click)="toLeadAdd()"
+    style="width: 50px; height: 50px; display: flex; justify-content: center; align-items: center; border-radius: 50%; 
+    z-index: 1003; color: white;box-shadow: 0 5px 8px rgba(0, 0, 0, 0.12); position: fixed; bottom: 20px; right: 10px;">
+    <ion-icon name="person-add"></ion-icon>
+  </div>
+
+    <div style="width: 90%;">
+    </div>
+    
+    <div style="width: 90%; display: flex; justify-content: space-between; align-items: center; margin-top: 20px;">
+
+      <div style="width: 80%; box-shadow: 0 0 6px #ddd; border-radius: 6px; font-size: 12px; margin-right: 3px; z-index: 999;">
+        <ion-input placeholder="Search..." [(ngModel)]="filterword"  style="border-radius: 6px;"></ion-input>
+      </div>
+
+      <div style="width: max-content;  position: relative; display: flex; justify-content: center; align-items: center;">
+        <div class="add-button" (click)="searchfromdatabase()"
+        style="width: max-content; padding:10px; display: flex; justify-content: center; align-items: center; border-radius: 8px; 
+        z-index: 1003; color: white;box-shadow: 0 5px 8px rgba(0, 0, 0, 0.12); font-size: 10px;">
+        <!-- <ion-icon name="person-add"></ion-icon> -->
+        <div>Search</div>
+      </div>
+      <!-- <div style="position:absolute; width: 46px; height: 46px; border-radius: 50%; background: #fafafa; left: -10px; z-index: 1000; box-shadow: -6px 0 6px 0 #ddd;"> 
+      </div> -->
+      </div>
+
+    </div>
+
+    
+
+      <div (click)="godetail(x)" *ngFor="let x of (searchmode ? leadlistfilter : leadlist)  | paginate: { itemsPerPage: 8, currentPage: p }" style=" margin-top:10px; width: 100%; display: flex; background: transparent; display: flex; flex-direction: column; align-items: center;">
+        <div style="width: 90%;  box-shadow: 0 0 10px 0 #ccc; border-radius: 10px;">
+          <div style="display: flex; flex-direction: column; width: 100%; padding:10px; border-radius: 0 4px 4px 0;">
+
+            <div style="display: flex; justify-content:space-between; align-items:flex-end; padding-bottom: 8px;">
+              <div style="font-size: 18px; font-weight:600;">{{x.customer_name}}</div>
+              <!-- <div style="color:#446828; font-size: 14px; font-weight:600;">{{appointment.appointment_time | date : 'hh:mm a'}}</div> -->
+            </div>
+  
+            <div>
+              <div style="display:flex; padding-bottom: 4px; align-items: center;">
+                <ion-icon name="call" style="font-size: 14px; min-width: 14px; min-height:14px; color: #666666; padding-right: 8px;">
+                </ion-icon>
+                <div style="font-size: 12px;">{{x.customer_phone}}</div>
+              </div>
+  
+              <div style="display: flex; padding-bottom: 4px; align-items: flex-end;">
+                <ion-icon name="mail" style="font-size: 14px; min-width: 14px; min-height:14px; color: #666666; padding-right: 8px;">
+                </ion-icon>
+                <div style="font-size: 12px;">{{x.customer_email}}</div>
+              </div>
+
+
+
+
+              <div style="display: flex; align-items: flex-start; margin-top: 4px;">
+                <div style="font-size: 12px;">{{x.label_s}}</div>
+              </div>
+
+              <div style="display: flex; padding-bottom: 4px; align-items: flex-end;">
+                <!-- <ion-icon name="mail" style="font-size: 14px; min-width: 14px; min-height:14px; color: #666666; padding-right: 8px;">
+                </ion-icon> -->
+                <div style="font-size: 14px; font-weight: 600;">created at :&nbsp;</div>
+                <div style="font-size: 12px; display: flex; align-items: flex-end;">{{x.created_date | date : 'medium'}}</div>
+              </div>
+  
+            </div>
+
+            <div style="width: 100%; display: flex; justify-content: space-between; font-size: 12px; color: #666666;">
+              <div *ngIf="x.phone_row_number > 1 && !x.verified && !x.warranty_id" style="color: red;">Duplicate Lead</div>
+              <div>click to view detail</div>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+
+
+      <div *ngIf="!searchmode && leadlist.length > 8"
+        style="width: 100%; font-size: 12px;">
+        <pagination-controls (pageChange)="p = $event"></pagination-controls>
+      </div>
+
+      <div *ngIf="searchmode && leadlistfilter.length > 8"
+        style="width: 100%; font-size: 12px;">
+        <pagination-controls (pageChange)="p = $event"></pagination-controls>
+      </div>
+
+
+  </div>
+
+</ion-content>

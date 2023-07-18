@@ -1,0 +1,78 @@
+<ion-header>
+  <div
+    style="padding: 10px 0; width:100%; box-shadow: 0 2px 10px 0 #eeeeee; background: #6DAD48; display:flex; justify-content: center; color: #ffffff;">
+    <div style="width:90%; display:flex; justify-content: space-between; align-items: center;">
+      <ion-icon name="close-outline" style="visibility: hidden;"></ion-icon>
+      <div style="color: #ffffff; display:flex; justify-content:center; font-size: 16px; font-weight: 600;">
+        Add Equipment
+      </div>
+      <ion-icon (click)="back()" name="close-outline" style="font-size: 16px; color: #ffffff;"></ion-icon>
+    </div>
+  </div>
+</ion-header>
+
+<ion-content>
+<div style="width: 100%; display: flex; flex-direction: column; align-items: center; padding: 20px 0;">
+  <div style="width: 90%;">
+
+    <div style="padding: 10px; border-radius: 10px;display: flex; flex-direction: column; align-items: center;">
+      <div style="font-size: 14px; display: flex; align-items: center; gap: 5px; width: 100%; font-weight: 600;"><ion-icon style="color: #579334;" name="caret-forward-circle-outline"></ion-icon><div>Scaffolding</div></div>
+      <div style="width: 100%;">
+      <!-- <div style="margin-top: 20px;">
+        <ion-item>
+          <ion-label for="scaffolding" position="floating" style="font-size: 13px;">Enter Scaffolding Height(cm)</ion-label>
+          <ion-input [(ngModel)]="scaffheight" id="scaffolding" placeholder="" type="number" style="font-size: 12px;"></ion-input>
+        </ion-item>
+      </div> -->
+      <div style="margin-top: 10px;">
+        <ion-item>
+          <ion-label for="scafheight" position="floating" style="font-size: 13px;">Enter Scaffolding Fee (RM)</ion-label>
+          <ion-input [(ngModel)]="scafffee" id="scafheight" placeholder="" type="number" style="font-size: 12px;"></ion-input>
+        </ion-item>
+      </div>
+      </div>
+    </div>
+
+    <div style="padding: 10px; border-radius: 10px; margin-top: 20px; display: flex; flex-direction: column; align-items: center;">
+      <!-- <div style="font-weight: 600; width: 100%;">Skylift</div> -->
+      <div style="font-size: 14px; display: flex; align-items: center; gap: 5px; width: 100%; font-weight: 600;"><ion-icon style="color: #579334;" name="caret-forward-circle-outline"></ion-icon><div>Skylift</div></div>
+      <div style="width: 100%;">
+        <!-- <div style="margin-top: 20px;">
+          <ion-item>
+            <ion-label for="skylift" position="floating" style="font-size: 13px;">Enter Skylift Height(cm)</ion-label>
+            <ion-input [(ngModel)]="skyliftheight" id="skylift" placeholder="" type="number" style="font-size: 12px;"></ion-input>
+          </ion-item>
+        </div> -->
+        <div style="margin-top: 10px;">
+          <ion-item>
+            <ion-label for='skyfee' position="floating" style="font-size: 13px;">Enter Skylift Fee (RM)</ion-label>
+            <ion-input [(ngModel)]="skyliftfee" id="skyfee" placeholder="" type="number" style="font-size: 12px;"></ion-input>
+          </ion-item>
+        </div>
+      </div>
+
+    </div>
+
+
+    <div style="padding: 10px; border-radius: 10px; margin-top: 20px; display: flex; flex-direction: column; align-items: center;">
+      <!-- <div style="font-weight: 600; width: 100%;">Transportation Fee</div> -->
+      <div style="font-size: 14px; display: flex; align-items: center; gap: 5px; width: 100%; font-weight: 600;"><ion-icon style="color: #579334;" name="caret-forward-circle-outline"></ion-icon><div>Transportation</div></div>
+      <div style="width: 100%; ">
+          <ion-item>
+            <ion-label for='transportation_fee' position="floating" style="font-size: 13px;">Enter Transportation Fee (RM)</ion-label>
+            <ion-input [(ngModel)]="transportation_fee" id="transportation_fee" placeholder="" type="number" style="font-size: 12px;"></ion-input>
+          </ion-item>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+</ion-content>
+
+<ion-footer>
+  <div style="width: 100%; display: flex; justify-content: center;  text-align: center; margin-bottom: 20px; ">
+    <div (click)="save()" style="background: #6DAD48; color: #ffffff; width: 90%; padding: 10px 0; border-radius: 20px;">Save</div>
+  </div>
+  </ion-footer>

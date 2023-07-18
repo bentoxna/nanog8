@@ -1,0 +1,41 @@
+<ion-content>
+
+<div style="width: 100%; height: 100%; display:flex; flex-direction: column; justify-content: center; align-items:center;">
+
+  <div style="height: 40px; width: 100%; position: fixed; top: 0; display: flex; justify-content: center; align-items: center; 
+    font-size: 16px; font-weight: 600; background: #FFFFFF; box-shadow: 0 0 6px 0 #ddd;">
+    <div>Select Discounts</div>
+  </div>
+
+  <div style="width: 90%; margin: 40px 0 40px 0; overflow-y: auto;">
+
+  <div (click)="getclick(i)" style="width: 100%; display: flex; align-items: center;" *ngFor="let x of discounts;let i = index">
+
+  <div  style="width: 10%; display: flex; align-items: center; justify-content: center;">
+    <div *ngIf="x.selected == undefined || x.selected == false" style="border-radius: 6px; border: 1px solid black; min-width: 20px; max-width: 20px; min-height: 20px; max-height: 20px;"></div>
+    <ion-icon *ngIf="x.selected == true" style="border-radius: 6px; border: 1px solid black; min-width: 20px; max-width: 20px; min-height: 20px; max-height: 20px;" name="checkmark-outline"></ion-icon>
+  </div>
+
+  <div style="width: 90%; padding: 16px 0; margin-left: 8px;" >
+    <div style="display: flex; font-size: 14px;"><div>{{x.name}}</div></div>
+    <div style="display: flex; font-size: 14px;"><div>Percentage : </div><div>{{x.percentage}}%</div></div>
+    <div *ngIf="x.need_photo == true" style="font-size: 12px;">*Need Photo Approve</div>
+    <div *ngIf="x.need_photo == false" style="font-size: 12px;">*No Need Photo Approve</div>
+  </div>
+
+</div>
+</div>
+
+
+<div style="height: 40px; width: 100%; position: fixed; bottom: 0; background: #FFFFFF; display: flex; align-items: center; font-size: 14px; ">
+  <div style="display: flex; width:100%; justify-content:space-between; align-items: center; ">
+    <div (click)="canceldiscount()" style="width:49%; display: flex; justify-content: center; text-align: center;">Cancel</div>
+    <div (click)="confirmdiscount()" style="width:49%; display: flex; justify-content: center; text-align: center;">Confirm</div>
+  </div>
+</div>
+
+</div>
+
+
+
+</ion-content>

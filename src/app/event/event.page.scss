@@ -1,0 +1,151 @@
+.buttoncaller{
+  animation: vibrate 15000ms ease-in infinite;
+  right: 10px;
+  background: white;  
+  color: black;
+  border: 1px solid black;
+}
+
+.buttoncallerx{
+  animation: comeout2 100ms ease-in forwards;
+  right: -25px;
+  background: black;  
+  color: white;
+}
+
+.buttoncallerx2{
+  animation:  rotate360 5000ms ease-out infinite;
+
+}
+
+
+@keyframes comeout2{
+  0%{
+    transform: translateX(50px);
+  }
+  25%{
+    transform: translateX(20px);
+  }
+  50%{
+    transform: translateX(5px);
+  }
+  90%{
+    transform: translateX(2px);
+  }
+  100%{
+    transform: translateX(0);
+  }
+}
+
+@keyframes rotate360{
+  0%{
+    transform: rotate(0deg);
+  }
+  25%{
+    transform: rotate(90deg);
+  }
+  50%{
+    transform: rotate(180deg);
+  }
+  75%{
+    transform: rotate(270deg);
+  }
+  100%{
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes vibrate{
+  0%{
+    transform: rotate(90deg);
+  }
+  5%{
+    transform: rotate(100deg);
+  }
+  10%{
+    transform: rotate(110deg);
+  }
+  15%{
+    transform: rotate(115deg);
+  }
+  20%{
+    transform: rotate(135deg);
+  }
+  25%{
+    transform: rotate(120deg);
+  }
+  30%{
+    transform: rotate(160deg);
+  }
+  35%{
+    transform: rotate(90deg);
+  }
+  40%{
+    transform: rotate(60deg);
+  }
+  45%{
+    transform: rotate(45deg);
+  }
+  50%{
+    transform: rotate(90deg);
+  }
+  60%{
+    transform: rotate(90deg);
+  }
+  70%{
+    transform: rotate(90deg);
+  }
+  80%{
+    transform: rotate(-90deg);
+  }
+  90%{
+    transform: rotate(-180deg);
+  }
+  93%{
+    transform: rotate(-270deg);
+  }
+  96%{
+    transform: rotate(-360deg);
+  }
+  100%{
+    transform: rotate(90deg);
+  }
+}
+
+  @keyframes comeout{
+    0%{
+      transform: translateX(50px);
+    }
+    25%{
+      transform: translateX(20px);
+    }
+    50%{
+      transform: translateX(5px);
+    }
+    90%{
+      transform: translateX(2px);
+    }
+    100%{
+      transform: translateX(0);
+    }
+  }
+
+  .button1{
+    animation: comeout 100ms ease-in forwards;
+  }
+
+  .button2{
+    animation: comeout 150ms ease-in forwards;
+  }
+
+  .button3{
+    animation: comeout 200ms ease-in forwards;
+  }
+
+  .button4{
+    animation: comeout 250ms ease-in forwards;
+  }
+
+  .button5{
+    animation: comeout 300ms ease-in forwards;
+  }

@@ -1,0 +1,86 @@
+<ion-content>
+  <div
+    style="width: 100%; display: flex; justify-content:space-between; align-items: center; padding: 13px 16px; border-bottom: 1px solid #ddd; background-color: #6DAD48;">
+    <ion-icon (click)='back()' style='font-size:16px;color: #FFFFFF;' name="chevron-back-outline"></ion-icon>
+
+    <div
+      style="color: #FFFFFF; font-size:16px; font-weight:600; display: flex; justify-content: center; align-items: center;">
+      Edit Profile</div>
+
+    <ion-icon (click)="logout()" name="log-out-outline" style="font-size:16px; color: white;"></ion-icon>
+
+  </div>
+
+  <div style="padding: 16px 28px 0px 28px; position: relative; height: 100vh;">
+
+    <div style="display: flex; flex-direction: column; align-items: center;">
+      <!-- <div style="font-size: 26px; font-weight: 700;">Edit Profile</div> -->
+
+
+      <div
+        style="margin-top: 24px; width: 120px; height: 120px; border: 3px solid #6DAD48; border-radius: 50%; display: flex; justify-content: center; align-items: center; position: relative;">
+        <img (click)="view(user.profile_image)" *ngIf="!photo" src="{{user.profile_image || 'https://nanogbucket.s3.ap-southeast-1.amazonaws.com/nano/nanog/1673430796044lcrhhkak9.png'}}"
+          style="width: 110px; height: 110px; object-fit: cover; border-radius: 50%; background-color: #FFFFFF;" />
+
+        <img (click)="view(photo)" *ngIf="photo" src="{{photo || 'https://nanogbucket.s3.ap-southeast-1.amazonaws.com/nano/nanog/1673430796044lcrhhkak9.png'}}"
+          style="width: 110px; height: 110px; object-fit: cover; border-radius: 50%; background-color: #FFFFFF;" />
+
+        <ion-icon (click)="takephoto()" name="camera-outline" style="position: absolute; bottom:0px; right:0px; padding: 8px; width: 15px; height:15px; color: #FFFFFF; 
+          background-color: #6DAD48; border-radius: 50%;"></ion-icon>
+      </div>
+
+      <!-- <div style="margin-top: 8px; font-size: 14px">
+        {{user.user_email}}
+      </div> -->
+
+    </div>
+
+    <div style="margin-top: 32px;">
+
+      <div>
+        <div style="font-size: 14px; font-weight:600; padding-bottom: 6px; padding-left: 10px;">Name</div>
+        <ion-input id="1" (ionFocus)="ionfocus($event, 1)" (ionBlur)="ionblur($event, 1)" disabled
+          style="border: 1px solid #cacaca; background-color: #f1fcec; border-radius: 10px; --padding-start: 10px; --padding-top:10px; --padding-end:10px; font-size: 12px;"
+          placeholder="Enter Name" [(ngModel)]="user.user_name" type="text"></ion-input>
+      </div>
+
+      <div style="padding-top: 16px;">
+        <div style="font-size: 14px; font-weight:600; padding-bottom: 6px; padding-left: 10px;">Phone</div>
+        <ion-input id="2" (ionFocus)="ionfocus($event, 2)" (ionBlur)="ionblur($event, 2)" disabled
+          style="border: 1px solid #cacaca; background-color: #f1fcec; border-radius: 10px; --padding-start: 10px; --padding-top:10px; ; --padding-end:10px; font-size: 12px;"
+          placeholder="Enter Phone Number" [(ngModel)]="user.user_phone_no" type="text"></ion-input>
+      </div>
+
+      <div style="padding-top: 16px ;">
+        <div style="font-size: 14px; font-weight:600; padding-left: 10px;">Address</div>
+        <ion-textarea id="3" (ionFocus)="ionfocus($event, 3)" (ionBlur)="ionblur($event, 3)"
+          style="border: 1px solid #cacaca; background-color:#f1fcec; border-radius: 10px; width: 100%; --padding-start: 10px; --padding-top:10px; ; --padding-end:10px; font-size: 12px;"
+          placeholder="Enter Address" rows="4" [(ngModel)]="user.user_address" type="text"></ion-textarea>
+      </div>
+
+      <div style="padding-top: 16px ;">
+        <div style="font-size: 14px; font-weight:600; padding-bottom: 6px; padding-left: 10px;">State</div>
+        <ion-input (keyup.enter)="getfirstselection()" id="4" (ionBlur)="clearfilterlist();ionblur($event, 4);"
+          (ionFocus)="filter(user.keyword);ionfocus($event, 4);" (ionChange)="filter(user.keyword)"
+          style="border: 1px solid #cacaca; background-color:#f1fcec; border-radius: 10px; --padding-start: 10px; --padding-top:10px; --padding-end:10px; font-size: 12px;"
+          placeholder="Enter Address" [(ngModel)]="user.keyword" type="text"></ion-input>
+        <div style="margin-top: 1px;" *ngIf="user.keyword != checker">
+          <div *ngFor="let x of temp;" (mousedown)="getfilter(x)"
+            style="margin:0 10px; background-color: #f1fcec; padding: 8px 16px; font-size: 10px;">{{x}}</div>
+        </div>
+      </div>
+
+    </div>
+
+    <div
+      style="width: 100%; display: flex; justify-content: space-around;text-align: center; margin-top: 50px; padding-bottom:24px ;">
+      <div (click)="cancel()"
+        style="width: 45%; padding: 10px; color: #FFFFFF; background-color: rgb(201, 201, 201); border-radius: 10px; font-size: 14px;">Cancel</div>
+      <div (click)="submit()"
+        style="width: 45%; padding: 10px; color: #FFFFFF; background-color: #6DAD48; border-radius: 10px; font-size: 14px;">Save</div>
+    </div>
+  </div>
+
+
+
+</ion-content>

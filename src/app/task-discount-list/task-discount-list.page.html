@@ -1,0 +1,69 @@
+<ion-header>
+  <div
+    style="padding: 10px 0; width:100%; box-shadow: 0 2px 10px 0 #eeeeee; background: #6DAD48; color: #ffffff; display:flex; justify-content: center;">
+    <div style="width:90%; display:flex; justify-content: space-between; align-items: center;">
+      <ion-icon (click)="back()" name="arrow-back-outline"></ion-icon>
+      <div style="color: #ffffff; display:flex; justify-content:center; font-weight: 600; letter-spacing: 0.3em;">
+          Packages List
+      </div>
+      <ion-icon name="add-circle-outline" style="visibility: hidden;"></ion-icon>
+    </div>
+  </div>
+</ion-header>
+
+
+<ion-content>
+  <div style="width: 100%; height: 100%; display:flex; flex-direction: column; align-items:center; margin-top: 10px;">
+
+    <div *ngFor="let x of sales_packages_main;let i = index;" style="width: 100%; background: white; padding:5px  15px; ">
+            <div (click)="getdiscount(i, -1, 'main')" style=" width:100%;background-color: #ecf3e8; border-radius: 5px;  padding: 10px 15px;">
+                <div  style="width: 90%;">
+                    <div style="font-size: 16px; color: #6DAD48; font-weight:600; margin-bottom: 4px; width: fit-content; border-bottom: 1px solid #6DAD48;">{{x.area2 == 'others' ? x.other_area : x.area2}}</div>
+                    <div style="display: flex; flex-wrap: wrap; color: #000;">
+                        <div style="font-size: 12px;">{{x.name ? x.name : 'Other Package'}},&nbsp;</div>
+                        <div style="font-size: 12px;">{{x.services}},&nbsp;</div>
+                        <div style="font-size: 12px;">{{x.sqft2 == 'others' ? x.size : x.sqft2}}sqft,&nbsp;</div>
+                        <div style="font-size: 12px;">{{x.total | currency : 'RM '}}</div>
+                    </div>
+                </div>
+
+                <div *ngIf="x.addon_packages.length > 0" style="font-size: 13px; margin-bottom: 5px; font-weight: 600; padding-top: 10px;  color: #6DAD48; border-bottom: 1px solid #6DAD48; width: fit-content;">Add On</div>
+
+                <!-- (click)="getdiscount(i, j, 'addon')" -->
+                <div  *ngIf="x.addon_packages.length > 0" style="display: flex; font-size: 12px; width: 100%; flex-wrap: wrap; color: #000; border-bottom: 2px dashed #6DAD48;padding-bottom: 5px; margin-bottom: 5px;">
+                  <div style="width: 40%;">Place</div>
+                  <div style="width: 2%"></div>
+                  <div style="width: 38%;">Service</div>
+                  <div style="width: 2%"></div>
+                  <div style="width: 18%; text-align: right;">Sqft</div>
+                  <!-- <div style="font-size: 12px;">{{y.total | currency : 'RM '}}</div> -->
+              </div>
+                <div  *ngFor="let y of x.addon_packages; let j = index" style="display: flex; font-size: 12px; width: 100%; flex-wrap: wrap; color: #000;">
+                    <div style="width: 40%;">{{y.area2 == 'others' ? y.other_area : y.area2}}</div>
+                    <div style="width: 2%"></div>
+                    <div style="width: 38%;">{{y.services}}</div>
+                    <div style="width: 2%"></div>
+                    <div style="width: 18%; text-align: right;">{{y.sqft2 == 'others' ? y.size : y.sqft2}}</div>
+                    <!-- <div style="font-size: 12px;">{{y.total | currency : 'RM '}}</div> -->
+                </div>
+
+                <div *ngIf="x.sum_total_after != x.sum_total" style="width: 100%; text-align: right; font-weight: 600; font-size: 16px; color: #32581c; padding: 25px 0 0 0; display: flex; justify-content: flex-end;">
+                  <div>{{x.sum_total_after | currency : "RM "}}</div>
+                  <div style="text-decoration: line-through; color: #000; margin-left: 10px;">{{x.sum_total | currency : 'RM '}}</div>
+              </div>
+
+              <div *ngIf="x.sum_total_after == x.sum_total" style="width: 100%; text-align: right; font-weight: 600; font-size: 16px; color: #32581c; padding: 25px 0 0 0; display: flex; justify-content: flex-end;">
+                  <!-- <div>{{x.sum_total_after | currency : "RM "}}</div> -->
+                  <div style=" color: #000; margin-left: 10px;">{{x.sum_total | currency : 'RM '}}</div>
+              </div>
+            </div>
+          </div>
+
+          <div style="width: 100%; background: white; padding:5px  15px;">
+            <div (click)="getWholeDiscount()" style="width:100%;background-color: #ecf3e8; border-radius: 5px;  padding: 10px 15px; color: #6DAD48; font-weight: 600;">
+              Click Here For Discount For Whole
+            </div>
+          </div>
+
+          </div>
+</ion-content>

@@ -1,0 +1,99 @@
+<ion-header>
+  <div
+    style="display: flex; justify-content:space-between; align-items: center; padding: 8px 16px; border-bottom: 1px solid #ddd; background-color: #6DAD48;">
+    <ion-icon (click)='back()' style='font-size:16px;color: #FFFFFF;' name="chevron-back-outline"></ion-icon>
+
+    <div style="color: white;">Upload Discount Photo</div>
+
+    <div
+      style="display:flex; justify-content:center; align-items:center; padding: 5px; border: 1px solid #ffffff; border-radius: 50%; visibility: hidden;">
+      <ion-icon name="add-outline" style="font-size:20px; color: #ffffff;"></ion-icon>
+    </div>
+  </div>
+</ion-header>
+
+<ion-content>
+  <div style="width: 100%; display: flex; flex-direction: column; align-items: center;">
+    <div style="width: 90%;">
+
+      <div *ngIf="custom && custom.length > 0">
+        <div style="margin-top: 20px; margin-bottom: 8px; font-weight: 600; ">
+          Custom Discount
+        </div>
+        <div *ngFor="let x of custom; let i = index" style="width: 100%;">
+          <div style="margin-bottom: 4px;">
+            {{x.name}}
+          </div>
+          <div *ngIf="x.need_photo == true" style="display: flex;">
+
+            <div
+              style="width: 100%; margin-right:6px; margin-bottom: 6px; display: flex; align-items: center; flex-wrap: wrap;">
+              <div *ngFor="let y of x.photo; let yi = index;" [style.height]="heighForAddPhoto"
+                style="width: calc(100% /3); position: relative;">
+                <img src='{{y}}' (click)="viewPhoto(i , yi)" [style.height]="heighForAddPhoto"
+                  style="width: 100%; object-fit:cover;" />
+
+                <ion-icon (click)="removePhoto(i, yi)" name="close-outline"
+                  style="position: absolute; color: #FFFFFF; background: #000000; top:0; right: 0;"></ion-icon>
+              </div>
+
+              <div (click)="selectMedia(i)" [style.height]="heighForAddPhoto" style="width: calc((100% /3) - 4px); display: flex; align-items: center; justify-content: center; 
+                  border: 1px solid #6DAD48; margin-bottom: 6px;">
+                <div
+                  style="font-size: 14px; color: #81b365; text-align: center; display: flex; justify-content: center; align-items: center; padding: 5px;">
+                  + Photo</div>
+              </div>
+            </div>
+            <input readonly (change)="fileChange2($event, 600)" type="file" id="uploadimage" accept="image/*" multiple
+              name="files[]" style="display: none;" />
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="noncustom && noncustom.length > 0">
+
+
+
+      <div  style="margin-top: 20px; margin-bottom: 8px; font-weight: 600; ">
+        Non Custom Discount
+      </div>
+      <div *ngFor="let x of noncustom; let i = index" style="width: 100%;">
+        <div style="margin-bottom: 4px;">
+          {{x.name}}
+        </div>
+        <div *ngIf="x.need_photo == true" style="display: flex;">
+
+          <div
+            style="width: 100%; margin-right:6px; margin-bottom: 6px; display: flex; align-items: center; flex-wrap: wrap;">
+            <div *ngFor="let y of x.photo; let yi = index;" [style.height]="heighForAddPhoto"
+              style="width: calc(100% /3); position: relative;">
+              <img src='{{y}}' (click)="viewPhoto2(i , yi)" [style.height]="heighForAddPhoto"
+                style="width: 100%; object-fit:cover;" />
+
+              <ion-icon (click)="removePhoto2(i, yi)" name="close-outline"
+                style="position: absolute; color: #FFFFFF; background: #000000; top:0; right: 0;"></ion-icon>
+
+            </div>
+
+            <div (click)="selectMedia2(i)" [style.height]="heighForAddPhoto" style="width: calc((100% /3) - 4px); display: flex; align-items: center; justify-content: center; 
+      border: 1px solid #6DAD48; margin-bottom: 6px;">
+              <div
+                style="font-size: 14px; color: #81b365; text-align: center; display: flex; justify-content: center; align-items: center; padding: 5px;">
+                + Photo</div>
+            </div>
+
+          </div>
+
+
+          <input readonly (change)="fileChange3($event, 600)" type="file" id="uploadimage2" accept="image/*" multiple
+            name="files[]" style="display: none;" />
+
+        </div>
+
+      </div>
+
+    </div>
+    </div>
+  </div>
+
+</ion-content>

@@ -1,0 +1,74 @@
+<ion-header>
+  <div style="width: 100%;">
+    <div style="width: 100%; position: relative;">
+
+      <div style="width: 100%; background: transparent;">
+
+        <div
+          style="display: flex; justify-content:space-between; align-items: center; padding: 12px 16px; border-bottom: 1px solid #ddd; background-color: #6DAD48;">
+          <ion-icon (click)='back()' style='font-size:16px;color: #FFFFFF;' name="chevron-back-outline">
+          </ion-icon>
+          <div
+            style="color: #FFFFFF; font-size:16px; font-weight:600; display: flex; justify-content: center; align-items: center;">
+           RECEIPT / INVOICE</div>
+          <ion-icon style='font-size:20px;color: #FFFFFF; visibility: hidden;' name="chevron-back-outline">
+          </ion-icon>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</ion-header>
+
+<ion-content>
+  <div style="width: 100%; display: flex; flex-direction: column; align-items: center;">
+
+    <div style="width: 90%; margin-top: 30px;" *ngFor="let x of paymentdetail; let i = index">
+      <div style="width: 100%; margin-top: 10px;">
+          <div style="font-weight: 600;">{{x.payment_date | date : 'MMMM d, y, h:mm a'}}</div>
+          <div style="font-size: 14px;">Pay by : {{x.gateway}}</div>
+          <div style="font-size: 14px;">{{x.total | currency : 'RM '}}</div>
+
+        <!-- <div *ngFor="let item of x.receipt" style="width: 100%; margin-top: 8px; display: flex; margin-bottom: 30px;">
+          <img (click)="getimage(item)" [style.height]="heightofimage" src="{{item}}" style="width: calc((100% - 8px) / 3); margin-right:4px; box-shadow: 0 0 6px 0 #ddd; padding: 5px;"/>
+        </div> -->
+
+        <div *ngIf="x.sc_approval == 'Approved' && x.ac_approval == 'Approved'" style="width: 100%;">
+          <div  style="width: 100%;" *ngFor="let y of x.receipt">
+            <div (click)="getpdf(y, i)" style="display: flex; align-items: center; padding: 10px 0; margin: 10px 0; box-shadow: 0 0 6px 0 #ddd;">
+              <img src="assets/icon/pdflogo.png" style="width: 20%;"/>
+              <div style="width: 80%;">{{y.pdf}}</div>
+            </div>
+          </div>
+        </div>
+
+
+
+        <!-- <div *ngIf="!x.receipt" style="font-size:14px; display:flex; justify-content:center; margin:30px; padding: 8px 0; border: 1px solid rgba(255, 0, 0.5); background: rgba(255, 0, 0, 0.1); box-shadow: 0 0 6px 0 #ddd; border-radius: 10px; color: red;">
+          {{(!x.sc_approval && !x.ac_approval) ? 'This payment is pending approval' : (x.sc_approval == 'Rejected' || x.ac_approval == 'Rejected') ? 'This payment has been rejected' : !x.receipt ? 'The receipt / invoice have not been uploaded' : 'The receipt / invoice have not been uploaded'}}
+        </div> -->
+
+
+          <div *ngIf="(!x.sc_approval || !x.ac_approval)" style="width: 100%; margin-top: 25px; font-size:14px; display:flex; justify-content:center; padding: 8px 0;  box-shadow: 0 0 6px 0 #ccc; background: rgba(243, 243, 243, 0.1); border-radius: 10px; color: rgba(0,0,0,0.8);">
+            This payment is pending approval
+          </div>
+          <div *ngIf="(x.sc_approval == 'Rejected' || x.ac_approval == 'Rejected')" style="width: 100%; margin-top: 30px;font-size:14px; display:flex; justify-content:center; padding: 8px 0; border: 1px solid rgba(255, 0, 0, 5); background: rgba(255, 0, 0, 0.1); box-shadow: 0 0 6px 0 #ddd; border-radius: 10px; color: red;">
+            This payment has been rejected by {{x.sc_approval =='Rejected' ? 'Sales Coordinator' : ''}} {{x.sc_approval == 'Rejected' && x.ac_approval == 'Rejected' ? '/' : ''}} {{x.ac_approval =='Rejected' ? 'Accountant' : ''}}>
+          </div>
+          <div *ngIf="(x.sc_approval == 'Approved' && x.ac_approval == 'Approved') && x.receipt == ''" style="width: 100%; margin-top: 30px;font-size:14px; display:flex; justify-content:center; padding: 8px 0; border: 1px solid rgba(0, 128, 0, 0.5); background: rgba(0, 128, 0, 0.1); box-shadow: 0 0 6px 0 #ddd; border-radius: 10px; color: green;">
+            The receipt / invoice not uploaded yet
+          </div>
+
+
+          <div *ngIf="(x.sc_approval == 'Rejected' || x.ac_approval == 'Rejected')" style="width: 100%; margin-top: 5px;font-size:14px; display:flex; justify-content:center; padding: 8px 0; border: 1px solid rgba(255, 0, 0, 5); background: rgba(255, 0, 0, 0.1); box-shadow: 0 0 6px 0 #ddd; border-radius: 10px; color: red;">
+            <div>Reason 1 : {{x.remark_ac_reject ? x.remark_ac_reject : x.remark_sc_reject}}</div>
+            <div *ngIf="x.remark_ac_reject">Reason 2 : {{x.remark_sc_reject}}</div>
+          </div>
+
+
+
+      </div>
+    </div>
+
+  </div>
+</ion-content>

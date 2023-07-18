@@ -1,0 +1,38 @@
+<ion-content *ngIf="link" style="--background: black;">
+  <div [ngClass]="horizontal ? 'rotate' : 'rotatex'" 
+    style="display: flex; justify-content: center; align-items: center;">
+    <video id="videoPlayer" [ngClass]="horizontal ? 'videosize' : 'videosizex'"  style="object-fit: contain;" poster="" controls="true" autoplay loop>
+      <source src={{link}} type="video/mp4">
+    </video>
+  </div>
+
+  <!-- <div *ngIf="!horizontal"
+    style="width: 100%; height: 90%; display: flex; justify-content: center; align-items: center; margin-bottom: 10px;">
+    <video id="videoPlayer"
+     style="width: 100%; height: 100%; object-fit: contain;" poster="" controls="true" autoplay>
+      <source src={{link}} type="video/mp4">
+    </video>
+  </div> -->
+
+
+  <div *ngIf="!horizontal" style=" display: grid; place-items: center;">
+    <div   style="width: 80%; display: flex; justify-content: space-between; margin-top: 10px;">
+      <div (click)="close()"
+        style="width: 45%; background: white; color: black; font-size: 16px; font-weight: 600; border-radius: 15px; padding: 10px; text-align: center;">
+        CLOSE
+      </div>
+
+      <div (click)="fullscreen()"
+        style="width: 45%; background: white; color: black; font-size: 16px; font-weight: 600; border-radius: 15px; padding: 10px; text-align: center;">
+        ROTATE
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="horizontal" style="width: 80%; display: flex; justify-content: right; position: fixed; bottom: 0; right: 0; z-index:3000;">
+    <div (click)="fullscreen()"
+      style="width: 50px; height: 50px; color: white; font-size: 16px; font-weight: 600; border-radius: 15px; padding: 10px; display: flex; justify-content: center; align-items: center;">
+      ✖
+    </div>
+  </div>
+</ion-content>

@@ -1,0 +1,331 @@
+<ion-header class="ion-no-border">
+  <div style="width: 100%; display: flex; flex-direction: column; justify-content: center; background-color: #6DAD48;">
+    <div style="width: 100%;display: flex; justify-content:space-between; align-items: center; padding: 10px 16px;">
+      <ion-icon (click)='back()' style='font-size:16px;color: #FFFFFF;' name="chevron-back-outline"></ion-icon>
+
+      <div style="color: white; font-weight: 900;">SOF Checker Form</div>
+
+      <div
+        style="display:flex; justify-content:center; align-items:center; padding: 5px; border: 1px solid #ffffff; border-radius: 50%; visibility: hidden;">
+      </div>
+    </div>
+  </div>
+</ion-header>
+
+<ion-content>
+  <div style="width: 100%; display: flex; flex-direction: column; align-items: center;">
+    <div style="width: 90%;">
+      <div style="color: red; font-size: 14px; margin-top: 20px;">*Check and insert all the information before create
+        Sales Order Form</div>
+      <div>
+
+        <!-- Company Name -->
+        <div style="display: flex;align-items: center; margin-top: 15px;">
+          <ion-icon name="caret-forward-outline" style="color: #87BB69; font-size: 16px;"></ion-icon>
+          <div style="font-weight: 600;font-size: 12px;color: black;">Company Name</div>
+        </div>
+
+        <div style="background: #F0F8ED;border-radius: 10px;margin-top: 5px;">
+          <ion-input placeholder="Eg. Nano-G" [(ngModel)]="lead['company_name']"
+            style="font-size: 12px; letter-spacing: 0.5px; --padding-start: 16px">
+          </ion-input>
+        </div>
+
+        <!-- Name -->
+        <div style="display: flex;align-items: center; margin-top: 15px;">
+          <ion-icon name="caret-forward-outline" style="color: #87BB69; font-size: 16px;"></ion-icon>
+          <div style="font-weight: 600;font-size: 12px;color: black;">Customer Name<span style="color: red;"> *</span>
+          </div>
+        </div>
+
+        <div style="background: #F0F8ED;border-radius: 10px;margin-top: 5px;">
+          <ion-input placeholder="Eg. Rebecca" [(ngModel)]="lead['customer_name']"
+            style="font-size: 12px; letter-spacing: 0.5px; --padding-start: 16px">
+          </ion-input>
+        </div>
+
+        <!-- icno -->
+        <div style="display: flex;align-items: center; margin-top: 15px;">
+          <ion-icon name="caret-forward-outline" style="color: #87BB69; font-size: 16px;"></ion-icon>
+          <div style="font-weight: 600;font-size: 12px; color: black;">Customer IC<span style="color: red;"> *</span></div>
+        </div>
+
+        <div style="width: 100%;background: #F0F8ED;border-radius: 10px;margin-top: 5px;">
+          <ion-input type="number" placeholder="Eg. 98081901xxxx" [(ngModel)]="lead['icno']"
+            style="font-size: 12px; letter-spacing: 0.5px; --padding-start: 16px">
+          </ion-input>
+        </div>
+
+        <!-- Phone -->
+        <div style="display: flex;align-items: center;margin-top: 15px;">
+          <ion-icon name="caret-forward-outline" style="color: #87BB69; font-size: 16px;"></ion-icon>
+          <div style="font-weight: 600;font-size: 12px;color: black;">Customer Phone<span style="color: red;"> *</span>
+          </div>
+        </div>
+
+        <div style="background: #F0F8ED;border-radius: 10px;margin-top: 5px;">
+          <ion-input type="number" placeholder="Eg. 60101234566" [(ngModel)]="lead['customer_phone']"
+            style="font-size: 12px; letter-spacing: 0.5px; --padding-start: 16px">
+          </ion-input>
+        </div>
+
+        <!-- Email -->
+        <div style="display: flex;align-items: center; margin-top: 15px;">
+          <ion-icon name="caret-forward-outline" style="color: #87BB69; font-size: 16px;"></ion-icon>
+          <div style="font-weight: 600;font-size: 12px; color: black;">Customer Email<span style="color: red;"> *</span></div>
+        </div>
+
+        <div style="width: 100%;background: #F0F8ED;border-radius: 10px;margin-top: 5px;">
+          <ion-input placeholder="Eg. rebecca@mail.com" [(ngModel)]="lead['customer_email']"
+            style="font-size: 12px; letter-spacing: 0.5px; --padding-start: 16px">
+          </ion-input>
+        </div>
+
+        <!-- Address -->
+        <div style="display: flex;align-items: center; margin-top: 15px;">
+          <ion-icon name="caret-forward-outline" style="color: #87BB69; font-size: 16px;"></ion-icon>
+          <div style="font-weight: 600;font-size: 12px; color: black;">Customer/Installation Address<span style="color: red;"> *</span></div>
+        </div>
+
+        <div style="width: 100%;background: #F0F8ED;border-radius: 10px;margin-top: 5px;">
+          <ion-textarea placeholder="Eg. 4, some address" [(ngModel)]="lead['address']"
+            style="font-size: 12px; letter-spacing: 0.5px; --padding-start: 16px">
+          </ion-textarea>
+        </div>
+
+        <!-- Address -->
+        <div style="display: flex;align-items: center; margin-top: 15px;">
+          <ion-icon name="caret-forward-outline" style="color: #87BB69; font-size: 16px;"></ion-icon>
+          <div style="font-weight: 600;font-size: 12px; color: black;">Mailing Address<span style="color: red;"> *</span></div>
+        </div>
+
+        <div style="width: 100%;background: #F0F8ED;border-radius: 10px;margin-top: 5px;">
+          <ion-textarea placeholder="Eg. 4, some mailing address" [(ngModel)]="lead['mailing_address']"
+            style="font-size: 12px; letter-spacing: 0.5px; --padding-start: 16px">
+          </ion-textarea>
+        </div>
+
+
+
+        <!-- gender -->
+        <div style="display: flex;align-items: center; margin-top: 15px;">
+          <ion-icon name="caret-forward-outline" style="color: #87BB69; font-size: 16px;"></ion-icon>
+          <div style="font-weight: 600;font-size: 12px;color: black;">Gender<span style="color: red;"> *</span></div>
+        </div>
+
+        <ion-item *ngIf="lead['gender'] != 'Others'">
+          <ion-select [(ngModel)]="lead['gender']" placeholder="Select Gender" style="font-size: 12px;">
+            <ion-select-option *ngFor="let x of gender" value="{{x}}">{{x}}</ion-select-option>
+            <!-- <ion-select-option value="Female">Female</ion-select-option> -->
+          </ion-select>
+        </ion-item>
+
+        <div *ngIf="lead['gender'] == 'Others'"
+          style="width: 100%;background: #F0F8ED;border-radius: 10px;margin-top: 5px; display: flex; justify-content: space-between; align-items: center;">
+          <ion-input placeholder="Eg. gender" [(ngModel)]="lead['gender2']"
+            style="font-size: 12px; letter-spacing: 0.5px; --padding-start: 16px">
+          </ion-input>
+          <ion-icon (click)="remove('gender')" name="close-outline" style="color: red; padding-right: 16px;"></ion-icon>
+        </div>
+
+
+        <!-- race -->
+        <div style="display: flex;align-items: center; margin-top: 15px;">
+          <ion-icon name="caret-forward-outline" style="color: #87BB69; font-size: 16px;"></ion-icon>
+          <div style="font-weight: 600;font-size: 12px;color: black;">Race<span style="color: red;"> *</span></div>
+        </div>
+
+        <ion-item *ngIf="lead['race'] != 'Others'">
+          <ion-select [(ngModel)]="lead['race']" placeholder="Select Race" style="font-size: 12px;">
+            <ion-select-option *ngFor="let x of race" value="{{x}}">{{x}}</ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <div *ngIf="lead['race'] == 'Others'"
+          style="width: 100%;background: #F0F8ED;border-radius: 10px;margin-top: 5px; display: flex; justify-content: space-between; align-items: center;">
+          <ion-input placeholder="Eg. Chinese" [(ngModel)]="lead['race2']"
+            style="font-size: 12px; letter-spacing: 0.5px; --padding-start: 16px">
+          </ion-input>
+          <ion-icon (click)="remove('race')" name="close-outline" style="color: red; padding-right: 16px;"></ion-icon>
+        </div>
+
+
+        <!-- Maritial Status -->
+        <div style="display: flex;align-items: center; margin-top: 15px;">
+          <ion-icon name="caret-forward-outline" style="color: #87BB69; font-size: 16px;"></ion-icon>
+          <div style="font-weight: 600;font-size: 12px;color: black;">Maritial Status<span style="color: red;"> *</span></div>
+        </div>
+
+        <ion-item *ngIf="lead['maritial_status'] != 'Others'">
+          <ion-select [(ngModel)]="lead['maritial_status']" placeholder="Select Maritial Status"
+            style="font-size: 12px;">
+            <ion-select-option *ngFor="let x of maritial_status" value="{{x}}">{{x}}</ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <div *ngIf="lead['maritial_status'] == 'Others'"
+          style="width: 100%;background: #F0F8ED;border-radius: 10px;margin-top: 5px; display: flex; justify-content: space-between; align-items: center;">
+          <ion-input placeholder="Eg. maritial status" [(ngModel)]="lead['maritial_status2']"
+            style="font-size: 12px; letter-spacing: 0.5px; --padding-start: 16px">
+          </ion-input>
+          <ion-icon (click)="remove('maritial_status')" name="close-outline"
+            style="color: red; padding-right: 16px;"></ion-icon>
+        </div>
+
+
+        <!-- Residence Type -->
+        <div style="display: flex;align-items: center; margin-top: 15px;">
+          <ion-icon name="caret-forward-outline" style="color: #87BB69; font-size: 16px;"></ion-icon>
+          <div style="font-weight: 600;font-size: 12px;color: black;">Residence Type<span style="color: red;"> *</span></div>
+        </div>
+
+        <ion-item *ngIf="lead['residence_type'] != 'Others'">
+          <ion-select [(ngModel)]="lead['residence_type']" placeholder="Select Residence Type" style="font-size: 12px;">
+            <ion-select-option *ngFor="let x of residence_type" value="{{x}}">{{x}}</ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <div *ngIf="lead['residence_type'] == 'Others'"
+          style="width: 100%;background: #F0F8ED;border-radius: 10px;margin-top: 5px; display: flex; justify-content: space-between; align-items: center;">
+          <ion-input placeholder="Eg. maritial status" [(ngModel)]="lead['residence_type2']"
+            style="font-size: 12px; letter-spacing: 0.5px; --padding-start: 16px">
+          </ion-input>
+          <ion-icon (click)="remove('residence_type')" name="close-outline"
+            style="color: red; padding-right: 16px;"></ion-icon>
+        </div>
+
+
+
+        <!-- Residential Status -->
+        <div style="display: flex;align-items: center; margin-top: 15px;">
+          <ion-icon name="caret-forward-outline" style="color: #87BB69; font-size: 16px;"></ion-icon>
+          <div style="font-weight: 600;font-size: 12px;color: black;">Residential Status<span style="color: red;"> *</span></div>
+        </div>
+
+        <ion-item *ngIf="lead['residential_status'] != 'Others'">
+          <ion-select [(ngModel)]="lead['residential_status']" placeholder="Select Maritial Status"
+            style="font-size: 12px;">
+            <ion-select-option *ngFor="let x of residential_status" value="{{x}}">{{x}}</ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <div *ngIf="lead['residential_status'] == 'Others'"
+          style="width: 100%;background: #F0F8ED;border-radius: 10px;margin-top: 5px; display: flex; justify-content: space-between; align-items: center;">
+          <ion-input placeholder="Eg. residential status" [(ngModel)]="lead['residential_status2']"
+            style="font-size: 12px; letter-spacing: 0.5px; --padding-start: 16px">
+          </ion-input>
+          <ion-icon (click)="remove('residential_status')" name="close-outline"
+            style="color: red; padding-right: 16px;"></ion-icon>
+        </div>
+
+        <!-- Conditional Offer -->
+        <div style="display: flex;align-items: center; margin-top: 15px;">
+          <ion-icon name="caret-forward-outline" style="color: #87BB69; font-size: 16px;"></ion-icon>
+          <div style="font-weight: 600;font-size: 12px;color: black;">Conditional Offer</div>
+        </div>
+
+        <ion-item>
+          <ion-select [(ngModel)]="lead['conditional_status']" placeholder="Select Conditional Offer"
+            style="font-size: 12px;">
+            <ion-select-option *ngFor="let x of conditional_status" value="{{x}}">{{x}}</ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <!-- Payment Mode -->
+        <div style="display: flex;align-items: center; margin-top: 15px;">
+          <ion-icon name="caret-forward-outline" style="color: #87BB69; font-size: 16px;"></ion-icon>
+          <div style="font-weight: 600;font-size: 12px;color: black;">Payment Mode<span style="color: red;"> *</span></div>
+        </div>
+
+        <ion-item *ngIf="lead['payment_mode'] != 'Others'">
+          <ion-select [(ngModel)]="lead['payment_mode']" placeholder="Select Payment Mode" style="font-size: 12px;">
+            <ion-select-option *ngFor="let x of payment_mode" value="{{x}}">{{x}}</ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <div *ngIf="lead['payment_mode'] == 'Others'"
+          style="width: 100%;background: #F0F8ED;border-radius: 10px;margin-top: 5px; display: flex; justify-content: space-between; align-items: center;">
+          <ion-input placeholder="Eg. residential status" [(ngModel)]="lead['payment_mode2']"
+            style="font-size: 12px; letter-spacing: 0.5px; --padding-start: 16px">
+          </ion-input>
+          <ion-icon (click)="remove('payment_mode')" name="close-outline"
+            style="color: red; padding-right: 16px;"></ion-icon>
+        </div>
+
+
+        <!-- Terms And Conditions -->
+        <div style="display: flex;align-items: center; margin-top: 15px;">
+          <ion-icon name="caret-forward-outline" style="color: #87BB69; font-size: 16px;"></ion-icon>
+          <div style="font-weight: 600;font-size: 12px;color: black;">Terms & Conditions<span style="color: red;"> *</span></div>
+        </div>
+
+        <div style="width: 100%; display: flex; justify-content: center; margin-top: 20px; margin-bottom: 10px;">
+          <div style="width: 90%;">
+            <div style="display: flex;">
+              <ion-icon 
+                name="{{lead.termsncondition ? 'checkbox-outline' : 'square-outline'}}"
+                style="margin-right: 5px; font-size: 18px;">
+              </ion-icon>
+
+              <div style="display:flex; align-items: center; font-size: 12px;">
+                <div style="margin-right: 4px;">Terms and Conditions</div>
+                <div (click)="viewTermAndConditionDetail()" style="font-size: 12px; color: red;">(click to see detail)
+                </div>
+              </div>
+            </div>
+
+            <div (click)="changeTermAndConditionStatus()" style="width: max-content; padding: 5px 10px; background: linear-gradient(#c4efab, #6DAD48); color: white; border-radius: 10px; margin-top: 2px;">
+              Accept</div>
+
+          </div>
+
+        </div>
+
+
+
+        <!-- Customer Signature -->
+        <div style="display: flex;align-items: center; margin-top: 15px;">
+          <ion-icon name="caret-forward-outline" style="color: #87BB69; font-size: 16px;"></ion-icon>
+          <div style="font-weight: 600;font-size: 12px;color: black;">Customer Signature<span style="color: red;"> *</span></div>
+        </div>
+        <div style="width: 100%;  display: flex; justify-content: center; margin-bottom: 10px;">
+          <div style="width: 90%;" (click)="customersign()">
+
+            <div style="margin: 10px 0;  box-shadow: 0 0 6px 0 #DDDDDD;">
+              <img src="{{lead['customer_signature']}}" style="width: 100%; min-height: 120px;" />
+            </div>
+
+            <div style="width: 100%; display: flex; flex-direction: column; margin-top: 10px;">
+
+              <div style="width: 100%; display: flex; justify-content: space-between;">
+                <div style="width: fit-content; display: flex;  align-items: center; font-size: 13px; flex-wrap: wrap;">
+                  <div style="width: max-content;">Sign By:&nbsp;</div>
+                  <div style="font-weight: 600;">{{lead.customer_name}}</div>
+                </div>
+
+                <div style="font-size: 12px; color: red;">(click to sign)</div>
+              </div>
+
+              <!-- <div style="width: max-content; background: #bae1a4; color: #ffffff; padding: 5px 10px; font-size: 13px; border-radius: 4px; margin-top: 2px;" >sign</div> -->
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+
+    </div>
+
+  </div>
+
+</ion-content>
+
+<ion-footer class="ion-no-border">
+  <div (click)="save()"
+    style="width: 100%; display: flex; flex-direction: column; align-items: center; padding: 10px 0;">
+    <div
+      style="width: 90%; background: #6DAD48; color: #fff; text-align: center; padding: 10px 0 ; border-radius: 10px;">
+      SAVE</div>
+  </div>
+</ion-footer>

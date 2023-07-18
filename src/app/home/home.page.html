@@ -1,0 +1,488 @@
+<ion-header *ngIf="platformType().includes('ios')">
+  <ion-toolbar>
+    <ion-title style="visibility: hidden;">
+      For ios status bar
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <div style="position:relative; height: 100%;">
+    <!-- <div (click)="!tab" style="position: absolute; top: 16px; right: 20px; color: white;">
+      <ion-icon name="settings-outline"></ion-icon>
+    </div> -->
+    <div style="display: flex; justify-content: space-between;align-items: flex-end;padding: 16px; color: white;  
+        background: #6DAD48; border-radius: 0 0 20px 10px; box-shadow: 0 0 8px 6px #cecece; ">
+      <div (click)="goprofile()" style="display: flex; align-items: center; padding-right: 10px;">
+        <div
+          style="background-color: #FFFFFF; min-width: 50px; max-width: 50px; min-height: 50px;max-height: 50px; display:flex; justify-content:center; align-items:center; border-radius: 50%; border: 1.5px solid #CBDF7D; margin-right: 10px;">
+          <img src="{{user.profile_image || 'assets/image/profile-anime.jpg'}}"
+            style="background-color: #FFFFFF; object-fit: cover; border-radius: 50%; min-width: 47px; max-width: 47px; min-height: 47px;max-height: 47px;" />
+        </div>
+        <div style="display: flex; flex-direction: column; justify-content:center; margin-left: 4px;">
+          <div style="font-size: 14px; font-weight: 400;">{{user.user_role}}</div>
+          <div style="font-size: 18px; font-weight: 600;">{{user.user_name}}</div>
+        </div>
+      </div>
+      <!-- <div style="position: relative; width: 5%; display: flex; justify-content: center;align-items: center;">
+          <ion-icon (click)="callsetting()" name="settings-outline" style="color: white; height: 20px; width: 20px;">
+          </ion-icon>
+        </div> -->
+      <!-- <div  *ngIf="tab" style="position: absolute; top:20px; right:0;background: white; color: black; width: max-content; padding: 5px 10px; border-radius: 5px;">
+            <div (click)="signout()">Log Out</div>
+          </div> -->
+
+      <!-- <div style="position: relative; width: 5%; display: flex; justify-content: center;align-items: center;">
+        <ion-icon id="click-trigger" (click)="changetab()" name="settings-outline"
+          style="color: white; height: 20px; width: 20px;">
+        </ion-icon>
+        <ion-popover [dismissOnSelect]="true" trigger="click-trigger" triggerAction="click" style="text-align: center;">
+          <ng-template>
+            <ion-content (click)="signout()" class="ion-padding">Sign Out</ion-content>
+          </ng-template>
+        </ion-popover>
+      </div> -->
+
+      <div style="display: flex; align-items: center;">
+        <div (click)="addLead()" style="margin-right: 5px;">
+          <ion-icon style="font-size: 18px;" name="add-circle-outline"></ion-icon>
+        </div>
+        <div (click)="homecalendar()">
+          <ion-icon style="font-size: 18px;" name="calendar-outline"></ion-icon>
+        </div>
+      </div>
+
+    </div>
+
+
+    <!-- <div style="padding-top:32px; display: flex; flex-direction: column; align-items: center; width: 100%;">
+      <div style="display: flex; justify-content: space-between; align-items: center; width: 90%;">
+        <div style="font-size: 26px; font-weight: 600; color: #4B8447;">Upcoming Task</div>
+        <div (click)="viewall()" style="font-size: 14px; font-weight: 400; cursor:pointer; color:#4B8447 ;">View all
+        </div>
+      </div>
+
+      <div style="width: 100%; display:flex; justify-content:center;">
+        <div style="display: flex; width:90%; margin-top: 24px; margin-bottom: 24px; padding: 4px; background: #F3F1F5;
+          border-radius: 8px;">
+          <div (click)="changetab2('t1')"
+            [ngStyle]="{'background': tab2 == 't1' ? '#6DAD48' : '', 'color': tab2 == 't1' ? '#FFFFFF' : '', 'border-radius' : tab2 == 't1' ? '8px' : '' }"
+            style="width:50%; text-align: center; padding: 12px 0;">
+            <div style="padding-bottom: 2px">Today Task</div>
+            <div>{{temp.today | date : 'yyyy/MM/dd'}}</div>
+          </div>
+        
+          <div (click)="changetab2('t2')"
+            [ngStyle]="{'background': tab2 == 't2' ? '#6DAD48' : '', 'color': tab2 == 't2' ? '#FFFFFF' : '', 'border-radius' : tab2 == 't2' ? '8px' : '' }"
+            style="width:50%; text-align: center;padding: 12px 0;">
+            <div style="padding-bottom: 2px">Tomorrow Task</div>
+            <div>{{temp.tomorrow | date : 'yyyy/MM/dd'}}</div>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="tab2 == 't1'"
+        style="width: 90%; border-radius: 16px 16px 0 0; margin:0 0 24px 0; background: #6DAD48; color: white; box-shadow: 0 0 4px 6px #f3f1f5e7;">
+
+        <div style="padding: 16px 12px 12px 12px; font-size: 18px; font-weight: 600; letter-spacing: 5px;">{{temp.today
+          | date : 'yyyy/MM/dd'}}</div>
+
+        <div style="width: 99.99%;">
+
+          <div (click)="godetail(x.tid)" *ngFor="let x of filter(customer); let i = index"
+            [ngStyle]="{'border-top': i == 0 ? '' : '10px solid #f3f1f5e7'}"
+            style="width: 100%; border-radius: 12px; padding:24px 12px; box-shadow: 0 10px 4px 4px #f3f1f5e7; background:white; color: black; cursor: pointer;">
+
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+
+              <div style="width: 78%; padding: 0 3px;">
+                <div style="font-size: 16px; padding-bottom: 8px; font-weight: 600;">{{x.name}}</div>
+                <div style="font-size: 14px; padding-bottom: 4px;">{{x.phone}}</div>
+                <div style="font-size: 14px;">{{x.address}}</div>
+              </div>
+
+              <div
+                style="font-size: 14px;  width: 22%; padding:0 3px; display: flex; justify-content: flex-end; align-self: flex-start; font-weight: 600;">
+                {{x.date | date : 'hh:mm a'}}</div>
+
+            </div>
+
+            <div style="padding: 16px 12px 0 12px; width: 100%;">
+              <div style="height: 1.5px; background: #DAEAD1;box-shadow: 0 0 2px 0px #999; width: 100%;"></div>
+            </div>
+
+            <div style="padding-top: 12px; width: 100%;">
+
+              <div style="display: flex; align-items:center;width: 100%; padding-bottom: 12px;">
+                <div style="display: flex; justify-content: center; align-items: center; min-width: 25px; min-height:25px;
+              max-width: 25px; max-height:25px; background: #CBDF7D; border-radius: 50%;margin-right: 6px;">
+                  <div
+                    style="display: flex; justify-content: center; align-items: center;
+                  min-width:15px; min-height: 15px; max-width:15px; max-height: 15px; font-size: 16px; background: #CBDF7D; color: white; border-radius: 50%;">
+                    G
+                  </div>
+                </div>
+
+                <div>{{x.task}}</div>
+              </div>
+
+              <div style="display: flex; width: 100%; padding-bottom: 12px; flex-wrap: wrap;">
+                <div *ngFor="let item of x.targetarea"
+                  style="width: max-content;  margin-right: 6px; margin-bottom:6px">
+                  <div
+                    style="background-color: #cedd92; color: #FFFFFF; padding: 5px; width: max-content; border-radius: 4px;">
+                    {{item}}
+                  </div>
+                </div>
+              </div>
+
+              <div *ngFor="let item of x.remark">*{{item}}</div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="tab2 == 't2'"
+        style="width: 90%; border-radius: 16px 16px 0 0; margin:0 0 24px 0; background: #6DAD48; color: white; box-shadow: 0 0 4px 6px #f3f1f5e7;">
+
+        <div style="padding: 16px 12px 12px 12px; font-size: 18px; font-weight: 600; letter-spacing: 5px;">
+          {{temp.tomorrow | date : 'yyyy/MM/dd'}}</div>
+
+        <div style="width: 99.99%;">
+
+          <div (click)="godetail(x.tid)" *ngFor="let x of filter(customer); let i = index"
+            [ngStyle]="{'border-top': i == 0 ? '' : '10px solid #f3f1f5e7'}"
+            style="width: 100%; border-radius: 12px; padding:24px 12px; box-shadow: 0 10px 4px 4px #f3f1f5e7; background:white; color: black; cursor: pointer;">
+
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+
+              <div style="width: 78%; padding: 0 3px;">
+                <div style="font-size: 16px; padding-bottom: 8px; font-weight: 600;">{{x.name}}</div>
+                <div style="font-size: 14px; padding-bottom: 4px;">{{x.phone}}</div>
+                <div style="font-size: 14px;">{{x.address}}</div>
+              </div>
+
+              <div
+                style="font-size: 14px;  width: 22%; padding:0 3px; display: flex; justify-content: flex-end; align-self: flex-start; font-weight: 600;">
+                {{x.date | date : 'hh:mm a'}}</div>
+
+            </div>
+
+            <div style="padding: 16px 12px 0 12px; width: 100%;">
+              <div style="height: 1.5px; background: #DAEAD1;box-shadow: 0 0 2px 0px #999; width: 100%;"></div>
+            </div>
+
+            <div style="padding-top: 12px; width: 100%;">
+
+              <div style="display: flex; align-items:center;width: 100%; padding-bottom: 12px;">
+                <div style="display: flex; justify-content: center; align-items: center; min-width: 25px; min-height:25px;
+            max-width: 25px; max-height:25px; background: #CBDF7D; border-radius: 50%;margin-right: 6px;">
+                  <div
+                    style="display: flex; justify-content: center; align-items: center;
+                min-width:15px; min-height: 15px; max-width:15px; max-height: 15px; font-size: 16px; background: #CBDF7D; color: white; border-radius: 50%;">
+                    G
+                  </div>
+                </div>
+
+                <div>{{x.task}}</div>
+              </div>
+
+              <div style="display: flex; width: 100%; padding-bottom: 12px; flex-wrap: wrap;">
+                <div *ngFor="let item of x.targetarea"
+                  style="width: max-content;  margin-right: 6px; margin-bottom:6px">
+                  <div
+                    style="background-color: #cedd92; color: #FFFFFF; padding: 5px; width: max-content; border-radius: 4px;">
+                    {{item}}
+                  </div>
+                </div>
+              </div>
+
+              <div *ngFor="let item of x.remark">*{{item}}</div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div> -->
+
+
+    <div style="padding-top:32px; display: flex; flex-direction: column; align-items: center; width: 100%;">
+      <div style="display: flex; justify-content: space-between; align-items: center; width: 90%;">
+        <div style="font-size: 16px; font-weight: 600; color: black;">Upcoming Task</div>
+        <div (click)="viewall()" style="font-size: 12px; font-weight: 400; cursor:pointer; color:#6DAD48 ;">View all</div>
+      </div>
+
+      <div *ngIf="todaytask.length > 0" (click)="closetab('today')"
+        style="display: flex; color: #076438; justify-content: flex-start; align-items: center; width: 90%; font-size: 14px; font-weight: 600; padding: 20px 0 8px 0;">
+        <div style="padding-right:6px;">Today</div>
+        <div style="padding-right:6px;">({{temp.today | date : 'yyyy/MM/dd'}})</div>
+        <ion-icon *ngIf="today" name="chevron-down-outline"></ion-icon>
+        <ion-icon *ngIf="today == false" name="chevron-forward-outline"></ion-icon>
+      </div>
+
+      <!-- <div *ngIf="today && todaytask.length < 1"
+        [ngClass]="todayforclass == true ? 'task-container' : 'task-containerx'"
+        style="display: flex; width: 100%; flex-direction: column; align-items: center;">
+        <div style="width: 100%; display:flex; flex-direction: column; align-items: center; margin: 30px;">
+          <img src="../../assets/icon/nano-g-nb2.png" style="width: 60px; margin-bottom: 10px;"/>
+          <div style="font-size: 18px; font-weight:600;">No Job Yet...</div>
+        </div>
+      </div> -->
+
+      <div *ngIf="today && todaytask.length > 0"
+        [ngClass]="todayforclass ? 'task-container' : 'task-containerx'"
+        style="display: flex; width: 100%; flex-direction: column; align-items: center;">
+
+        <div *ngFor="let x of todaytask" style="display: flex; width: 92%;  margin:10px 0 0 0; position: relative;">
+          <div style="width: 3%; background: #B9D6A8; border-radius: 5px 0 2.5px 5px; box-shadow: 0 1px 0 0 #B9D6A8;"></div>
+
+          <div style="display: flex; flex-direction: column; width: 97%; background-color: #E4EFDE; padding:15px 12px 10px; border-radius: 0 4px 4px 0;">
+  
+            <div (click)="godetail(x.appointment_id)" style="width: 100%;">
+              <div style="display: flex; justify-content:space-between; align-items:center; padding-bottom: 8px;">
+                <div style="font-size: 16px; font-weight:600; width: 70%;">{{x.customer_name}}</div>
+                <div style="color:#446828; font-size: 12px; font-weight:600; display: flex; flex-direction: column; align-items: flex-end;">
+                  <div>{{x.appointment_time | date : 'h:mm a'}}</div>
+                </div>
+              </div>
+  
+              <div>
+                <div style="display:flex; padding-bottom: 4px; align-items: center;">
+                  <ion-icon name="call"
+                    style="min-width: 12px; max-width: 12px; min-height:12px; max-height:12px; color: #999; padding-right: 8px;">
+                  </ion-icon>
+                  <div style="font-size: 11px;">{{x.customer_phone}}</div>
+                </div>
+  
+                <div style="display: flex; align-items: flex-start;">
+                  <ion-icon name="location"
+                    style="min-width: 12px; max-width: 12px; min-height:12px; max-height:12px; color: #999; padding-right: 8px;">
+                  </ion-icon>
+                  <div style="font-size: 11px;">{{x.address}}</div>
+                </div>
+              </div>
+  
+              <div style="padding: 6px 0 0 0; width: 100%;">
+                <div style="height: 1px; background: #6DAD48;width: 100%;"></div>
+              </div>
+  
+              <div style="display: flex; align-items:center;width: 100%; padding-bottom: 5px; padding-top: 6px;">
+                <div style="font-size: 10px; padding: 4px 8px;background: #7BB6A0; color: #FFFFFF; border-radius: 4px;">
+                  {{x.services}}</div>
+              </div>
+  
+              <div style="display:flex; flex-wrap: wrap; padding-bottom: 4px;">
+                <div *ngFor="let item of x.issues"
+                  style="min-width: max-content; margin-bottom: 3px; margin-right: 6px; color: #FFFFFF; font-size: 10px; padding: 4px 8px; border-radius: 4px; background: #2A3C62;">
+                  {{item}}</div>
+              </div>
+  
+              <div style="font-size: 10px;">*{{x.saleexec_note || '*There is no remark here'}}</div>
+  
+            </div>
+  
+            <!--button for whatsapp and map v1-->
+            <div
+              style="width: 100%; display:flex; justify-content:space-between; align-items: flex-end; margin-top: 5px;">
+
+
+              <div style="display: flex;">
+
+                <div *ngIf="x.warranty_id"
+                style="margin-right: 3px; width: max-content; text-align: center; padding: 4px 8px; font-size: 10px; font-weight: 400; box-shadow: 0 0 6px 0 #ccc; background: #ffffff; color: #6DAD48; display: flex; align-items: flex-end;">
+                Warranty
+              </div>
+  
+              <div
+                [ngStyle]="{'background': x.sales_status == null ? 'black' : x.sales_status == 'Quotation' ? '#a3ed53' : x.sales_status == 'Deposit' ? '#80e316' : x.sales_status == 'Full Payment' ? '#6DAD48' : ''}"
+                style="width: max-content; text-align: center; padding: 4px 8px; font-size: 10px; font-weight: 400; box-shadow: 0 0 6px 0 #ccc; background: #6DAD48; color: #FFFFFF; display: flex; align-items: flex-end;">
+                {{x.sales_status || 'Appointment'}}
+              </div>
+
+              </div>
+  
+              <div style="display: flex; align-items: center;">
+  
+                <ion-button
+                  style="margin: 0; margin-right: 2.5px; padding: 0; color: black; font-size: 10px; background:white; min-width: 40px; max-width: 40px; min-height: 20px; 
+                max-height: 20px; font-weight: 600; display: flex; justify-content: center; align-items: center; box-shadow: 0 0 6px 0 #ddd;"
+                  (click)="mapnavigate(x.lattitude, x.longtitude, x.address)">MAP</ion-button>
+  
+                <ion-button
+                  style="margin: 0; padding: 0; background:white; min-width: 40px; max-width: 40px; min-height: 20px; 
+                    max-height: 20px; display: flex; justify-content: center; align-items: center; box-shadow: 0 0 6px 0 #ddd;"
+                  *ngIf="x.customer_phone && x.customer_phone.slice(0, 1) == '6'"
+                  href="{{x.customer_phone.slice(0, 1) == '6' ? whatsapplinkheader + x.customer_phone : whatsapplinkheader + '6' + x.customer_phone}}">
+                  <ion-icon style="color: black; font-size: 12px;" name="logo-whatsapp"></ion-icon>
+                </ion-button>
+              </div>
+  
+            </div>
+  
+          </div>
+  
+          <!-- <div style="position: absolute; bottom: -60px; right: 0; display:flex; width: 100%;"> -->
+  
+          <!-- <div [ngStyle]="{'right': x.customer_phone ? '65px' : '5px'}" 
+             style="min-width: 60px; max-width: 60px; min-height: 30px; max-height: 30px; position: absolute; bottom: -30px;">
+              <ion-button style="color: black; background:white; min-width: 60px; max-width: 60px; min-height: 30px; max-height: 30px; font-weight: 600;" 
+              (click)="mapnavigate(x.lattitude, x.longtitude, x.address)">MAP</ion-button>
+            </div>
+  
+            <div style="min-width: 60px; max-width: 60px; min-height: 30px; max-height: 30px; position: absolute; bottom: -30px; right: 5px;">          
+              <ion-button style="background:white; min-width: 60px; max-width: 60px; min-height: 30px; max-height: 30px;" *ngIf="x.customer_phone && x.customer_phone.slice(0, 1) == '6'" href="{{whatsapplinkheader + x.customer_phone}}">
+                <ion-icon style="color: black;" name="logo-whatsapp"></ion-icon>
+              </ion-button>
+              <ion-button style="background:white; min-width: 60px; max-width: 60px; min-height: 30px; max-height: 30px;" *ngIf="x.customer_phone && x.customer_phone.slice(0, 1) != '6'" href="{{whatsapplinkheader + '6' + x.customer_phone}}">
+                <ion-icon style="color: black;" name="logo-whatsapp"></ion-icon>
+              </ion-button>
+            </div> -->
+  
+          <!-- </div> -->
+        </div>
+
+
+      </div>
+
+      <div *ngIf="tomorrowtask.length > 0" (click)="closetab('tomorrow')"
+        style="display: flex; color: #076438; justify-content: flex-start; align-items: center; width: 90%; padding: 16px 0 12px 0; font-size: 14px; font-weight: 600;">
+        <div style="padding-right:6px;">Tomorrow</div>
+        <div style="padding-right:6px;">({{temp.tomorrowmilli | date : 'yyyy/MM/dd'}})</div>
+        <ion-icon *ngIf="tomorrow" name="chevron-down-outline"></ion-icon>
+        <ion-icon *ngIf="tomorrow == false" name="chevron-forward-outline"></ion-icon>
+      </div>
+
+      <!-- <div *ngIf="tomorrow && tomorrowtask.length < 1"
+        [ngClass]="tomorrowforclass ? 'task-container' : 'task-containerx'"
+        style="display: flex; width: 100%; flex-direction: column; align-items: center;">
+        <div style="width: 100%; display:flex; flex-direction: column; align-items: center; margin: 30px;">
+          <img src="../../assets/icon/nano-g-nb2.png" style="width: 60px; margin-bottom: 10px;"/>
+          <div style="font-size: 18px; font-weight:600;">No Job Yet...</div>
+        </div>
+      </div> -->
+
+      <div *ngIf="tomorrow && tomorrowtask.length > 0"
+        [ngClass]="tomorrowforclass == true ? 'task-container' : 'task-containerx'"
+        style="display: flex; width: 100%; flex-direction: column; align-items: center;">
+
+        <div *ngFor="let x of tomorrowtask" style="display: flex; width: 92%;  margin:10px 0 0 0; position: relative;">
+          <div style="width: 3%; background: #B9D6A8; border-radius: 5px 0 2.5px 5px; box-shadow: 0 1px 0 0 #B9D6A8;"></div>
+
+          <div style="display: flex; flex-direction: column; width: 97%; background-color: #E4EFDE; padding:15px 12px 10px; border-radius: 0 4px 4px 0;">
+  
+            <div (click)="godetail(x.appointment_id)" style="width: 100%;">
+              <div style="display: flex; justify-content:space-between; align-items:center; padding-bottom: 8px;">
+                <div style="font-size: 16px; font-weight:600; width: 70%;">{{x.customer_name}}</div>
+                <div style="color:#446828; font-size: 12px; font-weight:600; display: flex; flex-direction: column; align-items: flex-end;">
+                  <div>{{x.appointment_time | date : 'h:mm a'}}</div>
+                </div>
+              </div>
+  
+              <div>
+                <div style="display:flex; padding-bottom: 4px; align-items: center;">
+                  <ion-icon name="call"
+                    style="min-width: 14px; max-width: 14px; min-height:14px; max-height:14px; color: #999; padding-right: 8px;">
+                  </ion-icon>
+                  <div style="font-size: 12px;">{{x.customer_phone}}</div>
+                </div>
+  
+                <div style="display: flex; align-items: flex-start;">
+                  <ion-icon name="location"
+                    style="min-width: 14px; max-width: 14px; min-height:14px; max-height:14px; color: #999; padding-right: 8px;">
+                  </ion-icon>
+                  <div style="font-size: 12px;">{{x.address}}</div>
+                </div>
+              </div>
+  
+              <div style="padding: 6px 0 0 0; width: 100%;">
+                <div style="height: 1px; background: #6DAD48;width: 100%;"></div>
+              </div>
+  
+              <div style="display: flex; align-items:center;width: 100%; padding-bottom: 5px; padding-top: 6px;">
+                <div style="font-size: 11px; padding: 4px 8px;background: #7BB6A0; color: #FFFFFF; border-radius: 4px;">
+                  {{x.services}}</div>
+              </div>
+  
+              <div style="display:flex; flex-wrap: wrap; padding-bottom: 4px;">
+                <div *ngFor="let item of x.issues"
+                  style="min-width: max-content; margin-bottom: 3px; margin-right: 6px; color: #FFFFFF; font-size: 11px; padding: 4px 8px; border-radius: 4px; background: #2A3C62;">
+                  {{item}}</div>
+              </div>
+  
+              <div style="font-size: 11px;">*{{x.saleexec_note || '*There is no remark here'}}</div>
+  
+            </div>
+  
+            <!--button for whatsapp and map v1-->
+            <div
+              style="width: 100%; display:flex; justify-content:space-between; align-items: flex-end; margin-top: 5px;">
+  
+              <div
+                [ngStyle]="{'background': x.sales_status == null ? 'black' : x.sales_status == 'Quotation' ? '#a3ed53' : x.sales_status == 'Deposit' ? '#80e316' : x.sales_status == 'Full Payment' ? '#6DAD48' : ''}"
+                style="width: max-content; text-align: center; padding: 4px 8px; font-size: 10px; font-weight: 400; box-shadow: 0 0 6px 0 #ccc; background: #6DAD48; color: #FFFFFF; display: flex; align-items: flex-end;">
+                {{x.sales_status || 'Appointment'}}
+              </div>
+  
+              <div style="display: flex; align-items: center;">
+  
+                <ion-button
+                  style="margin: 0; margin-right: 2.5px; padding: 0; color: black; font-size: 10px; background:white; min-width: 40px; max-width: 40px; min-height: 20px; 
+                max-height: 20px; font-weight: 600; display: flex; justify-content: center; align-items: center; box-shadow: 0 0 6px 0 #ddd;"
+                  (click)="mapnavigate(x.lattitude, x.longtitude, x.address)">MAP</ion-button>
+  
+                <ion-button
+                  style="margin: 0; padding: 0; background:white; min-width: 40px; max-width: 40px; min-height: 20px; 
+                    max-height: 20px; display: flex; justify-content: center; align-items: center; box-shadow: 0 0 6px 0 #ddd;"
+                  *ngIf="x.customer_phone && x.customer_phone.slice(0, 1) == '6'"
+                  href="{{x.customer_phone.slice(0, 1) == '6' ? whatsapplinkheader + x.customer_phone : whatsapplinkheader + '6' + x.customer_phone}}">
+                  <ion-icon style="color: black; font-size: 12px;" name="logo-whatsapp"></ion-icon>
+                </ion-button>
+              </div>
+  
+            </div>
+  
+          </div>
+  
+          <!-- <div style="position: absolute; bottom: -60px; right: 0; display:flex; width: 100%;"> -->
+  
+          <!-- <div [ngStyle]="{'right': x.customer_phone ? '65px' : '5px'}" 
+             style="min-width: 60px; max-width: 60px; min-height: 30px; max-height: 30px; position: absolute; bottom: -30px;">
+              <ion-button style="color: black; background:white; min-width: 60px; max-width: 60px; min-height: 30px; max-height: 30px; font-weight: 600;" 
+              (click)="mapnavigate(x.lattitude, x.longtitude, x.address)">MAP</ion-button>
+            </div>
+  
+            <div style="min-width: 60px; max-width: 60px; min-height: 30px; max-height: 30px; position: absolute; bottom: -30px; right: 5px;">          
+              <ion-button style="background:white; min-width: 60px; max-width: 60px; min-height: 30px; max-height: 30px;" *ngIf="x.customer_phone && x.customer_phone.slice(0, 1) == '6'" href="{{whatsapplinkheader + x.customer_phone}}">
+                <ion-icon style="color: black;" name="logo-whatsapp"></ion-icon>
+              </ion-button>
+              <ion-button style="background:white; min-width: 60px; max-width: 60px; min-height: 30px; max-height: 30px;" *ngIf="x.customer_phone && x.customer_phone.slice(0, 1) != '6'" href="{{whatsapplinkheader + '6' + x.customer_phone}}">
+                <ion-icon style="color: black;" name="logo-whatsapp"></ion-icon>
+              </ion-button>
+            </div> -->
+  
+          <!-- </div> -->
+        </div>
+
+      </div>
+
+
+      <div *ngIf="todaytask.length < 1 && tomorrowtask.length < 1" style="width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+        <img src="../../assets/icon/nocontent-nobackground.gif" />
+        <div style="width: 90%; font-size: 14px; text-align: center;">There is no appointment for today and tomorrow yet, please click <b>view all</b> to see appointmnent in other days.</div>
+      </div>
+
+
+
+    </div>
+
+  </div>
+</ion-content>
+<!-- <ion-footer>
+  <div style="width: 100%; ">
+    <div style="display: 90%; text-align: right; font-size: 12px;">
+      version : 1.0.11
+    </div>
+      
+    </div>
+</ion-footer> -->

@@ -1,0 +1,266 @@
+<ion-header>
+  <div
+    style="display: flex; width: 100%; justify-content: space-between; padding: 13px 16px 13px 16px; font-weight: 600; z-index: 1002; background: #6DAD48; color: white; box-shadow: 0 0 10px 0 #ccc;">
+    <ion-icon (click)="back()" name="arrow-back-outline" style="font-size: 16px;"></ion-icon>
+    <div>Work Schedule</div>
+    <ion-icon *ngIf="!searchmode" (click)="select()" name="search-outline" style="font-size: 16px;"></ion-icon>
+    <ion-icon *ngIf="searchmode" (click)="select()" name="close-outline" style="font-size: 20px; color: red;"></ion-icon>
+  </div>
+</ion-header>
+
+<ion-content>
+  <div *ngIf="searchmode" style="width: 100%; color: #6DAD48; background: #ffffff; display: flex; flex-direction: column; align-items: center; 
+     position: absolute; top: 5px; z-index: 3000;">
+    <div
+      style="width: 90%; background: #ffffff; border: 1.5px solid #000; padding: 5px 10px; border-radius: 20px; display: flex; justify-content: space-between; align-items: center;">
+      <ion-input placeholder="keyword" style="background: #ffffff; font-size: 14px;" [(ngModel)]="keyword"></ion-input>
+      <div (click)="search()" style="border-left: 1px solid black; padding: 0 0 0 5px; font-size: 13px; color: black;">
+        Search
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="!searchmode"
+    style="width: 100%; color: #6DAD48;background: #ffffff;  display: flex; flex-direction: column; align-items: center; box-shadow: 0 3px 1px 0 #528d30; ">
+    <div
+      style="width: 90%; display:flex; flex-direction: column; justify-content: center; align-items: center; border-radius: 12px; margin-top: 10px;">
+
+      <div style="width: 98%; display: flex; padding: 10px 0 20px; ">
+        <div style="width: 20%; display: flex; justify-content: flex-start; align-items: center; color: #79aa65;">
+          <div (click)="previousmonth()" style="font-size: 16px;">
+            <ion-icon name="chevron-back-outline"></ion-icon>
+          </div>
+        </div>
+        <div
+          style="width: 60%; display: flex; justify-content: center; align-items: center; font-size: 14px; font-weight: 600; color: #79aa65;">
+          <div style="margin-right: 6px;">{{months[selectedmonth - 1]}}</div>
+          <div>{{selectedyear}}</div>
+        </div>
+        <div
+          style="width: 20%; display: flex; justify-content: flex-end; align-items: center; font-weight: 600; color: #79aa65;">
+          <div (click)="nextmonth()" style="font-size: 16px;">
+            <ion-icon name="chevron-forward-outline"></ion-icon>
+          </div>
+        </div>
+      </div>
+
+      <div style="width: 95%; padding: 0 0 5px 0;">
+
+        <div style="display: flex; width:100%; margin-bottom: 10px; color: #407a1d;">
+          <div *ngFor="let day of days"
+            style="display:flex; justify-content: center; width: calc(100% /7); font-size: 13px;">{{day}}</div>
+        </div>
+
+        <div style="width: 100%; display: flex; flex-wrap:wrap;">
+          <div *ngFor="let x of dates" [style.height]="heighfordate"
+            style="font-size: 12px; width: calc(100% / 7); display: flex; justify-content: center; align-items: center;">
+
+            <div *ngIf="x != ''" [ngStyle]="{'background': x.date == selecteddate ? '#407a1d' : ''}"
+              style="width: 80%; height:80%; display: flex; flex-direction: column; justify-content: center; align-items: center; border-radius: 50%;"
+              (click)="getdate(x['date'])">
+
+              <div *ngIf="x != ''"
+                [ngStyle]="{'color':  x.date == selecteddate ? '#ffffff' : (x.isthisappointment == true ? '#000000' : '#6DAD48')}"
+                style="font-size: 12px; font-weight:600; width: 100%; display: flex; justify-content: center; align-items: center;">
+                <!-- {{x.date.length < 2 ? 0 + x.date : x.date}} -->
+                {{x.date}}
+              </div>
+              <!-- <div
+                [ngStyle]="{'color': x.date == selecteddate ? '#ffffff' : (x.num != 0 ? '#ff0000' : '#000000'), 'font-weight' : x.num > 4 ? '600' : ''}"
+                style="font-size: 10px;">
+                {{x.num == 0 ? '-' :( x.num < 5 ? x.num : 'Full' )}} </div> -->
+              <!-- <div style="font-size: 10px; display: flex;">
+                <div [ngStyle]="{'color': x.date == selecteddate ? '#ffffff' : (x.num < 5 ? '#640877' : '#000000'), 'font-weight' : x.num > 4 ? '600' : ''}">{{5 - x.num}}</div>
+                <div>/</div>
+                <div style="color: black">5</div>
+              </div> -->
+              <div
+                [ngStyle]="{'color': x.date == selecteddate ? '#ffffff' : (x.num != 0 ? '#ff0000' : '#000000'), 'font-weight' : x.num > 4 ? '600' : ''}"
+                style="font-size: 10px;">
+                {{x.num < 5 ? x.num + '/5' : 'Full' }} </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="selecteddate && !searchmode"
+      style="width: 100%; display: flex; flex-direction: column; align-items: center; margin-top: 10px; margin-bottom: 10px;">
+      <div style="width: 90%; display: flex; justify-content:flex-end;">
+        <div (click)="addtask()"
+          style="width: max-content; background: #6DAD48; color: #ffffff; padding: 4px 8px; border-radius: 4px; display: flex; justify-content: center; align-items: center; font-size: 14px;">
+          <div style="margin-right: 3px;">Add</div>
+          <ion-icon name="add-circle-outline" style="font-size: 16px;"></ion-icon>
+        </div>
+      </div>
+
+      <div *ngFor="let x of alllist;let i = index;"
+        [ngStyle]="{'border': x.sales_id == salesid ? '1px solid black' : ''}" style="width: 90%; min-height: 100px; height: max-content; display: flex; flex-direction: column; margin-top: 20px; 
+        background: #E4EFDE; border-radius: 8px;padding: 0 10px; box-shadow: 0 0 4px 0 #999999; padding: 5px 10px;">
+
+        <div style="font-size: 12px; border-bottom: 1px solid #000; padding-bottom: 10px;">
+          <div style="font-size: 14px; font-weight: 600;">{{x.customer_name}}</div>
+          <div style="padding-top: 5px;">{{x.customer_phone}}</div>
+          <div>{{x.address}}</div>
+        </div>
+
+
+        <div style="display: flex; width: 100%; align-items: flex-start; margin: 3px 0 0 0 ;">
+          <div style="font-size: 12px; font-weight: 600;">Remark :&nbsp;</div>
+          <!-- <ion-textarea [ngStyle]="{'box-shadow': x.data ? x.data.approve_status == true ? '0 0 10px 0 green' : '0 0 10px 0 #ff9900' : ''}" 
+  style="width:100%; display: flex; flex-wrap: wrap; height: 100%; align-items: flex-start; 
+  font-size: 12px; white-space: normal; overflow: hidden; text-overflow: ellipsis; word-wrap: break-word; -webkit-line-clamp: 6; 
+  display: -webkit-box; -webkit-box-orient: vertical; margin: 0; padding: 5px 0;" readonly>
+    {{x.remark}}
+  </ion-textarea> -->
+          <ion-textarea [ngStyle]="{color : x.from_date ? 'red' : 'black'}" class="ion-no-padding ion-no-margin"
+            [(ngModel)]="x.from_date ? 'This time slot has been assigned by project coordinator' : x.remark"
+            style="font-size: 12px;" [readonly]="true" [autoGrow]="true"> </ion-textarea>
+        </div>
+
+
+
+        <div style="width: 100%; display: flex; justify-content: space-between; ">
+          <div style="display: flex;">
+            <div style="display: flex; align-items: center; font-size: 11px; color:#ffffff; width: max-content;">
+              <div
+                [ngStyle]="{'background': x.subcon_state ? (x.subcon_state == 'Accepted' ? '#6DAD48' : (x.subcon_state == 'Rejected' ? 'red' : 'grey') ) : 'grey'}"
+                style="padding: 4px 8px; border-radius: 4px;">
+                {{x.subcon_state ? x.subcon_state : 'Pending Checking'}}
+              </div>
+            </div>
+            <div style="font-size: 10px;  width: max-content; padding: 4px 0; margin: 0 4px;">
+              <div>{{x.schedule_date | date : 'mediumDate'}}</div>
+              <div>{{x.schedule_date | date : 'shortTime'}}</div>
+            </div>
+          </div>
+
+
+          <div *ngIf="x.owm == true" style="display: flex; padding: 4px 0;">
+            <ion-icon (click)="insertschedule(x, i, x.id)" name="create-outline"
+              style="font-size: 12px; min-width: 20px; max-width:20px; min-height: 20px; max-height: 20px; color: green; margin-right: 5px;"></ion-icon>
+            <ion-icon *ngIf="x.approve_status != true" (click)="deleteschedule(x.id)" name="close-circle-outline"
+              style="font-size: 12px; min-width: 20px; max-width:20px; min-height: 20px; max-height: 20px; color: red;"></ion-icon>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="searchmode"
+      style="width: 100%; display: flex; flex-direction: column; align-items: center; margin-top: 10px; margin-bottom: 10px;">
+      <div style="width: 90%; display: flex; justify-content:flex-end;">
+        <div (click)="addtask()"
+          style="width: max-content; background: #6DAD48; color: #ffffff; padding: 4px 8px; border-radius: 4px; display: flex; justify-content: center; align-items: center; font-size: 14px;">
+          <div style="margin-right: 3px;">Add</div>
+          <ion-icon name="add-circle-outline" style="font-size: 16px;"></ion-icon>
+        </div>
+      </div>
+
+      <div *ngFor="let x of scheduletasklist;let i = index;"
+        [ngStyle]="{'border': x.sales_id == salesid ? '1px solid black' : ''}" style="width: 90%; min-height: 100px; height: max-content; display: flex; flex-direction: column; margin-top: 20px; 
+      background: #E4EFDE; border-radius: 8px;padding: 0 10px; box-shadow: 0 0 4px 0 #999999; padding: 5px 10px;">
+
+        <div style="font-size: 12px; border-bottom: 1px solid #000; padding-bottom: 10px;">
+          <div style="font-size: 14px; font-weight: 600;">{{x.customer_name}}</div>
+          <div style="padding-top: 5px;">{{x.customer_phone}}</div>
+          <div>{{x.address}}</div>
+        </div>
+
+
+        <div style="display: flex; width: 100%; align-items: flex-start; margin: 3px 0 0 0 ;">
+          <div style="font-size: 12px; font-weight: 600;">Remark :&nbsp;</div>
+          <!-- <ion-textarea [ngStyle]="{'box-shadow': x.data ? x.data.approve_status == true ? '0 0 10px 0 green' : '0 0 10px 0 #ff9900' : ''}" 
+style="width:100%; display: flex; flex-wrap: wrap; height: 100%; align-items: flex-start; 
+font-size: 12px; white-space: normal; overflow: hidden; text-overflow: ellipsis; word-wrap: break-word; -webkit-line-clamp: 6; 
+display: -webkit-box; -webkit-box-orient: vertical; margin: 0; padding: 5px 0;" readonly>
+  {{x.remark}}
+</ion-textarea> -->
+          <ion-textarea [ngStyle]="{color : x.from_date ? 'red' : 'black'}" class="ion-no-padding ion-no-margin"
+            [(ngModel)]="x.from_date ? 'This time slot has been assigned by project coordinator' : x.remark"
+            style="font-size: 12px;" [readonly]="true" [autoGrow]="true"> </ion-textarea>
+        </div>
+
+
+
+        <div style="width: 100%; display: flex; justify-content: space-between; ">
+          <div style="display: flex;">
+            <div style="display: flex; align-items: center; font-size: 11px; color:#ffffff; width: max-content;">
+              <div
+                [ngStyle]="{'background': x.subcon_state ? (x.subcon_state == 'Accepted' ? '#6DAD48' : (x.subcon_state == 'Rejected' ? 'red' : 'grey') ) : 'grey'}"
+                style="padding: 4px 8px; border-radius: 4px;">
+                {{x.subcon_state ? x.subcon_state : 'Pending Checking'}}
+              </div>
+            </div>
+            <div style="font-size: 10px;  width: max-content; padding: 4px 0; margin: 0 4px;">
+              <div>{{x.schedule_date | date : 'mediumDate'}}</div>
+              <div>{{x.schedule_date | date : 'shortTime'}}</div>
+            </div>
+          </div>
+
+
+          <div *ngIf="x.created_by && x.created_by == userid" style="display: flex; padding: 4px 0;">
+            <ion-icon (click)="insertschedule(x, i, x.id)" name="create-outline"
+              style="font-size: 12px; min-width: 20px; max-width:20px; min-height: 20px; max-height: 20px; color: green; margin-right: 5px;"></ion-icon>
+            <ion-icon *ngIf="x.approve_status != true" (click)="deleteschedule(x.id)" name="close-circle-outline"
+              style="font-size: 12px; min-width: 20px; max-width:20px; min-height: 20px; max-height: 20px; color: red;"></ion-icon>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- <div *ngIf="selecteddate || !selecteddate"
+    style="width: 100%; display: flex; flex-direction: column; align-items: center; margin-top: 20px;">
+    <div *ngFor="let x of selecteddate.list; let i = index;"
+      style="width: 100%; display: flex; flex-direction: column; align-items: center;">
+      <div
+        style="width: 90%; display:flex; justify-content:space-between; align-items: center; margin-bottom: 5px; font-weight: 600;">
+        <div style="width: 50%; font-size: 14px;">Kelvin Team {{i + 1}}</div>
+        <div
+          style="width: 50%; height: 100%; z-index: 1002; display: flex; justify-content: flex-end; align-items: center; align-items:center;">
+
+          <div
+            style="width: 40px; height:40px; display: flex; justify-content: center; align-items: center;background:#6DAD48; border-radius: 50%; box-shadow: 0 0 2px 0 grey;">
+            <ion-icon (click)="insertschedule(x, i, x.data.id)" name="pencil-outline"
+              style="font-size: 12px; min-width: 20px; max-width:20px; min-height: 20px; max-height: 20px; color: #FFFFFF;">
+            </ion-icon>
+          </div>
+
+          <div *ngIf="x.data.yes"
+            style="width: 40px; height:40px; margin-left: 10px; display: flex; justify-content: center; align-items: center;background : red; border-radius: 50%; box-shadow: 0 0 2px 0 #ddd;">
+            <ion-icon (click)="deleteschedule(x.data.id)" name="trash-outline"
+              style="font-size: 12px; min-width: 20px; max-width:20px; min-height: 20px; max-height: 20px; color: #FFFFFF;">
+            </ion-icon>
+          </div>
+
+        </div>
+      </div>
+      <div
+        style="width: 90%; height: 100px; display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 20px; background: white; border-radius: 8px;">   
+        <div [ngStyle]="{'box-shadow': x.data ? x.data.approve_status == true ? '0 0 10px 0 green' : '0 0 10px 0 #ff9900' : ''}"
+          style="width:100%; display: flex; flex-wrap: wrap; height: 100%; align-items: flex-start; font-size: 14px; white-space: normal; overflow: hidden; text-overflow: ellipsis; word-wrap: break-word; -webkit-line-clamp: 6; display: -webkit-box; -webkit-box-orient: vertical; padding: 10px 6px;">
+          {{ x.data ? x.data.remark : 'Available now...'}}
+        </div>
+      </div>
+    </div>
+  </div> -->
+
+    <!-- <div (click)="home()"
+    style="z-index:1002; box-shadow: 0 0 10px 0 #ddd; position: fixed; bottom: 12px; left: 12px; width: 50px; height: 50px; border-radius: 50%; color: #FFFFFF; background:#6DAD48; display: flex; justify-content: center; align-items: center;">
+    <ion-icon name="return-down-back-outline" style="width: 25px; height: 25px;"></ion-icon>
+  </div> -->
+
+    <!-- <div style="width: 100%;">
+    <div *ngFor="let x of dates; let i = index" style="width: 100%;">
+        <ion-textarea (ionChange)="test(x.data)" style="width: 100%; border: 1px solid black; min-height: 100px;" [(ngModel)]="x.data" rols="6"></ion-textarea>
+    </div>
+  </div> -->
+
+    <!-- <div style="width: 100%; display:flex; justify-content: center; position: fixed; bottom: 0; height: 50px;">
+    <div style="width: 100%; display: flex; justify-content: space-between; align-items: center;">
+      <div (click)="cancel()" style="width:100%; text-align: center; display: flex; justify-content: center; align-items: center;">Cancel</div>
+      <div (click)="save()" style="width:100%; text-align: center; display: flex; justify-content: center; align-items: center;">Save</div>
+    </div>
+  </div> -->
+
+</ion-content>

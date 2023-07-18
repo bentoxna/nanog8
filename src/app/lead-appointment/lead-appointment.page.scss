@@ -1,0 +1,77 @@
+.create_button {
+    background-color: #84d058;
+    color: #ffffff;
+}
+
+.create_button:hover {
+    color: #ffffff;
+    background-color: #82e04c;
+}
+
+.quotation_button {
+    background-color: #6CAD47;
+    color: #ffffff;
+}
+
+.quotation_button:hover {
+    color: #ffffff;
+    background-color: #7cc552;
+}
+
+.dropdown {
+    background-color: #f0f1f3;
+}
+
+.dropdown:hover {
+    background-color: #d9d9d9;
+}
+
+.click {
+    background: white;
+    color: #8CBF70;
+}
+
+.xclick {
+    background: #8CBF70;
+    color: white;
+}
+
+.select {
+    background: #8CBF70;
+    color: white;
+}
+
+.xselect:hover {
+    background: #cbecbb;
+}
+
+.xselect {
+    background: white;
+    color: #8CBF70;
+}
+
+.close_button2 {
+    color: #8CBF70;
+    background-color: #cbecbb;
+    transition: all 0.1s ease-in;
+}
+
+.close_button2:hover {
+    color: #ffffff;
+    background-color: red;
+    transition: all 0.1s ease-in;
+}
+
+.resetBtn {
+    color: #87BB69;
+
+    border-radius: 100%;
+}
+
+.add_button {
+    background-color: white;
+}
+
+.add_button:hover {
+    background-color: #d9d9d9;
+}

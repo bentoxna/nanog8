@@ -1,0 +1,31 @@
+<ion-content>
+
+  <div style="width: 100%; display: flex; justify-content:space-between; align-items: center; padding: 16px 24px; background: #6DAD48;">
+
+    <ion-icon (click)='back()' style='font-size:16px;color: #FFFFFF;' name="chevron-back-outline"></ion-icon>
+
+    <div style="color: #FFFFFF; font-size:16px; font-weight:600;">Signature</div>
+
+    <ion-icon style='font-size:20px;color: #FFFFFF; visibility: hidden;' name="chevron-back-outline"></ion-icon>
+
+</div>
+
+  <div style="width:100%;margin-top:50px; display: flex; flex-direction: column; align-items: center;">
+    <div style="display:flex;justify-content:center;align-items:center; width: 90%; box-shadow: 0 0 4px 0 #ccc; border-radius: 8px; margin-bottom: 50px;">
+      <canvas #canva (touchstart)="startDrawing($event)" (touchmove)="moved($event)" style="width: 100%;"></canvas>
+    </div>
+
+    <div style="width: 90%; display:flex;justify-content:space-between;padding:10px;">
+      <ion-button style="width: 30%; --background:tomato !important; color:white;" (click)="clearPad()">Clear</ion-button>
+      <ion-button style="width: 30%; --background:#6DAD48 !important; color:white;" (click)="savePad()">Save</ion-button>
+    </div>
+
+  </div>
+
+  
+  <div style="width: 100%; display:flex; justify-content:center;">  <img src='{{ signatureImg }}' /></div>
+
+
+
+
+</ion-content>

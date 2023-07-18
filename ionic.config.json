@@ -1,0 +1,7 @@
+{
+  "name": "Nano-G",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

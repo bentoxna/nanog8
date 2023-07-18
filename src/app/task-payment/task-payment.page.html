@@ -1,0 +1,467 @@
+<ion-header>
+  <div
+    style="width: 100%; display: flex; justify-content:space-between; align-items: center; padding:10px 24px; background: #6DAD48;">
+
+    <ion-icon (click)='back()' style='font-size:20px;color: #FFFFFF;' name="chevron-back-outline"> </ion-icon>
+    <div style="color: #FFFFFF; font-size:16px; font-weight:600;">Pay</div>
+    <ion-icon style='visibility: hidden;' name="chevron-back-outline"></ion-icon>
+
+  </div>
+</ion-header>
+<ion-content>
+
+  <!-- <div *ngIf="paymenttype == 'Full Payment'">
+
+    <div
+      style="width: 100%; display: flex; justify-content:space-between; align-items: center; padding:16px 24px; background: #6DAD48;">
+
+      <ion-icon (click)='back()' style='font-size:16px;color: #FFFFFF;' name="chevron-back-outline"> </ion-icon>
+      <div style="color: #FFFFFF; font-size:16px; font-weight:600;">Pay Deposit</div>
+      <ion-icon style='visibility: hidden;' name="chevron-back-outline"></ion-icon>
+
+    </div>
+
+    <div style="width:100%; padding: 16px 0;">
+      <div style="display: flex; width: 100%; flex-direction: column; align-items: center;">
+        <div style="display: flex; width: 92%;  margin-bottom: 12px;">
+          <div style="width: 3%; background: #B9D6A8; border-radius: 5px 0 2.5px 5px; box-shadow: 0 1px 0 0 #B9D6A8;">
+          </div>
+          <div
+            style="display: flex; flex-direction: column; width: 97%; background-color: #E4EFDE; padding:16px; border-radius: 0 4px 4px 0;">
+            <div style="display: flex; justify-content:space-between; align-items:flex-end; padding-bottom: 8px;">
+              <div style="font-size: 20px; font-weight:600;">{{appointment.customer_name}}</div>
+            </div>
+
+            <div>
+              <div style="display:flex; padding-bottom: 4px; align-items: center;">
+                <ion-icon name="call" style="min-width: 20px; min-height:20px; color: #999; padding-right: 8px;">
+                </ion-icon>
+                <div style="font-size: 14px;">{{appointment.customer_phone}}</div>
+              </div>
+
+              <div style="display: flex; align-items: flex-start;">
+                <ion-icon name="location" style="min-width: 20px; min-height:20px; color: #999; padding-right: 8px;">
+                </ion-icon>
+                <div style="font-size: 14px;">{{appointment.address}}</div>
+              </div>
+            </div>
+
+            <div style="padding: 16px 0 0 0; width: 100%;">
+              <div style="height: 1.5px; background: #6DAD48;box-shadow: 0 0 2px 0px #999; width: 100%;">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="width: 100%; display: flex; flex-direction: column; align-items: center;">
+        <div style="width: 90%; display: flex; justify-content: space-between;">
+          <div>Total Payment</div>
+          <div>{{total | currency : 'RM '}}</div>
+        </div>
+
+        <div style="width: 90%; margin-top: 12px; background: #f1f5eb; border-radius: 8px">
+
+          <div (click)="showpaymentdropdown()" style="display: flex; justify-content:space-between; align-items: center; background: #C6D8A6; border-radius: 8px; padding: 12px 16px; 
+              box-shadow: 0 1px 0 0 #CCCCCC;">
+            <div *ngIf="!selectedpaymentmethod"
+              style="font-size: 14px; font-weight:600;">Select Paymend Method</div>
+            <div *ngIf="selectedpaymentmethod" style="font-size: 14px; font-weight:600;">{{selectedpaymentmethod}}</div>
+            <ion-icon *ngIf="paymentdropdownstatus == false" style="font-size: 20px;" name="chevron-forward-outline"></ion-icon>
+            <ion-icon *ngIf="paymentdropdownstatus == true" style="font-size: 20px;" name="chevron-down-outline"></ion-icon>
+          </div>
+
+          <div class="dropdown-container" *ngIf="paymentdropdownstatus == true"
+            style=" border-radius: 8px; width: 100%; display: flex; flex-direction: column; align-items: center;">
+            <div *ngFor="let x of paymentmethod;let i = index;" style="width: 90%;"
+              [ngStyle]="{'border-bottom': i == (paymentmethod.length - 1) ? '' : '1px solid #999' }">
+
+              <div style="width: 100%; display: flex; align-items: center;">
+                <div (click)="getpaymentmethod(i)" style="width: 100%; padding: 12px 0; font-size: 12px; color: #000000;">{{x}}</div>
+              </div>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top: 16px;">
+        <div style="width: 100%; display: flex; justify-content: center;">
+          <div style="width: 90%; display: flex;">
+            <div *ngIf="receipturl"
+              style="min-width: 100px; max-width: 100px; height:100px;  margin-right:6px; margin-bottom: 6px; position: relative;">
+              <img src='{{receipturl}}' (click)="viewPhoto()" style="width: 100%; height: 100%;  object-fit:cover;" />
+              <ion-icon (click)="removePhoto()" name="close-outline"
+                style="position: absolute; color: #FFFFFF; background: #000000; top:0; right: 0;"></ion-icon>
+            </div>
+            <div (click)="selectMedia()" style="min-width: 100px; max-width: 100px; display: flex; align-items: center; justify-content: center; 
+              border: 1px solid #6DAD48; margin-right: 6px; height: 100px; ">
+              <div style="color: #81b365;">+ Receipt</div>
+            </div>
+          </div>
+
+          <input readonly (change)="fileChange($event, 600)" type="file" id="uploadi2" accept="image/*"
+            name="files[]" style="display: none;" />
+
+          <input readonly (change)="fileChangepdf()" type="file" id="uploadpdf" accept="application/pdf"
+            name="pdffiles[]" style="display: none;" />
+        </div>
+      </div>
+
+      <div style="width: 100%; display: flex; flex-direction:column; align-items:center; margin-top: 16px;"
+        [style.margin-bottom]="marginbottomforcontent">
+        <div style="width: 90%;">
+          <div>Remark</div>
+          <ion-textarea [(ngModel)]="paymentremark" style="box-shadow: 0 0 6px 0 #DDDDDD;" rows="6"></ion-textarea>
+        </div>
+      </div>
+
+    </div>
+
+    <div [style.height]="minheightforfooter">
+
+      <div
+        style="width: 100%; z-index: 1002; position: fixed; bottom: 0; display: flex; flex-direction: column; justify-content: flex-end; box-shadow: 0 -1px 4px 0 #cccccc;">
+
+        <div style="width: 100%; display: flex; justify-content: center; background: #FFFFFF;">
+          <div style="width: 90%; display: flex; justify-content: space-between; align-items: center; padding: 12px 0;">
+            <div style="font-size: 14px; margin-right: 4px; font-weight: 400;">Total Payment</div>
+            <div style="font-size: 18px; font-weight:600; color: #416621;">{{total | currency : 'RM '}}</div>
+          </div>
+        </div>
+
+        <div style="width: 100%; display: flex; justify-content: space-between; background: #FFFFFF;">
+          <div (click)="pay('Full Payment')"
+            style="width: 100%; font-size: 14px; font-weight: 600; display: flex; justify-content: center; align-items: flex-end;background: #6DAD48; padding: 14px 0;">
+            <div style="color: white;">pay</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> -->
+
+
+  <div *ngIf="paymenttype == 'Deposit'" style="min-height: 100vh;">
+
+
+
+    <div style="width:100%;">
+      <div style="display: flex; width: 100%; flex-direction: column; align-items: center; background: #C9E1BD;">
+        <div style="display: flex; width: 100%;  margin-bottom: 12px; justify-content: center;">
+
+          <div style="display: flex; flex-direction: column; width: 90%; padding:16px 0; border-radius: 0 4px 4px 0;">
+
+            <div style="display: flex; justify-content:space-between; align-items:flex-end; padding-bottom: 8px;">
+              <div style="font-size: 18px; font-weight:600;">{{appointment.customer_name}}</div>
+              <!-- <div style="color:#446828; font-size: 14px; font-weight:600;">{{appointment.appointment_time | date : 'hh:mm a'}}</div> -->
+            </div>
+
+            <div>
+              <div style="display:flex; padding-bottom: 4px; align-items: center;">
+                <ion-icon name="call"
+                  style="font-size: 14px; min-width: 14px; min-height:14px; color: #666666; padding-right: 8px;">
+                </ion-icon>
+                <div style="font-size: 12px;">{{appointment.customer_phone}}</div>
+              </div>
+
+              <div style="display: flex; align-items: flex-start;">
+                <ion-icon name="location"
+                  style="font-size: 14px; min-width: 14px; min-height:14px; color: #666666; padding-right: 8px;">
+                </ion-icon>
+                <div style="font-size: 12px;">{{appointment.address}}</div>
+              </div>
+
+              <div style="display: flex; align-items: center;">
+                <ion-icon name="time"
+                  style="font-size: 14px; min-width: 14px; min-height:14px; color: #666666; padding-right: 8px;">
+                </ion-icon>
+                <div style="font-size: 12px;">{{appointment.appointment_time | date : 'mediumDate'}}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="ion-no-padding" *ngFor="let x of sales_packages_main;let i = index;" style="margin-top: 5px;">
+        <div class="ion-no-padding" style="background: #E4EFDE;">
+          <div class="ion-no-padding"
+            style="background:#E4EFDE; width:100%; display: flex; justify-content: space-between; align-items: center; padding: 0 15px;">
+            <div *ngIf="!appointment.warranty_id"
+              style="background-color: #E4EFDE; width:100%; padding: 10px 0 10px 5px;">
+
+              <div style="width: 100%;">
+                <div
+                  style="font-size: 14px; font-weight:600; margin-bottom: 4px; border-bottom: 1px solid #000; width: fit-content;">
+                  {{x.area == 'others' ? x.other_area : x.area}}</div>
+                <div style="display: flex; flex-wrap: wrap; font-size: 12px;">
+                  <div>{{x.name ? x.name : 'Other Package'}},&nbsp;</div>
+                  <div>{{x.services}},&nbsp;</div>
+                  <div>{{x.sqft == 'others' ? x.size : x.sqft}}sqft,&nbsp;</div>
+                  <div>{{x.total_after ? (x.total_after | currency : 'RM ') : (x.total | currency : 'RM ')}}</div>
+                </div>
+
+                <div style="display: flex; flex-wrap: wrap; width: 100%; margin-top: 3px;">
+                  <div *ngFor="let x2 of x.discounts"
+                    style="display: flex; background: #6DAD48; color: #fff; padding: 5px 10px; font-size: 11px; margin-right:2px; margin-bottom: 2px; border-radius: 10px;">
+                    <div>{{x2.dis_name}}:&nbsp;</div>
+                    <div>{{x2.dis_type ? (x2.dis_percentage + '%') : ('RM ' + x2.dis_percentage)}}</div>
+                  </div>
+                </div>
+
+              </div>
+
+              <div *ngIf="x.addon_packages.length > 0"
+                style="font-size: 12px; text-align: left; width: fit-content; border-bottom: 1px solid #000; font-weight: 600; padding-top: 10px; margin-bottom: 5px; ">
+                Add On</div>
+
+              <div *ngIf="x.addon_packages.length > 0"
+                style="display: grid; grid-template-columns: repeat(100, 1fr); gap: 1px; font-size: 12px; width: 100%; color: #000; border-bottom: 2px dashed #6DAD48;padding-bottom: 5px; margin-bottom: 5px;">
+                <div style="grid-column: 1 / 31;">Place</div>
+                <div style="grid-column: 31 / 62;">Service</div>
+                <div style="grid-column: 62 / 79; text-align: right;">Sqft</div>
+                <div style="grid-column: 80 / 101; text-align: right;">Dis</div>
+              </div>
+
+              <div *ngFor="let y of x.addon_packages"
+                style="display: grid; grid-template-columns: repeat(100, 1fr); gap: 1px; font-size: 12px; width: 100%; padding-bottom: 5px;">
+                <div style="grid-column: 1 / 31;">{{y.area == 'others' ? y.other_area : y.area}}</div>
+
+                <div style="grid-column: 31 / 62;">{{y.services}}</div>
+
+                <div style="grid-column: 62 / 79; text-align: right;">{{y.sqft == 'others' ? y.size : y.sqft}}</div>
+
+                <div style="grid-column: 80 / 101; text-align: right; display: flex; justify-content: right;"
+                  *ngFor="let y2 of y.discounts">
+                  <div>{{y2.dis_type ? (y2.dis_percentage + '%') : ('RM ' + y2.dis_percentage)}}</div>
+                </div>
+                <!-- <div style="font-size: 11px;">{{y.total | currency : 'RM '}}</div> -->
+              </div>
+
+              <div
+                style="width: 100%; text-align: right; font-weight: 600; font-size: 16px; color: #32581c; padding: 25px 0 0 0;">
+                {{x.sum_total | currency : 'RM '}}</div>
+            </div>
+
+            <div *ngIf="appointment.warranty_id"
+              style="box-shadow: 0 0 4px 0 #ddd; min-height: 100px; background: #ffffff; width:100%; padding: 10px 0 10px 5px; display: flex; justify-content: center;">
+              <div style="width: 90%; background: #ffffff; color: #000000; font-size: 14px;">{{x.remark}}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="width: 100%; display: flex; flex-direction: column; align-items: center; margin-top: 10px;">
+
+        <div style="width: 90%; display: flex; justify-content: space-between;">
+          <div style="font-size: 14px">Package Subtotal</div>
+          <div style="font-size: 13px;">{{subtotal | currency : 'RM '}}</div>
+        </div>
+
+        <div style="width: 90%; display: flex; justify-content: space-between;">
+          <div style="font-size: 14px">Scaffolding</div>
+          <div style="font-size: 13px;">{{scafffee | currency : 'RM '}}</div>
+        </div>
+
+        <div style="width: 90%; display: flex; justify-content: space-between;">
+          <div style="font-size: 14px">Skylift</div>
+          <div style="font-size: 13px;">{{skyliftfee | currency : 'RM '}}</div>
+        </div>
+
+        <div *ngIf="deductprice && deductprice != 0" style="width: 90%; display: flex; justify-content: space-between;">
+          <div style="font-size: 14px">Discount (%)</div>
+          <div style="font-size: 13px;">- ({{dpercentage}}%) {{deductprice | currency : 'RM '}}</div>
+        </div>
+
+        <div *ngIf="dnumber" style="width: 90%; display: flex; justify-content: space-between;">
+          <div style="font-size: 14px">Discount (RM)</div>
+          <div style="font-size: 13px;">- {{dnumber | currency : 'RM '}}</div>
+        </div>
+
+        <div style="width: 90%; display: flex; justify-content: space-between;">
+          <div style="font-size: 14px">Paid</div>
+          <div style="font-size: 13px;">- {{totaldeposit | currency : 'RM '}}</div>
+        </div>
+
+        <div style="width: 90%; display: flex; justify-content: space-between; font-weight: 600;">
+          <div style="font-size: 16px">Unpaid Payment</div>
+          <div style="font-size: 14px;">{{total | currency : 'RM '}}</div>
+        </div>
+
+        <div style="width:90%; margin-top: 12px; display: flex; align-items: baseline; justify-content: space-between;">
+          <div style="width: 100%; margin-right: 5px;">
+            <ion-input [(ngModel)]="deposit" style="box-shadow: 0 0 6px 0 #DDDDDD; margin-top: 8px; font-size: 14px;"
+              placeholder="Enter Payment Amount" type="number"></ion-input>
+          </div>
+
+          <div (click)="fullPayment()"
+            style="min-width: 50px; max-width: 50px; padding: 10px 5px; background: #6DAD48; color: #FFFFFF; border-radius: 5px; font-size: 13px;">
+            Pay All</div>
+
+        </div>
+
+
+
+        <div style="width: 90%; margin-top: 12px; background: #f1f5eb; border-radius: 8px">
+
+          <div (click)="showpaymentdropdown()" style="display: flex; justify-content:space-between; align-items: center; background: #C6D8A6; border-radius: 8px; padding: 12px 16px; 
+              box-shadow: 0 1px 0 0 #CCCCCC;">
+            <div *ngIf="!selectedpaymentmethod" style="font-size: 14px; font-weight:600;">Select Paymend Method</div>
+            <div *ngIf="selectedpaymentmethod" style="font-size: 14px; font-weight:600;">{{selectedpaymentmethod}}</div>
+            <ion-icon *ngIf="paymentdropdownstatus == false" style="font-size: 20px;"
+              name="chevron-forward-outline"></ion-icon>
+            <ion-icon *ngIf="paymentdropdownstatus == true" style="font-size: 20px;"
+              name="chevron-down-outline"></ion-icon>
+          </div>
+
+          <div class="dropdown-container" *ngIf="paymentdropdownstatus == true"
+            style=" border-radius: 8px; width: 100%; display: flex; flex-direction: column; align-items: center;">
+            <div *ngFor="let x of paymentmethod;let i = index;" style="width: 90%;"
+              [ngStyle]="{'border-bottom': i == (paymentmethod.length - 1) ? '' : '1px solid #999' }">
+
+              <div style="width: 100%; display: flex; align-items: center;">
+                <div (click)="getpaymentmethod(i)"
+                  style="width: 100%; padding: 12px 0; font-size: 12px; color: #000000;">{{x}}</div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
+
+        <div *ngIf="selectedpaymentmethod == 'Others'"
+          style="width: 100%; display: flex; justify-content: center; font-size: 14px;">
+          <div style="width: 90%;">
+            <ion-input [(ngModel)]="paymentothers" placeholder="Enter Payment Method"
+              style="box-shadow: 0 0 6px 0 #DDDDDD; margin-top: 4px;">
+            </ion-input>
+          </div>
+        </div>
+
+
+      </div>
+
+      <div style="margin-top:20px;">
+        <div style="width: 100%; display: flex; justify-content: center;">
+          <div style="width: 90%; display: flex;">
+
+            <div *ngIf="receipturl"
+              style="min-width: 100px; max-width: 100px; height:100px;  margin-right:6px; margin-bottom: 6px; position: relative;">
+              <img src='{{receipturl}}' (click)="viewPhoto()" style="width: 100%; height: 100%;  object-fit:cover;" />
+              <ion-icon (click)="removePhoto()" name="close-outline"
+                style="position: absolute; color: #FFFFFF; background: #000000; top:0; right: 0;"></ion-icon>
+            </div>
+
+            <div *ngIf="pdffileurl"
+              style="width: 100%; min-width: 100px; max-width: 100px; height:100px; margin-right:6px; margin-bottom: 6px; position: relative;">
+              <div (click)="downloadpdf()" style="width: 100%; height:100%;">
+                <img src="assets/icon/pdflogo.png" />
+                <div style="overflow : hidden;
+                text-overflow: ellipsis;
+                display: -webkit-box;
+                -webkit-line-clamp: 2;
+                -webkit-box-orient: vertical; font-size: 12px;">{{pdffilename}}</div>
+              </div>
+
+              <ion-icon (click)="removepdf()" name="close-outline"
+                style="position: absolute; color: #FFFFFF; background: #000000; top:0; right: 0;"></ion-icon>
+            </div>
+
+            <div *ngIf="receipturl == null && pdffileurl == null" (click)="selectMedia()" style="min-width: 100px; max-width: 100px; display: flex; align-items: center; justify-content: center; 
+            border: 1px solid #6DAD48; margin-right: 6px; height: 100px; ">
+              <div style="color: #81b365;">+ Receipt</div>
+            </div>
+          </div>
+
+          <input readonly (change)="fileChange($event, 600)" type="file" id="uploadi2" accept="image/*" name="files[]"
+            style="display: none;" />
+
+          <input readonly (change)="fileChangepdf($event)" type="file" id="uploadpdf" accept="application/pdf"
+            name="files[]" style="display: none;" />
+        </div>
+      </div>
+
+      <div style="width: 100%; display: flex; flex-direction:column; align-items:center; margin-top: 20px;">
+        <div style="width: 90%;">
+          <div>Remark</div>
+          <ion-textarea [(ngModel)]="paymentremark" placeholder="write remark...." style="box-shadow: 0 0 6px 0 #DDDDDD;" rows="6"></ion-textarea>
+        </div>
+      </div>
+
+      <div *ngIf="!appointment.termsncondition" style="width: 100%; display: flex; justify-content: center; margin-top: 20px; margin-bottom: 10px;">
+        <div style="width: 90%; display: flex; justify-content: flex-start;">
+          <ion-icon (click)="changeTermAndConditionStatus()"
+            name="{{appointment.termsncondition ? 'checkbox-outline' : 'square-outline'}}"
+            style="margin-right: 5px; font-size: 18px;"></ion-icon>
+          <div style="display:flex; align-items: baseline;">
+            <div style="margin-right: 4px; font-size: 14px;">Terms and Conditions</div>
+            <div (click)="viewTermAndConditionDetail()" style="font-size: 12px; color: red;">(click to see detail)</div>
+          </div>
+        </div>
+      </div>
+
+
+      <div
+        style="width: 100%;  display: flex; justify-content: center; margin-bottom: 10px;">
+        <div style="width: 90%;" (click)="customersign()">
+
+          <div style="margin: 10px 0;  box-shadow: 0 0 6px 0 #DDDDDD;">
+            <img src="{{customersignimage}}" style="width: 100%; min-height: 120px;" />
+          </div>
+
+          <div style="width: 100%; display: flex; flex-direction: column; margin-top: 10px;">
+
+            <div style="width: 100%; display: flex; justify-content: space-between;">
+              <div style="width: fit-content; display: flex;  align-items: center; font-size: 13px; flex-wrap: wrap;">
+                <div style="width: max-content;">Sign By:&nbsp;</div>
+                <div style="font-weight: 600;">{{appointment.customer_name}}</div>
+              </div>
+
+              <div style="font-size: 12px; color: red;">(click to sign)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="appointment.termsncondition"  style="width: 100%; display: flex; justify-content: center; margin-top: 5px; margin-bottom: 10px;">
+        <div style="width: 90%;">
+          <div style="margin-right: 4px; font-size: 14px;">You have agreed with the Terms and Conditions</div>
+          <div (click)="viewTermAndConditionDetail()" style="font-size: 12px; color: red;">(click to see detail)</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</ion-content>
+
+<ion-footer>
+
+
+
+  <div
+    style="width: 100%; z-index: 1002; display: flex; flex-direction: column; justify-content: flex-end; box-shadow: 0 -1px 4px 0 #cccccc;">
+
+    <div style="width: 100%; display: flex; justify-content: center; background: #FFFFFF;">
+      <div style="width: 90%; display: flex; justify-content: space-between; align-items: center; padding: 12px 0;">
+        <div style="font-size: 14px; margin-right: 4px; font-weight: 400;">Total Payment</div>
+        <div style="font-size: 18px; font-weight:600; color: #416621;">{{(deposit || 0) | currency : 'RM '}}</div>
+      </div>
+    </div>
+
+    <div style="width: 100%; display: flex; justify-content: space-between; background: #FFFFFF;gap: 2px;">
+      <div (click)="createsof()"
+        style="width: 50%; font-size: 14px; font-weight: 600; display: flex; justify-content: center; align-items: flex-end;background: #6DAD48; padding: 14px 0;">
+        <div style="color: white;">SOF</div>
+      </div>
+      <div (click)="pay2()"
+        style="width: 50%; font-size: 14px; font-weight: 600; display: flex; justify-content: center; align-items: flex-end;background: #6DAD48; padding: 14px 0;">
+        <div style="color: white;">PAY</div>
+      </div>
+    </div>
+  </div>
+
+
+</ion-footer>

@@ -1,0 +1,122 @@
+<ion-header *ngIf="loading">
+  <div style="width: 100%;">
+    <div style="width: 100%; position: relative;">
+
+      <div style="width: 100%; background: transparent;">
+
+        <div
+          style="display: flex; justify-content:space-between; align-items: center; padding: 12px 16px; border-bottom: 1px solid #ddd; background-color: #6DAD48;">
+          <ion-icon (click)='back()' style='font-size:16px;color: #FFFFFF;' name="chevron-back-outline">
+          </ion-icon>
+          <div
+            style="color: #FFFFFF; font-size:16px; font-weight:600; display: flex; justify-content: center; align-items: center;">
+            Sales Order Form-PDF</div>
+          <ion-icon style='font-size:20px;color: #FFFFFF; visibility: hidden;' name="chevron-back-outline">
+          </ion-icon>
+        </div>
+
+<!-- 
+        <div style="width: 100%; display:flex; justify-content:space-between; align-items:center; box-shadow: 0 0 6px 0 #ddd;">
+          <div (click)="changetab('tab1')"
+            [ngStyle]="{'background': tab1 == true ? '#acd196' : '#FFFFFF' , 'color' : tab1 == true ? '#FFFFFF' : '#acd196'}"
+            style="width: 50%; font-size:14px; font-weight:600; display: flex; justify-content: center; align-items: center; padding: 10px 0;">
+            System
+          </div>
+          <div (click)="changetab('tab2')"
+            [ngStyle]="{'background': tab2 == true ? '#acd196' : '#FFFFFF' , 'color' : tab2 == true ? '#FFFFFF' : '#acd196'}"
+            style="width: 50%; font-size:14px; font-weight:600; display: flex; justify-content: center; align-items: center; padding: 10px 0;">
+            Custom
+          </div>
+        </div> -->
+      </div>
+
+    </div>
+  </div>
+</ion-header>
+<ion-content *ngIf="loading">
+
+  <!-- <div style="width: 100%; display: flex; flex-direction: column; align-items: center;">
+    <div style="width: 90%; margin-top: 15px;">
+      <div style="width: 100%; display: flex; justify-content: space-between; align-items: center;">
+
+        <div style="display: flex; align-items: center; ">
+          <ion-icon name="caret-forward-outline" style="color: #87BB69; font-size: 16px;"></ion-icon>
+          <div style="font-weight: 600;font-size: 12px;color: black;">Quotation</div>
+        </div>
+
+        <div *ngIf="selectedquotation" style="display: flex; width: max-content;">
+          <div (click)="viewquotationpdf()" style="width: max-content; padding: 5px 10px; border-radius: 10px; background: #6DAD48; color: #FFFFFF;">View</div>
+        </div>
+        
+        
+      </div>
+
+    
+        <ion-item>
+          <ion-select [(ngModel)]="selectedquotation" placeholder="Select Quotation" style="font-size: 12px;">
+            <ion-select-option *ngFor="let x of quotation" value="{{x}}">{{x}}</ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <div style="width: 100%; display: flex; justify-content: right; margin: 10px 0;">
+          <div (click)="createpdf()" style="display: flex; width: max-content;">
+            <ion-icon name="add-outline" style="font-size: 24px; "></ion-icon>
+          </div>
+
+        </div>
+
+    </div>
+
+  </div> -->
+
+
+  <div *ngIf="tab1 == true" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
+
+
+      <div [ngClass]="popup ? 'pop' : 'popx'"
+      style="width: max-content; z-index: 3000; display: flex; align-items: center; background: #6DAD48; color: #FFFFFF; padding: 8px 16px; border-radius: 10px; margin-top: 10px; gap: 3px;">
+        <ion-icon (click)="clicktopop()" name="{{popup ? 'chevron-forward-outline' : 'chevron-back-outline'}}"></ion-icon>
+        <div (click)="createpdf()" style="display: flex; width: max-content;">
+          <ion-icon name="add-outline" style="font-size: 24px;"></ion-icon>
+          <div *ngIf="popup" style="margin-left: 3px;">Create Sales Order Form</div>
+        </div>
+
+
+      </div>
+
+
+    <div style="width: 90%;" *ngFor="let x of pdffileurl">
+      <div (click)="getpdf(x['sales_order_form'],'system')" style="display: flex; align-items: center; padding: 10px 0; margin: 10px 0; box-shadow: 0 0 6px 0 #ddd;">
+        <img src="assets/icon/pdflogo.png" style="width: 20%;"/>
+        <div style="width: 80%;">{{x['sales_order_form'].split('/')[4]}}</div>
+      </div>
+    </div>
+
+
+    <div *ngIf="pdffileurl && pdffileurl.length < 1" style="width: 90%; display: flex; flex-direction: column; justify-content: center; align-items: center; height: 90%;">
+      <img src="assets/icon/nocontent-nobackground.gif" />
+      <b>No system pdf yet</b>
+    </div>
+
+  </div>
+
+  <div *ngIf="tab2 == true" style="width: 100%; display: flex; flex-direction: column; align-items: center; height: 100%;">
+
+    <!-- <div style="margin: 20px 0 10px; width: 35px; height: 35px; border-radius: 50%; border: 1px solid #6DAD48;color: #6DAD48; display: flex; align-items: center; justify-content: center;">
+      <ion-icon name="add-outline" style="font-size: 16px;"></ion-icon>
+    </div> -->
+
+    <div style="width: 90%;" *ngFor="let x of custompdffilename">
+      <div (click)="getpdf(x, 'custom')" style="display: flex; align-items: center; padding: 10px 0; margin: 10px 0; box-shadow: 0 0 6px 0 #ddd;">
+        <img src="assets/icon/pdflogo.png" style="width: 20%;"/>
+        <div style="width: 80%;">{{x}}</div>
+      </div>
+    </div>
+
+    <div *ngIf="custompdffilename && custompdffilename.length < 1" style="width: 90%; display: flex; flex-direction: column; justify-content: center; align-items: center; height: 90%;">
+      <img src="assets/icon/nocontent-nobackground.gif" />
+      <b>No custom pdf yet</b>
+    </div>
+
+  </div>
+</ion-content>
