@@ -574,43 +574,16 @@ export class PdfQuotationPage implements OnInit {
               text: '',
               width: '3%'
             },
+            [
+              { text: 'NANO G CENTRAL SDN BHD 201401003990 (1080064-V)', fontSize: 9, width: 'auto', color: '#444444', margin: [0, 0, 0, 3] },
+              { text: 'D-1-11, Block D, Oasis Square Jalan PJU 1A/7, Oasis Damansara, Ara Damansara, 47301 Petaling Jaya, Selangor', fontSize: 9, width: 'auto', color: '#444444', alignment: 'left' }
+            ],
 
             [
-              { text: 'NANO G CENTRAL SDN BHD 201401003990 (1080064-V)', fontSize: 9, width: '100%', color: '#444444', margin: [0, 0, 0, 3] },
-              {
-                columns: [
-
-                  { text: 'D-1-11, Block D, Oasis Square Jalan PJU 1A/7, Oasis Damansara, Ara Damansara, 47301 Petaling Jaya, Selangor', fontSize: 9, width: '60%', color: '#444444', alignment: 'left' },
-
-                  [
-                    {
-                      columns: [
-                        { text: 'Tel : ', fontSize: 9, width: 'auto', margin: [0, 0, 0, 2], color: '#444444', alignment: 'left' },
-                        { text: '1-800-18-6266', fontSize: 9, width: 'auto', margin: [0, 0, 0, 2], color: '#000000', alignment: 'left' },
-
-                      ]
-                    },
-                    {
-                      columns: [
-                        { text: 'W : ', fontSize: 9, width: 'auto', margin: [0, 0, 0, 2], color: '#444444', alignment: 'left' },
-                        { text: 'www.nanog.com.my', fontSize: 9, width: 'auto', margin: [0, 0, 0, 2], color: '#000000', alignment: 'left' }
-                      ]
-                    },
-                    {
-                      columns: [
-                        { text: 'S : ', fontSize: 9, width: 'auto', margin: [0, 0, 0, 2], color: '#444444', alignment: 'left' },
-                        { text: 'fb.com/nanogmalaysia', fontSize: 9, width: 'auto', margin: [0, 0, 0, 2], color: '#000000', alignment: 'left' }
-                      ]
-                    },
-                    { text: '', width: '30%' },
-                  ]
-
-                ],
-                width: '100%'
-              },
-
-            ],
-            { alignment: 'left', text: 'Quotation', fontSize: 18, color: '#444444', bold: 'true', width: '20%' }
+              { text: 'Tel : 1-800-18-6266', fontSize: 9, width: 'auto', margin: [0, 0, 0, 2], color: '#444444', alignment: 'left' },
+              { text: 'W : www.nanog.com.my', fontSize: 9, width: 'auto', margin: [0, 0, 0, 2], color: '#444444', alignment: 'left' },
+              { text: 'S : fb.com/nanogmalaysia', fontSize: 9, width: 'auto', margin: [0, 0, 0, 2], color: '#444444', alignment: 'left' }
+            ]
           ]
         },
         {
@@ -633,6 +606,7 @@ export class PdfQuotationPage implements OnInit {
             //   }
             // ],
             [
+              { alignment: 'right', text: 'Quotation', fontSize: 18, color: '#444444', bold: 'true', width: '20%' },
               {
                 columns: [
                   { text: 'Issue Date:', bold: true, fontSize: 10, width: '50%', color: '#000000', alignment: 'right', },
@@ -671,6 +645,7 @@ export class PdfQuotationPage implements OnInit {
           canvas: [{ type: 'line', x1: 0, y1: 10, x2: 520, y2: 10 }],
           margin: [0, 0, 0, 10],
         },
+        { text: 'Breakdown of fees (inclusive of materials and labor)', fontSize: 11, width: '100%', bold: true, margin: [0, 2, 0, 2], alignment: 'left', },
         this.table(this.service,
           [
             { text: 'services', style: "tableHeader" },

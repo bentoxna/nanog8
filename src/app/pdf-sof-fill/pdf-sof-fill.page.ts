@@ -173,10 +173,9 @@ export class PdfSofFillPage implements OnInit {
 
   save(){
     console.log(this.lead.customer_phone)
-    if(!this.lead.customer_name || !this.lead.customer_phone || !this.lead.customer_email || !this.lead.address || !this.lead.mailing_address || !this.lead.icno 
+    if(!this.lead.customer_name || !this.lead.customer_phone || !this.lead.customer_email || !this.lead.address || !this.lead.mailing_address
       || (this.lead.gender == 'Others' ? !this.lead.gender2 : !this.lead.gender) 
       || (this.lead.race == 'Others' ? !this.lead.race2 : !this.lead.race) 
-      || (this.lead.maritial_status == 'Others' ? !this.lead.maritial_status2 : !this.lead.maritial_status)
       || (this.lead.residence_type == 'Others' ? !this.lead.residence_type2 : !this.lead.residence_type)
       || (this.lead.residential_status == 'Others' ? !this.lead.residential_status2 : !this.lead.residential_status))
     {
