@@ -112,7 +112,7 @@ export class CheckInPage implements OnInit {
   //     })
   //   }
   // }
-
+  while_check_status
   gps = false
 
   task = {} as any
@@ -142,6 +142,7 @@ export class CheckInPage implements OnInit {
   checkin_status
 
   customer = [] as any
+  appointment_time : any
 
   constructor(
     private camera: Camera,
@@ -181,8 +182,24 @@ export class CheckInPage implements OnInit {
   //   });
   // }
 
-  ngOnInit() {
+  // ngOnInit() {
+  //   this.route.queryParams.subscribe(a => {
+  //     console.log(a)
+  //     this.task = a
+  //     this.leadid = a['lid']
+  //     this.userid = a['uid']
+  //     this.checkin_status = a['checkin_status']
+  //     this.appointment_time = a['time']
+  //     this.checkin.now = 1690830530001
+  //     this.http.post('https://api.nanogapp.com/getSalesExec', { uid: a.uid }).subscribe((s) => {
+  //       this.user = s['data']
+  //       console.log(this.user)
+  //     })
+  //     this.checkingstatus()
+  //   })
+  // }
 
+  ngOnInit() {
     console.log('address string', this.addressstring)
 
     this.getaddress()
@@ -198,6 +215,7 @@ export class CheckInPage implements OnInit {
       this.leadid = a['lid']
       this.userid = a['uid']
       this.checkin_status = a['checkin_status']
+      this.appointment_time = a['time']
       this.http.post('https://api.nanogapp.com/getSalesExec', { uid: a.uid }).subscribe((s) => {
         this.user = s['data']
         console.log(this.user)
@@ -478,6 +496,20 @@ export class CheckInPage implements OnInit {
       // Swal.close()
     })
   }
+  // submit(){
+  //   console.log({
+  //     latt: this.location.latitude,
+  //     long: this.location.longitude,
+  //     time: this.checkin.now,
+  //     image: JSON.stringify(this.imageurl),
+  //     aid: this.task.tid,
+  //     checkin_address: this.addressstring,
+  //     lead_id: this.leadid,
+  //     uid: this.userid,
+  //     check_status : 'in' , 
+  //     while_check_status : this.checkingstatus()
+  //   })
+  // }
 
   submit() {
     if (this.imageurl.length < 1) {
@@ -562,6 +594,7 @@ export class CheckInPage implements OnInit {
               lead_id: this.leadid,
               uid: this.userid,
               check_status : 'in' , 
+              while_check_status : this.checkingstatus()
             }).subscribe(a => {
   
               Swal.close()
@@ -590,6 +623,7 @@ export class CheckInPage implements OnInit {
               lead_id: this.leadid,
               uid: this.userid,
               check_status : 'in' , 
+              while_check_status : this.checkingstatus()
             }).subscribe(a => {
   
               Swal.close()
@@ -611,6 +645,46 @@ export class CheckInPage implements OnInit {
         }
       })
     }
+  }
+
+  checkingstatus() : string{
+    let temp
+    let num1 = this.checkin.now
+    let num2 = this.appointment_time
+    if(num1 <= num2)
+    {
+      if(num2 - num1 <= 3600000)
+      {
+        temp = 'within 1 hour early'
+      }
+      else if((num2 - num1 > 3600000) && (num2 - num1 <= 86400000))
+      {
+        temp = 'more than 1 hour early'
+      }
+      else if(num2 - num1 > 86400000)
+      {
+        temp = 'more than 1 day early'
+      }
+    }
+    else if(num1 > num2)
+    {
+      if(num1 - num2 <= 3600000)
+      {
+        temp = 'within 1 hour late'
+      }
+      else if(num1 - num2 > 3600000 && (num1 - num2 <= 86400000))
+      {
+        temp = 'more than 1 hour late'
+      }
+      else if(num1 - num2 > 86400000)
+      {
+        temp = 'more than 1 day late'
+      }
+    }
+    console.log(this.checkin.now) 
+    console.log(this.appointment_time)
+    
+    return temp
   }
 
   cancel() {

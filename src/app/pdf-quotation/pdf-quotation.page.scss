@@ -1,32 +1,36 @@
 .pop{
-    position: absolute; 
-    top: 0px; 
+    position: fixed; 
+    // top: 0px; 
+    top: 50%;
     right: -10px;
+    transform: translate(0, -50%);
     animation: popupeffect 200ms ease-in;
 }
 
 .popx{
-    position: absolute; 
-    top: 0px; 
+    position: fixed; 
+    // top: 0px; 
+    top: 50%;
     right: -10px;
+    transform: translate(0, -50%);
     animation: closeeffect 200ms ease-in;
 }
 
 
 @keyframes popupeffect {
     0%{
-        transform: translateX(100px);
+        transform: translate(100px, -50%);
     }
     100%{
-        transform: translateX(0);
+        transform: translate(0, -50%);
     }
 }
 
 @keyframes closeeffect {
     0%{
-        transform: translateX(100px);
+        transform: translate(100px, -50%);
     }
     100%{
-        transform: translateX(0);
+        transform: translate(0, -50%);
     }
 }

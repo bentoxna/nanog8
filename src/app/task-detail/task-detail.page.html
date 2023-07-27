@@ -95,7 +95,7 @@
                             </div>
                         </div>
 
-                        <div *ngIf="appointment.label_s == 80" style="background: rgba(255, 255, 255, 0.5); text-align: center; color: rgb(255, 255, 255); border: 2.5px solid red; border-radius: 10px; padding: 2px; font-size: 14px; font-weight:700;
+                        <div *ngIf="appointment.label_s == 80 || appointment.appointment_status == false" style="background: rgba(255, 255, 255, 0.5); text-align: center; color: rgb(255, 255, 255); border: 2.5px solid red; border-radius: 10px; padding: 2px; font-size: 14px; font-weight:700;
                             display: flex; align-items: center; justify-content: center;  margin: 5px 0;">
                             <div style="border: 3px dashed red; width: 200px; height: max-content; padding: 2px 0; border-radius: 10px; background: rgba(255, 0, 0, 0.5);
                                  display: flex; align-items: center; justify-content: center;">
@@ -894,10 +894,10 @@
                     <div style="color: #000000;">Quotation</div>
                 </div>
 
-                <!-- <div (click)="salesorder()"
+                <div (click)="salesorder()"
                 style="width: max-content; margin-right: 5px; font-size: 13px; font-weight: 600; display: flex; justify-content: center; align-items: center; padding: 12px 0 0 0; border-bottom: 0.5px solid #000000;">
                 <div style="color: #000000;">Sales Order Form</div>
-            </div> -->
+            </div>
 
                 <div (click)="schedule()"
                     style="width: max-content; font-size: 13px; font-weight: 600; display: flex; flex-direction: column; justify-content:center; align-items: center; padding: 12px 0 0 0; border-bottom: 0.5px solid #000000;">

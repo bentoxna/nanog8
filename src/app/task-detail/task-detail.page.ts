@@ -332,12 +332,15 @@ export class TaskDetailPage implements OnInit {
     this.nav.pop()
   }
 
+  // checkin(x){
+  //   this.nav.navigateForward('check-in?uid=' + this.userid + '&tid=' + this.taskid + '&lid=' + this.appointment.lead_id + '&checkin_status=' + x + '&time=' + this.appointment.appointment_time)
+  // }
   checkin(x) {
     if (this.permission == 0) {
       console.log(this.open)
       if (this.open == 0) {
         console.log(this.permission, this.open)
-        this.nav.navigateForward('check-in?uid=' + this.userid + '&tid=' + this.taskid + '&lid=' + this.appointment.lead_id + '&checkin_status=' + x)
+        this.nav.navigateForward('check-in?uid=' + this.userid + '&tid=' + this.taskid + '&lid=' + this.appointment.lead_id + '&checkin_status=' + x + '&time=' + this.appointment.appointment_time)
       }
       else if (this.open == 1) {
         Swal.fire({
@@ -1389,8 +1392,8 @@ export class TaskDetailPage implements OnInit {
     //   icon : 'warning',
     //   heightAuto : false,
     // })
-    // this.nav.navigateForward('pdf-sales-order-form?uid=' + this.userid + '&tid=' + this.taskid + '&sid=' + this.salesid)
-    this.nav.navigateForward('pdf-sof-fill?tid=' + this.taskid + '&sid=' + this.salesid + '&leadid=' + this.appointment.lead_id)
+    this.nav.navigateForward('pdf-sales-order-form?uid=' + this.userid + '&tid=' + this.taskid + '&sid=' + this.salesid + '&tab=' + 2)
+    // this.nav.navigateForward('pdf-sof-fill?tid=' + this.taskid + '&sid=' + this.salesid + '&leadid=' + this.appointment.lead_id)
   }
 
 

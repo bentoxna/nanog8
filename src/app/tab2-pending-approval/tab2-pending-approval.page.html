@@ -426,7 +426,7 @@
             </div>
           </div>
 
-          <div *ngIf="x.label_s == 80" style="background: rgba(255, 255, 255, 0.5); text-align: center; color: rgb(255, 255, 255); border: 2.5px solid red; border-radius: 10px; padding: 2px; font-size: 14px; font-weight:700;
+          <div *ngIf="x.label_s == 80 || x.appointment_status == false" style="background: rgba(255, 255, 255, 0.5); text-align: center; color: rgb(255, 255, 255); border: 2.5px solid red; border-radius: 10px; padding: 2px; font-size: 14px; font-weight:700;
             display: flex; align-items: center; justify-content: center;  margin: 5px 0;">
             <div style="border: 3px dashed red; width: 200px; height: max-content; padding: 2px 0; border-radius: 10px; background: rgba(255, 0, 0, 0.5);
                  display: flex; align-items: center; justify-content: center;">
@@ -510,7 +510,7 @@
               </div>
 
               <div
-                [ngStyle]="{'background': x.sales_status == null ? 'black' : x.sales_status == 'Quotation' ? '#a3ed53' : x.sales_status == 'Deposit' ? '#80e316' : x.sales_status == 'Full Payment' ? '#6DAD48' : ''}"
+                [ngStyle]="{'background': x.sales_status == null ? 'black' : x.sales_status == 'Quotation' ? '#a3ed53' : x.sales_status == 'Deposit' ? '#80e316' : x.sales_status == 'Full Payment' ? '#6DAD48' : 'pink'}"
                 style="width: max-content; text-align: center; padding: 4px 8px; font-size: 10px; font-weight: 400; box-shadow: 0 0 6px 0 #ccc; background: #6DAD48; color: #FFFFFF; display: flex; align-items: flex-end;">
                 {{x.sales_status || 'Appointment'}}
               </div>
@@ -733,7 +733,7 @@
             </div>
 
             <div
-              [ngStyle]="{'background': x.sales_status == null ? 'black' : x.sales_status == 'Quotation' ? '#a3ed53' : x.sales_status == 'Deposit' ? '#80e316' : x.sales_status == 'Full Payment' ? '#6DAD48' : ''}"
+              [ngStyle]="{'background': x.sales_status == null ? 'black' : x.sales_status == 'Quotation' ? '#a3ed53' : x.sales_status == 'Deposit' ? '#80e316' : x.sales_status == 'Full Payment' ? '#6DAD48' : 'pink'}"
               style="width: max-content; text-align: center; padding: 4px 8px; font-size: 10px; font-weight: 400; box-shadow: 0 0 6px 0 #ccc; background: #6DAD48; color: #FFFFFF; display: flex; align-items: flex-end;">
               {{x.sales_status || 'Appointment'}}
             </div>

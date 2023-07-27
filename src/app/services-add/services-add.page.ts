@@ -91,7 +91,7 @@ export class ServicesAddPage implements OnInit {
       console.log(this.sapid)
 
       this.service['discount_roundoff'] = 0
-      this.service['package_warranty'] ? this.service['package_warranty'] : this.service['package_warranty'] = 0
+      this.service['package_warranty'] ? this.service['package_warranty'] : this.service['package_warranty'] = 1
       console.log(this.service)
       this.http.get('https://api.nanogapp.com/getPackages').subscribe(a => {
         this.packages = a['data']

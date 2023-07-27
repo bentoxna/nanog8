@@ -11,12 +11,14 @@
           <div
             style="color: #FFFFFF; font-size:16px; font-weight:600; display: flex; justify-content: center; align-items: center;">
             Quotation</div>
-            <ion-icon (click)='back()' style='font-size:16px;color: #FFFFFF; visibility: hidden;' name="chevron-back-outline">
-            </ion-icon>
+          <ion-icon (click)='back()' style='font-size:16px;color: #FFFFFF; visibility: hidden;'
+            name="chevron-back-outline">
+          </ion-icon>
         </div>
 
 
-        <div style="width: 100%; display:flex; justify-content:space-between; align-items:center; box-shadow: 0 0 6px 0 #ddd; height: 50px;">
+        <div
+          style="width: 100%; display:flex; justify-content:space-between; align-items:center; box-shadow: 0 0 6px 0 #ddd; height: 50px;">
           <div (click)="changetab('tab1')"
             [ngStyle]="{'background': tab1 == true ? '#acd196' : '#FFFFFF' , 'color' : tab1 == true ? '#FFFFFF' : '#acd196'}"
             style="width: 50%; font-size:14px; font-weight:600; display: flex; flex-direction: column; justify-content: center; align-items: center;  height: 50px;">
@@ -26,93 +28,97 @@
             [ngStyle]="{'background': tab2 == true ? '#acd196' : '#FFFFFF' , 'color' : tab2 == true ? '#FFFFFF' : '#acd196'}"
             style="width: 50%; font-size:14px; font-weight:600; display: flex; flex-direction: column; justify-content: center; align-items: center; position: relative;  height: 50px;">
             Custom
-            <div [ngStyle]="{'display' : appointment.quotation_request ? '' : 'none'}" style="font-size: 9px; color: white; background: red; padding: 3px 8px; border-radius: 10px; text-align: center;">
+            <div [ngStyle]="{'display' : appointment.quotation_request ? '' : 'none'}"
+              style="font-size: 9px; color: white; background: red; padding: 3px 8px; border-radius: 10px; text-align: center;">
               Requested
-             </div>
+            </div>
           </div>
         </div>
       </div>
 
-      
+
 
     </div>
   </div>
 
-  
+
 </ion-header>
 <ion-content *ngIf="loading">
-<!-- 
+
   <div *ngIf="tab1 == true" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
-    <div style="width: 90%; margin-top: 15px;">
-      <div style="width: 100%; display: flex; justify-content: space-between; align-items: center;">
+    <div style="width: 90%; margin-top: 15px; display: flex; gap: 8px">
 
-        <div style="display: flex; align-items: center; ">
-          <ion-icon name="caret-forward-outline" style="color: #87BB69; font-size: 16px;"></ion-icon>
-          <div style="font-weight: 600;font-size: 12px;color: black;">Warranty</div>
+      <!-- working duration -->
+      <div style="display: flex;align-items: center;">
+        <ion-icon name="caret-forward-outline" style="color: #87BB69; font-size: 16px;"></ion-icon>
+        <div style="font-weight: 600;font-size: 12px; color: black;">Working Duration(day/s):</div>
+      </div>
+      <div style="width: 35%;background: #F0F8ED;border-radius: 10px; display: flex; justify-content: space-between;">
+        <ion-input type="number" placeholder="Eg. 14"
+          [(ngModel)]="appointment.working_duration"
+          style="font-size: 12px; letter-spacing: 0.5px; --padding-start: 16px">
+        </ion-input>
 
-          <ion-icon name="caret-forward-outline" style="color: #87BB69; font-size: 16px;"></ion-icon>
-          <div style="font-weight: 600;font-size: 12px;color: black;">{{appointment.warranty}} years</div>
-        </div>
-        
+        <div (click)="handleChange()" style="background-color: #6DAD48; color: white; border-radius: 10px; font-size: 12px; width: max-content; padding: 5px 10px; display: flex; place-items: center; margin-left: 10px;">save</div>
       </div>
 
-    
-        <ion-item>
-          <ion-select (ionChange)="handleChange($event)" [(ngModel)]="appointment.warranty" placeholder="Select/Change Warranty" style="font-size: 12px;">
-            <ion-select-option *ngFor="let x of warranty" value="{{x}}">{{x}}</ion-select-option>
-          </ion-select>
-        </ion-item>
+    </div>  
+
+  </div>
+
+
+
+  <div *ngIf="tab1 == true" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
+
+
+    <div [ngClass]="popup ? 'pop' : 'popx'"
+      style="width: max-content; z-index: 3000; display: flex; align-items: center; background: #6DAD48; color: #FFFFFF; 
+      padding: 8px 16px; border-radius: 10px; margin-top: 10px; gap: 3px;">
+      <ion-icon (click)="clicktopop()" name="{{popup ? 'chevron-forward-outline' : 'chevron-back-outline'}}"></ion-icon>
+      <div (click)="createpdf()" style="display: flex; width: max-content;">
+        <ion-icon name="add-outline" style="font-size: 24px;"></ion-icon>
+        <div *ngIf="popup" style="margin-left: 3px;">Create Quotation</div>
+      </div>
+
 
     </div>
 
-  </div> -->
-
-
-
-  <div *ngIf="tab1 == true" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
-
-
-      <div [ngClass]="popup ? 'pop' : 'popx'"
-      style="width: max-content; z-index: 3000; display: flex; align-items: center; background: #6DAD48; color: #FFFFFF; padding: 8px 16px; border-radius: 10px; margin-top: 10px; gap: 3px;">
-        <ion-icon (click)="clicktopop()" name="{{popup ? 'chevron-forward-outline' : 'chevron-back-outline'}}"></ion-icon>
-        <div (click)="createpdf()" style="display: flex; width: max-content;">
-          <ion-icon name="add-outline" style="font-size: 24px;"></ion-icon>
-          <div *ngIf="popup" style="margin-left: 3px;">Create Quotation</div>
-        </div>
-
-
-      </div>
-
 
     <div style="width: 90%;" *ngFor="let x of pdffilename">
-      <div (click)="getpdf(x,'system')" style="display: flex; align-items: center; padding: 10px 0; margin: 10px 0; box-shadow: 0 0 6px 0 #ddd;">
-        <img src="assets/icon/pdflogo.png" style="width: 20%;"/>
+      <div (click)="getpdf(x,'system')"
+        style="display: flex; align-items: center; padding: 10px 0; margin: 10px 0; box-shadow: 0 0 6px 0 #ddd;">
+        <img src="assets/icon/pdflogo.png" style="width: 20%;" />
         <div style="width: 80%;">{{x}}</div>
       </div>
     </div>
 
 
-    <div *ngIf="pdffilename && pdffilename.length < 1" style="width: 90%; display: flex; flex-direction: column; justify-content: center; align-items: center; height: 90%;">
+    <div *ngIf="pdffilename && pdffilename.length < 1"
+      style="width: 90%; display: flex; flex-direction: column; justify-content: center; align-items: center; height: 90%;">
       <img src="assets/icon/nocontent-nobackground.gif" />
       <b>No system pdf yet</b>
     </div>
 
   </div>
 
-  <div *ngIf="tab2 == true" style="width: 100%; display: flex; flex-direction: column; align-items: center; height: 100%;">
+  <div *ngIf="tab2 == true"
+    style="width: 100%; display: flex; flex-direction: column; align-items: center; height: 100%;">
 
-    <div (click)="request()" style="margin: 20px 0 10px; padding: 5px 10px; width: max-content; height: 35px; border-radius: 15px; border: 1px solid #6DAD48; background: #6DAD48; color: white; display: flex; align-items: center; justify-content: center;">
+    <div (click)="request()"
+      style="margin: 20px 0 10px; padding: 5px 10px; width: max-content; height: 35px; border-radius: 15px; border: 1px solid #6DAD48; background: #6DAD48; color: white; display: flex; align-items: center; justify-content: center;">
       <div>Request Quotation</div>
     </div>
 
     <div style="width: 90%;" *ngFor="let x of custompdffilename">
-      <div (click)="getpdf(x, 'custom')" style="display: flex; align-items: center; padding: 10px 0; margin: 10px 0; box-shadow: 0 0 6px 0 #ddd;">
-        <img src="assets/icon/pdflogo.png" style="width: 20%;"/>
+      <div (click)="getpdf(x, 'custom')"
+        style="display: flex; align-items: center; padding: 10px 0; margin: 10px 0; box-shadow: 0 0 6px 0 #ddd;">
+        <img src="assets/icon/pdflogo.png" style="width: 20%;" />
         <div style="width: 80%;">{{x}}</div>
       </div>
     </div>
 
-    <div *ngIf="custompdffilename && custompdffilename.length < 1" style="width: 90%; display: flex; flex-direction: column; justify-content: center; align-items: center; height: 90%;">
+    <div *ngIf="custompdffilename && custompdffilename.length < 1"
+      style="width: 90%; display: flex; flex-direction: column; justify-content: center; align-items: center; height: 90%;">
       <img src="assets/icon/nocontent-nobackground.gif" />
       <b>No custom pdf yet</b>
     </div>

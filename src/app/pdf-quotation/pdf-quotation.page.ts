@@ -42,6 +42,7 @@ export class PdfQuotationPage implements OnInit {
   total
   subtotal
   subtotalstring
+  deductpricestring
 
   deductprice
   discount2photo = false
@@ -200,16 +201,18 @@ export class PdfQuotationPage implements OnInit {
     })
   }
 
-  handleChange(x) {
-    console.log(x['detail']['value'])
-    let warranty = x['detail']['value']
-    this.http.post('https://api.nanogapp.com/updatewarranty', { warranty: warranty, salesid: this.salesid }).subscribe(a => {
+  handleChange() {
+    // console.log(x['detail']['value'])
+    // let warranty = x['detail']['value']
+    this.http.post('https://api.nanogapp.com/updateworkingduration', { working_duration: this.appointment.working_duration, salesid: this.salesid }).subscribe(a => {
       Swal.fire({
-        text: 'warranty updated',
+        text: 'working duration updated',
         icon: 'success',
         heightAuto: false,
         showConfirmButton: false,
         timer: 1000,
+      }).then(a => {
+        this.ngOnInit()
       })
 
     })
@@ -269,9 +272,13 @@ export class PdfQuotationPage implements OnInit {
     console.log(this.deductprice)
     console.log(tempdeduct)
     console.log(this.dnumber)
-    this.deductprice = (this.deductprice / 100 * 100).toFixed(2)
+    // this.deductprice = (this.deductprice / 100 * 100).toFixed(2)
     this.total = (this.total / 100 * 100).toFixed(2)
-    this.subtotalstring = (this.subtotal / 100 * 100).toFixed(2)
+    // this.subtotalstring = (this.subtotal / 100 * 100).toFixed(2)
+    this.subtotalstring = ((this.appointment.sales_packages.map(a => a['total']).reduce((a,b) => a+b)) + this.appointment.skylift_fee + this.appointment.scaff_fee + this.appointment.transportation_fee).toFixed(2)
+    this.deductpricestring = ((this.appointment.sales_packages.map(a => Number(a['discount'])).reduce((a,b) => a+b)) + this.deductprice).toFixed(2)
+    console.log(this.subtotalstring)
+    console.log(this.deductpricestring)
     this.totaldiscountdisplay = (this.dpercentage / 100 * 100).toFixed(2)
 
     console.log(this.deductprice, this.total, this.subtotalstring, this.totaldiscountdisplay)
@@ -289,7 +296,9 @@ export class PdfQuotationPage implements OnInit {
       console.log(this.subtotal)
     });
 
-    this.subtotalstring = (this.subtotal / 100 * 100).toFixed(2)
+    // this.subtotalstring = (this.subtotal / 100 * 100).toFixed(2)
+    this.subtotalstring = ((this.appointment.sales_packages.map(a => a['total']).reduce((a,b) => a+b)) + this.appointment.skylift_fee + this.appointment.scaff_fee + this.appointment.transportation_fee).toFixed(2)
+    this.deductpricestring = ((this.appointment.sales_packages.map(a => Number(a['discount'])).reduce((a,b) => a+b)) + Number(this.deductprice)).toFixed(2)
     this.total = this.subtotal - this.deductprice + this.appointment.scaff_fee + this.appointment.skylift_fee + this.appointment.transportation_fee
     this.total = (this.total / 100 * 100).toFixed(2)
   }
@@ -550,7 +559,7 @@ export class PdfQuotationPage implements OnInit {
   //   ((new Date().getDate() + '').length < 2 ? ('0' + new Date().getDate() ): ('' + new Date().getDate())) + '/' + ((new Date().getHours() + '').length < 2 ? ('0' + new Date().getHours() ): ('' + new Date().getHours())) +
   //   ((new Date().getMinutes() + '').length < 2 ? ('0' + new Date().getMinutes() ): ('' + new Date().getMinutes()))
   async openpdf() {
-    this.deductprice == 0 ? this.fontsize = 0 : this.fontsize = 9
+    Number(this.deductpricestring) == 0 ? this.fontsize = 0 : this.fontsize = 9
     this.quoteid = 'NGQ/A' + this.returnzero(this.quotationnumber + 1) + '-' + this.appointment.gen_quotation.length
     Swal.fire({
       text: 'Processing...',
@@ -574,54 +583,67 @@ export class PdfQuotationPage implements OnInit {
               text: '',
               width: '3%'
             },
-            [
-              { text: 'NANO G CENTRAL SDN BHD 201401003990 (1080064-V)', fontSize: 9, width: 'auto', color: '#444444', margin: [0, 0, 0, 3] },
-              { text: 'D-1-11, Block D, Oasis Square Jalan PJU 1A/7, Oasis Damansara, Ara Damansara, 47301 Petaling Jaya, Selangor', fontSize: 9, width: 'auto', color: '#444444', alignment: 'left' }
-            ],
-
-            [
-              { text: 'Tel : 1-800-18-6266', fontSize: 9, width: 'auto', margin: [0, 0, 0, 2], color: '#444444', alignment: 'left' },
-              { text: 'W : www.nanog.com.my', fontSize: 9, width: 'auto', margin: [0, 0, 0, 2], color: '#444444', alignment: 'left' },
-              { text: 'S : fb.com/nanogmalaysia', fontSize: 9, width: 'auto', margin: [0, 0, 0, 2], color: '#444444', alignment: 'left' }
-            ]
+            {
+              columns : [
+                {
+                  stack: [
+                    { text: 'NANO G CENTRAL SDN BHD 201401003990 (1080064-V)', fontSize: 9, color: '#444444', width: '100%'},
+                    { text: 'D-1-11, Block D, Oasis Square Jalan PJU 1A/7, Oasis Damansara, Ara Damansara, 47301 Petaling Jaya, Selangor', fontSize: 9, color: '#444444', alignment: 'left', width: '100%'},          
+                  ],
+                },
+              ],
+              width: '56%',
+              margin : [0,0,5,0]
+            },
+            {
+              columns : [
+                {
+                  stack : [
+                    { text: 'Tel : 1-800-18-6266', fontSize: 9, width: 'auto', color: '#444444', alignment: 'left' },
+                    { text: 'W : www.nanog.com.my', fontSize: 9, width: 'auto', color: '#444444', alignment: 'left' },
+                    { text: 'S : fb.com/nanogmalaysia', fontSize: 9, width: 'auto', color: '#444444', alignment: 'left' }
+                  ]
+                }
+              ],
+              alignment: 'right'
+            }
           ]
         },
         {
           canvas: [{ type: 'line', x1: 0, y1: 10, x2: 520, y2: 10 }],
           margin: [0, 0, 0, 10],
         },
+
         {
           columns: [
-            [
-              { text: 'From: ', fontSize: 11, width: '45%', bold: true, margin: [0, 0, 0, 2], alignment: 'left', },
-              { text: this.user.user_name + '(' + this.user.user_role + ')', fontSize: 10, width: '45%', color: '#444444', alignment: 'left', margin: [1, 0.5, 1, 0.5] },
-              { text: this.user.user_phone_no, fontSize: 10, width: '45%', color: '#444444', alignment: 'left', margin: [1, 0.5, 1, 0.5] },
-              { text: this.user.user_email, fontSize: 10, width: '45%', color: '#444444', alignment: 'left', margin: [1, 0.5, 1, 0.5] },
-
-              // { text: this.appointment.warranty < 1 ? 'Warranty: ' + 'no warranty' : ('Warranty: ' + this.appointment.warranty + ' year/s'), fontSize: 9, width: '45%', margin: [0, 12, 0, 0], alignment: 'left', },
-            ],
-            // [
-            //   {
-
-            //   }
-            // ],
-            [
-              { alignment: 'right', text: 'Quotation', fontSize: 18, color: '#444444', bold: 'true', width: '20%' },
-              {
-                columns: [
-                  { text: 'Issue Date:', bold: true, fontSize: 10, width: '50%', color: '#000000', alignment: 'right', },
-                  { text: this.today, bold: true, fontSize: 10, width: '50%', color: '#444444', alignment: 'right', },
-                ],
-              },
-              {
-                columns: [
-                  { text: 'Quote No:', fontSize: 10, width: '50%', color: '#000000', alignment: 'right', margin: [0, 2, 0, 0] },
-                  { text: this.quoteid, fontSize: 10, width: '50%', color: '#444444', alignment: 'right', margin: [0, 2, 0, 0] }
-                ],
-                width: 'auto',
-                alignment: 'right'
-              },
-            ]
+            {
+              stack : [
+                { text: 'From: ', fontSize: 11, width: '45%', bold: true, margin: [0, 2, 0, 2], alignment: 'left', },
+                { text: this.user.user_name + '(' + this.user.user_role + ')', fontSize: 10, color: '#444444', alignment: 'left', margin: [1, 0.5, 1, 0.5] },
+                { text: this.user.user_phone_no, fontSize: 10, color: '#444444', alignment: 'left', margin: [1, 0.5, 1, 0.5] },
+                { text: this.user.user_email, fontSize: 10, color: '#444444', alignment: 'left', margin: [1, 0.5, 1, 0.5] },
+              ],
+              width : '45%'
+            },
+            {
+              stack : [
+                { alignment: 'right', text: 'Quotation', fontSize: 20, color: '#6DAD48', bold: 'true', width: '20%', margin: [0,0,0,2] },
+                {
+                  columns: [
+                    { text: 'Issue Date:', bold: true, fontSize: 10, width: '50%', color: '#000000', alignment: 'right', },
+                    { text: this.today, bold: true, fontSize: 10, width: '50%', color: '#444444', alignment: 'right', },
+                  ],
+                },
+                {
+                  columns: [
+                    { text: 'Quote No:', fontSize: 10, width: '50%', color: '#000000', alignment: 'right', margin: [0, 2, 0, 0] },
+                    { text: this.quoteid, fontSize: 10, width: '50%', color: '#444444', alignment: 'right', margin: [0, 2, 0, 0] }
+                  ],
+                  width: 'auto',
+                  alignment: 'right'
+                },
+              ],
+            },
           ],
           width: '100%',
         },
@@ -700,18 +722,43 @@ export class PdfQuotationPage implements OnInit {
           margin: [0, 15, 0, 0],
         },
 
-        {
+        { 
           columns: [
-            { text: '' },
-            { text: 'Subtotal: ', alignment: 'left', width: '14%', margin: [1, 20, 0, 0], fontSize: 9, color: '#444444' },
-            { text: 'RM ' + this.subtotalstring, alignment: 'right', width: '15%', margin: [0, 20, 1, 0], fontSize: 9, color: '#444444' },
-          ]
+            {
+              text : 'Duration of works is estimated to last at approximately ' + (this.appointment.working_duration ? this.appointment.working_duration : 'x') + ' working day/s subject to climate factor.',
+              width : '70%',
+              alignment : 'left',
+              margin: [0, 20, 10, 0],
+              fontSize : 11
+            },
+            {
+              stack : [
+                {
+                  columns : [
+                    { text: 'Subtotal: ', alignment: 'left', margin: [0, 20, 0, 0], fontSize: 9, color: '#444444' },
+                    { text: 'RM ' + this.subtotalstring, alignment: 'right', width: '65%', margin: [0, 20, 0, 0], fontSize: 9, color: '#444444' },
+                  ],
+                },
+                {
+                  columns : [
+                    { text: this.discounttext, alignment: 'left', fontSize: this.fontsize,  margin: [0, 2, 0, 0], color: '#444444' },
+                    { text: '- RM ' + this.deductpricestring, alignment: 'right', width: '65%', margin: [0, 2, 0, 0], fontSize: this.fontsize, color: '#444444' },
+                  ],
+                },
+                {
+                  columns : [
+                    { text: 'Total: ', alignment: 'left', fontSize: 11, margin: [0, 5, 0, 0]},
+                    { text: 'RM ' + this.total, alignment: 'right', width: '65%', margin: [0, 5, 0, 0], fontSize: 11 }, 
+                  ],
+                }
+              ]
+            },
+          ],
+          width: '100%',
         },
         {
           columns: [
-            {},
-            { text: this.discounttext, alignment: 'left', width: '14%', margin: [1, 2, 0, 0], fontSize: this.fontsize, color: '#444444' },
-            { text: '- RM ' + this.deductprice, alignment: 'right', width: '15%', margin: [0, 2, 1, 0], fontSize: this.fontsize, color: '#444444' },
+
           ]
         },
         // {
@@ -724,8 +771,7 @@ export class PdfQuotationPage implements OnInit {
         {
           columns: [
             {},
-            { text: 'Total: ', alignment: 'left', width: '14%', margin: [1, 5, 0, 0], fontSize: 11 },
-            { text: 'RM ' + this.total, alignment: 'right', width: '15%', margin: [0, 5, 1, 0], fontSize: 11 },
+
           ],
         },
         {

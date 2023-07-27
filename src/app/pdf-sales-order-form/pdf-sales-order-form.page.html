@@ -73,7 +73,7 @@
   <div *ngIf="tab1 == true" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
 
 
-      <div [ngClass]="popup ? 'pop' : 'popx'"
+      <div *ngIf="tab != 2" [ngClass]="popup ? 'pop' : 'popx'"
       style="width: max-content; z-index: 3000; display: flex; align-items: center; background: #6DAD48; color: #FFFFFF; padding: 8px 16px; border-radius: 10px; margin-top: 10px; gap: 3px;">
         <ion-icon (click)="clicktopop()" name="{{popup ? 'chevron-forward-outline' : 'chevron-back-outline'}}"></ion-icon>
         <div (click)="createpdf()" style="display: flex; width: max-content;">

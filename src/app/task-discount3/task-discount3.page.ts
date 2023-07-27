@@ -157,6 +157,56 @@ export class TaskDiscount3Page implements OnInit {
     })
   }
 
+
+  refresher3(j){
+    this.route.queryParams.subscribe(a => {
+      this.taskid = a['tid']
+      this.salesid = a['sid']
+      this.sapid = a['sapid']
+
+      console.log(this.sapid)
+      this.sapid ? this.tab = 2 : this.tab = 1
+
+      this.http.post('https://api.nanogapp.com/getMainAndAddOnPackagesJoinDiscount', { sap_id: this.sapid }).subscribe(a => {
+        console.log(a)
+        this.wholeService = a['data']
+        this.mainService = a['data'].filter(a => !a['addon_id'])
+        this.addonService = a['data'].filter(a => a['addon_id'])
+
+        this.mainServiceCalculator()
+        this.addonServiceCalculator()
+        this.totalPriceCaculator()
+
+        console.log(this.mainService[0].aftertotal)
+        console.log(this.mainService[0].sap_id)
+        this.http.post('https://api.nanogapp.com/updateSalesPackageAfterTotal', { sapid: this.mainService[0].sap_id, total_after : this.mainService[0].aftertotal }).subscribe(a => {
+            console.log(a)
+        })
+        
+        // this.totalPrice = this.wholeService.filter(a => a).map(b => b['total']).reduce((c,d) => c + d, 0)
+      })
+
+
+
+      this.http.post('https://api.nanogapp.com/getAllSalesDiscount', {sales_id: this.salesid}).subscribe(a => {
+        this.dcustompercentage = 0
+          this.custom = a['data'].filter(a => a['discount_id'] == null)
+          this.noncustom = a['data'].filter(a => a['discount_id'] != null)
+          this.custom.filter(b => b['type'] == true ? ((b['status'] == true || b['status'] == null) ? this.dcustompercentage += b['percentage'] : this.dcustompercentage = this.dcustompercentage ) : this.dcustompercentage = this.dcustompercentage)
+          // this.dpercentage = a['data'].reduce((a,b) => a['type'] == true? ((b['status'] == true || b['status'] == null) ? a + b : a = b) : a = b, 0)
+          console.log(this.dcustompercentage)
+          console.log(this.custom)
+          console.log(this.noncustom)
+
+          this.http.get('https://api.nanogapp.com/getActiveDiscount').subscribe(a => {
+            this.discounts = a['data']
+            this.discounts.filter(a => this.noncustom.filter(b => a['id'] == b['discount_id'] ? ( b['status'] == true ? a['selected'] = true : a['selected'] = false) : (a['selected'] == null ? a['selected'] = false : a['selected'] = a['selected'])))
+            console.log(this.discounts)
+          })
+       })
+    })
+  }
+
   mainServiceCalculator(){
     let temp = this.mainService[0].dis_items
     this.mainService[0].aftertotal = this.mainService[0].total
@@ -371,7 +421,7 @@ export class TaskDiscount3Page implements OnInit {
       {
         this.http.post('https://api.nanogapp.com/deleteSalesPackageDiscount', {dis_id :  this.mainService[0].dis_items[j].dis_id}).subscribe(a => {
           console.log(a)
-          this.refresher()
+          this.refresher3(j)
         })
       }
     })

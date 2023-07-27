@@ -43,6 +43,7 @@ export class PdfSalesOrderFormPage implements OnInit {
   total
   subtotal
   subtotalstring
+  deductpricestring
 
   deductprice
   discount2photo = false
@@ -88,6 +89,7 @@ export class PdfSalesOrderFormPage implements OnInit {
   quotation
   quotationlink
   selectedquotation
+  tab
 
   constructor(
     //  private fileOpener: FileOpener,
@@ -112,6 +114,7 @@ export class PdfSalesOrderFormPage implements OnInit {
       this.userid = a.uid
       this.taskid = a.tid
       this.salesid = a['sid']
+      this.tab = a['tab']
 
       console.log(this.taskid)
       this.http.post('https://api.nanogapp.com/getUserDetail', { uid: this.userid }).subscribe(res => {
@@ -288,16 +291,23 @@ export class PdfSalesOrderFormPage implements OnInit {
 
     if (this.appointment.sales_packages && this.appointment.sales_packages.length > 0 && this.dpercentage == 0 && this.dnumber == 0) {
 
-      this.total = this.subtotal + this.appointment.scaff_fee + this.appointment.skylift_fee
+      this.total = this.subtotal + this.appointment.scaff_fee + this.appointment.skylift_fee + this.appointment.transportation_fee
     }
     else if (this.appointment.sales_packages && this.appointment.sales_packages.length > 0 && ((this.dpercentage != 0 || this.dnumber != 0) || (this.dpercentage != 0 && this.dnumber != 0))) {
-      this.total = this.subtotal - tempdeduct - this.dnumber + this.appointment.scaff_fee + this.appointment.skylift_fee
+      this.total = this.subtotal - tempdeduct - this.dnumber + this.appointment.scaff_fee + this.appointment.skylift_fee + this.appointment.transportation_fee
     }
 
     this.deductprice = Number(tempdeduct) + Number(this.dnumber)
-    this.deductprice = (this.deductprice / 100 * 100).toFixed(2)
+    console.log(this.deductprice)
+    console.log(tempdeduct)
+    console.log(this.dnumber)
+    // this.deductprice = (this.deductprice / 100 * 100).toFixed(2)
     this.total = (this.total / 100 * 100).toFixed(2)
-    this.subtotalstring = (this.subtotal / 100 * 100).toFixed(2)
+    // this.subtotalstring = (this.subtotal / 100 * 100).toFixed(2)
+    this.subtotalstring = ((this.appointment.sales_packages.map(a => a['total']).reduce((a,b) => a+b)) + this.appointment.skylift_fee + this.appointment.scaff_fee + this.appointment.transportation_fee).toFixed(2)
+    this.deductpricestring = ((this.appointment.sales_packages.map(a => Number(a['discount'])).reduce((a,b) => a+b)) + this.deductprice).toFixed(2)
+    console.log(this.subtotalstring)
+    console.log(this.deductpricestring)
     this.totaldiscountdisplay = (this.dpercentage / 100 * 100).toFixed(2)
 
     console.log(this.deductprice, this.total, this.subtotalstring, this.totaldiscountdisplay)
@@ -315,8 +325,10 @@ export class PdfSalesOrderFormPage implements OnInit {
       console.log(this.subtotal)
     });
 
-    this.subtotalstring = (this.subtotal / 100 * 100).toFixed(2)
-    this.total = this.subtotal - this.deductprice + this.appointment.scaff_fee + this.appointment.skylift_fee
+    // this.subtotalstring = (this.subtotal / 100 * 100).toFixed(2)
+    this.subtotalstring = ((this.appointment.sales_packages.map(a => a['total']).reduce((a,b) => a+b)) + this.appointment.skylift_fee + this.appointment.scaff_fee + this.appointment.transportation_fee).toFixed(2)
+    this.deductpricestring = ((this.appointment.sales_packages.map(a => Number(a['discount'])).reduce((a,b) => a+b)) + Number(this.deductprice)).toFixed(2)
+    this.total = this.subtotal - this.deductprice + this.appointment.scaff_fee + this.appointment.skylift_fee + this.appointment.transportation_fee
     this.total = (this.total / 100 * 100).toFixed(2)
   }
 
@@ -560,7 +572,7 @@ export class PdfSalesOrderFormPage implements OnInit {
   quoteid
 
   async openpdf() {
-    this.deductprice == 0 ? this.fontsize = 0 : this.fontsize = 9
+    Number(this.deductpricestring) == 0 ? this.fontsize = 0 : this.fontsize = 9
     // let quoteid =  (this.appointment.id ? this.appointment.id : '0000') + '/' + (this.appointment.gen_quotation.length + 1) + '/' + new Date().getFullYear() + (((new Date().getMonth() + 1) + '').length < 2 ? ('0' + (new Date().getMonth() + 1) ): ('' + (new Date().getMonth() + 1))) + 
     // ((new Date().getDate() + '').length < 2 ? ('0' + new Date().getDate() ): ('' + new Date().getDate())) + '/' + ((new Date().getHours() + '').length < 2 ? ('0' + new Date().getHours() ): ('' + new Date().getHours())) +
     // ((new Date().getMinutes() + '').length < 2 ? ('0' + new Date().getMinutes() ): ('' + new Date().getMinutes()))
@@ -632,42 +644,30 @@ export class PdfSalesOrderFormPage implements OnInit {
               text: '',
               width: '3%'
             },
-            [
-              { text: 'NANO G CENTRAL SDN BHD 201401003990 (1080064-V)', fontSize: 9, width: '100%', color: '#444444', margin: [0, 0, 0, 3] },
-              {
-                columns: [
-
-                  { text: 'D-1-11, Block D, Oasis Square Jalan PJU 1A/7, Oasis Damansara, Ara Damansara, 47301 Petaling Jaya, Selangor', fontSize: 9, width: '60%', color: '#444444', alignment: 'left' },
-                  {text: '', width: '3%'},
-                  [
-                    {
-                      columns: [
-                        { text: 'Tel : ', fontSize: 9, width: 'auto', margin: [0, 0, 0, 2], color: '#444444', alignment: 'left' },
-                        { text: '1-800-18-6266', fontSize: 9, width: 'auto', margin: [0, 0, 0, 2], color: '#000000', alignment: 'left' },
-
-                      ]
-                    },
-                    {
-                      columns: [
-                        { text: 'W : ', fontSize: 9, width: 'auto', margin: [0, 0, 0, 2], color: '#444444', alignment: 'left' },
-                        { text: 'www.nanog.com.my', fontSize: 9, width: 'auto', margin: [0, 0, 0, 2], color: '#000000', alignment: 'left' }
-                      ]
-                    },
-                    {
-                      columns: [
-                        { text: 'S : ', fontSize: 9, width: 'auto', margin: [0, 0, 0, 2], color: '#444444', alignment: 'left' },
-                        { text: 'fb.com/nanogmalaysia', fontSize: 9, width: 'auto', margin: [0, 0, 0, 2], color: '#000000', alignment: 'left' }
-                      ]
-                    },
-                    { text: '', width: '37%' },
+            {
+              columns : [
+                {
+                  stack: [
+                    { text: 'NANO G CENTRAL SDN BHD 201401003990 (1080064-V)', fontSize: 9, color: '#444444', width: '100%'},
+                    { text: 'D-1-11, Block D, Oasis Square Jalan PJU 1A/7, Oasis Damansara, Ara Damansara, 47301 Petaling Jaya, Selangor', fontSize: 9, color: '#444444', alignment: 'left', width: '100%'},          
+                  ],
+                },
+              ],
+              width: '56%',
+              margin : [0,0,5,0]
+            },
+            {
+              columns : [
+                {
+                  stack : [
+                    { text: 'Tel : 1-800-18-6266', fontSize: 9, width: 'auto', color: '#444444', alignment: 'left' },
+                    { text: 'W : www.nanog.com.my', fontSize: 9, width: 'auto', color: '#444444', alignment: 'left' },
+                    { text: 'S : fb.com/nanogmalaysia', fontSize: 9, width: 'auto', color: '#444444', alignment: 'left' }
                   ]
-
-                ],
-                width: '100%'
-              },
-
-            ],
-            { alignment: 'left', text: 'Sales Order Form', fontSize: 14, color: '#444444', bold: 'true', width: '22%' }
+                }
+              ],
+              alignment: 'right'
+            }
           ]
         },
         {
@@ -676,35 +676,32 @@ export class PdfSalesOrderFormPage implements OnInit {
         },
         {
           columns: [
-            [
-              { text: 'Created by', fontSize: 11, width: '45%', bold: true, margin: [0, 0, 0, 2], alignment: 'left', },
-              { text: this.user.user_name + '(' + this.user.user_role + ')', fontSize: 10, width: '45%', color: '#444444', alignment: 'left', margin: [1, 0.5, 1, 0.5] },
-              { text: this.user.user_phone_no, fontSize: 10, width: '45%', color: '#444444', alignment: 'left', margin: [1, 0.5, 1, 0.5] },
-              { text: this.user.user_email, fontSize: 10, width: '45%', color: '#444444', alignment: 'left', margin: [1, 0.5, 1, 0.5] },
-            ],
-            // [
-            //   {
-
-            //   }
-            // ],
-            [
-              {
-                columns: [
-                  { text: 'Issue Date:', bold: true, fontSize: 10, width: '50%', color: '#000000', alignment: 'right', },
-                  { text: this.today, bold: true, fontSize: 10, width: '50%', color: '#444444', alignment: 'right', },
-                ],
-              },
-              {
-                columns: [
-                  { text: 'SOF No:', fontSize: 10, width: '50%', color: '#000000', alignment: 'right', margin: [0, 2, 0, 0] },
-                  { text: this.quoteid, fontSize: 10, width: '50%', color: '#444444', alignment: 'right', margin: [0, 2, 0, 0] }
-                ],
-                width: 'auto',
-                alignment: 'right'
-              },
-            ]
+            {
+              text : ' ',
+              width : '50%',
+            },
+            {
+              stack : [
+                { alignment: 'right', text: 'Sales Order Form', fontSize: 20, color: '#6DAD48', bold: 'true', width: '20%', margin: [0,0,0,10] },
+                {
+                  columns: [
+                    { text: 'Issue Date:', bold: true, fontSize: 10, width: '50%', color: '#000000', alignment: 'right', },
+                    { text: this.today, bold: true, fontSize: 10, width: '50%', color: '#444444', alignment: 'right', },
+                  ],
+                },
+                {
+                  columns: [
+                    { text: 'SOF No:', fontSize: 10, width: '50%', color: '#000000', alignment: 'right', margin: [0, 2, 0, 0] },
+                    { text: this.quoteid, fontSize: 10, width: '50%', color: '#444444', alignment: 'right', margin: [0, 2, 0, 0] }
+                  ],
+                  width: 'auto',
+                  alignment: 'right'
+                },
+              ],
+            },
           ],
           width: '100%',
+          alignment : 'right'
         },
         {
           canvas: [{ type: 'line', x1: 0, y1: 10, x2: 520, y2: 10 }],
@@ -860,7 +857,7 @@ export class PdfSalesOrderFormPage implements OnInit {
           columns: [
             {},
             { text: this.discounttext, alignment: 'left', width: '14%', margin: [1, 2, 0, 0], fontSize: this.fontsize, color: '#444444' },
-            { text: '- RM ' + this.deductprice, alignment: 'right', width: '15%', margin: [0, 2, 1, 0], fontSize: this.fontsize, color: '#444444' },
+            { text: '- RM ' + this.deductpricestring, alignment: 'right', width: '15%', margin: [0, 2, 1, 0], fontSize: this.fontsize, color: '#444444' },
           ]
         },
         // {
@@ -906,28 +903,44 @@ export class PdfSalesOrderFormPage implements OnInit {
           canvas: [{ type: 'line', x1: 0, y1: 10, x2: 520, y2: 10 }],
           margin: [0, 0, 0, 10],
         },
-        {
-          columns: [
-            { text: 'Customer Signature', fontSize: 12, width: '100%', bold: true, margin: [0, 0, 0, 2], alignment: 'right', },
-          ]
-        },
+        
         {
           columns: [
             {
-              stack: [
-                {
-                  image: await this.getBase64ImageFromURL(
-                    this.appointment.customer_signature
-                  ),
-                  width: 100,
-                },
+              stack : [
+                { text: 'Created by:', fontSize: 11, width: '45%', bold: true, margin: [0, 0, 0, 2], alignment: 'left', },
+                { text: this.user.user_name + '(' + this.user.user_role + ')', fontSize: 9, width: '45%', color: '#444444', alignment: 'left', margin: [0,5,0,0] },
+                { text: this.user.user_phone_no, fontSize: 9, width: '45%', color: '#444444', alignment: 'left', margin: [0,0,0,0] },
+                { text: this.user.user_email, fontSize: 9, width: '45%', color: '#444444', alignment: 'left', margin: [0,0,0,0] },
               ],
+              width : '45%'
             },
-          ],
-          margin: [0, 20, 0, 0],
-          alignment: 'right', // Move the container (and image) to the right side
-          width: '100%',
+            {
+              stack : [
+                { text: 'Customer Signature', fontSize: 11, width: '55%', bold: true, margin: [0, 0, 0, 2], alignment: 'right' },
+                {
+                  columns: [
+                    {
+                      stack: [
+                        {
+                          image: await this.getBase64ImageFromURL(
+                            this.appointment.customer_signature
+                          ),
+                          width: 100,
+                        },
+                      ],
+                    },
+                  ],
+                  margin: [0, 5, 0, 0],
+                  alignment: 'right', // Move the container (and image) to the right side
+                  width: '65%',
+                },
+              ]
+            }
+            
+          ]
         },
+
         { canvas: [{ type: 'line', x1: 400, y1: 10, x2: 520, y2: 10, lineWidth: 0.5  }] },
         { text: 'Signed By : ' + this.appointment.customer_name, width: '100%', alignment: 'right', color: '#000000', margin: [2, 2, 2, 2], fontSize: 9 },
       ],
@@ -1066,6 +1079,7 @@ export class PdfSalesOrderFormPage implements OnInit {
             userid: this.userid,
             by: this.user.user_name,
             latest_orderform: temppdf['sales_order_form'],
+            sales_status : (this.appointment.sales_status == 'Full Payment' || this.appointment.sales_status == 'Deposit')  ? this.appointment.sales_status : 'SOF Submitted'
           }).subscribe((res) => {
             if (res['success'] == true) {
               console.log(this.pdffileurl)

@@ -162,7 +162,7 @@ export class Tab3TaskAllPage implements OnInit {
 
       this.http.post('https://api.nanogapp.com/getAppointmentForExecByDate', { execId: this.userid, startDate: this.monthfirstday1, endDate: this.monthlastday1 }).subscribe((s) => {
         console.log(s)
-        this.appointmentByMonth =  s['data'].filter(a =>( (a['phone_row_number'] == 1 && a['address_row_number'] == 1) || a['verified'] == true || a['warranty_id']) && (!a['sales_status'] || a['sales_status'] == 'Quotation') && !a['whole_status'])
+        this.appointmentByMonth =  s['data'].filter(a =>( (a['phone_row_number'] == 1 && a['address_row_number'] == 1) || a['verified'] == true || a['warranty_id']) && (!a['sales_status'] || a['sales_status'] == 'Quotation' || a['sales_status']  == 'SOF Submitted') && !a['whole_status'])
 
         // let temp2 = JSON.parse(s['data'][0]['assigned_to4'])
         // console.log(temp2)
@@ -810,7 +810,7 @@ export class Tab3TaskAllPage implements OnInit {
         this.monthdatetab1 = false
   
         this.http.post('https://api.nanogapp.com/getAppointmentForExecByDate', { execId: this.userid, startDate: this.monthfirstday1, endDate: this.monthlastday1 }).subscribe((s) => {
-          this.appointmentByMonth =  s['data'].filter(a =>( (a['phone_row_number'] == 1 && a['address_row_number'] == 1) || a['verified'] == true || a['warranty_id']) &&( !a['sales_status'] || a['sales_status'] == 'Quotation') && !a['whole_status'])
+          this.appointmentByMonth =  s['data'].filter(a =>( (a['phone_row_number'] == 1 && a['address_row_number'] == 1) || a['verified'] == true || a['warranty_id']) &&( !a['sales_status'] || a['sales_status'] == 'Quotation' || a['sales_status']  == 'SOF Submitted') && !a['whole_status'])
           console.log(this.appointmentByMonth)
         })
       }
@@ -827,7 +827,7 @@ export class Tab3TaskAllPage implements OnInit {
         this.monthdatetab1 = false
     
         this.http.post('https://api.nanogapp.com/getAppointmentForExecByDate', { execId: this.userid, startDate: this.monthfirstday1, endDate: this.monthlastday1 }).subscribe((s) => {
-          this.appointmentByMonth =  s['data'].filter(a =>( (a['phone_row_number'] == 1 && a['address_row_number'] == 1) || a['verified'] == true || a['warranty_id']) && ( !a['sales_status'] || a['sales_status'] == 'Quotation') && !a['whole_status'])
+          this.appointmentByMonth =  s['data'].filter(a =>( (a['phone_row_number'] == 1 && a['address_row_number'] == 1) || a['verified'] == true || a['warranty_id']) && ( !a['sales_status'] || a['sales_status'] == 'Quotation' || a['sales_status']  == 'SOF Submitted') && !a['whole_status'])
           console.log(this.appointmentByMonth)
         })
       }
@@ -844,7 +844,7 @@ export class Tab3TaskAllPage implements OnInit {
         this.monthdatetab2 = false
 
         this.http.post('https://api.nanogapp.com/getAppointmentForExecByDate', { execId: this.userid, startDate: this.monthfirstday2, endDate: this.monthlastday2 }).subscribe((s) => {
-          this.appointmentByMonth =  s['data'].filter(a =>( (a['phone_row_number'] == 1 && a['address_row_number'] == 1) || a['verified'] == true || a['warranty_id']) && (a['sales_status'] == 'Full Payment' || a['sales_status']  == 'Deposit') && !a['whole_status'])
+          this.appointmentByMonth =  s['data'].filter(a =>( (a['phone_row_number'] == 1 && a['address_row_number'] == 1) || a['verified'] == true || a['warranty_id']) && (a['sales_status'] == 'Full Payment' || a['sales_status']  == 'Deposit'  ) && !a['whole_status'])
           console.log(this.appointmentByMonth)
         })
       }
@@ -862,7 +862,7 @@ export class Tab3TaskAllPage implements OnInit {
   
     
         this.http.post('https://api.nanogapp.com/getAppointmentForExecByDate', { execId: this.userid, startDate: this.monthfirstday2, endDate: this.monthlastday2 }).subscribe((s) => {
-          this.appointmentByMonth =  s['data'].filter(a =>( (a['phone_row_number'] == 1 && a['address_row_number'] == 1) || a['verified'] == true || a['warranty_id']) && (a['sales_status'] == 'Full Payment' || a['sales_status']  == 'Deposit') && !a['whole_status'])
+          this.appointmentByMonth =  s['data'].filter(a =>( (a['phone_row_number'] == 1 && a['address_row_number'] == 1) || a['verified'] == true || a['warranty_id']) && (a['sales_status'] == 'Full Payment' || a['sales_status']  == 'Deposit' ) && !a['whole_status'])
           console.log(this.appointmentByMonth)
         })
       }
