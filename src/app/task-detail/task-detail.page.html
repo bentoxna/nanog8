@@ -291,7 +291,11 @@
                     </div>
                 </div> -->
 
-                <div *ngIf="(!appointment.checkin_latt || !appointment.checkin_long|| !appointment.checkin_time || !appointment.checkin_img) && !appointment.check_detail"
+                <div *ngIf="((!appointment.checkin_latt || !appointment.checkin_long|| !appointment.checkin_time || !appointment.checkin_img) 
+                && !appointment.check_detail)
+                || ((!appointment.checkin_latt || !appointment.checkin_long|| !appointment.checkin_time || !appointment.checkin_img) 
+                && (appointment.check_detail && appointment.check_detail.length < 2 
+                && appointment.check_detail[appointment.check_detail.length - 1]['check_status'] == 'hold'))"
                     (click)="checkin('first')" style="width:100%; display: flex; justify-content: center;">
                     <div
                         style="width: 90%; text-align: center; padding: 8px 0; font-size: 16px; font-weight: 600; border: 2px solid #6DAD48; border-radius: 10px;">
@@ -299,7 +303,11 @@
                 </div>
 
 
-                <div *ngIf="appointment.check_detail && appointment.check_detail[appointment.check_detail.length - 1]['check_status'] == 'hold'"
+                <div *ngIf="((appointment.checkin_latt && appointment.checkin_long && appointment.checkin_time && appointment.checkin_img) 
+                    && appointment.check_detail && appointment.check_detail[appointment.check_detail.length - 1]['check_status'] == 'hold') ||
+                    ((!appointment.checkin_latt || !appointment.checkin_long|| !appointment.checkin_time || !appointment.checkin_img) &&
+                    appointment.check_detail && appointment.check_detail.length > 1 
+                    && appointment.check_detail[appointment.check_detail.length - 1]['check_status'] == 'hold')"
                     (click)="checkin('again')"
                     style="width:100%; display: flex; justify-content: center; margin-top: 10px;">
                     <div

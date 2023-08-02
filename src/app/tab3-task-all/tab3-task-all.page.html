@@ -515,7 +515,67 @@
               <div style="height: 1px; background: #6DAD48;width: 100%;"></div>
             </div>
 
-            <div style="display: flex; align-items:center;width: 100%; padding-bottom: 5px; padding-top: 6px;">
+
+            <div
+            style="width: 100%; display:flex; justify-content:space-between; align-items: flex-start; ">
+
+            <div>
+              <div style="display: flex; align-items:center;width: 100%; padding-bottom: 5px; padding-top: 6px;">
+                <div
+                  style="font-size: 12px; padding: 4px 8px;background: #7BB6A0; color: #FFFFFF; border-radius: 4px;">
+                  {{x.services}}</div>
+              </div>
+
+              <div style="display:flex; flex-wrap: wrap; padding-bottom: 4px;">
+                <div *ngFor="let item of x.issues"
+                  style="min-width: max-content; margin-bottom: 3px; margin-right: 6px; color: #FFFFFF; font-size: 12px; padding: 4px 8px; border-radius: 4px; background: #2A3C62;">
+                  {{item}}</div>
+              </div>
+
+              <div style="font-size: 12px;">*{{x.saleexec_note || '*There is no remark here'}}</div>
+              <div style="font-size: 12px; font-weight: 600;">Assd. by : {{x.sc_name || ''}}</div>
+
+              <div style="display: flex; gap: 5px; flex-wrap: wrap; margin-top: 5px;">
+                <div *ngIf="x.warranty_id"
+                  style="width: max-content; text-align: center; padding: 4px 8px; font-size: 10px; font-weight: 400; box-shadow: 0 0 6px 0 #ccc; background: #ffffff; color: #6DAD48; display: flex; align-items: flex-end;">
+                  Warranty
+                </div>
+
+                <div
+                  [ngStyle]="{'background': x.sales_status == null ? 'black' : x.sales_status == 'Quotation' ? '#a3ed53' : x.sales_status == 'Deposit' ? '#80e316' : x.sales_status == 'Full Payment' ? '#6DAD48' : ''}"
+                  style="width: max-content; text-align: center; padding: 4px 8px; font-size: 10px; font-weight: 400; box-shadow: 0 0 6px 0 #ccc; background: #6DAD48; color: #FFFFFF; display: flex; align-items: flex-end;">
+                  {{x.sales_status || 'Appointment'}}
+                </div>
+
+                <div *ngIf="x.has_sales_order_form"
+                  style="width: max-content; text-align: center; padding: 4px 8px; font-size: 10px; font-weight: 400; box-shadow: 0 0 6px 0 #ccc; background: pink; color: white; display: flex; align-items: flex-end;">
+                  SOF Submitted
+                </div>
+              </div>
+
+            </div>
+
+
+          <!--button for whatsapp and map v1-->
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 5px;">
+
+              <ion-button
+                style="margin: 0; margin-right: 2.5px; padding: 0; color: black; font-size: 10px; --background:white !important; min-width: 45px; max-width: 45px; min-height: 25px; 
+        max-height: 25px; font-weight: 600; display: flex; justify-content: center; align-items: center; box-shadow: 0 0 6px 0 #ddd;"
+                (click)="mapnavigate(x.lattitude, x.longtitude, x.address)">MAP</ion-button>
+
+              <ion-button
+                style="margin: 0; padding: 0; --background:white !important; min-width: 45px; max-width: 45px; min-height: 25px; 
+            max-height: 25px; display: flex; justify-content: center; align-items: center; box-shadow: 0 0 6px 0 #ddd;"
+                *ngIf="x.customer_phone && x.customer_phone.slice(0, 1) == '6'"
+                href="{{x.customer_phone.slice(0, 1) == '6' ? whatsapplinkheader + x.customer_phone : whatsapplinkheader + '6' + x.customer_phone}}">
+                <ion-icon style="color: black; font-size: 12px;" name="logo-whatsapp"></ion-icon>
+              </ion-button>
+            </div>
+
+          </div>
+
+            <!-- <div style="display: flex; align-items:center;width: 100%; padding-bottom: 5px; padding-top: 6px;">
               <div style="font-size: 12px; padding: 4px 8px;background: #7BB6A0; color: #FFFFFF; border-radius: 4px;">
                 {{x.services}}</div>
             </div>
@@ -527,12 +587,12 @@
             </div>
 
             <div style="font-size: 12px;">*{{x.saleexec_note || '*There is no remark here'}}</div>
-            <div style="font-size: 12px; font-weight: 600;">Assd. by : {{x.sc_name || ''}}</div>
+            <div style="font-size: 12px; font-weight: 600;">Assd. by : {{x.sc_name || ''}}</div> -->
 
           </div>
 
           <!--button for whatsapp and map v1-->
-          <div
+          <!-- <div
             style="width: 100%; display:flex; justify-content:space-between; align-items: flex-end; margin-top: 5px;">
 
             <div style="display: flex;">
@@ -566,7 +626,7 @@
               </ion-button>
             </div>
 
-          </div>
+          </div> -->
 
         </div>
 
@@ -711,7 +771,66 @@
             <div style="height: 1px; background: #6DAD48;width: 100%;"></div>
           </div>
 
-          <div style="display: flex; align-items:center;width: 100%; margin-bottom: 5px; padding-top: 6px;">
+          <div
+          style="width: 100%; display:flex; justify-content:space-between; align-items: flex-start; ">
+
+          <div>
+            <div style="display: flex; align-items:center;width: 100%; padding-bottom: 5px; padding-top: 6px;">
+              <div
+                style="font-size: 12px; padding: 4px 8px;background: #7BB6A0; color: #FFFFFF; border-radius: 4px;">
+                {{x.services}}</div>
+            </div>
+
+            <div style="display:flex; flex-wrap: wrap; padding-bottom: 4px;">
+              <div *ngFor="let item of x.issues"
+                style="min-width: max-content; margin-bottom: 3px; margin-right: 6px; color: #FFFFFF; font-size: 12px; padding: 4px 8px; border-radius: 4px; background: #2A3C62;">
+                {{item}}</div>
+            </div>
+
+            <div style="font-size: 12px;">*{{x.saleexec_note || '*There is no remark here'}}</div>
+            <div style="font-size: 12px; font-weight: 600;">Assd. by : {{x.sc_name || ''}}</div>
+
+            <div style="display: flex; gap: 5px; flex-wrap: wrap; margin-top: 5px;">
+              <div *ngIf="x.warranty_id"
+                style="width: max-content; text-align: center; padding: 4px 8px; font-size: 10px; font-weight: 400; box-shadow: 0 0 6px 0 #ccc; background: #ffffff; color: #6DAD48; display: flex; align-items: flex-end;">
+                Warranty
+              </div>
+
+              <div
+                [ngStyle]="{'background': x.sales_status == null ? 'black' : x.sales_status == 'Quotation' ? '#a3ed53' : x.sales_status == 'Deposit' ? '#80e316' : x.sales_status == 'Full Payment' ? '#6DAD48' : ''}"
+                style="width: max-content; text-align: center; padding: 4px 8px; font-size: 10px; font-weight: 400; box-shadow: 0 0 6px 0 #ccc; background: #6DAD48; color: #FFFFFF; display: flex; align-items: flex-end;">
+                {{x.sales_status || 'Appointment'}}
+              </div>
+
+              <div *ngIf="x.has_sales_order_form"
+                style="width: max-content; text-align: center; padding: 4px 8px; font-size: 10px; font-weight: 400; box-shadow: 0 0 6px 0 #ccc; background: pink; color: white; display: flex; align-items: flex-end;">
+                SOF Submitted
+              </div>
+            </div>
+
+          </div>
+
+
+        <!--button for whatsapp and map v1-->
+          <div style="display: flex; flex-direction: column; align-items: center; gap: 5px;">
+
+            <ion-button
+              style="margin: 0; margin-right: 2.5px; padding: 0; color: black; font-size: 10px; --background:white !important; min-width: 45px; max-width: 45px; min-height: 25px; 
+      max-height: 25px; font-weight: 600; display: flex; justify-content: center; align-items: center; box-shadow: 0 0 6px 0 #ddd;"
+              (click)="mapnavigate(x.lattitude, x.longtitude, x.address)">MAP</ion-button>
+
+            <ion-button
+              style="margin: 0; padding: 0; --background:white !important; min-width: 45px; max-width: 45px; min-height: 25px; 
+          max-height: 25px; display: flex; justify-content: center; align-items: center; box-shadow: 0 0 6px 0 #ddd;"
+              *ngIf="x.customer_phone && x.customer_phone.slice(0, 1) == '6'"
+              href="{{x.customer_phone.slice(0, 1) == '6' ? whatsapplinkheader + x.customer_phone : whatsapplinkheader + '6' + x.customer_phone}}">
+              <ion-icon style="color: black; font-size: 12px;" name="logo-whatsapp"></ion-icon>
+            </ion-button>
+          </div>
+
+        </div>
+
+          <!-- <div style="display: flex; align-items:center;width: 100%; margin-bottom: 5px; padding-top: 6px;">
             <div style="font-size: 12px; padding: 4px 8px;background: #7BB6A0; color: #FFFFFF; border-radius: 4px;">
               {{x.services}}</div>
           </div>
@@ -723,12 +842,12 @@
           </div>
 
           <div style="font-size: 12px;">*{{x.saleexec_note || '*There is no remark here'}}</div>
-          <div style="font-size: 12px; font-weight: 600;">Assd. by : {{x.sc_name || ''}}</div>
+          <div style="font-size: 12px; font-weight: 600;">Assd. by : {{x.sc_name || ''}}</div> -->
 
         </div>
 
         <!--button for whatsapp and map v1-->
-        <div style="width: 100%; display:flex; justify-content:space-between; align-items: flex-end; margin-top: 5px;">
+        <!-- <div style="width: 100%; display:flex; justify-content:space-between; align-items: flex-end; margin-top: 5px;">
 
           <div style="display: flex;">
 
@@ -761,7 +880,7 @@
               <ion-icon style="color: black; font-size: 12px;" name="logo-whatsapp"></ion-icon>
             </ion-button>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
 
@@ -882,7 +1001,66 @@
               <div style="height: 1px; background: #6DAD48;width: 100%;"></div>
             </div>
 
-            <div style="display: flex; align-items:center;width: 100%; padding-bottom: 5px; padding-top: 6px;">
+            <div
+            style="width: 100%; display:flex; justify-content:space-between; align-items: flex-start; ">
+
+            <div>
+              <div style="display: flex; align-items:center;width: 100%; padding-bottom: 5px; padding-top: 6px;">
+                <div
+                  style="font-size: 12px; padding: 4px 8px;background: #7BB6A0; color: #FFFFFF; border-radius: 4px;">
+                  {{x.services}}</div>
+              </div>
+
+              <div style="display:flex; flex-wrap: wrap; padding-bottom: 4px;">
+                <div *ngFor="let item of x.issues"
+                  style="min-width: max-content; margin-bottom: 3px; margin-right: 6px; color: #FFFFFF; font-size: 12px; padding: 4px 8px; border-radius: 4px; background: #2A3C62;">
+                  {{item}}</div>
+              </div>
+
+              <div style="font-size: 12px;">*{{x.saleexec_note || '*There is no remark here'}}</div>
+              <div style="font-size: 12px; font-weight: 600;">Assd. by : {{x.sc_name || ''}}</div>
+
+              <div style="display: flex; gap: 5px; flex-wrap: wrap; margin-top: 5px;">
+                <div *ngIf="x.warranty_id"
+                  style="width: max-content; text-align: center; padding: 4px 8px; font-size: 10px; font-weight: 400; box-shadow: 0 0 6px 0 #ccc; background: #ffffff; color: #6DAD48; display: flex; align-items: flex-end;">
+                  Warranty
+                </div>
+
+                <div
+                  [ngStyle]="{'background': x.sales_status == null ? 'black' : x.sales_status == 'Quotation' ? '#a3ed53' : x.sales_status == 'Deposit' ? '#80e316' : x.sales_status == 'Full Payment' ? '#6DAD48' : ''}"
+                  style="width: max-content; text-align: center; padding: 4px 8px; font-size: 10px; font-weight: 400; box-shadow: 0 0 6px 0 #ccc; background: #6DAD48; color: #FFFFFF; display: flex; align-items: flex-end;">
+                  {{x.sales_status || 'Appointment'}}
+                </div>
+
+                <div *ngIf="x.has_sales_order_form"
+                  style="width: max-content; text-align: center; padding: 4px 8px; font-size: 10px; font-weight: 400; box-shadow: 0 0 6px 0 #ccc; background: pink; color: white; display: flex; align-items: flex-end;">
+                  SOF Submitted
+                </div>
+              </div>
+
+            </div>
+
+
+          <!--button for whatsapp and map v1-->
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 5px;">
+
+              <ion-button
+                style="margin: 0; margin-right: 2.5px; padding: 0; color: black; font-size: 10px; --background:white !important; min-width: 45px; max-width: 45px; min-height: 25px; 
+        max-height: 25px; font-weight: 600; display: flex; justify-content: center; align-items: center; box-shadow: 0 0 6px 0 #ddd;"
+                (click)="mapnavigate(x.lattitude, x.longtitude, x.address)">MAP</ion-button>
+
+              <ion-button
+                style="margin: 0; padding: 0; --background:white !important; min-width: 45px; max-width: 45px; min-height: 25px; 
+            max-height: 25px; display: flex; justify-content: center; align-items: center; box-shadow: 0 0 6px 0 #ddd;"
+                *ngIf="x.customer_phone && x.customer_phone.slice(0, 1) == '6'"
+                href="{{x.customer_phone.slice(0, 1) == '6' ? whatsapplinkheader + x.customer_phone : whatsapplinkheader + '6' + x.customer_phone}}">
+                <ion-icon style="color: black; font-size: 12px;" name="logo-whatsapp"></ion-icon>
+              </ion-button>
+            </div>
+
+          </div>
+
+            <!-- <div style="display: flex; align-items:center;width: 100%; padding-bottom: 5px; padding-top: 6px;">
               <div style="font-size: 12px; padding: 4px 8px;background: #7BB6A0; color: #FFFFFF; border-radius: 4px;">
                 {{x.services}}</div>
             </div>
@@ -894,13 +1072,13 @@
             </div>
 
             <div style="font-size: 12px;">*{{x.saleexec_note || '*There is no remark here'}}</div>
-            <div style="font-size: 12px; font-weight: 600;">Assd. by : {{x.sc_name || ''}}</div>
+            <div style="font-size: 12px; font-weight: 600;">Assd. by : {{x.sc_name || ''}}</div> -->
 
           </div>
 
 
           <!--button for whatsapp and map v1-->
-          <div
+          <!-- <div
             style="width: 100%; display:flex; justify-content:space-between; align-items: flex-end; margin-top: 5px;">
 
             <div style="display: flex;">
@@ -934,7 +1112,7 @@
               </ion-button>
             </div>
 
-          </div>
+          </div> -->
 
           <!-- sc photo -->
           <div *ngIf="x.sc_photo && x.sc_photo.length > 0"

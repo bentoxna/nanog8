@@ -1796,71 +1796,85 @@ export class TaskDetailPage implements OnInit {
   }
 
   holdBtn(){
-    Swal.fire({
-      html: 'Are you sure want to hold this appointment?<br> <b>Insert “Yes” to continue.</b>',
-      icon : 'info',
-      heightAuto : false,
-      showCancelButton: true,
-      reverseButtons: true,
-      input: 'text',
-      inputAttributes: {
-        autocapitalize: 'off'
-      },
-      showLoaderOnConfirm: true,
-    }).then(a => {
-      if(a['isConfirmed'] && a['value'].toLowerCase() == 'yes')
-      {
-        console.log(a)
-        Swal.fire({
-          text: 'Processing...',
-          icon: 'info',
-          heightAuto: false,
-          showConfirmButton: false,
-        })
-        this.http.post('https://api.nanogapp.com/insertCheckOut2', {
-          // label_m : this.label.mainlabel.id,
-          // label_s : this.label.sublabel.id,
-          lead_id : this.appointment.lead_id,
-          uid : this.userid,
-          by : this.user.user_name,
-          // image : JSON.stringify(this.imageurl) || JSON.stringify([]),
-          // label_video : JSON.stringify(this.videourl) || JSON.stringify([]),
-          // remark : this.label.remark,
-
-          // latt: this.location.latitude,
-          // long: this.location.longitude,
-          // image: JSON.stringify(this.imageurl),
-          aid: this.taskid,
-          // checkin_address: this.addressstring,
-          check_status : 'hold', 
-          // event_time : this.eventtime ? new Date(this.eventtime).getTime() : new Date().getTime() 
-        }).subscribe(a => {
+    if(!this.appointment.check_detail &&
+      (!this.appointment.checkin_latt || !this.appointment.checkin_long|| !this.appointment.checkin_time || !this.appointment.checkin_img))
+    {
+      Swal.fire({
+        text: "You're havent Check In!",
+        heightAuto: false,
+        icon : 'info',
+        timer : 1500,
+      })
+    }
+    else
+    {
+      Swal.fire({
+        html: 'Are you sure want to hold this appointment?<br> <b>Insert “Yes” to continue.</b>',
+        icon : 'info',
+        heightAuto : false,
+        showCancelButton: true,
+        reverseButtons: true,
+        input: 'text',
+        inputAttributes: {
+          autocapitalize: 'off'
+        },
+        showLoaderOnConfirm: true,
+      }).then(a => {
+        if(a['isConfirmed'] && a['value'].toLowerCase() == 'yes')
+        {
           console.log(a)
-          setTimeout(() => {
-            Swal.close()
-            Swal.fire({
-              title: 'Success',
-              icon: 'success',
-              text: 'Update Successfully',
-              heightAuto: false,
-              timer: 3000,
-            })
-           this.refresher()
-          }, 700);
-        })
+          Swal.fire({
+            text: 'Processing...',
+            icon: 'info',
+            heightAuto: false,
+            showConfirmButton: false,
+          })
+          this.http.post('https://api.nanogapp.com/insertCheckOut2', {
+            // label_m : this.label.mainlabel.id,
+            // label_s : this.label.sublabel.id,
+            lead_id : this.appointment.lead_id,
+            uid : this.userid,
+            by : this.user.user_name,
+            // image : JSON.stringify(this.imageurl) || JSON.stringify([]),
+            // label_video : JSON.stringify(this.videourl) || JSON.stringify([]),
+            // remark : this.label.remark,
+  
+            // latt: this.location.latitude,
+            // long: this.location.longitude,
+            // image: JSON.stringify(this.imageurl),
+            aid: this.taskid,
+            // checkin_address: this.addressstring,
+            check_status : 'hold', 
+            // event_time : this.eventtime ? new Date(this.eventtime).getTime() : new Date().getTime() 
+          }).subscribe(a => {
+            console.log(a)
+            setTimeout(() => {
+              Swal.close()
+              Swal.fire({
+                title: 'Success',
+                icon: 'success',
+                text: 'Update Successfully',
+                heightAuto: false,
+                timer: 3000,
+              })
+             this.refresher()
+            }, 700);
+          })
+  
+        }
+        else if(a['isConfirmed'] && a['value'].toLowerCase() != 'yes')
+        {
+          Swal.fire({
+            text: 'Kindly insert the word "Yes" to hold this appointment.',
+            icon : 'error',
+            heightAuto : false,
+          }).then(a => {
+            this.holdBtn()
+          })
+        }
+      })
+    }
 
-      }
-      else if(a['isConfirmed'] && a['value'].toLowerCase() != 'yes')
-      {
-        Swal.fire({
-          text: 'Kindly insert the word "Yes" to hold this appointment.',
-          icon : 'error',
-          heightAuto : false,
-        }).then(a => {
-          this.holdBtn()
-        })
-      }
-    })
   }
 
   magnify(x){

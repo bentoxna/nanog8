@@ -33,6 +33,7 @@ import {
   MapGeocoder,
   MapGeocoderResponse,
 } from '@angular/google-maps';
+import { EALREADY } from 'constants';
 
 const MEDIA_FOLDER_NAME = 'my_media';
 
@@ -648,43 +649,58 @@ export class CheckInPage implements OnInit {
   }
 
   checkingstatus() : string{
-    let temp
+    let string
     let num1 = this.checkin.now
     let num2 = this.appointment_time
-    if(num1 <= num2)
-    {
-      if(num2 - num1 <= 3600000)
-      {
-        temp = 'within 1 hour early'
-      }
-      else if((num2 - num1 > 3600000) && (num2 - num1 <= 86400000))
-      {
-        temp = 'more than 1 hour early'
-      }
-      else if(num2 - num1 > 86400000)
-      {
-        temp = 'more than 1 day early'
-      }
+    if(num1 <= num2){
+      let millisecond = num2 - num1
+      let hour = Math.floor(millisecond / (1000 * 60 * 60))
+      let min = Math.floor((millisecond % (1000 * 60 * 60)) / (1000 * 60))
+      string = 'early ' + (hour ?  (hour + ' hour ') : '') + min + ' minutes' 
+      console.log(string)
     }
     else if(num1 > num2)
     {
-      if(num1 - num2 <= 3600000)
-      {
-        temp = 'within 1 hour late'
-      }
-      else if(num1 - num2 > 3600000 && (num1 - num2 <= 86400000))
-      {
-        temp = 'more than 1 hour late'
-      }
-      else if(num1 - num2 > 86400000)
-      {
-        temp = 'more than 1 day late'
-      }
+      let millisecond = num1 - num2
+      let hour = Math.floor(millisecond / (1000 * 60 * 60))
+      let min = Math.floor((millisecond % (1000 * 60 * 60)) / (1000 * 60))
+      string = 'late ' + (hour ?  (hour + ' hour ') : '') + min + ' minutes' 
+      console.log(string)
     }
+    // if(num1 <= num2)
+    // {
+    //   if(num2 - num1 <= 3600000)
+    //   {
+    //     temp = 'within 1 hour early'
+    //   }
+    //   else if((num2 - num1 > 3600000) && (num2 - num1 <= 86400000))
+    //   {
+    //     temp = 'more than 1 hour early'
+    //   }
+    //   else if(num2 - num1 > 86400000)
+    //   {
+    //     temp = 'more than 1 day early'
+    //   }
+    // }
+    // else if(num1 > num2)
+    // {
+    //   if(num1 - num2 <= 3600000)
+    //   {
+    //     temp = 'within 1 hour late'
+    //   }
+    //   else if(num1 - num2 > 3600000 && (num1 - num2 <= 86400000))
+    //   {
+    //     temp = 'more than 1 hour late'
+    //   }
+    //   else if(num1 - num2 > 86400000)
+    //   {
+    //     temp = 'more than 1 day late'
+    //   }
+    // }
     console.log(this.checkin.now) 
     console.log(this.appointment_time)
     
-    return temp
+    return string
   }
 
   cancel() {
