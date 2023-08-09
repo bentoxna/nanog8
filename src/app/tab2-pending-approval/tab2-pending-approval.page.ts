@@ -135,7 +135,7 @@ export class Tab2PendingApprovalPage implements OnInit {
       console.log(this.temp.todaymilli, this.temp.tomorrowmilli)
 
       this.http.post('https://api.nanogapp.com/getAppointmentDetailsForExec', { uid: this.userid }).subscribe((s) => {
-        this.appointmentAll =  s['data'].filter(a =>( (a['phone_row_number'] == 1 && a['address_row_number'] == 1) || a['verified'] == true || a['warranty_id']) && ((a['sales_status'] == 'Full Payment') || (a['sales_status'] == 'Deposit')))
+        this.appointmentAll =  s['data'].filter(a =>( (a['phone_row_number'] == 1) || a['verified'] == true || a['warranty_id']) && ((a['sales_status'] == 'Full Payment') || (a['sales_status'] == 'Deposit')))
         console.log(this.appointmentAll)
         this.filteredappointment = s['data']
 
@@ -145,8 +145,8 @@ export class Tab2PendingApprovalPage implements OnInit {
 
       console.log(this.userid, this.temp.todaymilli, this.temp.tomorrowmilli)
 
-      this.http.post('https://api.nanogapp.com/getAppointmentForExecByDate', { execId: this.userid, startDate: this.temp.todaymilli, endDate: this.temp.tomorrowmilli }).subscribe((s) => {
-        this.appointment =  s['data'].filter(a =>( (a['phone_row_number'] == 1 && a['address_row_number'] == 1) || a['verified'] == true || a['warranty_id']) && ((a['sales_status'] == 'Full Payment') || (a['sales_status'] == 'Deposit')))
+      this.http.post('https://api.nanogapp.com/getAppointmentForExecByDatev2forlist', { execId: this.userid, startDate: this.temp.todaymilli, endDate: this.temp.tomorrowmilli }).subscribe((s) => {
+        this.appointment =  s['data'].filter(a =>( (a['phone_row_number'] == 1) || a['verified'] == true || a['warranty_id']) && ((a['sales_status'] == 'Full Payment') || (a['sales_status'] == 'Deposit')))
         console.log(this.appointment)
 
         this.appointmentwithpaymentdone = this.filterappointment('done')
@@ -495,8 +495,8 @@ export class Tab2PendingApprovalPage implements OnInit {
     console.log(this.dateselectedmilli)
     console.log(this.dateselectedtomorrowmilli)
 
-    this.http.post('https://api.nanogapp.com/getAppointmentForExecByDate', { execId: this.userid, startDate: this.dateselectedmilli, endDate: this.dateselectedtomorrowmilli }).subscribe((s) => {
-      this.appointment =  s['data'].filter(a =>( (a['phone_row_number'] == 1 && a['address_row_number'] == 1) || a['verified'] == true || a['warranty_id']) && ((a['sales_status'] == 'Full Payment') || (a['sales_status'] == 'Deposit')))
+    this.http.post('https://api.nanogapp.com/getAppointmentForExecByDatev2forlist', { execId: this.userid, startDate: this.dateselectedmilli, endDate: this.dateselectedtomorrowmilli }).subscribe((s) => {
+      this.appointment =  s['data'].filter(a =>( (a['phone_row_number'] == 1) || a['verified'] == true || a['warranty_id']) && ((a['sales_status'] == 'Full Payment') || (a['sales_status'] == 'Deposit')))
       console.log(this.appointment)
 
       this.appointmentwithpaymentdone = this.filterappointment('done')
@@ -695,8 +695,8 @@ export class Tab2PendingApprovalPage implements OnInit {
       this.showCalendar(this.currentMonth, this.currentYear)
     })
 
-    this.http.post('https://api.nanogapp.com/getAppointmentForExecByDate', { execId: this.userid, startDate: this.temp.todaymilli, endDate: this.temp.tomorrowmilli }).subscribe((s) => {
-      this.appointment = s['data'].filter(a =>( (a['phone_row_number'] == 1 && a['address_row_number'] == 1) || a['verified'] == true || a['warranty_id']) && ((a['sales_status'] == 'Full Payment') || (a['sales_status'] == 'Deposit')))
+    this.http.post('https://api.nanogapp.com/getAppointmentForExecByDatev2forlist', { execId: this.userid, startDate: this.temp.todaymilli, endDate: this.temp.tomorrowmilli }).subscribe((s) => {
+      this.appointment = s['data'].filter(a =>( (a['phone_row_number'] == 1) || a['verified'] == true || a['warranty_id']) && ((a['sales_status'] == 'Full Payment') || (a['sales_status'] == 'Deposit')))
       console.log(this.appointment)
 
       this.appointmentwithpaymentdone = this.filterappointment('done')

@@ -134,8 +134,8 @@ export class Tab1UpcomingTaskPage implements OnInit {
 
       console.log(this.temp.todaymilli, this.temp.tomorrowmilli)
 
-      this.http.post('https://api.nanogapp.com/getAppointmentDetailsForExec', { uid: this.userid }).subscribe((s) => {
-        this.appointmentAll =  s['data'].filter(a =>( (a['phone_row_number'] == 1 && a['address_row_number'] == 1) || a['verified'] == true || a['warranty_id'])  )
+      this.http.post('https://api.nanogapp.com/getAppointmentDetailsForExec3', { uid: this.userid, month : new Date().getMonth(), year : new Date().getFullYear() }).subscribe((s) => {
+        this.appointmentAll =  s['data'].filter(a =>( (a['phone_row_number'] == 1) || a['verified'] == true || a['warranty_id'])  )
         console.log(this.appointmentAll)
         this.filteredappointment = s['data']
 
@@ -143,10 +143,14 @@ export class Tab1UpcomingTaskPage implements OnInit {
         this.showCalendar(this.currentMonth, this.currentYear)
       })
 
+      this.http.post('https://api.nanogapp.com/getexistsdate', { uid: this.userid, month : new Date().getMonth(), year : new Date().getFullYear() }).subscribe((s) => {
+        console.log(s)
+      })
+
       console.log(this.userid, this.temp.todaymilli, this.temp.tomorrowmilli)
 
-      this.http.post('https://api.nanogapp.com/getAppointmentForExecByDate', { execId: this.userid, startDate: this.temp.todaymilli, endDate: this.temp.tomorrowmilli }).subscribe((s) => {
-        this.appointment =  s['data'].filter(a =>( (a['phone_row_number'] == 1 && a['address_row_number'] == 1) || a['verified'] == true || a['warranty_id'])  )
+      this.http.post('https://api.nanogapp.com/getAppointmentForExecByDatev2forlist', { execId: this.userid, startDate: this.temp.todaymilli, endDate: this.temp.tomorrowmilli }).subscribe((s) => {
+        this.appointment =  s['data'].filter(a =>( (a['phone_row_number'] == 1) || a['verified'] == true || a['warranty_id'])  )
         console.log(this.appointment)
 
         this.appointmentwithpaymentdone = this.filterappointment('done')
@@ -432,7 +436,31 @@ export class Tab1UpcomingTaskPage implements OnInit {
   next() {
     this.currentYear = (this.currentMonth === 11) ? this.currentYear + 1 : this.currentYear;
     this.currentMonth = (this.currentMonth + 1) % 12;
-    this.showCalendar(this.currentMonth, this.currentYear);
+    this.selectedDay = 1
+    this.monthToCheck = this.months[this.currentMonth]
+
+    this.http.post('https://api.nanogapp.com/getAppointmentDetailsForExec3', { uid: this.userid, month : this.currentMonth, year : this.currentYear }).subscribe((s) => {
+      this.appointmentAll =  s['data'].filter(a =>( (a['phone_row_number'] == 1) || a['verified'] == true || a['warranty_id'])  )
+      console.log(this.appointmentAll)
+      this.filteredappointment = s['data']
+
+      // this.today = this.changedateformat2(this.today2)
+      this.showCalendar(this.currentMonth, this.currentYear)
+
+      let d1 = new Date(this.currentYear, this.currentMonth, 1,0,0,0).getTime()
+      let d2 = new Date(this.currentYear, this.currentMonth, 1,23,59,59).getTime()
+      console.log(d1, d2)
+      this.http.post('https://api.nanogapp.com/getAppointmentForExecByDatev2forlist', { execId: this.userid, startDate: d1, endDate: d2 }).subscribe((s) => {
+        this.appointment =  s['data'].filter(a =>( (a['phone_row_number'] == 1) || a['verified'] == true || a['warranty_id'])  )
+        console.log(this.appointment)
+
+        this.appointmentwithpaymentdone = this.filterappointment('done')
+        console.log(this.appointmentwithpaymentdone)
+        this.appointmenwithoutpaymentdone = this.filterappointment('havent')
+        console.log(this.appointmenwithoutpaymentdone)
+
+      })
+    })
   }
 
   next2() {
@@ -450,7 +478,30 @@ export class Tab1UpcomingTaskPage implements OnInit {
   previous() {
     this.currentYear = (this.currentMonth === 0) ? this.currentYear - 1 : this.currentYear;
     this.currentMonth = (this.currentMonth === 0) ? 11 : this.currentMonth - 1;
-    this.showCalendar(this.currentMonth, this.currentYear);
+    this.selectedDay = 1
+    this.monthToCheck = this.months[this.currentMonth]
+    
+    this.http.post('https://api.nanogapp.com/getAppointmentDetailsForExec3', { uid: this.userid, month : this.currentMonth, year : this.currentYear }).subscribe((s) => {
+      this.appointmentAll =  s['data'].filter(a =>( (a['phone_row_number'] == 1) || a['verified'] == true || a['warranty_id'])  )
+      console.log(this.appointmentAll)
+      this.filteredappointment = s['data']
+
+      // this.today = this.changedateformat2(this.today2)
+      this.showCalendar(this.currentMonth, this.currentYear)
+      let d1 = new Date(this.currentYear, this.currentMonth, 1,0,0,0).getTime()
+      let d2 = new Date(this.currentYear, this.currentMonth, 1,23,59,59).getTime()
+      console.log(d1, d2)
+      this.http.post('https://api.nanogapp.com/getAppointmentForExecByDatev2forlist', { execId: this.userid, startDate: d1, endDate: d2 }).subscribe((s) => {
+        this.appointment =  s['data'].filter(a =>( (a['phone_row_number'] == 1) || a['verified'] == true || a['warranty_id'])  )
+        console.log(this.appointment)
+
+        this.appointmentwithpaymentdone = this.filterappointment('done')
+        console.log(this.appointmentwithpaymentdone)
+        this.appointmenwithoutpaymentdone = this.filterappointment('havent')
+        console.log(this.appointmenwithoutpaymentdone)
+
+      })
+    })
   }
   previous2() {
     this.currentYear2 = (this.currentMonth2 === 0) ? this.currentYear2 - 1 : this.currentYear2;
@@ -495,8 +546,8 @@ export class Tab1UpcomingTaskPage implements OnInit {
     console.log(this.dateselectedmilli)
     console.log(this.dateselectedtomorrowmilli)
 
-    this.http.post('https://api.nanogapp.com/getAppointmentForExecByDate', { execId: this.userid, startDate: this.dateselectedmilli, endDate: this.dateselectedtomorrowmilli }).subscribe((s) => {
-      this.appointment =  s['data'].filter(a =>( (a['phone_row_number'] == 1 && a['address_row_number'] == 1) || a['verified'] == true || a['warranty_id'])  )
+    this.http.post('https://api.nanogapp.com/getAppointmentForExecByDatev2forlist', { execId: this.userid, startDate: this.dateselectedmilli, endDate: this.dateselectedtomorrowmilli }).subscribe((s) => {
+      this.appointment =  s['data'].filter(a =>( (a['phone_row_number'] == 1) || a['verified'] == true || a['warranty_id'])  )
       console.log(this.appointment)
 
       this.appointmentwithpaymentdone = this.filterappointment('done')
@@ -685,7 +736,7 @@ export class Tab1UpcomingTaskPage implements OnInit {
       console.log(s)
     })
 
-    this.http.post('https://api.nanogapp.com/getAppointmentDetailsForExec', { uid: this.userid }).subscribe((s) => {
+    this.http.post('https://api.nanogapp.com/getAppointmentDetailsForExec3', { uid: this.userid, month : new Date().getMonth(), year : new Date().getFullYear() }).subscribe((s) => {
       this.appointmentAll = s['data']
       console.log(this.appointmentAll)
       this.filteredappointment = s['data']
@@ -695,8 +746,8 @@ export class Tab1UpcomingTaskPage implements OnInit {
       this.showCalendar(this.currentMonth, this.currentYear)
     })
 
-    this.http.post('https://api.nanogapp.com/getAppointmentForExecByDate', { execId: this.userid, startDate: this.temp.todaymilli, endDate: this.temp.tomorrowmilli }).subscribe((s) => {
-      this.appointment = s['data'].filter(a =>( (a['phone_row_number'] == 1 && a['address_row_number'] == 1) || a['verified'] == true || a['warranty_id'])  )
+    this.http.post('https://api.nanogapp.com/getAppointmentForExecByDatev2forlist', { execId: this.userid, startDate: this.temp.todaymilli, endDate: this.temp.tomorrowmilli }).subscribe((s) => {
+      this.appointment = s['data'].filter(a =>( (a['phone_row_number'] == 1) || a['verified'] == true || a['warranty_id'])  )
       console.log(this.appointment)
 
       this.appointmentwithpaymentdone = this.filterappointment('done')

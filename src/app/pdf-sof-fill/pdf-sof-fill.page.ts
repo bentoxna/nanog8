@@ -25,7 +25,7 @@ export class PdfSofFillPage implements OnInit {
   residence_type = ['Apartment/Condo', 'Terrace', 'Semi-D', 'Bungalow', 'Office', 'Hostel/Quarter']
   residential_status = ['Own', 'Rented', 'Others']
   conditional_status = ['Video Interview', 'Photo/Selfie', 'FB like & Share & Google Review']
-  payment_mode = ['Credit/Debit Card', 'Cash', 'Online Transfer', 'Cheques', 'Others']
+  payment_mode = ['Credit/Debit Card', 'Cash', 'Online Transfer', 'Cheques', 'Installment 6 months', 'Installment 12 month', 'Installment 24 month', 'Others']
 
   constructor(private route : ActivatedRoute,
     private nav : NavController,

@@ -1007,6 +1007,31 @@ export class PdfQuotationPage implements OnInit {
     // }
 
     // this.document.viewDocument(pdfurl, 'application/pdf', options)
+
+
+    // fetch('https://nanogbucket.s3.ap-southeast-1.amazonaws.com/nano/NGQ-A00261-0.pdf')
+    // .then((response: Response) => {
+    //   // Ensure the response is successful (status code 200) before processing the data
+    //   if (!response.ok) {
+    //     throw new Error('Network response was not ok');
+    //   }
+    //   // Return the response as an ArrayBuffer
+    //   return response.arrayBuffer();
+    // })
+    // .then((arrayBuffer: ArrayBuffer) => {
+    //   // Create a Blob from the ArrayBuffer with the correct content type
+    //   const blob = new Blob([arrayBuffer], { type: 'application/pdf' });
+
+    //   // Create a URL for the Blob
+    //   const url = window.URL.createObjectURL(blob);
+    //   window.open(url)
+    //   console.log(url)
+    //   // Set the URL to the iframe to display the PDF content
+    //   // document.querySelector('iframe').src = url;
+    // })
+    // .catch((error: any) => {
+    //   console.error('Error fetching or processing the PDF:', error);
+    // });
   }
 
   platformType() {

@@ -515,7 +515,7 @@ export class PdfSalesOrderFormPage implements OnInit {
               ],
 
             ],
-            (this.appointment.skylift_fee ? [
+            [
               [
 
                 { text: 'Skylift', alignment: 'center', style: 'tableData' }
@@ -523,7 +523,7 @@ export class PdfSalesOrderFormPage implements OnInit {
               [
                 { text: this.appointment.skylift_fee ? 'RM ' + this.appointment.skylift_fee : '-', alignment: 'center', style: 'tableData' }
               ],
-            ] : ''),
+            ],
             [
               [
 

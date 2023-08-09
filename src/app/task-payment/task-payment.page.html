@@ -345,40 +345,49 @@
 
       <div style="margin-top:20px;">
         <div style="width: 100%; display: flex; justify-content: center;">
-          <div style="width: 90%; display: flex;">
+          <div style="width: 90%;">
 
-            <div *ngIf="receipturl"
-              style="min-width: 100px; max-width: 100px; height:100px;  margin-right:6px; margin-bottom: 6px; position: relative;">
-              <img src='{{receipturl}}' (click)="viewPhoto()" style="width: 100%; height: 100%;  object-fit:cover;" />
-              <ion-icon (click)="removePhoto()" name="close-outline"
-                style="position: absolute; color: #FFFFFF; background: #000000; top:0; right: 0;"></ion-icon>
+            <div style="width: 100%; display: flex; flex-wrap: wrap;">
+              <div *ngFor="let x of receipturl; let i = index;" style="display: flex;">     
+                <div style="min-width: 100px; max-width: 100px; height:100px;  margin-right:6px; margin-bottom: 6px; position: relative;">
+                <img src='{{x}}' (click)="viewPhoto(i)" style="width: 100%; height: 100%;  object-fit:cover;" />
+                <ion-icon (click)="removePhoto(i)" name="close-outline"
+                  style="position: absolute; color: #FFFFFF; background: #000000; top:0; right: 0;"></ion-icon>
+              </div>
+
+            </div>
             </div>
 
-            <div *ngIf="pdffileurl"
+
+            <div style="width: 100%; display: flex; flex-wrap: wrap;">
+              <div *ngFor="let x of pdffileurl; let i = index;"
               style="width: 100%; min-width: 100px; max-width: 100px; height:100px; margin-right:6px; margin-bottom: 6px; position: relative;">
-              <div (click)="downloadpdf()" style="width: 100%; height:100%;">
+              <div (click)="downloadpdf(i)" style="width: 100%; height:100%;">
                 <img src="assets/icon/pdflogo.png" />
                 <div style="overflow : hidden;
                 text-overflow: ellipsis;
                 display: -webkit-box;
                 -webkit-line-clamp: 2;
-                -webkit-box-orient: vertical; font-size: 12px;">{{pdffilename}}</div>
+                -webkit-box-orient: vertical; font-size: 12px;">{{x.split('/')[4]}}</div>
               </div>
 
-              <ion-icon (click)="removepdf()" name="close-outline"
+              <ion-icon (click)="removepdf(i)" name="close-outline"
                 style="position: absolute; color: #FFFFFF; background: #000000; top:0; right: 0;"></ion-icon>
             </div>
 
-            <div *ngIf="receipturl == null && pdffileurl == null" (click)="selectMedia()" style="min-width: 100px; max-width: 100px; display: flex; align-items: center; justify-content: center; 
+            </div>
+
+
+            <div (click)="selectMedia()" style="min-width: 100px; max-width: 100px; display: flex; align-items: center; justify-content: center; 
             border: 1px solid #6DAD48; margin-right: 6px; height: 100px; ">
               <div style="color: #81b365;">+ Receipt</div>
             </div>
           </div>
 
-          <input readonly (change)="fileChange($event, 600)" type="file" id="uploadi2" accept="image/*" name="files[]"
+          <input readonly (change)="fileChange($event, 600)" type="file" id="uploadi2" accept="image/*" name="files[]" multiple
             style="display: none;" />
 
-          <input readonly (change)="fileChangepdf($event)" type="file" id="uploadpdf" accept="application/pdf"
+          <input readonly (change)="fileChangepdf($event)" type="file" id="uploadpdf" accept="application/pdf" multiple
             name="files[]" style="display: none;" />
         </div>
       </div>

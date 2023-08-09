@@ -155,11 +155,11 @@ export class ScheduleCalanderPage implements OnInit {
       //   }
       // }
       console.log(this.startdate, this.enddate)
-      this.http.post('https://api.nanogapp.com/getScheduleByDate', { minimum: this.startdate, maximum: this.enddate}).subscribe(res => {
+      this.http.post('https://api.nanogapp.com/getScheduleByDateForList', { minimum: this.startdate, maximum: this.enddate}).subscribe(res => {
 
         this.allschedule = res['data']
         console.log(this.allschedule)
-        this.http.post('https://api.nanogapp.com/getFromDateByDate', { minimum: this.startdate, maximum: this.enddate }).subscribe(s => {
+        this.http.post('https://api.nanogapp.com/getFromDateByDateForList', { minimum: this.startdate, maximum: this.enddate }).subscribe(s => {
           console.log(s)
           this.allfromdate = s['data']
           this.alldate = this.allschedule.concat(this.allfromdate)

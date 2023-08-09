@@ -46,8 +46,8 @@ export class TaskPaymentPage implements OnInit {
   marginbottomforcontent = (this.heighter() / 100 * 8) + 'px'
 
   deposit
-  receipturl
-  paymentmethod = ['Credit/Debit Card', 'Cash', 'Online Transfer', 'Cheques', 'Others'] as any
+  receipturl = []
+  paymentmethod = ['Credit/Debit Card', 'Cash', 'Online Transfer', 'Cheques', 'Installment 6 months', 'Installment 12 month', 'Installment 24 month', 'Others'] as any
   selectedpaymentmethod
   paymentdropdownstatus = false
   paymentothers = ''
@@ -56,7 +56,7 @@ export class TaskPaymentPage implements OnInit {
   //pdf variable
   selectedFiles
   task
-  pdffileurl
+  pdffileurl = []
   pdffilename
 
   dpercentage: number = 0
@@ -357,7 +357,8 @@ export class TaskPaymentPage implements OnInit {
         body.set('image', base64)
 
         this.http.post('https://api.nanogapp.com/upload', { image: base64, folder: 'nanog', userid: 'nanog' }).subscribe((res) => {
-          this.receipturl = res['imageURL']
+          this.receipturl.push(res['imageURL'])
+          console.log(this.receipturl)
           resolve(res['imageURL'])
         }, awe => {
           reject(awe)
@@ -485,7 +486,7 @@ export class TaskPaymentPage implements OnInit {
 
             this.http.post('https://api.nanogapp.com/upload', { image: this.imagec, folder: 'nanog', userid: 'nanog' }).subscribe((res) => {
               Swal.close()
-              this.receipturl = ((res['imageURL']))
+              this.receipturl.push((res['imageURL']))
               resolve(res['imageURL'])
             }, awe => {
               reject(awe)
@@ -499,11 +500,11 @@ export class TaskPaymentPage implements OnInit {
     })
   }
 
-  viewPhoto() {
-    this.nav.navigateForward('image-viewer?imageurl=' + this.receipturl)
+  viewPhoto(i) {
+    this.nav.navigateForward('image-viewer?imageurl=' + this.receipturl[i])
   }
 
-  removePhoto() {
+  removePhoto(i) {
     Swal.fire({
       text: 'Are you sure to delete this photo?',
       icon: 'info',
@@ -512,7 +513,7 @@ export class TaskPaymentPage implements OnInit {
       reverseButtons: true,
     }).then(a => {
       if (a['isConfirmed']) {
-        this.receipturl = undefined
+        this.receipturl.splice(i, 1)
       }
     })
 
@@ -866,13 +867,13 @@ export class TaskPaymentPage implements OnInit {
           else if (this.selectedpaymentmethod == 'Others') {
             this.selectedpaymentmethod = this.paymentothers
           }
-          let link
-          if (this.pdffileurl) {
-            link = this.pdffileurl
-          }
-          else if (this.receipturl) {
-            link = this.receipturl
-          }
+          // let link
+          // if (this.pdffileurl) {
+          //   link = this.pdffileurl
+          // }
+          // else if (this.receipturl) {
+          //   link = this.receipturl
+          // }
 
           this.http.post('https://api.nanogapp.com/updateSalesRemark2', {
             remark: this.paymentremark,
@@ -881,7 +882,9 @@ export class TaskPaymentPage implements OnInit {
             payment_status: payment_status,
             sales_id: this.appointment.sales_id,
             type: this.paymenttype,
-            payment_image: link,
+            // payment_image: link,
+            receipt_img : JSON.stringify(this.receipturl || []),
+            receipt_pdf : JSON.stringify(this.pdffileurl || []),
             total: deposit,
             created_by: this.userid,
             gateway: this.selectedpaymentmethod,
@@ -949,20 +952,22 @@ export class TaskPaymentPage implements OnInit {
       heightAuto: false,
       showConfirmButton: false
     })
-    if (event.target.files && event.target.files[0]) {
-      const tempfile = event.target.files[0]
+    if (event.target.files && event.target.files.length > 0) {
+      let temp = event.target.files
+      for(let i = 0;  i < event.target.files.length; i++)
+      {
+        let tempfile = temp[i]
+        this.toBase64(tempfile).then(data => {
+          console.log('955',data)
+          this.http.post('https://api.nanogapp.com/uploadReceiptPDF', { base64: data }).subscribe((link) => {
+            Swal.close()
+            this.pdffileurl.push(link['imageURL'])
+          }, awe => {
+            console.log(awe);
+          })
+        });
+      }
 
-      this.toBase64(tempfile).then(data => {
-        console.log('955',data)
-        this.http.post('https://api.nanogapp.com/uploadReceiptPDF', { base64: data }).subscribe((link) => {
-          Swal.close()
-          this.pdffileurl = link['imageURL']
-          this.pdffilename = link['imageURL'].split('/')[4]
-          event.target.value = ''
-        }, awe => {
-          console.log(awe);
-        })
-      });
 
     }
   }
@@ -977,16 +982,25 @@ export class TaskPaymentPage implements OnInit {
     });
   }
 
-  removepdf() {
-    this.pdffileurl = undefined
-    this.pdffilename = undefined
-    console.log(this.pdffilename, this.pdffileurl)
+  removepdf(i) {
+    Swal.fire({
+      text: 'Are you sure to delete this pdf?',
+      icon: 'info',
+      heightAuto: false,
+      showCancelButton: true,
+      reverseButtons: true,
+    }).then(a => {
+      if (a['isConfirmed']) {
+        this.pdffileurl.splice(i, 1)
+      }
+    })
+
   }
 
-  downloadpdf() {
-    window.open(this.pdffileurl, '_system')
-    if (!window.open(this.pdffileurl, '_system')) {
-      window.location.href = this.pdffileurl;
+  downloadpdf(i) {
+    window.open(this.pdffileurl[i], '_system')
+    if (!window.open(this.pdffileurl[i], '_system')) {
+      window.location.href = this.pdffileurl[i];
     }
   }
 

@@ -244,6 +244,10 @@ const routes: Routes = [
     path: 'pc-lead',
     loadChildren: () => import('./pc-lead/pc-lead.module').then( m => m.PcLeadPageModule)
   },
+  {
+    path: 'insert-csv',
+    loadChildren: () => import('./insert-csv/insert-csv.module').then( m => m.InsertCsvPageModule)
+  },
 
 
 
