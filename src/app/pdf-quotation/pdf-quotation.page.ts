@@ -113,29 +113,17 @@ export class PdfQuotationPage implements OnInit {
       this.taskid = a.tid
       this.salesid = a['sid']
 
-      console.log(this.taskid)
       this.http.post('https://api.nanogapp.com/getUserDetail', { uid: this.userid }).subscribe(res => {
         this.user = res['data']
-        console.log(this.user)
-
       })
 
       this.http.get('https://api.nanogapp.com/getActiveDiscount').subscribe(a => {
         this.discounts = a['data']
-        console.log(this.discounts)
-
-        this.http.get('https://api.nanogapp.com/getquotationNumber').subscribe(a => {
-          console.log(a)
-          this.quotationnumber = a['data']['count']
-          console.log(this.quotationnumber + 1)
-          this.returnzero(this.quotationnumber + 1)
-        })
 
         this.http.post('https://api.nanogapp.com/getAppointmentDetails', { id: this.taskid }).subscribe((s) => {
           this.appointment = s['data']
           console.log(this.appointment)
           this.service = s['data']['sales_packages']
-          console.log(this.service)
           for (let i = 0; i < this.service.length; i++) {
             this.service2[i] = this.service[i]
             this.service[i].area == 'others' ? this.service2[i].area = this.service[i].other_area : this.service2[i].area = this.service2[i].area
@@ -143,38 +131,27 @@ export class PdfQuotationPage implements OnInit {
             this.service2[i].name == null ? this.service2[i].name = 'Other Package' : this.service2[i].name = this.service[i].name
             this.service2[i].discount = this.service[i].total_after ? Number(this.service[i].total - this.service[i].total_after).toFixed(2) : 0
           }
-          console.log(this.service, this.service2)
           this.sales_status = s['data']['sales_status']
-
           this.pdffileurl = s['data']['gen_quotation']
-          console.log(this.pdffileurl)
+  
           if (this.pdffileurl.length > 0) {
             for (let i = 0; i < this.pdffileurl.length; i++) {
-              console.log(this.pdffileurl[i])
               this.pdffilename.push(this.pdffileurl[i]['pdf'].split('/')[4])
             }
           }
 
           this.custompdffileurl = s['data']['custom_quotation']
-          console.log(this.custompdffileurl)
           if (this.custompdffileurl.length > 0) {
             for (let i = 0; i < this.custompdffileurl.length; i++) {
-              console.log(this.custompdffileurl[i])
               this.custompdffilename.push(this.custompdffileurl[i]['pdf'].split('/')[4])
             }
           }
-
-          console.log(this.custompdffilename)
-          console.log(this.promocodedetail)
-          console.log(this.appointment.promo_id)
           if (!this.appointment.promo_id) {
             this.http.post('https://api.nanogapp.com/getAllSalesDiscount', { sales_id: this.salesid }).subscribe(a => {
-              console.log(a)
               this.dpercentage = 0
               this.dnumber = 0
               a['data'].filter(b => b['type'] ? ((b['status'] == true || b['status'] == null) ? this.dpercentage += b['percentage'] : this.dpercentage = this.dpercentage) : this.dnumber += b['percentage'])
-              console.log(this.dpercentage)
-              console.log(this.dnumber)
+
               this.gettotal()
             })
             this.discounttext = 'Discount: '
@@ -225,19 +202,12 @@ export class PdfQuotationPage implements OnInit {
     this.discountselected = []
     this.discountselected2 = []
 
-    console.log(this.appointment.discount_applied)
     return new Promise((resolve, reject) => {
       this.localstoragediscount = JSON.parse(localStorage.getItem('discount?tid=' + this.taskid))
-      console.log(x)
+
 
       if (x == 'fromdatabase' || x == 'fromlocal') {
-        console.log(this.discounts)
-        console.log(x)
         this.filterdiscount(x)
-
-        console.log(this.totaldiscountphoto)
-        console.log(this.totaldiscount)
-        console.log(this.discountselected2)
       }
       resolve('done')
     })
@@ -256,8 +226,6 @@ export class PdfQuotationPage implements OnInit {
         temp = this.subtotal * this.dpercentage / 100
         tempdeduct = (temp / 100 * 100).toFixed(2)
       });
-
-      console.log(this.subtotal)
     }
 
     if (this.appointment.sales_packages && this.appointment.sales_packages.length > 0 && this.dpercentage == 0 && this.dnumber == 0) {
@@ -269,19 +237,12 @@ export class PdfQuotationPage implements OnInit {
     }
 
     this.deductprice = Number(tempdeduct) + Number(this.dnumber)
-    console.log(this.deductprice)
-    console.log(tempdeduct)
-    console.log(this.dnumber)
     // this.deductprice = (this.deductprice / 100 * 100).toFixed(2)
     this.total = (this.total / 100 * 100).toFixed(2)
     // this.subtotalstring = (this.subtotal / 100 * 100).toFixed(2)
     this.subtotalstring = ((this.appointment.sales_packages.map(a => a['total']).reduce((a,b) => a+b)) + this.appointment.skylift_fee + this.appointment.scaff_fee + this.appointment.transportation_fee).toFixed(2)
     this.deductpricestring = ((this.appointment.sales_packages.map(a => Number(a['discount'])).reduce((a,b) => a+b)) + this.deductprice).toFixed(2)
-    console.log(this.subtotalstring)
-    console.log(this.deductpricestring)
     this.totaldiscountdisplay = (this.dpercentage / 100 * 100).toFixed(2)
-
-    console.log(this.deductprice, this.total, this.subtotalstring, this.totaldiscountdisplay)
   }
 
   gettotal2() {
@@ -290,10 +251,7 @@ export class PdfQuotationPage implements OnInit {
     this.deductprice = 0
     this.appointment.sales_packages.forEach(a => {
       this.subtotal += a['total_after'] ? a['total_after'] : a['total']
-      console.log(a['total_after'])
       this.deductprice = (this.subtotal * this.dpercentage / 100).toFixed(2)
-
-      console.log(this.subtotal)
     });
 
     // this.subtotalstring = (this.subtotal / 100 * 100).toFixed(2)
@@ -366,7 +324,7 @@ export class PdfQuotationPage implements OnInit {
     return new Promise((resolve, reject) => {
       if (x == 'fromlocal') {
         this.discountselected = this.discountselected = JSON.parse(localStorage.getItem('discount?tid=' + this.taskid))
-        console.log(this.discountselected)
+
       }
       else if (x == 'fromdatabase') {
         if (this.appointment.discount_applied != null && this.appointment.discount_applied != undefined && this.discounts) {
@@ -377,8 +335,6 @@ export class PdfQuotationPage implements OnInit {
             }
           }
         }
-        console.log(this.discountselected)
-        console.log('run here for fromdatabase')
       }
       resolve('done')
     })
@@ -399,7 +355,6 @@ export class PdfQuotationPage implements OnInit {
     let newdate = [year, month, date].join('-')
     let newdatehour = [new Date().getHours(), new Date().getMinutes()].join(':')
     let combine = [newdate, newdatehour].join(' ')
-    console.log(combine)
     return combine
   }
 
@@ -411,14 +366,7 @@ export class PdfQuotationPage implements OnInit {
     for (let i = 0; i < data.length; i++) {
       var dataRow = [] as any;
 
-      console.log(data);
-
       for (let j = 0; j < columns.length; j++) {
-        console.log(columns)
-        console.log(data[i][columns[j]]);
-        console.log(columns[j]);
-        console.log(columns[j]["text"]);
-        console.log(data[i][columns[j]["text"]]);
 
         if (columns[j]["text"] == "area") {
           dataRow.push({ text: data[i][columns[j]["text"]].toString(), style: "tableData" });
@@ -460,10 +408,7 @@ export class PdfQuotationPage implements OnInit {
 
       }
 
-      console.log(dataRow);
-
       body.push(dataRow);
-      console.log(body)
     }
     //Change Table's header
     columns[0].text = "Service"
@@ -481,8 +426,6 @@ export class PdfQuotationPage implements OnInit {
     // { text: 'warranty', style: "tableHeader" }, 
     // { text: 'rate', style: "tableHeader" }, 
     // { text: 'total', style: "tableHeader" }
-
-    console.log(body)
     return body
   }
 
@@ -527,31 +470,103 @@ export class PdfQuotationPage implements OnInit {
           status = this.appointment.sales_status
         }
 
-        this.http.post('https://api.nanogapp.com/updateSalesQuotation', {
-          sales_id: this.appointment.sales_id,
-          sales_status: status,
-          total: this.total,
-          sub_total: this.subtotal,
-        }).subscribe(res => {
-          if (res['success'] == true) {
-            Swal.close()
-            this.openpdf()
-          }
+        this.returnquotenumber().then(a => {
+          console.log(a)
+          this.http.post('https://api.nanogapp.com/updateSalesQuotation', {
+            quote_no : a,
+            sales_id: this.appointment.sales_id,
+            sales_status: status,
+            total: this.total,
+            sub_total: this.subtotal,
+          }).subscribe(res => {
+            if (res['success'] == true) {
+              Swal.close()
+              this.openpdf()
+            }
+          })
         })
+
+
       }
     })
   }
 
-  quoteid
+  async returnquotenumber(){
+    return new Promise((resolve, reject) => {
+      if(this.appointment.quote_no)
+      {
+        this.quotationnumber = this.appointment.quote_no
+        console.log(this.quotationnumber)
+        resolve(this.quotationnumber)
+      }
+      else{
+       this.http.get('https://api.nanogapp.com/getquotationNumber').subscribe(a => {
+            console.log(a)
+            this.quotationnumber = (a['data']['count'] + 1)
+            console.log(this.quotationnumber)
+            resolve(this.quotationnumber)
+        })
+      }
+    })
 
+  }
+
+  extraservicetable() {
+    if (this.appointment.scaff_fee > 0 || this.appointment.skylift_fee > 0 || this.appointment.transportation_fee > 0) {
+
+      return {
+        style: 'tableExample',
+        table: {
+          layout: 'lightHorizontalLines',
+          widths: ['33%', '33%'],
+          body: [
+            [
+              { text: 'Additional Service', style: "tableHeader" },
+              { text: 'Price(RM)', style: "tableHeader" }
+            ],
+            [
+              [
+                { text: 'ScaffHolding', alignment: 'center', style: 'tableData' }
+              ],
+              [
+                { text: this.appointment.scaff_fee ? 'RM ' + this.appointment.scaff_fee : '-', alignment: 'center', style: 'tableData' }
+
+              ],
+
+            ],
+            [
+              [
+
+                { text: 'Skylift', alignment: 'center', style: 'tableData' }
+              ],
+              [
+                { text: this.appointment.skylift_fee ? 'RM ' + this.appointment.skylift_fee : '-', alignment: 'center', style: 'tableData' }
+              ],
+            ],
+            [
+              [
+
+                { text: 'Transportation', alignment: 'center', style: 'tableData' }
+              ],
+              [
+                { text: this.appointment.transportation_fee ? 'RM ' + this.appointment.transportation_fee : '-', alignment: 'center', style: 'tableData' }
+              ],
+            ],
+          ]
+        },
+        margin: [0, 15, 0, 0],
+      };
+    }
+  }
+
+  quoteid
+  returnzeroquote
   returnzero(x) {
     let temp = x + ''
     let temp2 = x + ''
-    console.log(temp2.length)
     for (let i = (x + '').length; i < 5; i++) {
       temp = '0' + temp
     }
-    console.log(temp)
     return temp
   }
 
@@ -560,12 +575,15 @@ export class PdfQuotationPage implements OnInit {
   //   ((new Date().getMinutes() + '').length < 2 ? ('0' + new Date().getMinutes() ): ('' + new Date().getMinutes()))
   async openpdf() {
     Number(this.deductpricestring) == 0 ? this.fontsize = 0 : this.fontsize = 9
-    this.quoteid = 'NGQ/A' + this.returnzero(this.quotationnumber + 1) + '-' + this.appointment.gen_quotation.length
+
+
+    this.quoteid = 'NGQ/A' + this.returnzero(this.quotationnumber) + '-' + this.appointment.gen_quotation.length
     Swal.fire({
       text: 'Processing...',
       icon: 'info',
       heightAuto: false,
       showConfirmButton: false,
+      allowOutsideClick: false
     })
 
     var docDefinition = {
@@ -679,48 +697,49 @@ export class PdfQuotationPage implements OnInit {
             { text: 'total', style: "tableHeader" }
           ],
         ),
-        {
-          style: 'tableExample',
-          table: {
-            layout: 'lightHorizontalLines',
-            widths: ['33%', '33%'],
-            body: [
-              [
-                { text: 'Additional Service', style: "tableHeader" },
-                { text: 'Price(RM)', style: "tableHeader" }
-              ],
-              [
-                [
-                  { text: 'ScaffHolding', alignment: 'center', style: 'tableData' }
-                ],
-                [
-                  { text: this.appointment.scaff_fee ? 'RM ' + this.appointment.scaff_fee : '-', alignment: 'center', style: 'tableData' }
+        // {
+        //   style: 'tableExample',
+        //   table: {
+        //     layout: 'lightHorizontalLines',
+        //     widths: ['33%', '33%'],
+        //     body: [
+        //       [
+        //         { text: 'Additional Service', style: "tableHeader" },
+        //         { text: 'Price(RM)', style: "tableHeader" }
+        //       ],
+        //       [
+        //         [
+        //           { text: 'ScaffHolding', alignment: 'center', style: 'tableData' }
+        //         ],
+        //         [
+        //           { text: this.appointment.scaff_fee ? 'RM ' + this.appointment.scaff_fee : '-', alignment: 'center', style: 'tableData' }
 
-                ],
+        //         ],
 
-              ],
-              [
-                [
+        //       ],
+        //       [
+        //         [
 
-                  { text: 'Skylift', alignment: 'center', style: 'tableData' }
-                ],
-                [
-                  { text: this.appointment.skylift_fee ? 'RM ' + this.appointment.skylift_fee : '-', alignment: 'center', style: 'tableData' }
-                ],
-              ],
-              [
-                [
+        //           { text: 'Skylift', alignment: 'center', style: 'tableData' }
+        //         ],
+        //         [
+        //           { text: this.appointment.skylift_fee ? 'RM ' + this.appointment.skylift_fee : '-', alignment: 'center', style: 'tableData' }
+        //         ],
+        //       ],
+        //       [
+        //         [
 
-                  { text: 'Transportation', alignment: 'center', style: 'tableData' }
-                ],
-                [
-                  { text: this.appointment.transportation_fee ? 'RM ' + this.appointment.transportation_fee : '-', alignment: 'center', style: 'tableData' }
-                ],
-              ]
-            ]
-          },
-          margin: [0, 15, 0, 0],
-        },
+        //           { text: 'Transportation', alignment: 'center', style: 'tableData' }
+        //         ],
+        //         [
+        //           { text: this.appointment.transportation_fee ? 'RM ' + this.appointment.transportation_fee : '-', alignment: 'center', style: 'tableData' }
+        //         ],
+        //       ]
+        //     ]
+        //   },
+        //   margin: [0, 15, 0, 0],
+        // },
+        this.extraservicetable(),
 
         { 
           columns: [
@@ -832,10 +851,8 @@ export class PdfQuotationPage implements OnInit {
       }
     };
 
-    console.log(docDefinition)
 
     this.uploadpdf(docDefinition).then((a) => {
-      console.log(a)
       let pdfurl = a['pdf']
 
       window.open(pdfurl, '_system')
@@ -923,23 +940,21 @@ export class PdfQuotationPage implements OnInit {
   uploadpdf(x) {
     return new Promise((resolve, reject) => {
       pdfMake.createPdf(x).getDataUrl((dataUrl) => {
-        console.log(dataUrl);
-        this.http.post('https://api.nanogapp.com/uploadQFPDF', { base64: dataUrl, leadid: this.appointment.lead_id, salesid: this.salesid, no: this.returnzero(this.quotationnumber + 1) + '-' + this.appointment.gen_quotation.length }).subscribe((link) => {
-          console.log(link)
+
+        this.http.post('https://api.nanogapp.com/uploadQFPDF', { base64: dataUrl, leadid: this.appointment.lead_id, salesid: this.salesid, no: this.returnzero(this.quotationnumber) + '-' + this.appointment.gen_quotation.length }).subscribe((link) => {
+
 
           let now = Date.now()
           let temppdf = {} as any
           temppdf.pdf = link['imageURL']
           temppdf.date = now
           this.pdffileurl.push(temppdf)
-          console.log(this.pdffileurl)
+
 
           Swal.close()
 
           this.pdffilename.push(link['imageURL'].split('/')[4])
-          console.log(link['imageURL']);
-          console.log(this.pdffilename)
-          console.log(this.pdffileurl)
+
           this.http.post('https://api.nanogapp.com/uploadGenQuotation', {
             sales_id: this.salesid,
             quotation: JSON.stringify(this.pdffileurl) || [],
@@ -949,13 +964,12 @@ export class PdfQuotationPage implements OnInit {
             latest_quotation: this.pdffileurl[this.pdffileurl.length - 1]['pdf']
           }).subscribe((res) => {
             if (res['success'] == true) {
-              console.log(this.pdffileurl)
+
               resolve(temppdf)
             }
           })
 
         }, awe => {
-          console.log(awe);
           resolve('done')
         })
       });
@@ -987,7 +1001,6 @@ export class PdfQuotationPage implements OnInit {
       this.custompdffileurl.filter(a => a['pdf'].split('/')[4] == x ? pdfurl = a['pdf'] : pdfurl = pdfurl)
     }
 
-    console.log(pdfurl)
 
     // var windowReference = window.open();
     // windowReference.location.href = pdfurl;
@@ -1042,7 +1055,6 @@ export class PdfQuotationPage implements OnInit {
 
   clicktopop() {
     this.popup = !this.popup
-    console.log(this.popup)
   }
 
   request() {

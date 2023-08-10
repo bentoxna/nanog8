@@ -340,9 +340,9 @@
               <div *ngIf="x != '' && x.fulldate != gettodaydate" (click)="getnumber(x)" style="width: 100%; margin-bottom: 4px; height: 35px; color: #23232b; display: flex; justify-content: center; align-items: center;
               position: relative;">
                 <div
-                  [ngStyle]="{'background': x.date == selectedDay && monthToShow == monthToCheck && yearToShow == yearToCheck ? x.fulldate != gettodaydate ? '#99d675' : '#6DAD48' : '', 
-              'color': x.date == selectedDay && monthToShow == monthToCheck && yearToShow == yearToCheck ? x.fulldate != gettodaydate ? '#FFFFFF' : '#FFFFFF' : '',
-              'border-radius': x.date == selectedDay && monthToShow == monthToCheck && yearToShow == yearToCheck ? x.fulldate != gettodaydate ? '5px' : '5px' : ''}"
+                  [ngStyle]="{'background': x.date == selectedDay && monthToShow == monthToCheck ? x.fulldate != gettodaydate ? '#99d675' : '#6DAD48' : '', 
+              'color': x.date == selectedDay && monthToShow == monthToCheck  ? x.fulldate != gettodaydate ? '#FFFFFF' : '#FFFFFF' : '',
+              'border-radius': x.date == selectedDay && monthToShow == monthToCheck  ? x.fulldate != gettodaydate ? '5px' : '5px' : ''}"
                   style="font-size: 12px; padding: 8px; width: 80%; display: flex; justify-content: center;">
                   {{ x.date }}
                 </div>
