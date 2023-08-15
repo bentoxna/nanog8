@@ -16,7 +16,7 @@ const { NativeMarket } = Plugins;
 })
 export class AppComponent {
 
-  version_appstore = '010034';
+  version_appstore = '010036';
 
   showDownload = false
   showFail = false

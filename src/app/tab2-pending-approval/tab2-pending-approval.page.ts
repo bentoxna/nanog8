@@ -134,7 +134,7 @@ export class Tab2PendingApprovalPage implements OnInit {
 
       console.log(this.temp.todaymilli, this.temp.tomorrowmilli)
 
-      this.http.post('https://api.nanogapp.com/getAppointmentDetailsForExec', { uid: this.userid }).subscribe((s) => {
+      this.http.post('https://api.nanogapp.com/getAppointmentDetailsForExec3Tab2', { uid: this.userid,month : new Date().getMonth(), year : new Date().getFullYear() }).subscribe((s) => {
         this.appointmentAll =  s['data'].filter(a =>( (a['phone_row_number'] == 1) || a['verified'] == true || a['warranty_id']) && ((a['sales_status'] == 'Full Payment') || (a['sales_status'] == 'Deposit')))
         console.log(this.appointmentAll)
         this.filteredappointment = s['data']
@@ -432,7 +432,33 @@ export class Tab2PendingApprovalPage implements OnInit {
   next() {
     this.currentYear = (this.currentMonth === 11) ? this.currentYear + 1 : this.currentYear;
     this.currentMonth = (this.currentMonth + 1) % 12;
-    this.showCalendar(this.currentMonth, this.currentYear);
+    this.selectedDay = 1
+    this.monthToCheck = this.months[this.currentMonth]
+    // this.showCalendar(this.currentMonth, this.currentYear);
+
+    this.http.post('https://api.nanogapp.com/getAppointmentDetailsForExec3Tab2', { uid: this.userid,month : this.currentMonth, year : this.currentYear }).subscribe((s) => {
+      this.appointmentAll =  s['data'].filter(a =>( (a['phone_row_number'] == 1) || a['verified'] == true || a['warranty_id']) && ((a['sales_status'] == 'Full Payment') || (a['sales_status'] == 'Deposit')))
+      console.log(this.appointmentAll)
+      this.filteredappointment = s['data']
+
+      this.today = this.changedateformat2(this.today2)
+      this.showCalendar(this.currentMonth, this.currentYear)
+    })
+
+    // console.log(this.userid, this.temp.todaymilli, this.temp.tomorrowmilli)
+    let d1 = new Date(this.currentYear, this.currentMonth, 1,0,0,0).getTime()
+    let d2 = new Date(this.currentYear, this.currentMonth, 1,23,59,59).getTime()
+
+    this.http.post('https://api.nanogapp.com/getAppointmentForExecByDatev2forlist', { execId: this.userid, startDate: d1, endDate: d2 }).subscribe((s) => {
+      this.appointment =  s['data'].filter(a =>( (a['phone_row_number'] == 1) || a['verified'] == true || a['warranty_id']) && ((a['sales_status'] == 'Full Payment') || (a['sales_status'] == 'Deposit')))
+      console.log(this.appointment)
+
+      this.appointmentwithpaymentdone = this.filterappointment('done')
+      console.log(this.appointmentwithpaymentdone)
+      this.appointmenwithoutpaymentdone = this.filterappointment('havent')
+      console.log(this.appointmenwithoutpaymentdone)
+
+    })
   }
 
   next2() {
@@ -450,7 +476,34 @@ export class Tab2PendingApprovalPage implements OnInit {
   previous() {
     this.currentYear = (this.currentMonth === 0) ? this.currentYear - 1 : this.currentYear;
     this.currentMonth = (this.currentMonth === 0) ? 11 : this.currentMonth - 1;
-    this.showCalendar(this.currentMonth, this.currentYear);
+    // this.showCalendar(this.currentMonth, this.currentYear);
+    this.selectedDay = 1
+    this.monthToCheck = this.months[this.currentMonth]
+
+    
+    this.http.post('https://api.nanogapp.com/getAppointmentDetailsForExec3Tab2', { uid: this.userid,month : this.currentMonth, year : this.currentYear }).subscribe((s) => {
+      this.appointmentAll =  s['data'].filter(a =>( (a['phone_row_number'] == 1) || a['verified'] == true || a['warranty_id']) && ((a['sales_status'] == 'Full Payment') || (a['sales_status'] == 'Deposit')))
+      console.log(this.appointmentAll)
+      this.filteredappointment = s['data']
+
+      this.today = this.changedateformat2(this.today2)
+      this.showCalendar(this.currentMonth, this.currentYear)
+    })
+
+    // console.log(this.userid, this.temp.todaymilli, this.temp.tomorrowmilli)
+    let d1 = new Date(this.currentYear, this.currentMonth, 1,0,0,0).getTime()
+    let d2 = new Date(this.currentYear, this.currentMonth, 1,23,59,59).getTime()
+
+    this.http.post('https://api.nanogapp.com/getAppointmentForExecByDatev2forlist', { execId: this.userid, startDate: d1, endDate: d2 }).subscribe((s) => {
+      this.appointment =  s['data'].filter(a =>( (a['phone_row_number'] == 1) || a['verified'] == true || a['warranty_id']) && ((a['sales_status'] == 'Full Payment') || (a['sales_status'] == 'Deposit')))
+      console.log(this.appointment)
+
+      this.appointmentwithpaymentdone = this.filterappointment('done')
+      console.log(this.appointmentwithpaymentdone)
+      this.appointmenwithoutpaymentdone = this.filterappointment('havent')
+      console.log(this.appointmenwithoutpaymentdone)
+
+    })
   }
   previous2() {
     this.currentYear2 = (this.currentMonth2 === 0) ? this.currentYear2 - 1 : this.currentYear2;
@@ -685,7 +738,7 @@ export class Tab2PendingApprovalPage implements OnInit {
       console.log(s)
     })
 
-    this.http.post('https://api.nanogapp.com/getAppointmentDetailsForExec', { uid: this.userid }).subscribe((s) => {
+    this.http.post('https://api.nanogapp.com/getAppointmentDetailsForExec3Tab2', { uid: this.userid,month : new Date().getMonth(), year : new Date().getFullYear() }).subscribe((s) => {
       this.appointmentAll = s['data']
       console.log(this.appointmentAll)
       this.filteredappointment = s['data']

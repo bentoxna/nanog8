@@ -493,20 +493,22 @@ export class PdfQuotationPage implements OnInit {
 
   async returnquotenumber(){
     return new Promise((resolve, reject) => {
-      if(this.appointment.quote_no)
-      {
-        this.quotationnumber = this.appointment.quote_no
-        console.log(this.quotationnumber)
-        resolve(this.quotationnumber)
-      }
-      else{
-       this.http.get('https://api.nanogapp.com/getquotationNumber').subscribe(a => {
-            console.log(a)
-            this.quotationnumber = (a['data']['count'] + 1)
-            console.log(this.quotationnumber)
-            resolve(this.quotationnumber)
-        })
-      }
+      this.quotationnumber = this.appointment.sales_id
+      resolve(this.quotationnumber)
+      // if(this.appointment.quote_no)
+      // {
+      //   this.quotationnumber = this.appointment.quote_no
+      //   console.log(this.quotationnumber)
+      //   resolve(this.quotationnumber)
+      // }
+      // else{
+      //  this.http.get('https://api.nanogapp.com/getquotationNumber').subscribe(a => {
+      //       console.log(a)
+      //       this.quotationnumber = (a['data']['count'] + 1)
+      //       console.log(this.quotationnumber)
+      //       resolve(this.quotationnumber)
+      //   })
+      // }
     })
 
   }

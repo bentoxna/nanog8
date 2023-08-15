@@ -47,12 +47,12 @@ export class LoginPage implements OnInit {
             }
             else if(this.user['user_role'] == 'Project Coordinator')
             {
-              // this.nav.navigateRoot("pc-home?uid=" + this.user.uid)
-              Swal.fire({
-                text: 'Developing....',
-                heightAuto: false,
-                icon: 'warning',
-              })
+              this.nav.navigateRoot("pc-home?uid=" + this.user.uid)
+              // Swal.fire({
+              //   text: 'Developing....',
+              //   heightAuto: false,
+              //   icon: 'warning',
+              // })
             }
             // 
           })

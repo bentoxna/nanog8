@@ -84,9 +84,9 @@
 
                   <div *ngFor="let x of dates2;" style="width: calc(100% / 7);">
                     <div *ngIf="x != '' && x.fulldate != today" (click)="getnumber2(x)"
-                      [ngStyle]="{'background': x.date == selectedDay2 && monthToShow2 == monthToCheck2 && yearToShow2 == yearToCheck2 ? x.fulldate != today ? '#99d675' : '#6DAD48' : '', 
-              'color': x.date == selectedDay2 && monthToShow2 == monthToCheck2 && yearToShow2 == yearToCheck2 ? x.fulldate != today ? '#FFFFFF' : '#FFFFFF' : '',
-              'border-radius': x.date == selectedDay2 && monthToShow2 == monthToCheck2 && yearToShow2 == yearToCheck2 ? x.fulldate != today ? '10px' : '10px' : ''}"
+                      [ngStyle]="{'background': x.date == selectedDay2 && monthToShow2 == monthToCheck2  ? x.fulldate != today ? '#99d675' : '#6DAD48' : '', 
+              'color': x.date == selectedDay2 && monthToShow2 == monthToCheck2  ? x.fulldate != today ? '#FFFFFF' : '#FFFFFF' : '',
+              'border-radius': x.date == selectedDay2 && monthToShow2 == monthToCheck2 ? x.fulldate != today ? '10px' : '10px' : ''}"
                       style="font-size: 12px; padding: 8px; width: 80%; display: flex; justify-content: center;">
                       <div style="font-size: 12px;">
                         {{ x.date }}
@@ -340,9 +340,9 @@
               <div *ngIf="x != '' && x.fulldate != gettodaydate" (click)="getnumber(x)" style="width: 100%; margin-bottom: 4px; height: 35px; color: #23232b; display: flex; justify-content: center; align-items: center;
                 position: relative;">
                 <div
-                  [ngStyle]="{'background': x.date == selectedDay && monthToShow == monthToCheck && yearToShow == yearToCheck ? x.fulldate != gettodaydate ? '#99d675' : '#6DAD48' : '', 
-                'color': x.date == selectedDay && monthToShow == monthToCheck && yearToShow == yearToCheck ? x.fulldate != gettodaydate ? '#FFFFFF' : '#FFFFFF' : '',
-                'border-radius': x.date == selectedDay && monthToShow == monthToCheck && yearToShow == yearToCheck ? x.fulldate != gettodaydate ? '5px' : '5px' : ''}"
+                  [ngStyle]="{'background': x.date == selectedDay && monthToShow == monthToCheck  ? x.fulldate != gettodaydate ? '#99d675' : '#6DAD48' : '', 
+                'color': x.date == selectedDay && monthToShow == monthToCheck  ? x.fulldate != gettodaydate ? '#FFFFFF' : '#FFFFFF' : '',
+                'border-radius': x.date == selectedDay && monthToShow == monthToCheck  ? x.fulldate != gettodaydate ? '5px' : '5px' : ''}"
                   style="font-size: 12px; padding: 8px; width: 80%; display: flex; justify-content: center;">
                   {{ x.date }}
                 </div>
