@@ -31,15 +31,15 @@ export class ReminderPage implements OnInit {
     private platform : Platform) { }
 
   ngOnInit() {
-    this.http.post('https://api.nanogapp.com/getAppointmentForReminder', { execId: this.userid, startDate: this.sevendaysafterstart, endDate: this.sevendaysafterend }).subscribe((s) => {
+    this.http.post('https://api.nanogapp.com/getAppointmentForReminder2', { execId: this.userid, startDate: this.sevendaysafterstart, endDate: this.sevendaysafterend }).subscribe((s) => {
       console.log(s)
       this.appointmentsevendaysbefore = s['data']
     })
-    this.http.post('https://api.nanogapp.com/getAppointmentForReminder', { execId: this.userid, startDate: this.threedaysafterstart, endDate: this.threedaysafterend }).subscribe((s) => {
+    this.http.post('https://api.nanogapp.com/getAppointmentForReminder2', { execId: this.userid, startDate: this.threedaysafterstart, endDate: this.threedaysafterend }).subscribe((s) => {
       console.log(s)
       this.appointmentthreedaysbefore = s['data']
     })
-    this.http.post('https://api.nanogapp.com/getAppointmentForReminder', { execId: this.userid, startDate: this.onedaysafterstart, endDate: this.onedaysafterend }).subscribe((s) => {
+    this.http.post('https://api.nanogapp.com/getAppointmentForReminder2', { execId: this.userid, startDate: this.onedaysafterstart, endDate: this.onedaysafterend }).subscribe((s) => {
       console.log(s)
       this.appointmentonedaysbefore = s['data']
     })

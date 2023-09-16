@@ -49,13 +49,15 @@ export class TaskLabelPage implements OnInit {
       this.http.get('https://api.nanogapp.com/getLabel').subscribe(a => {
         console.log(a)
         this.alllabel = a['data']
-        this.mainlabel = this.alllabel.filter(a => a['main'] == true && a['status'] == true && (a['id'] == 55 || a['id'] == 50))
+        // this.mainlabel = this.alllabel.filter(a => a['main'] == true && a['status'] == true && (a['id'] == 55 || a['id'] == 50))
+        this.mainlabel = this.alllabel.filter(a => a['main'] == true && a['status'] == true &&  a['id'] == 50)
+        this.label.mainlabel = this.mainlabel[0]
         this.sublabel = this.alllabel.filter(a => a['main'] == false && a['status'] == true)
         console.log(this.alllabel)
         console.log(this.mainlabel)
         console.log(this.sublabel)
 
-        this.label.mainlabel = this.mainlabel.filter(a => a['id'] == this.labelm)[0]
+        // this.label.mainlabel = this.mainlabel.filter(a => a['id'] == this.labelm)[0]
         this.sublabelDependMainLabel = this.sublabel.filter(a => a['category'] == this.label.mainlabel.category)
         this.label.sublabel = this.sublabel.filter(a => a['id'] == this.labels)[0]
 
@@ -113,13 +115,13 @@ export class TaskLabelPage implements OnInit {
             heightAuto: false,
             showConfirmButton: false,
           })
-          this.http.post('https://api.nanogapp.com/updateLeadLabelSalesExec', {
+          this.http.post('https://api.nanogapp.com/updateLeadLabelSalesExec2', {
             label_m: this.label.mainlabel.id,
             label_s: this.label.sublabel.id,
             lead_id: this.leadid,
             uid: this.userid,
-            label_photo: JSON.stringify(this.imageurl) || JSON.stringify([]),
-            label_video: JSON.stringify(this.videourl) || JSON.stringify([]),
+            // label_photo: JSON.stringify(this.imageurl) || JSON.stringify([]),
+            // label_video: JSON.stringify(this.videourl) || JSON.stringify([]),
             remark: this.label.remark,
           }).subscribe(a => {
             console.log(a)

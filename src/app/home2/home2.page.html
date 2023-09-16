@@ -64,48 +64,56 @@
 <ion-content style="background: #fff; overflow: hidden;">
   <div style="width: 100%; height: 100%; display: flex; justify-content: center; align-items: center;">
     <div style="width: 85%; display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; height: 80%;">
-      <div (click)="goupcomingtask()" style="grid-area: 1 / 1 / 2 / 3; display: flex; flex-direction: column; justify-content: space-evenly; align-items: center; flex-wrap: wrap; width: 100%;
+      <div (click)="gohaventcheckin()" style="grid-area: 1 / 1 / 2 / 3; display: flex; flex-direction: column; justify-content: space-evenly; align-items: center; flex-wrap: wrap; width: 100%;
+      height: 100%; border-radius: 20px; background: #EFF7E4; color: #000; padding: 10px 15px; text-align: center;box-shadow: 0px 8px 10px rgba(0, 0, 0, 0.08);">
+       <div style="width: 55%; object-fit: contain; border-radius: 50%; background: #fff; padding: 10px; display: flex; align-items: center;">
+         <img src="assets/checkmark.gif" style="width: 100%;">
+        </div>
+       <div style="font-weight: 600; min-height: 50px; display: flex; align-items: center;">Havent CheckIn</div>
+     </div>
+      <div (click)="goupcomingtask()" style="grid-area: 1 / 3 / 2 / 5; display: flex; flex-direction: column; justify-content: space-evenly; align-items: center; flex-wrap: wrap; width: 100%;
        height: 100%; border-radius: 20px; background: #C4F1CD; color: #000; padding: 10px 15px; text-align: center;box-shadow: 0px 8px 10px rgba(0, 0, 0, 0.08);">
         <div style="width: 55%; object-fit: contain; border-radius: 50%; background: #fff; padding: 10px; display: flex; align-items: center;">
           <img src="assets/task3.png" style="width: 100%;">
          </div>
         <div style="font-weight: 600; min-height: 50px; display: flex; align-items: center;">Upcoming Task</div>
       </div>
-      <div (click)="gopending()" style="grid-area: 1 / 3 / 2 / 5; display: flex; flex-direction: column; justify-content: space-evenly; align-items: center; flex-wrap: wrap; width: 100%;
+      <div (click)="gopending()" style="grid-area: 2 / 1 / 3 / 3; display: flex; flex-direction: column; justify-content: space-evenly; align-items: center; flex-wrap: wrap; width: 100%;
        height: 100%; border-radius: 20px; background: #FDF5E4; color: #000; padding: 10px 15px; text-align: center; box-shadow: 0px 8px 10px rgba(0, 0, 0, 0.08);">
         <div style="width: 55%; object-fit: contain; border-radius: 50%; background: #fff; padding: 10px; display: flex; align-items: center;">
           <img src="assets/task68.gif" style="width: 100%; border-radius: 50%;">
          </div>
         <div style="font-weight: 600; min-height: 50px; display: flex; align-items: center;">Pending Approval</div>
       </div>
-      <div (click)="gotaskall()" style="grid-area: 2 / 1 / 3 / 3; display: flex; flex-direction: column; justify-content: space-evenly; align-items: center; flex-wrap: wrap; width: 100%;
+      <div (click)="gotaskall()" style="grid-area: 2 / 3 / 3 / 5; display: flex; flex-direction: column; justify-content: space-evenly; align-items: center; flex-wrap: wrap; width: 100%;
        height: 100%; border-radius: 20px; background: #E8E6F6; color: #000; padding: 10px 15px; text-align: center;box-shadow: 0px 8px 10px rgba(0, 0, 0, 0.08);">
        <div style="width: 55%; object-fit: contain; border-radius: 50%; background: #fff; padding: 10px; display: flex; align-items: center;">
         <img src="assets/task66.png" style="width: 100%;">
        </div>
         <div style="font-weight: 600; min-height: 50px; display: flex; align-items: center;">All My Job</div>
       </div>
-      <div (click)="homecalendar()" style="grid-area: 2 / 3 / 3 / 5; display: flex; flex-direction: column; justify-content: space-evenly; align-items: center; flex-wrap: wrap; width: 100%;
+      <div (click)="homecalendar()" style="grid-area: 3 / 1 / 4 / 3; display: flex; flex-direction: column; justify-content: space-evenly; align-items: center; flex-wrap: wrap; width: 100%;
        height: 100%; border-radius: 20px; background: #D0ECF5; color: #000; padding: 10px 15px; text-align: center;box-shadow: 0px 8px 10px rgba(0, 0, 0, 0.08);">
         <div style="width: 55%; object-fit: contain; border-radius: 50%; background: #fff; padding: 10px; display: flex; align-items: center;">
           <img src="assets/calendar64.png" style="width: 100%;">
          </div>
         <div style="font-weight: 600; min-height: 50px; display: flex; align-items: center;">Installation Schedule</div>
       </div>
-      <div style="grid-area: 3 / 1 / 4 / 3; display: flex; flex-direction: column; justify-content: space-evenly; align-items: center; flex-wrap: wrap; width: 100%;
+      <div style="grid-area: 3 / 3 / 4 / 5; display: flex; flex-direction: column; justify-content: space-evenly; align-items: center; flex-wrap: wrap; width: 100%;
        height: 100%; border-radius: 20px; background: #FAEBE8; color: #000; padding: 10px 15px; text-align: center;box-shadow: 0px 8px 10px rgba(0, 0, 0, 0.08);">
         <div style="width: 55%; object-fit: contain; border-radius: 50%; background: #fff; padding: 10px; display: flex; align-items: center;">
           <img src="assets/complain64.png" style="width: 100%;">
          </div>
         <div style="font-weight: 600; min-height: 50px; display: flex; align-items: center;">Complain</div>
       </div> 
-      <div (click)="addLead()" style="grid-area: 3 / 3 / 4 / 5; display: flex; flex-direction: column; justify-content: space-evenly; align-items: center; flex-wrap: wrap; width: 100%;
+      <div (click)="addLead()" style="grid-area: 4 / 1 / 5 / 3; display: flex; flex-direction: column; justify-content: space-evenly; align-items: center; flex-wrap: wrap; width: 100%;
        height: 100%; border-radius: 20px; background: #EFF7E4; color: #000; padding: 10px 15px; text-align: center;box-shadow: 0px 8px 10px rgba(0, 0, 0, 0.08);">
         <div style="width: 55%; object-fit: contain; border-radius: 50%; background: #fff; padding: 10px; display: flex; align-items: center;">
           <img src="assets/people64.png" style="width: 100%;">
          </div>
         <div style="font-weight: 600; min-height: 50px; display: flex; align-items: center;">All My Leads</div>
       </div>
+
     </div>
   </div>
 
@@ -153,7 +161,7 @@
 <ion-footer class="ion-no-border">
   <div style="width: 100%; padding: 6px 0 ; display: flex; justify-content: center;">
     <div style="width: 90%; text-align: right; font-size: 12px;">
-      Version 1.0.36
+      Version 1.0.38
     </div>
       
     </div>

@@ -415,7 +415,7 @@ export class PdfQuotationPage implements OnInit {
     columns[1].text = "Area"
     columns[2].text = "Size(sqft)"
     columns[3].text = "Package"
-    columns[4].text = "Warranty"
+    columns[4].text = "Warranty(yr)"
     columns[5].text = "Rate(RM)"
     columns[6].text = "Price(RM)"
 
@@ -435,7 +435,7 @@ export class PdfQuotationPage implements OnInit {
       table: {
         layout: 'lightHorizontalLines', // optional
         headerRows: 1,
-        widths: ['16%', '16%', '13%', '16%', '13%', '13%', '13%'],
+        widths: ['15%', '15%', '13%', '16%', '15%', '13%', '13%'],
         // widths: ['auto', 'auto', 'auto', 'auto', 'auto', 'auto', 'auto'],
         body: this.tableBody(data, columns)
       }

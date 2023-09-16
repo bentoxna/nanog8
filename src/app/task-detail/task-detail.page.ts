@@ -1907,4 +1907,8 @@ export class TaskDetailPage implements OnInit {
     this.nav.navigateForward('task-equipment?salesid=' + this.salesid + '&leadid=' + this.appointment.lead_id)
     }
   }
+
+  inspect(){
+    this.nav.navigateForward('inspect?aid=' + this.appointment.appointment_id + '&salesid=' + this.salesid + '&leadid=' + this.appointment.lead_id)
+  }
 }

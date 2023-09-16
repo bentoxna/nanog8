@@ -248,6 +248,14 @@ const routes: Routes = [
     path: 'insert-csv',
     loadChildren: () => import('./insert-csv/insert-csv.module').then( m => m.InsertCsvPageModule)
   },
+  {
+    path: 'inspect',
+    loadChildren: () => import('./inspect/inspect.module').then( m => m.InspectPageModule)
+  },
+  {
+    path: 'tab4-havent-checkin',
+    loadChildren: () => import('./tab4-havent-checkin/tab4-havent-checkin.module').then( m => m.Tab4HaventCheckinPageModule)
+  },
 
 
 

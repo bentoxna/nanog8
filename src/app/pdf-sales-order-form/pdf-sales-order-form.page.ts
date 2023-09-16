@@ -72,8 +72,8 @@ export class PdfSalesOrderFormPage implements OnInit {
   promocodeapplied = false
   promocodereset = false
 
-  pdffileurl = [] as any
-  pdffilename = [] as any
+  pdffileurl = {} as any
+  pdffilename = {} as any
 
   custompdffileurl = [] as any
   custompdffilename = [] as any
@@ -134,10 +134,10 @@ export class PdfSalesOrderFormPage implements OnInit {
           this.appointment = s['data']
           console.log(this.appointment)
           this.service = s['data']['sales_packages']
-          this.quotation = s['data']['gen_quotation'].map(a => a['pdf'].split('/')[4])
-          this.quotationlink = s['data']['gen_quotation'].map(a => a['pdf'])
-          this.createdatestring()
-          console.log(this.quotation)
+          // this.quotation = s['data']['gen_quotation'].map(a => a['pdf'].split('/')[4])
+          // this.quotationlink = s['data']['gen_quotation'].map(a => a['pdf'])
+          // this.createdatestring()
+          // console.log(this.quotation)
           console.log(this.service)
           for (let i = 0; i < this.service.length; i++) {
             this.service2[i] = this.service[i]
@@ -149,7 +149,7 @@ export class PdfSalesOrderFormPage implements OnInit {
           console.log(this.service, this.service2)
           this.sales_status = s['data']['sales_status']
           console.log(s['data']['salesorderform_list'])
-          this.pdffileurl = s['data']['salesorderform_list'] || []
+          this.pdffileurl = s['data']['salesorderform_list'] ? s['data']['salesorderform_list'][0] : null
           console.log(this.pdffileurl)
           // if(this.pdffileurl.length > 0)
           // {
@@ -474,7 +474,7 @@ export class PdfSalesOrderFormPage implements OnInit {
     columns[1].text = "Area"
     columns[2].text = "Size(sqft)"
     columns[3].text = "Package"
-    columns[4].text = "Warranty"
+    columns[4].text = "Warranty(yr)"
     columns[5].text = "Rate(RM)"
     columns[6].text = "Price(RM)"
     return body
@@ -486,7 +486,7 @@ export class PdfSalesOrderFormPage implements OnInit {
       table: {
         layout: 'lightHorizontalLines', // optional
         headerRows: 1,
-        widths: ['16%', '16%', '13%', '16%', '13%', '13%', '13%'],
+        widths: ['15%', '15%', '13%', '16%', '15%', '13%', '13%'],
         body: this.tableBody(data, columns)
       }
     };
@@ -593,8 +593,9 @@ export class PdfSalesOrderFormPage implements OnInit {
   async getSOFnum() {
 
     return new Promise((resolve, reject) => {
-      this.http.get('https://api.nanogapp.com/getSOFnumber').subscribe(a => {
-        let num = a['data'][0]['sofkey'] + 1
+      if(this.appointment.salesorderform_list && this.appointment.salesorderform_list.length > 0)
+      {
+        let num = this.appointment.salesorderform_list[0].id
         this.SOFnum = num
         if ((num + '').length < 5) {
           for (let i = 0; i < (5 - (num + '').length); i++) {
@@ -606,10 +607,27 @@ export class PdfSalesOrderFormPage implements OnInit {
           this.SOFnum = '' + this.SOFnum
           resolve(this.SOFnum);
         }
+      }
+      else{
+        this.http.get('https://api.nanogapp.com/getSOFnumber').subscribe(a => {
+          let num = a['data'][0]['sofkey'] + 1
+          this.SOFnum = num
+          if ((num + '').length < 5) {
+            for (let i = 0; i < (5 - (num + '').length); i++) {
+              this.SOFnum = '0' + this.SOFnum
+            }
+            resolve(this.SOFnum);
+          }
+          else if ((num + '').length >= 5) {
+            this.SOFnum = '' + this.SOFnum
+            resolve(this.SOFnum);
+          }
+  
+          console.log(this.SOFnum)
+  
+        })
+      }
 
-        console.log(this.SOFnum)
-
-      })
     })
 
 
@@ -982,6 +1000,8 @@ export class PdfSalesOrderFormPage implements OnInit {
       if (!window.open(pdfurl, '_system')) {
         window.location.href = pdfurl;
       }
+
+      this.ngOnInit()
       // let globalVariable = this
       // pdfMake.createPdf(docDefinition).getBuffer((buffer) => {
       //   var utf8 = new Uint8Array(buffer); // Convert to UTF-8...
@@ -1082,8 +1102,9 @@ export class PdfSalesOrderFormPage implements OnInit {
 
           temppdf.sales_order_form = link['imageURL']
           temppdf.create_date = now
-          this.pdffileurl.push(temppdf)
-          console.log(this.pdffileurl)
+          // this.pdffileurl.unshift(temppdf)
+          // this.pdffileurl = temppdf
+          // console.log(this.pdffileurl)
 
           Swal.close()
 
@@ -1094,6 +1115,7 @@ export class PdfSalesOrderFormPage implements OnInit {
           this.http.post('https://api.nanogapp.com/uploadGenSalesOrderForm', {
             sales_id: this.salesid,
             appointment_id: this.appointment.appointment_id,
+            quoteid : (this.appointment.salesorderform_list && this.appointment.salesorderform_list.length > 0 )? this.appointment.salesorderform_list[0].id : null,
             // orderform : JSON.stringify(this.pdffileurl) || [],
             lead_id: this.appointment.lead_id,
             userid: this.userid,
@@ -1102,7 +1124,7 @@ export class PdfSalesOrderFormPage implements OnInit {
             sales_status: this.appointment.sales_status
           }).subscribe((res) => {
             if (res['success'] == true) {
-              console.log(this.pdffileurl)
+              // console.log(this.pdffileurl)
               resolve(temppdf)
             }
           })

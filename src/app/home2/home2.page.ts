@@ -83,15 +83,15 @@ export class Home2Page {
           console.log(this.notificationcount)
         })
 
-        this.http.post('https://api.nanogapp.com/getAppointmentForReminderCount', { execId: this.uid, startDate: this.sevendaysafterstart, endDate: this.sevendaysafterend }).subscribe((s) => {
+        this.http.post('https://api.nanogapp.com/getAppointmentForReminderCount2', { execId: this.uid, startDate: this.sevendaysafterstart, endDate: this.sevendaysafterend }).subscribe((s) => {
           this.remindercount7 = s['data']
           console.log(this.remindercount7)
         })
-        this.http.post('https://api.nanogapp.com/getAppointmentForReminderCount', { execId: this.uid, startDate: this.threedaysafterstart, endDate: this.threedaysafterend }).subscribe((s) => {
+        this.http.post('https://api.nanogapp.com/getAppointmentForReminderCount2', { execId: this.uid, startDate: this.threedaysafterstart, endDate: this.threedaysafterend }).subscribe((s) => {
           this.remindercount3 = s['data']
           console.log(this.remindercount3)
         })
-        this.http.post('https://api.nanogapp.com/getAppointmentForReminderCount', { execId: this.uid, startDate: this.onedaysafterstart, endDate: this.onedaysafterend }).subscribe((s) => {
+        this.http.post('https://api.nanogapp.com/getAppointmentForReminderCount2', { execId: this.uid, startDate: this.onedaysafterstart, endDate: this.onedaysafterend }).subscribe((s) => {
    
           this.remindercount1 = s['data']
           console.log(this.remindercount1)
@@ -227,6 +227,11 @@ export class Home2Page {
   platformType(){
     return this.platform.platforms()
   }
+
+  gohaventcheckin(){
+    this.nav.navigateForward('tab4-havent-checkin')
+  }
+
 
   goupcomingtask(){
     this.nav.navigateForward('tab1-upcoming-task')

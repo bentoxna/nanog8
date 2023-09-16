@@ -62,15 +62,15 @@ export class ScheduleCalanderPage implements OnInit {
     // this.selectedyear = new Date().getFullYear()
     // this.selectedmonth = new Date().getMonth()
     // this.selecteddate = new Date().getDate()
-    console.log(this.today)
-    console.log(this.todaydate)
+    // console.log(this.today)
+    // console.log(this.todaydate)
     this.socket.connect();
     this.socket.fromEvent('a').subscribe(message => {
-      console.log(message)
+      // console.log(message)
       this.refresher()
     }); 
-    console.log(new Date().getMonth() + 1)
-    console.log(new Date().getFullYear())
+    // console.log(new Date().getMonth() + 1)
+    // console.log(new Date().getFullYear())
 
     this.createdate((new Date().getMonth() + 1), new Date().getFullYear())
 
@@ -81,19 +81,19 @@ export class ScheduleCalanderPage implements OnInit {
       this.salesid = a['sid']
       this.leadid = a['lid']
 
-      console.log(this.userid, this.taskid, this.salesid)
+      // console.log(this.userid, this.taskid, this.salesid)
 
-      console.log(this.selectedyear, this.selectedmonth)
+      // console.log(this.selectedyear, this.selectedmonth)
       this.startdate = new Date(parseInt(this.selectedyear), parseInt(this.selectedmonth) -1 , 1).getTime()
-      console.log(this.startdate)
+      // console.log(this.startdate)
 
       this.enddate = new Date(parseInt(this.selectedyear), parseInt(this.selectedmonth), 0, 23,59,59).getTime()
-      console.log(this.enddate)
+      // console.log(this.enddate)
       this.getworkschedule()
     })
 
-    console.log(this.userid, this.taskid, this.salesid)
-    console.log(this.dates)
+    // console.log(this.userid, this.taskid, this.salesid)
+    // console.log(this.dates)
     // this.http.post('https://api.nanogapp.com/getUserDetail', { uid: this.userid }).subscribe(res => {
     //   this.user = res['data']
     //   console.log(this.user)
@@ -156,6 +156,7 @@ export class ScheduleCalanderPage implements OnInit {
       // }
       console.log(this.startdate, this.enddate)
       this.http.post('https://api.nanogapp.com/getScheduleByDateForList', { minimum: this.startdate, maximum: this.enddate}).subscribe(res => {
+  
 
         this.allschedule = res['data']
         console.log(this.allschedule)
@@ -179,12 +180,69 @@ export class ScheduleCalanderPage implements OnInit {
                 this.dates[i].isthisappointment = false
                 for (let j = 0; j < this.alldate.length; j++) {
                   // console.log(new Date(parseInt(this.alldate[j].schedule_date)).getDate())
-                  if (this.dates[i].date == new Date(parseInt(this.alldate[j].schedule_date)).getDate()) {
-                    this.dates[i].num = this.dates[i].num + 1
-                    if (this.alldate[j]['sales_id'] == this.salesid) {
-                      this.dates[i].isthisappointment = true
+                  if(this.alldate[j].schedule_date)
+                  {
+                    if (this.dates[i].date == new Date(parseInt(this.alldate[j].schedule_date)).getDate()) {
+
+                      if(this.dates[i]['sales_id'] && this.dates[i]['sales_id'].length > 0)
+                      {
+                        let findsalesid = this.dates[i]['sales_id'].findIndex(a => a == this.alldate[j].sales_id)
+                        if(findsalesid == -1)
+                        {
+                          this.dates[i]['sales_id'].push(this.alldate[j].sales_id)
+                          this.dates[i].num = this.dates[i].num + 1
+                          if (this.alldate[j]['sales_id'] == this.salesid) {
+                            this.dates[i].isthisappointment = true
+                          }
+                        }
+                      }
+                      else
+                      {
+                        this.dates[i]['sales_id'] = [this.alldate[j].sales_id]
+                        this.dates[i].num = this.dates[i].num + 1
+                        if (this.alldate[j]['sales_id'] == this.salesid) {
+                          this.dates[i].isthisappointment = true
+                        }
+                      }
+
+
                     }
                   }
+                  else if(!this.alldate[j].schedule_date && this.alldate[j].schedule_date2)
+                  {
+                    for(let k = 0; k < this.alldate[j].schedule_date2.length; k++)
+                    {
+                      if (this.dates[i].date == new Date(parseInt(this.alldate[j].schedule_date2[k])).getDate()) {
+                        
+
+                        if(this.dates[i]['sales_id'] && this.dates[i]['sales_id'].length > 0)
+                        {
+                          let findsalesid = this.dates[i]['sales_id'].findIndex(a => a == this.alldate[j].sales_id)
+                          if(findsalesid == -1)
+                          {
+                            this.dates[i]['sales_id'].push(this.alldate[j].sales_id)
+                            this.dates[i].num = this.dates[i].num + 1
+                            if (this.alldate[j]['sales_id'] == this.salesid) {
+                              this.dates[i].isthisappointment = true
+                            }
+                          }
+                        }
+                        else{
+                          
+                          this.dates[i]['sales_id'] = [this.alldate[j].sales_id]
+                          this.dates[i].num = this.dates[i].num + 1
+                          if (this.alldate[j]['sales_id'] == this.salesid) {
+                            this.dates[i].isthisappointment = true
+                          }
+                        }
+                        
+
+                        
+
+                      }
+                    }
+                  }
+
                 }
               }
             }

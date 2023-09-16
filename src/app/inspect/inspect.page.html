@@ -4,7 +4,7 @@
     <div style="width:90%; display:flex; justify-content: space-between; align-items: center;">
       <ion-icon name="close-outline" style="visibility: hidden;"></ion-icon>
       <div style="color: #ffffff; display:flex; justify-content:center; font-size: 16px; font-weight: 600;">
-        Unable To Do
+        Upload Inspect Result
       </div>
       <ion-icon (click)="back()" name="close-outline" style="font-size: 16px; color: #ffffff;"></ion-icon>
     </div>
@@ -17,62 +17,10 @@
 
     <div style="width: 90%; margin-bottom: 24px;">
 
-
-      <div style="margin-top: 20px; width: 100%;">
-
-        <div
-          style="display: flex; justify-content:space-between; align-items: center; background: #C6D8A6;  border-radius: 8px; padding: 10px 16px; box-shadow: 0 1px 0 0 #CCCCCC;">
-          <div style="font-size: 13px; font-weight:600;">Main Label will auto change to Unable To Do after submit</div>
-        </div>
-
-        <div style="width: 100%; display: flex; justify-content: flex-start; margin-top: 10px; flex-wrap: wrap;">
-          <div *ngFor="let x of mainlabel; let i = index"
-            style="width: max-content; margin-right: 5px; margin-bottom: 5px;">
-            <!-- <div
-              [ngStyle]="{'background': label.mainlabel == x ? '#6DAD48' : '#DEE9CB', 'color' : label.mainlabel == x ? '#ffffff' : '#000000'}"
-              (click)="getmainlabel(i)"
-              style="font-size: 11px; width: 100%; border-radius: 8px; display: flex; text-align: center; justify-content: center;  padding: 5px 10px 5px; align-items: center; height: 40px; box-shadow:  0 0 4px 0 #ddd;">
-              <div [style.background]="x.colour" style="width: 10px; height: 10px; margin-right: 2px;"></div>
-              {{x.name}}
-            </div> -->
-            <div
-            [ngStyle]="{'background': label.mainlabel == x ? '#6DAD48' : '#DEE9CB', 'color' : label.mainlabel == x ? '#ffffff' : '#000000'}"
-            style="font-size: 11px; width: 100%; border-radius: 8px; display: flex; text-align: center; justify-content: center;  padding: 5px 10px 5px; align-items: center; height: 40px; box-shadow:  0 0 4px 0 #ddd;">
-            <div [style.background]="x.colour" style="width: 10px; height: 10px; margin-right: 2px;"></div>
-            {{x.name}}
-          </div>
-          </div>
-        </div>
-
-      </div>
-
-
-      <div style="margin-top: 10px; width: 100%;">
-
-        <div
-          style="display: flex; justify-content:space-between; align-items: center; background: #C6D8A6;  border-radius: 8px; padding: 10px 16px; box-shadow: 0 1px 0 0 #CCCCCC;">
-          <div style="font-size: 13px; font-weight:600;">Please choose the Sub Label as reason</div>
-        </div>
-
-        <div style="width: 100%; display: flex; justify-content: flex-start; margin-top: 10px; flex-wrap: wrap;">
-          <div *ngFor="let x of sublabelDependMainLabel; let i = index"
-            style="width: max-content; margin-right: 5px; margin-bottom: 5px;">
-            <div
-              [ngStyle]="{'background': label.sublabel == x ? '#6DAD48' : '#DEE9CB', 'color' : label.sublabel == x ? '#ffffff' : '#000000'}"
-              (click)="getsublabel(i)"
-              style="font-size: 11px; width: 100%; border-radius: 8px; display: flex; text-align: center; justify-content: center; padding: 5px 10px ; align-items: center; height: 40px; box-shadow:  0 0 4px 0 #ddd;">
-              <div [style.background]="x.colour" style="width: 10px; height: 10px; margin-right: 2px;"></div>{{x.name}}
-            </div>
-          </div>
-        </div>
-
-      </div>
-
-
       <!-- image -->
-      <!-- <div
+      <div
       style="display: flex; margin-top: 20px;  justify-content:space-between; align-items: center; background: #C6D8A6;  border-radius: 8px; padding: 10px 16px; box-shadow: 0 1px 0 0 #CCCCCC;">
-      <div style="font-size: 13px; font-weight:600;">Kindly upload the image / video as evidence</div>
+      <div style="font-size: 13px; font-weight:600;">Upload your inspection image & video</div>
       </div>
 
       <div
@@ -91,11 +39,11 @@
 
       <label for="uploadfiles" id="uploadlabel"></label>
       <input readonly (change)="fileChange2($event, 600)" type="file" id="uploadfiles" accept="image/*" multiple
-        name="files[]" style="display: none;" /> -->
+        name="files[]" style="display: none;" />
 
 
       <!-- video -->
-      <!-- <div
+      <div
         style="background: #DEE9CB; margin-top: 2px; border-radius: 8px; padding: 16px; display: flex;justify-content: flex-start; flex-wrap: wrap;">
         <div *ngFor="let x of videourl; let i = index;"
           style="width: 100%;  margin-right:6px; margin-bottom: 6px; position: relative;">
@@ -113,13 +61,13 @@ border: 1px solid #6DAD48; margin-right: 6px; height: 100px; ">
 
       <label for="{{'filessquare_edit'}}" id="uploadlabel2"></label>
       <input style="display: none" id="{{'filessquare_edit'}}" class="inputclass" type="file" accept="video/*"
-        (change)="uploadFile($event)">-->
+        (change)="uploadFile($event)">
 
       <div style="background: #DEE9CB; margin-top: 20px; border-radius: 8px; padding:0 16px;">
-        <ion-textarea [(ngModel)]="label.remark" placeholder="Remarks for activity log" rows="6"
-          style="font-size: 14px; --padding-start: 0; --padding-end:0; --padding-start: 0; --padding-bottom: 0;">
+        <ion-textarea [(ngModel)]="inspect.inspect_remark" placeholder="Remarks" rows="6"
+          style="font-size: 14px; --padding-start: 0; --padding-end:0; -padding-start: 0; --padding-bottom: 0;">
         </ion-textarea>
-      </div> 
+      </div>
 
     </div>
   </div>
