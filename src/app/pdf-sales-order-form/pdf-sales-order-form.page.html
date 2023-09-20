@@ -94,7 +94,7 @@
     <div *ngIf="pdffileurl" style="width: 90%;">
       <div (click)="getpdf(pdffileurl['sales_order_form'],'system')" style="display: flex; align-items: center; padding: 10px 0; margin: 10px 0; box-shadow: 0 0 6px 0 #ddd;">
         <img src="assets/icon/pdflogo.png" style="width: 20%;"/>
-        <div style="width: 80%;">{{pdffileurl['sales_order_form'].split('/')[4]}}</div>
+        <div style="width: 80%;">{{(pdffileurl['sales_order_form'].split('/')[4]).split('-')[0]}} / {{(pdffileurl['sales_order_form'].split('/')[4]).split('-')[1]}} - {{(pdffileurl['sales_order_form'].split('/')[4]).split('-')[2]}}</div>
       </div>
     </div>
 

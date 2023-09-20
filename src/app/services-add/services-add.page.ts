@@ -494,14 +494,14 @@ export class ServicesAddPage implements OnInit {
         timer: 2000
       })
     }
-    else if (!this.imageurl || this.imageurl.length < 1) {
-      Swal.fire({
-        icon: 'info',
-        text: 'At least upload one photo',
-        heightAuto: false,
-        timer: 2000
-      })
-    }
+    // else if (!this.imageurl || this.imageurl.length < 1) {
+    //   Swal.fire({
+    //     icon: 'info',
+    //     text: 'At least upload one photo',
+    //     heightAuto: false,
+    //     timer: 2000
+    //   })
+    // }
     else {
       Swal.fire(
         {

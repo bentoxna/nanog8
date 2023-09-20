@@ -136,7 +136,7 @@ export class PdfSalesOrderFormPage implements OnInit {
           this.service = s['data']['sales_packages']
           // this.quotation = s['data']['gen_quotation'].map(a => a['pdf'].split('/')[4])
           // this.quotationlink = s['data']['gen_quotation'].map(a => a['pdf'])
-          // this.createdatestring()
+          this.createdatestring()
           // console.log(this.quotation)
           console.log(this.service)
           for (let i = 0; i < this.service.length; i++) {
@@ -213,7 +213,7 @@ export class PdfSalesOrderFormPage implements OnInit {
       this.datestring = ''
     }
     else if (temp && temp.length == 1) {
-      temp[0].from_date ? this.datestring = this.datePipe.transform(Number(temp[0].from_date), 'yyyy-MM-dd yyyy-MM-dd hh:mm a') : this.datestring
+      temp[0].from_date ? this.datestring = this.datePipe.transform(Number(temp[0].from_date), 'yyyy-MM-dd hh:mm a') : this.datestring
     }
     else if (temp.length > 1) {
       for (let i = 0; i < temp.length; i++) {
@@ -1101,6 +1101,7 @@ export class PdfSalesOrderFormPage implements OnInit {
           let now = Date.now()
 
           temppdf.sales_order_form = link['imageURL']
+          console.log(temppdf)
           temppdf.create_date = now
           // this.pdffileurl.unshift(temppdf)
           // this.pdffileurl = temppdf
