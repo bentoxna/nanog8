@@ -370,11 +370,13 @@ export class TaskDetailPage implements OnInit {
   // }
 
   async addtask() {
-    if (this.sales_status != 'Quotation' && this.sales_status != null) {
+    // if (this.sales_status != 'Quotation' && this.sales_status != null) {
 
-    }
+    // }
     // (!appointment.checkin_latt || !appointment.checkin_long|| !appointment.checkin_time || !appointment.checkin_img) && !appointment.check_detail
-    else if ((!this.appointment.checkin_latt || !this.appointment.checkin_long|| !this.appointment.checkin_time || !this.appointment.checkin_img) && !this.appointment.check_detail) {
+    // else 
+    
+    if ((!this.appointment.checkin_latt || !this.appointment.checkin_long|| !this.appointment.checkin_time || !this.appointment.checkin_img) && !this.appointment.check_detail) {
       Swal.fire({
         icon: 'info',
         title: 'Please check in first',
@@ -433,12 +435,12 @@ export class TaskDetailPage implements OnInit {
   }
 
   goServiceList(service){
-    if (this.sales_status != 'Quotation' && this.sales_status != null) {
+    // if (this.sales_status != 'Quotation' && this.sales_status != null) {
 
-    }
-    else {
+    // }
+    // else {
     this.nav.navigateForward('service-addon-list?tid=' + this.taskid + '&sid=' + this.salesid + '&sap=' + service['sap_id'] + '&lid=' + this.appointment.lead_id + '&servicetype=' + 'normal')
-    }
+    // }
   }
 
   async showdiscount2() {

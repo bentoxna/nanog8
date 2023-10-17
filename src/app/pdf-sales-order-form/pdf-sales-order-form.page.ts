@@ -463,8 +463,11 @@ export class PdfSalesOrderFormPage implements OnInit {
         else if (columns[j]["text"] == "rate") {
           dataRow.push({ text: "RM " + (Math.round((data[i][columns[j]["text"]] ? data[i][columns[j]["text"]] : 0) * 100) / 100).toFixed(2).toString(), style: "tableData" });
         }
+        // else if (columns[j]["text"] == "total") {
+        //   dataRow.push({ text: "RM " + (Math.round((data[i]['total_after'] ? data[i]['total_after'] : data[i]['total']) * 100) / 100).toFixed(2).toString(), style: "tableData" });
+        // }
         else if (columns[j]["text"] == "total") {
-          dataRow.push({ text: "RM " + (Math.round((data[i]['total_after'] ? data[i]['total_after'] : data[i]['total']) * 100) / 100).toFixed(2).toString(), style: "tableData" });
+          dataRow.push({ text: "RM " + (Math.round((data[i]['total']) * 100) / 100).toFixed(2).toString(), style: "tableData" });
         }
       }
       body.push(dataRow);
