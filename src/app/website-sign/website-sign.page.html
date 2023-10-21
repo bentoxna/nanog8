@@ -1,10 +1,10 @@
 <ion-header>
   <div
-    style="width: 100%; display: flex; justify-content:space-between; align-items: center; padding:10px 24px; background: #6DAD48;">
+    style="width: 100%; display: flex; justify-content:center; align-items: center; padding:10px 24px; background: #FFFFFF;">
 
-    <ion-icon (click)='back()' style='font-size:20px;color: #FFFFFF;' name="chevron-back-outline"> </ion-icon>
-    <div style="color: #FFFFFF; font-size:16px; font-weight:600;">Pay</div>
-    <ion-icon style='visibility: hidden;' name="chevron-back-outline"></ion-icon>
+    <!-- <ion-icon (click)='back()' style='font-size:20px;color: #FFFFFF;' name="chevron-back-outline"> </ion-icon> -->
+    <div style="color: #6DAD48; font-size:16px; font-weight:600;">Customer Signature Form</div>
+    <!-- <ion-icon style='visibility: hidden;' name="chevron-back-outline"></ion-icon> -->
 
   </div>
 </ion-header>
@@ -183,10 +183,16 @@
       </div>
 
 
+      <div style="color: #6DAD48;  margin-top: 20px; margin-bottom: 10px; width: 100%; display: flex; justify-content: center;">
+        <div style="font-size: 18px; font-weight: 600; width: 90%;">Service Information</div>
+        
+      </div>
+
+
       <div class="ion-no-padding" *ngFor="let x of sales_packages_main;let i = index;" style="margin-top: 5px;">
-        <div class="ion-no-padding" style="background: #E4EFDE;">
+        <div class="ion-no-padding" style="background: #E4EFDE; display: flex; flex-direction: column; align-items: center;">
           <div class="ion-no-padding"
-            style="background:#E4EFDE; width:100%; display: flex; justify-content: space-between; align-items: center; padding: 0 15px;">
+            style="background:#E4EFDE; width:90%; display: flex; justify-content: space-between; align-items: center; padding: 0 0;">
             <div *ngIf="!appointment.warranty_id"
               style="background-color: #E4EFDE; width:100%; padding: 10px 0 10px 5px;">
 
@@ -289,7 +295,7 @@
           <div style="font-size: 14px;">{{total | currency : 'RM '}}</div>
         </div>
 
-        <div style="width:90%; margin-top: 12px; display: flex; align-items: baseline; justify-content: space-between;">
+        <!-- <div style="width:90%; margin-top: 12px; display: flex; align-items: baseline; justify-content: space-between;">
           <div style="width: 100%; margin-right: 5px;">
             <ion-input [(ngModel)]="deposit" style="box-shadow: 0 0 6px 0 #DDDDDD; margin-top: 8px; font-size: 14px;"
               placeholder="Enter Payment Amount" type="number"></ion-input>
@@ -299,11 +305,11 @@
             style="min-width: 50px; max-width: 50px; padding: 10px 5px; background: #6DAD48; color: #FFFFFF; border-radius: 5px; font-size: 13px;">
             Pay All</div>
 
-        </div>
+        </div> -->
 
 
 
-        <div style="width: 90%; margin-top: 12px; background: #f1f5eb; border-radius: 8px">
+        <!-- <div style="width: 90%; margin-top: 12px; background: #f1f5eb; border-radius: 8px">
 
           <div (click)="showpaymentdropdown()" style="display: flex; justify-content:space-between; align-items: center; background: #C6D8A6; border-radius: 8px; padding: 12px 16px; 
               box-shadow: 0 1px 0 0 #CCCCCC;">
@@ -328,22 +334,22 @@
             </div>
           </div>
 
-        </div>
+        </div> -->
 
 
-        <div *ngIf="selectedpaymentmethod == 'Others'"
+        <!-- <div *ngIf="selectedpaymentmethod == 'Others'"
           style="width: 100%; display: flex; justify-content: center; font-size: 14px;">
           <div style="width: 90%;">
             <ion-input [(ngModel)]="paymentothers" placeholder="Enter Payment Method"
               style="box-shadow: 0 0 6px 0 #DDDDDD; margin-top: 4px;">
             </ion-input>
           </div>
-        </div>
+        </div> -->
 
 
       </div>
 
-      <div style="margin-top:20px;">
+      <!-- <div style="margin-top:20px;">
         <div style="width: 100%; display: flex; justify-content: center;">
           <div style="width: 90%;">
 
@@ -390,14 +396,14 @@
           <input readonly (change)="fileChangepdf($event)" type="file" id="uploadpdf" accept="application/pdf" multiple
             name="files[]" style="display: none;" />
         </div>
-      </div>
+      </div> -->
 
-      <div style="width: 100%; display: flex; flex-direction:column; align-items:center; margin-top: 20px;">
+      <!-- <div style="width: 100%; display: flex; flex-direction:column; align-items:center; margin-top: 20px;">
         <div style="width: 90%;">
           <div>Remark</div>
           <ion-textarea [(ngModel)]="paymentremark" placeholder="write remark...." style="box-shadow: 0 0 6px 0 #DDDDDD;" rows="6"></ion-textarea>
         </div>
-      </div>
+      </div> -->
 
       <div *ngIf="!appointment.termsncondition" style="width: 100%; display: flex; justify-content: center; margin-top: 20px; margin-bottom: 10px;">
         <div style="width: 90%; display: flex; justify-content: flex-start;">
@@ -415,8 +421,11 @@
       <div
         style="width: 100%;  display: flex; justify-content: center; margin-bottom: 10px;">
         <div style="width: 90%;" (click)="customersign()">
+          <div style="color: #6DAD48;  margin-top: 20px; margin-bottom: 10px; display: flex; gap: 5px; 
+          align-items: baseline; flex-wrap: wrap;">
+            <div style="font-size: 18px; font-weight: 600;">Customer Singnature</div><span style="font-size: 10px; color: red; text-decoration: none;">(click to sign)</span></div>
 
-          <div style="margin: 10px 0;  box-shadow: 0 0 6px 0 #DDDDDD;">
+          <div style="margin: 0 0 10px 0;  box-shadow: 0 0 6px 0 #DDDDDD;">
             <img src="{{customersignimage}}" style="width: 100%; min-height: 120px;" />
           </div>
 
@@ -428,7 +437,7 @@
                 <div style="font-weight: 600;">{{appointment.customer_name}}</div>
               </div>
 
-              <div style="font-size: 12px; color: red;">(click to sign)</div>
+              <!-- <div style="font-size: 12px; color: red;">(click to sign)</div> -->
             </div>
           </div>
         </div>
@@ -446,7 +455,7 @@
 
 </ion-content>
 
-<ion-footer>
+<!-- <ion-footer>
 
 
 
@@ -473,4 +482,4 @@
   </div>
 
 
-</ion-footer>
+</ion-footer> -->

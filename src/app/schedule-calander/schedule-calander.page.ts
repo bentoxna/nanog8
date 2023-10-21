@@ -180,13 +180,18 @@ export class ScheduleCalanderPage implements OnInit {
                 this.dates[i].isthisappointment = false
                 for (let j = 0; j < this.alldate.length; j++) {
                   // console.log(new Date(parseInt(this.alldate[j].schedule_date)).getDate())
-                  if(this.alldate[j].schedule_date)
+                  if(this.alldate[j].schedule_date && (!this.alldate[j].schedule_date2 || this.alldate[j].schedule_date2 && this.alldate[j].schedule_date2.length < 1))
                   {
                     if (this.dates[i].date == new Date(parseInt(this.alldate[j].schedule_date)).getDate()) {
 
                       if(this.dates[i]['sales_id'] && this.dates[i]['sales_id'].length > 0)
                       {
                         let findsalesid = this.dates[i]['sales_id'].findIndex(a => a == this.alldate[j].sales_id)
+                        if(i == 8)
+                        {
+                          console.log(findsalesid)
+                          console.log(this.alldate[j].sales_id)
+                        }
                         if(findsalesid == -1)
                         {
                           this.dates[i]['sales_id'].push(this.alldate[j].sales_id)
@@ -208,7 +213,7 @@ export class ScheduleCalanderPage implements OnInit {
 
                     }
                   }
-                  else if(!this.alldate[j].schedule_date && this.alldate[j].schedule_date2)
+                  else if(this.alldate[j].schedule_date2)
                   {
                     for(let k = 0; k < this.alldate[j].schedule_date2.length; k++)
                     {
@@ -442,12 +447,12 @@ export class ScheduleCalanderPage implements OnInit {
   }
 
   getdate(x) {
-    console.log(x)
+    // console.log(x)
     this.selecteddate = x
     this.fulldate = new Date(parseInt(this.selectedyear), parseInt(this.selectedmonth) - 1, parseInt(this.selecteddate)).getTime()
     let fulltomorrow = new Date(parseInt(this.selectedyear), parseInt(this.selectedmonth) - 1, parseInt(this.selecteddate), 23, 59, 59).getTime()
 
-    console.log(this.fulldate, fulltomorrow)
+    // console.log(this.fulldate, fulltomorrow)
 
     this.http.post('https://api.nanogapp.com/getScheduleByDate', { minimum: this.fulldate, maximum: fulltomorrow }).subscribe(res => {
       console.log(res['data'])
@@ -459,6 +464,8 @@ export class ScheduleCalanderPage implements OnInit {
         console.log(this.installlist)
 
         this.alllist = this.bookinglist.concat(this.installlist)
+
+        console.log(this.alllist)
         this.alllist.filter(a => a['created_by'] == this.userid ? a['owm'] = true : a['owm'] = false)
 
       })
