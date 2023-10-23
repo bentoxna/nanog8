@@ -698,8 +698,8 @@ export class TaskPaymentPage implements OnInit {
     let sales_satus
     let total: number = +this.total
     let deposit: number = +this.deposit
-    console.log(this.deposit, this.total)
-    console.log(deposit, total)
+    // console.log(this.deposit, this.total)
+    // console.log(deposit, total)
     if (!this.appointment.customer_email) {
       Swal.fire({
         text: 'Enter customer email before make payment',
@@ -764,7 +764,7 @@ export class TaskPaymentPage implements OnInit {
               //   alert(res['error'])
               // }
             })
-            console.log(this.email)
+            // console.log(this.email)
           }
         }
       })
@@ -836,7 +836,7 @@ export class TaskPaymentPage implements OnInit {
     //   })
     // }
     else {
-      console.log(this.deposit, this.total, total)
+      // console.log(this.deposit, this.total, total)
       // if(deposit >= total)
       // {
       //   deposit = total
