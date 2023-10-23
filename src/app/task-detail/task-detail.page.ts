@@ -1400,7 +1400,7 @@ export class TaskDetailPage implements OnInit {
 
 
   payby(x) {
-    // console.log(this.total)
+    console.log(this.total)
     // console.log(this.appointment.sales_packages)
     // if (this.discountselected2 == undefined) {
     //   Swal.fire(

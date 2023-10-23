@@ -69,7 +69,7 @@ export class TaskEquipmentPage implements OnInit {
     this.transportation_fee = (this.transportation_fee * 100 / 100).toFixed(2)
     console.log(this.scaffheight, this.scafffee, this.skyliftheight, this.skyliftfee)
     Swal.fire({
-      text : 'Are you sure to update the scaffholding and skylift information?',
+      text : 'Are you sure to update the scaffolding and skylift information?',
       icon : 'info',
       heightAuto : false,
       showCancelButton :true,

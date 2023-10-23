@@ -535,7 +535,7 @@ export class PdfQuotationPage implements OnInit {
             ],
             [
               [
-                { text: 'ScaffHolding', alignment: 'center', style: 'tableData' }
+                { text: 'Scaffolding', alignment: 'center', style: 'tableData' }
               ],
               [
                 { text: this.appointment.scaff_fee ? 'RM ' + this.appointment.scaff_fee : '-', alignment: 'center', style: 'tableData' }
@@ -718,7 +718,7 @@ export class PdfQuotationPage implements OnInit {
         //       ],
         //       [
         //         [
-        //           { text: 'ScaffHolding', alignment: 'center', style: 'tableData' }
+        //           { text: 'Scaffolding', alignment: 'center', style: 'tableData' }
         //         ],
         //         [
         //           { text: this.appointment.scaff_fee ? 'RM ' + this.appointment.scaff_fee : '-', alignment: 'center', style: 'tableData' }

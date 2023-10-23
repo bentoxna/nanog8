@@ -694,10 +694,12 @@ export class TaskPaymentPage implements OnInit {
   pay2() {
     this.deposit = (this.deposit / 100 * 100).toFixed(2)
     this.total = (this.total / 100 * 100).toFixed(2)
+    console.log(this.total)
     let payment_status
     let sales_satus
     let total: number = +this.total
     let deposit: number = +this.deposit
+    console.log(total - deposit)
     // console.log(this.deposit, this.total)
     // console.log(deposit, total)
     if (!this.appointment.customer_email) {
@@ -849,8 +851,8 @@ export class TaskPaymentPage implements OnInit {
       sales_satus = 'Deposit'
       payment_status = 'Deposited'
       // }
-      console.log(sales_satus, payment_status)
-      console.log(this.deposit, total)
+      // console.log(sales_satus, payment_status)
+      // console.log(this.deposit, total)
       Swal.fire(
         {
           text: 'Are you sure pay RM ' + deposit + '?',
@@ -882,6 +884,7 @@ export class TaskPaymentPage implements OnInit {
             payment_status: payment_status,
             sales_id: this.appointment.sales_id,
             type: this.paymenttype,
+            payment_left : ((total - deposit) / 100 * 100).toFixed(2),
             // payment_image: link,
             receipt_img : JSON.stringify(this.receipturl || []),
             receipt_pdf : JSON.stringify(this.pdffileurl || []),
@@ -902,7 +905,8 @@ export class TaskPaymentPage implements OnInit {
                 showConfirmButton: false,
                 timer: 1500
               })
-              this.nav.pop()
+              // this.nav.pop()
+              this.nav.navigateRoot('home2?uid=' + this.userid, {animationDirection: 'back' })
             }
             else if (res['success'] == false) {
               alert(res['error'])

@@ -510,7 +510,7 @@ export class PdfSalesOrderFormPage implements OnInit {
             ],
             [
               [
-                { text: 'ScaffHolding', alignment: 'center', style: 'tableData' }
+                { text: 'Scaffolding', alignment: 'center', style: 'tableData' }
               ],
               [
                 { text: this.appointment.scaff_fee ? 'RM ' + this.appointment.scaff_fee : '-', alignment: 'center', style: 'tableData' }
