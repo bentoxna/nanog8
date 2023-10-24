@@ -392,9 +392,16 @@ export class PdfQuotationPage implements OnInit {
         // else if (columns[j]["text"] == "discount") {
         //   dataRow.push({ text: data[i][columns[j]["text"]].toString(), style: "tableData" });
         // }
+
+
+        // else if (columns[j]["text"] == "total") {
+        //   dataRow.push({ text: "RM " + (Math.round((data[i]['total_after'] ? data[i]['total_after'] : data[i]['total']) * 100) / 100).toFixed(2).toString(), style: "tableData" });
+        // }
         else if (columns[j]["text"] == "total") {
-          dataRow.push({ text: "RM " + (Math.round((data[i]['total_after'] ? data[i]['total_after'] : data[i]['total']) * 100) / 100).toFixed(2).toString(), style: "tableData" });
+          dataRow.push({ text: "RM " + (Math.round((data[i]['total']) * 100) / 100).toFixed(2).toString(), style: "tableData" });
         }
+
+
         // else if (columns[j]["text"] == "height") {
         //   dataRow.push({ text: (Math.round(data[i][columns[j]["text"]] * 100) / 100).toFixed(2).toString() + ' (ft)', style: "tableData" });
         // }
@@ -528,7 +535,7 @@ export class PdfQuotationPage implements OnInit {
             ],
             [
               [
-                { text: 'ScaffHolding', alignment: 'center', style: 'tableData' }
+                { text: 'Scaffolding', alignment: 'center', style: 'tableData' }
               ],
               [
                 { text: this.appointment.scaff_fee ? 'RM ' + this.appointment.scaff_fee : '-', alignment: 'center', style: 'tableData' }
@@ -711,7 +718,7 @@ export class PdfQuotationPage implements OnInit {
         //       ],
         //       [
         //         [
-        //           { text: 'ScaffHolding', alignment: 'center', style: 'tableData' }
+        //           { text: 'Scaffolding', alignment: 'center', style: 'tableData' }
         //         ],
         //         [
         //           { text: this.appointment.scaff_fee ? 'RM ' + this.appointment.scaff_fee : '-', alignment: 'center', style: 'tableData' }

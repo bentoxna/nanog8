@@ -18,12 +18,12 @@ declare let cordova: any;
 
 
 @Component({
-  selector: 'app-task-payment',
-  templateUrl: './task-payment.page.html',
-  styleUrls: ['./task-payment.page.scss'],
+  selector: 'app-website-sign',
+  templateUrl: './website-sign.page.html',
+  styleUrls: ['./website-sign.page.scss'],
 })
+export class WebsiteSignPage implements OnInit {
 
-export class TaskPaymentPage implements OnInit {
 
   userid
   taskid
@@ -694,14 +694,12 @@ export class TaskPaymentPage implements OnInit {
   pay2() {
     this.deposit = (this.deposit / 100 * 100).toFixed(2)
     this.total = (this.total / 100 * 100).toFixed(2)
-    console.log(this.total)
     let payment_status
     let sales_satus
     let total: number = +this.total
     let deposit: number = +this.deposit
-    console.log(total - deposit)
-    // console.log(this.deposit, this.total)
-    // console.log(deposit, total)
+    console.log(this.deposit, this.total)
+    console.log(deposit, total)
     if (!this.appointment.customer_email) {
       Swal.fire({
         text: 'Enter customer email before make payment',
@@ -766,7 +764,7 @@ export class TaskPaymentPage implements OnInit {
               //   alert(res['error'])
               // }
             })
-            // console.log(this.email)
+            console.log(this.email)
           }
         }
       })
@@ -838,7 +836,7 @@ export class TaskPaymentPage implements OnInit {
     //   })
     // }
     else {
-      // console.log(this.deposit, this.total, total)
+      console.log(this.deposit, this.total, total)
       // if(deposit >= total)
       // {
       //   deposit = total
@@ -851,8 +849,8 @@ export class TaskPaymentPage implements OnInit {
       sales_satus = 'Deposit'
       payment_status = 'Deposited'
       // }
-      // console.log(sales_satus, payment_status)
-      // console.log(this.deposit, total)
+      console.log(sales_satus, payment_status)
+      console.log(this.deposit, total)
       Swal.fire(
         {
           text: 'Are you sure pay RM ' + deposit + '?',
@@ -884,7 +882,6 @@ export class TaskPaymentPage implements OnInit {
             payment_status: payment_status,
             sales_id: this.appointment.sales_id,
             type: this.paymenttype,
-            payment_left : ((total - deposit) / 100 * 100).toFixed(2),
             // payment_image: link,
             receipt_img : JSON.stringify(this.receipturl || []),
             receipt_pdf : JSON.stringify(this.pdffileurl || []),
@@ -905,8 +902,7 @@ export class TaskPaymentPage implements OnInit {
                 showConfirmButton: false,
                 timer: 1500
               })
-              // this.nav.pop()
-              this.nav.navigateRoot('home2?uid=' + this.userid, {animationDirection: 'back' })
+              this.nav.pop()
             }
             else if (res['success'] == false) {
               alert(res['error'])
@@ -1056,3 +1052,4 @@ export class TaskPaymentPage implements OnInit {
 
 
 }
+

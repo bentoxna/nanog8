@@ -132,9 +132,9 @@ export class TaskDetailPage implements OnInit {
   };
 
   ngOnInit() {
-    this.actRoute.queryParams.subscribe((c) => {
+    // this.actRoute.queryParams.subscribe((c) => {
       this.refresher()
-    })
+    // })
   }
 
   refresher() {
@@ -153,7 +153,7 @@ export class TaskDetailPage implements OnInit {
         this.discounts = a['data']
 
         this.http.post('https://api.nanogapp.com/getAppointmentDetails', { id: this.taskid }).subscribe((s) => {
-          console.log(s['data'])
+          // console.log(s['data'])
           this.appointment = s['data']
           this.salesid = s['data']['sales_id']
           this.sales_status = s['data']['sales_status']
@@ -236,7 +236,7 @@ export class TaskDetailPage implements OnInit {
 
 
   gettotal() {
-    console.log(this.scaffnSkylift)
+    // console.log(this.scaffnSkylift)
     this.total = 0
     this.subtotal = 0
     this.deductprice = 0
@@ -264,7 +264,7 @@ export class TaskDetailPage implements OnInit {
   }
 
   gettotal2() {
-    console.log(this.scaffnSkylift)
+    // console.log(this.scaffnSkylift)
     this.total = 0
     this.subtotal = 0
     this.deductprice = 0
@@ -337,9 +337,9 @@ export class TaskDetailPage implements OnInit {
   // }
   checkin(x) {
     if (this.permission == 0) {
-      console.log(this.open)
+      // console.log(this.open)
       if (this.open == 0) {
-        console.log(this.permission, this.open)
+        // console.log(this.permission, this.open)
         this.nav.navigateForward('check-in?uid=' + this.userid + '&tid=' + this.taskid + '&lid=' + this.appointment.lead_id + '&checkin_status=' + x + '&time=' + this.appointment.appointment_time)
       }
       else if (this.open == 1) {
@@ -370,11 +370,13 @@ export class TaskDetailPage implements OnInit {
   // }
 
   async addtask() {
-    if (this.sales_status != 'Quotation' && this.sales_status != null) {
+    // if (this.sales_status != 'Quotation' && this.sales_status != null) {
 
-    }
+    // }
     // (!appointment.checkin_latt || !appointment.checkin_long|| !appointment.checkin_time || !appointment.checkin_img) && !appointment.check_detail
-    else if ((!this.appointment.checkin_latt || !this.appointment.checkin_long|| !this.appointment.checkin_time || !this.appointment.checkin_img) && !this.appointment.check_detail) {
+    // else 
+    
+    if ((!this.appointment.checkin_latt || !this.appointment.checkin_long|| !this.appointment.checkin_time || !this.appointment.checkin_img) && !this.appointment.check_detail) {
       Swal.fire({
         icon: 'info',
         title: 'Please check in first',
@@ -383,7 +385,7 @@ export class TaskDetailPage implements OnInit {
       })
     }
     else {
-      console.log('add')
+      // console.log('add')
       this.nav.navigateForward('services-add?uid=' + this.userid + '&tid=' + this.taskid + '&sid=' + this.salesid + '&lid=' + this.appointment.lead_id )
 
       // const modal = await this.modal.create({
@@ -433,12 +435,12 @@ export class TaskDetailPage implements OnInit {
   }
 
   goServiceList(service){
-    if (this.sales_status != 'Quotation' && this.sales_status != null) {
+    // if (this.sales_status != 'Quotation' && this.sales_status != null) {
 
-    }
-    else {
+    // }
+    // else {
     this.nav.navigateForward('service-addon-list?tid=' + this.taskid + '&sid=' + this.salesid + '&sap=' + service['sap_id'] + '&lid=' + this.appointment.lead_id + '&servicetype=' + 'normal')
-    }
+    // }
   }
 
   async showdiscount2() {
@@ -458,7 +460,7 @@ export class TaskDetailPage implements OnInit {
       }
       else {
         this.promocodereset = false
-        console.log(this.discountstatus)
+        // console.log(this.discountstatus)
         if (this.discountstatus == 'fromdatabase') {
           localStorage.setItem('discount?tid=' + this.taskid, JSON.stringify(this.discountselected))
           const modal = await this.modal.create({
@@ -467,22 +469,22 @@ export class TaskDetailPage implements OnInit {
             componentProps: { uid: this.userid, tid: this.taskid }
           })
           modal.onDidDismiss().then(a => {
-            console.log(a)
+            // console.log(a)
             if (a['data'] == 'confirm') {
               this.getDiscount('fromlocal').then(res => {
-                console.log(res)
+                // console.log(res)
                 this.gettotal()
               })
             }
             else if (a['data'] == undefined && this.discountstatus == 'fromlocal') {
               this.getDiscount('fromlocal').then(res => {
-                console.log(res)
+                // console.log(res)
                 this.gettotal()
               })
             }
             else if (a['data'] == undefined && this.discountstatus == 'fromdatabase') {
               this.getDiscount('fromdatabase').then(res => {
-                console.log(res)
+                // console.log(res)
                 this.gettotal()
               })
             }
@@ -499,19 +501,19 @@ export class TaskDetailPage implements OnInit {
           modal.onDidDismiss().then(a => {
             if (a['data'] == 'confirm') {
               this.getDiscount('fromlocal').then(res => {
-                console.log(res)
+                // console.log(res)
                 this.gettotal()
               })
             }
             else if (a['data'] == undefined && this.discountstatus == 'fromlocal') {
               this.getDiscount('fromlocal').then(res => {
-                console.log(res)
+                // console.log(res)
                 this.gettotal()
               })
             }
             else if (a['data'] == undefined && this.discountstatus == 'fromdatabase') {
               this.getDiscount('fromdatabase').then(res => {
-                console.log(res)
+                // console.log(res)
                 this.gettotal()
               })
             }
@@ -575,7 +577,7 @@ export class TaskDetailPage implements OnInit {
     this.discountselected = []
     this.discountselected2 = []
 
-    console.log(this.appointment.discount_applied)
+    // console.log(this.appointment.discount_applied)
     return new Promise((resolve, reject) => {
       this.localstoragediscount = JSON.parse(localStorage.getItem('discount?tid=' + this.taskid))
 
@@ -595,7 +597,7 @@ export class TaskDetailPage implements OnInit {
     return new Promise((resolve, reject) => {
       if (x == 'fromlocal') {
         this.discountselected = this.discountselected = JSON.parse(localStorage.getItem('discount?tid=' + this.taskid))
-        console.log(this.discountselected)
+        // console.log(this.discountselected)
       }
       else if (x == 'fromdatabase') {
         if (this.appointment.discount_applied != null && this.appointment.discount_applied != undefined && this.discounts) {
@@ -606,8 +608,8 @@ export class TaskDetailPage implements OnInit {
             }
           }
         }
-        console.log(this.discountselected)
-        console.log('run here for fromdatabase')
+        // console.log(this.discountselected)
+        // console.log('run here for fromdatabase')
       }
       resolve('done')
     })
@@ -622,7 +624,7 @@ export class TaskDetailPage implements OnInit {
           if (index != -1) {
             findIndex.push(index)
           }
-          console.log(findIndex)
+          // console.log(findIndex)
         }
 
         if (findIndex) {
@@ -644,7 +646,7 @@ export class TaskDetailPage implements OnInit {
 
     }
     else {
-      console.log(x)
+      // console.log(x)
       let sap_id = x.sap_id
       Swal.fire(
         {
@@ -675,7 +677,7 @@ export class TaskDetailPage implements OnInit {
             uid : this.userid,
             servicetype : 'normal' 
           }).subscribe(res => {
-            console.log(res)
+            // console.log(res)
             // this.appointment.sales_packages.forEach(a => {
             //     this.subtotal += a['total']
             //     this.deductprice = this.subtotal * this.dpercentage / 100
@@ -723,13 +725,13 @@ export class TaskDetailPage implements OnInit {
     for (let i = 0; i < data.length; i++) {
       var dataRow = [] as any;
 
-      console.log(data);
+      // console.log(data);
 
       for (let j = 0; j < columns.length; j++) {
-        console.log(data[i][columns[j]]);
-        console.log(columns[j]);
-        console.log(columns[j]["text"]);
-        console.log(data[i][columns[j]["text"]]);
+        // console.log(data[i][columns[j]]);
+        // console.log(columns[j]);
+        // console.log(columns[j]["text"]);
+        // console.log(data[i][columns[j]["text"]]);
 
         if (columns[j]["text"] == "place") {
           dataRow.push({ text: data[i][columns[j]["text"]].toString(), style: "tableData" });
@@ -749,16 +751,16 @@ export class TaskDetailPage implements OnInit {
           dataRow.push({ text: "RM " + (Math.round(data[i][columns[j]["text"]] * 100) / 100).toFixed(2).toString(), style: "tableData" });
         }
         else {
-          console.log(data[i][columns[j]["text"]]);
+          // console.log(data[i][columns[j]["text"]]);
           dataRow.push({ text: data[i][columns[j]["text"]].toString(), style: "tableData" });
         }
 
       }
 
-      console.log(dataRow);
+      // console.log(dataRow);
 
       body.push(dataRow);
-      console.log(body)
+      // console.log(body)
     }
     //Change Table's header
     columns[0].text = "Place"
@@ -768,7 +770,7 @@ export class TaskDetailPage implements OnInit {
     columns[4].text = "Height"
     columns[5].text = "Price"
 
-    console.log(body)
+    // console.log(body)
     return body
   }
 
@@ -958,7 +960,7 @@ export class TaskDetailPage implements OnInit {
                 showConfirmButton: false
               }).then(function (result) {
 
-                console.log(result.dismiss);
+                // console.log(result.dismiss);
 
                 if (result.dismiss === Swal.DismissReason.timer) {
                   // globalVariable.fileOpener.open(
@@ -969,10 +971,10 @@ export class TaskDetailPage implements OnInit {
               });
             };
             fileWriter.onerror = (e) => {
-              console.log('file writer - error event fired: ' + e.toString());
+              // console.log('file writer - error event fired: ' + e.toString());
             };
             fileWriter.write(binaryArray);
-            console.log(binaryArray)
+            // console.log(binaryArray)
           });
         });
       });
@@ -986,15 +988,15 @@ export class TaskDetailPage implements OnInit {
   uploadpdf(x) {
     return new Promise((resolve, reject) => {
       pdfMake.createPdf(x).getDataUrl((dataUrl) => {
-        console.log(dataUrl);
+        // console.log(dataUrl);
         this.http.post('https://api.nanogapp.com/uploadFilePDF', { base64: dataUrl }).subscribe((link) => {
           Swal.close()
-          console.log(link['imageURL'].split('/'))
+          // console.log(link['imageURL'].split('/'))
           this.pdffileurl.push(link['imageURL'])
           this.pdffilename.push(link['imageURL'].split('/')[4])
-          console.log(link['imageURL']);
-          console.log(this.pdffilename)
-          console.log(this.pdffileurl)
+          // console.log(link['imageURL']);
+          // console.log(this.pdffilename)
+          // console.log(this.pdffileurl)
           this.http.post('https://api.nanogapp.com/uploadGenQuotation', {
             sales_id: this.salesid,
             quotation: JSON.stringify(this.pdffileurl) || [],
@@ -1005,7 +1007,7 @@ export class TaskDetailPage implements OnInit {
           })
 
         }, awe => {
-          console.log(awe);
+          // console.log(awe);
           resolve('done')
         })
       });
@@ -1032,7 +1034,7 @@ export class TaskDetailPage implements OnInit {
 
 
   quotation() {
-    console.log(this.appointment.sales_packages)
+    // console.log(this.appointment.sales_packages)
     // if (this.discountselected2 == undefined) {
     //   Swal.fire(
     //     {
@@ -1084,15 +1086,15 @@ export class TaskDetailPage implements OnInit {
               showConfirmButton: false,
             }
           )
-          console.log(
-            {
-              sales_id: this.appointment.sales_id,
-              sales_status: 'quotation',
-              payment_status: 'Incomplete',
-              payment_date: '',
-              total: this.total
-            }
-          )
+          // console.log(
+          //   {
+          //     sales_id: this.appointment.sales_id,
+          //     sales_status: 'quotation',
+          //     payment_status: 'Incomplete',
+          //     payment_date: '',
+          //     total: this.total
+          //   }
+          // )
           let status
 
           if (this.sales_status == 'Quotation' || this.sales_status == '' || this.sales_status == null) {
@@ -1107,7 +1109,7 @@ export class TaskDetailPage implements OnInit {
             tempimage.push(this.discountimageurl[i])
           }
 
-          console.log(this.discountselected2)
+          // console.log(this.discountselected2)
 
           this.http.post('https://api.nanogapp.com/updateSalesQuotation', {
             sales_id: this.appointment.sales_id,
@@ -1196,7 +1198,7 @@ export class TaskDetailPage implements OnInit {
       let base64Image = 'data:image/jpeg;base64,' + imageData;
       this.uploadserve(base64Image).then(res => {
         Swal.close()
-        console.log(res)
+        // console.log(res)
       })
     },
       (err) => {
@@ -1235,7 +1237,7 @@ export class TaskDetailPage implements OnInit {
           const maxH = maxsize;
           thisImage.onload = (a) => {
 
-            console.log(a);
+            // console.log(a);
             const iw = thisImage.width;
             const ih = thisImage.height;
             const scale = Math.min((maxW / iw), (maxH / ih));
@@ -1308,7 +1310,7 @@ export class TaskDetailPage implements OnInit {
 
     }
     else if (this.discountimageurl.length >= this.totaldiscountphoto.length) {
-      console.log(this.discountimageurl)
+      // console.log(this.discountimageurl)
       Swal.fire({
         text: 'Please remove at least one photo before upload new photo',
         icon: 'warning',
@@ -1379,7 +1381,7 @@ export class TaskDetailPage implements OnInit {
 
     }
     else {
-      console.log(i)
+      // console.log(i)
       this.discountimageurl.splice(i, 1)
     }
   }
@@ -1399,7 +1401,7 @@ export class TaskDetailPage implements OnInit {
 
   payby(x) {
     console.log(this.total)
-    console.log(this.appointment.sales_packages)
+    // console.log(this.appointment.sales_packages)
     // if (this.discountselected2 == undefined) {
     //   Swal.fire(
     //     {
@@ -1455,8 +1457,8 @@ export class TaskDetailPage implements OnInit {
           for (let i = 0; i < this.totaldiscountphoto.length; i++) {
             tempimage.push(this.discountimageurl[i])
           }
-          console.log(this.total)
-          console.log(this.discountselected2)
+          // console.log(this.total)
+          // console.log(this.discountselected2)
 
           this.http.post('https://api.nanogapp.com/updateSalesPayment', {
             sales_id: this.appointment.sales_id,
@@ -1551,7 +1553,7 @@ export class TaskDetailPage implements OnInit {
     //   this.nav.navigateForward('schedule-calander?uid=' + this.userid + '&tid=' + this.taskid + '&sid=' + this.salesid)
     // }
     this.nav.navigateForward('schedule-calander?uid=' + this.userid + '&lid=' + this.appointment.lead_id + '&tid=' + this.taskid + '&sid=' + this.salesid)
-    console.log(this.userid, this.taskid, this.salesid)
+    // console.log(this.userid, this.taskid, this.salesid)
 
   }
 
@@ -1563,7 +1565,7 @@ export class TaskDetailPage implements OnInit {
     this.promocodechecking = true
     if (x == 'verify') {
       this.http.post('https://api.nanogapp.com/CheckPromoCode', { name: this.promocode }).subscribe(res => {
-        console.log(res)
+        // console.log(res)
         this.promocodedetail = res['data']
         if (!this.promocodedetail) {
           this.promocodeverifystatus = false
@@ -1611,7 +1613,7 @@ export class TaskDetailPage implements OnInit {
           })
           setTimeout(() => {
             this.checkpromocode('verifydone')
-            console.log('delete the text')
+            // console.log('delete the text')
           }, 2000)
         }
       })
@@ -1623,10 +1625,10 @@ export class TaskDetailPage implements OnInit {
         heightAuto: false,
         showConfirmButton: false,
       })
-      console.log(this.salesid)
-      console.log(this.promocodedetail.id)
+      // console.log(this.salesid)
+      // console.log(this.promocodedetail.id)
       this.http.post('https://api.nanogapp.com/updatePromoCodeInSales', { sales_id: this.salesid, promo_code: this.promocodedetail.id }).subscribe(a => {
-        console.log(a)
+        // console.log(a)
         setTimeout(() => {
           Swal.close()
         }, 700)
@@ -1660,9 +1662,9 @@ export class TaskDetailPage implements OnInit {
         reverseButtons: true,
       }).then(a => {
         if (a['isConfirmed']) {
-          console.log(this.salesid)
+          // console.log(this.salesid)
           this.http.post('https://api.nanogapp.com/updatePromoCodeInSales', { sales_id: this.salesid, promo_code: null }).subscribe(a => {
-            console.log(a)
+            // console.log(a)
             // this.promocodedetail = null
             this.promocode = undefined
             this.promocodeinput = true
@@ -1745,7 +1747,7 @@ export class TaskDetailPage implements OnInit {
 
   addWarrantyTask2(x)
   {
-    console.log(x)
+    // console.log(x)
     this.nav.navigateForward('service-warranty2?uid=' + this.userid + '&tid=' + this.taskid + '&salesid=' + this.salesid  + '&linked_sapid=' + x.sap_id)
   }
 
@@ -1822,7 +1824,7 @@ export class TaskDetailPage implements OnInit {
       }).then(a => {
         if(a['isConfirmed'] && a['value'].toLowerCase() == 'yes')
         {
-          console.log(a)
+          // console.log(a)
           Swal.fire({
             text: 'Processing...',
             icon: 'info',
@@ -1891,7 +1893,7 @@ export class TaskDetailPage implements OnInit {
   }
 
   addequipment(){
-    console.log('equipment')
+    // console.log('equipment')
     if (this.sales_status != 'Quotation' && this.sales_status != null) {
 
     }

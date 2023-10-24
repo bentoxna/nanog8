@@ -194,7 +194,7 @@ export class HomeCalendarPage implements OnInit {
               this.dates[i].isthisappointment = false
               for (let j = 0; j < this.alldate.length; j++) {
                 // console.log(new Date(parseInt(this.alldate[j].schedule_date)).getDate())
-                if(this.alldate[j].schedule_date)
+                if(this.alldate[j].schedule_date && (!this.alldate[j].schedule_date2 || this.alldate[j].schedule_date2 && this.alldate[j].schedule_date2.length < 1))
                 {
                   if (this.dates[i].date == new Date(parseInt(this.alldate[j].schedule_date)).getDate()) {
 
@@ -222,7 +222,7 @@ export class HomeCalendarPage implements OnInit {
 
                   }
                 }
-                else if(!this.alldate[j].schedule_date && this.alldate[j].schedule_date2)
+                else if(this.alldate[j].schedule_date2)
                 {
                   for(let k = 0; k < this.alldate[j].schedule_date2.length; k++)
                   {

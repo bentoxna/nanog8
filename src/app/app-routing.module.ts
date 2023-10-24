@@ -256,6 +256,10 @@ const routes: Routes = [
     path: 'tab4-havent-checkin',
     loadChildren: () => import('./tab4-havent-checkin/tab4-havent-checkin.module').then( m => m.Tab4HaventCheckinPageModule)
   },
+  {
+    path: 'website-sign',
+    loadChildren: () => import('./website-sign/website-sign.module').then( m => m.WebsiteSignPageModule)
+  },
 
 
 
