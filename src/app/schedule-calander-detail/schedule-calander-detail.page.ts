@@ -33,10 +33,10 @@ export class ScheduleCalanderDetailPage implements OnInit {
     this.route.queryParams.subscribe(a => {
       this.userid = a['uid']
 
-      console.log(this.userid)
+      // console.log(this.userid)
 
       // this.http.post('https://api.nanogapp.com/getAllScheduleBySales', { sales_id: this.salesid }).subscribe(res => {
-      //   console.log(res)
+      //   // console.log(res)
       //   this.schedulework = res['data']
       //   this.scheduleworkapprove = this.schedulework.filter(a => a['approve_status'] == true)
       //   this.scheduleworkreject = this.schedulework.filter(a => a['approve_status'] == false)
@@ -44,7 +44,7 @@ export class ScheduleCalanderDetailPage implements OnInit {
       // })
 
       this.http.post('https://api.nanogapp.com/getAllScheduleByUid', {uid : this.userid}).subscribe(res => {
-        console.log(res)
+        // console.log(res)
           this.schedulework = res['data']
           // this.scheduleworkapprove = this.schedulework.filter(a => a['approve_status'] == true)
           // this.scheduleworkreject = this.schedulework.filter(a => a['approve_status'] == false)

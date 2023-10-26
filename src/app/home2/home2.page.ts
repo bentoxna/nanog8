@@ -60,11 +60,11 @@ export class Home2Page {
 
 
     this.route.queryParams.subscribe(a => {
-      console.log(a)
+      // console.log(a)
       this.http.post('https://api.nanogapp.com/getSalesExec', {uid:a.uid}).subscribe((s) => {
-        console.log(s['data'].user_name)
+        // console.log(s['data'].user_name)
         this.user = s['data']
-        console.log(this.user)
+        // console.log(this.user)
         localStorage.setItem('nanogapp_uid', this.user.uid)
         // this.temp.now = new Date()
         // this.temp.today = this.changedateformat(this.temp.now)
@@ -75,34 +75,34 @@ export class Home2Page {
 
         this.http.post('https://api.nanogapp.com/getEventstartfromtoday', {uid : this.uid}).subscribe((s) => {
           this.meetingtaskcount = s['data']['count']
-          console.log(this.meetingtaskcount)
+          // console.log(this.meetingtaskcount)
         })
 
         this.http.post('https://api.nanogapp.com/getNotificationHistoryunread', {uid : this.uid}).subscribe((s) => {
           this.notificationcount = s['data']['count']
-          console.log(this.notificationcount)
+          // console.log(this.notificationcount)
         })
 
         this.http.post('https://api.nanogapp.com/getAppointmentForReminderCount2', { execId: this.uid, startDate: this.sevendaysafterstart, endDate: this.sevendaysafterend }).subscribe((s) => {
           this.remindercount7 = s['data']
-          console.log(this.remindercount7)
+          // console.log(this.remindercount7)
         })
         this.http.post('https://api.nanogapp.com/getAppointmentForReminderCount2', { execId: this.uid, startDate: this.threedaysafterstart, endDate: this.threedaysafterend }).subscribe((s) => {
           this.remindercount3 = s['data']
-          console.log(this.remindercount3)
+          // console.log(this.remindercount3)
         })
         this.http.post('https://api.nanogapp.com/getAppointmentForReminderCount2', { execId: this.uid, startDate: this.onedaysafterstart, endDate: this.onedaysafterend }).subscribe((s) => {
    
           this.remindercount1 = s['data']
-          console.log(this.remindercount1)
+          // console.log(this.remindercount1)
         })
     
 
         // this.http.post('https://api.nanogapp.com/getAppointmentForExecByDate', {execId:a.uid, startDate: this.temp.tomorrowmilli, endDate: this.temp.thedateaftertomorrowmilli}).subscribe((s) => {
           
-        //   console.log(s)
+        //   // console.log(s)
         //   this.tomorrowtask = s['data']
-        //   console.log(this.tomorrowtask)
+        //   // console.log(this.tomorrowtask)
         // })
 
       })
@@ -111,7 +111,7 @@ export class Home2Page {
   }
 
   changedateformat(x){
-    console.log(x)
+    // console.log(x)
     let year = x.getFullYear()
     let month = '' + (x.getMonth() + 1)
     let date = '' + x.getDate()
@@ -129,7 +129,7 @@ export class Home2Page {
     let fulldate = [year, month, date].join('-')
     let fulldatewithtime = [fulldate, hour].join(' ')
 
-    console.log(fulldatewithtime)
+    // console.log(fulldatewithtime)
     return fulldatewithtime
   }
 
@@ -156,7 +156,7 @@ export class Home2Page {
   }
 
   godetail(x){
-    console.log(x)
+    // console.log(x)
     this.nav.navigateForward('task-detail?uid=' + this.user.uid + '&tid=' + x)
   }
 
@@ -169,7 +169,7 @@ export class Home2Page {
   }
 
   signout(){
-    console.log('run here')
+    // console.log('run here')
     firebase.auth().signOut()
   }
 
@@ -195,7 +195,7 @@ export class Home2Page {
 
 
   mapnavigate(latitude, longitude, address) {
-    console.log(latitude, longitude, address)
+    // console.log(latitude, longitude, address)
     if (latitude != null && longitude != null) {
       let destination = latitude + ',' + longitude;
 

@@ -91,7 +91,7 @@ export class LeadEditPage implements OnInit {
 
   async fileChange2(res: any) {
 
-    console.log(res);
+    // console.log(res);
     return new Promise((resolve, reject) => {
       Swal.fire({
         icon : 'info',
@@ -114,7 +114,7 @@ export class LeadEditPage implements OnInit {
             Swal.close();
             // if (res.target.id == 'files') {
 
-            console.log(temp);
+            // console.log(temp);
             let checker
             let passdata
 
@@ -146,13 +146,13 @@ export class LeadEditPage implements OnInit {
 
             }
 
-            console.log(this.newdata)
+            // console.log(this.newdata)
 
          
 
 
           } else {
-            console.log('2');
+            // console.log('2');
             Swal.fire({
               icon : 'error',
               title : "Error",
@@ -174,10 +174,10 @@ export class LeadEditPage implements OnInit {
 async uploadCSV(newdate) {
 
    this.fileChange2(newdate).then((a) =>{
-    console.log(a)
+    // console.log(a)
 
     this.http.post('https://api.nanogapp.com/bulkInsert3', a).subscribe(z => {
-      console.log(z);
+      // console.log(z);
 
     });
     

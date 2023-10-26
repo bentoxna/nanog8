@@ -56,7 +56,7 @@ export class TaskDiscount2Page implements OnInit {
       this.salesid = a['sid']
       this.sapid = a['sapid']
 
-      console.log(this.sapid)
+      // console.log(this.sapid)
       this.sapid ? this.tab = 2 : this.tab = 1
 
       // getSalesPackageDetails
@@ -67,7 +67,7 @@ export class TaskDiscount2Page implements OnInit {
         
         // this.totalPrice = this.wholeService.filter(a => a).map(b => b['total']).reduce((c,d) => c + d, 0)
 
-        console.log(this.wholeService, this.mainService, this.addonService)
+        // console.log(this.wholeService, this.mainService, this.addonService)
       })
 
       this.http.post('https://api.nanogapp.com/getAllSalesDiscount', {sales_id: this.salesid}).subscribe(a => {
@@ -76,21 +76,21 @@ export class TaskDiscount2Page implements OnInit {
           this.noncustom = a['data'].filter(a => a['discount_id'] != null)
           this.custom.filter(b => b['type'] == true ? ((b['status'] == true || b['status'] == null) ? this.dcustompercentage += b['percentage'] : this.dcustompercentage = this.dcustompercentage ) : this.dcustompercentage = this.dcustompercentage)
           // this.dpercentage = a['data'].reduce((a,b) => a['type'] == true? ((b['status'] == true || b['status'] == null) ? a + b : a = b) : a = b, 0)
-          console.log(this.dcustompercentage)
-          console.log(this.custom)
-          console.log(this.noncustom)
+          // console.log(this.dcustompercentage)
+          // console.log(this.custom)
+          // console.log(this.noncustom)
 
           this.http.get('https://api.nanogapp.com/getActiveDiscount').subscribe(a => {
             this.discounts = a['data']
             this.discounts.filter(a => this.noncustom.filter(b => a['id'] == b['discount_id'] ? ( b['status'] == true ? a['selected'] = true : a['selected'] = false) : (a['selected'] == null ? a['selected'] = false : a['selected'] = a['selected'])))
-            console.log(this.discounts)
+            // console.log(this.discounts)
           })
        })
     })
   }
 
   getclick(i){
-    console.log(this.discounts[i])
+    // console.log(this.discounts[i])
     this.discounts[i].selected == true ? this.discounts[i].selected = false : this.discounts[i].selected = true
   }
 
@@ -153,16 +153,16 @@ export class TaskDiscount2Page implements OnInit {
             heightAuto: false,
             showConfirmButton: false,
           })
-          console.log(this.discounts)
+          // console.log(this.discounts)
           let discountticked = this.discounts.filter(a => a['selected'] == true).map(b =>({name: b['name'], remark: null,  percentage: b['percentage'], need_photo : b['need_photo'], photo : JSON.stringify([]), sales_id : parseInt(this.salesid), discount_id : b['id'], type: true, status : true}))
           let discountuntick = this.discounts.filter(a => a['selected'] == false).map(b =>({name: b['name'], remark: null,  percentage: b['percentage'], need_photo : b['need_photo'], photo : JSON.stringify([]), sales_id : parseInt(this.salesid), discount_id : b['id'], type: true, status : false}))
-          console.log(discountticked, discountuntick)
+          // console.log(discountticked, discountuntick)
           let body = {discount: discountticked}
            
           this.http.post('https://api.nanogapp.com/addTickSalesDiscount', {
             body , false: JSON.stringify(discountuntick)    
           }).subscribe(a => {
-            console.log(a)
+            // console.log(a)
             Swal.close()
             this.nav.pop()
            })
@@ -173,7 +173,7 @@ export class TaskDiscount2Page implements OnInit {
   }
 
   delete(x){
-    console.log(x)
+    // console.log(x)
     Swal.fire({
       text: 'Are you sure to delete this custom discount?',
       icon: 'info',
@@ -184,7 +184,7 @@ export class TaskDiscount2Page implements OnInit {
       if(a['isConfirmed'] == true)
       {
         this.http.post('https://api.nanogapp.com/deleteSalesDiscount', {id : x.id}).subscribe(a => {
-          console.log(a)
+          // console.log(a)
           this.refresher()
         })
       }

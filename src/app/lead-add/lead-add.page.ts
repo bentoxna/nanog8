@@ -121,7 +121,7 @@ export class LeadAddPage implements OnInit {
           return;
         }
 
-        console.log({ place }, place.geometry.location?.lat(), place.geometry.location?.lng());
+        // console.log({ place }, place.geometry.location?.lat(), place.geometry.location?.lng());
         this.lead.address = place.formatted_address
         this.lead.comp_address = place.name
         //set latitude, longitude and zoom
@@ -160,26 +160,26 @@ export class LeadAddPage implements OnInit {
       this.userid = a['uid']
 
       this.http.post('https://api.nanogapp.com/getSalesExec', { uid: this.userid }).subscribe((s) => {
-        console.log(s['data'].user_name)
+        // console.log(s['data'].user_name)
         this.user = s['data']
       })
     })
 
     this.http.post('https://api.nanogapp.com/getSpecificUser', { user_role: 'Sales Coordinator' }).subscribe((s) => {
       this.sales_coor = s['data']
-      console.log('sales_coor', this.sales_coor);
+      // console.log('sales_coor', this.sales_coor);
 
     })
 
 
     this.http.get('https://api.nanogapp.com/getAds').subscribe((s) => {
       this.ads_list = s['data']
-      console.log('ads', this.ads_list);
+      // console.log('ads', this.ads_list);
     })
 
     this.http.get('https://api.nanogapp.com/getChannel').subscribe((s) => {
       this.channel_list = s['data']
-      console.log('channel', this.channel_list);
+      // console.log('channel', this.channel_list);
     })
   }
 
@@ -197,12 +197,12 @@ export class LeadAddPage implements OnInit {
         },
       },
     ];
-    console.log(this.markers);
+    // console.log(this.markers);
 
   }
 
   eventHandler(event: any, name: string) {
-    // console.log(event, name);
+    // // console.log(event, name);
     switch (name) {
       case 'mapDblclick': // Add marker on double click event
         this.setMarkerPosition(event.latLng.lat(), event.latLng.lng())
@@ -232,7 +232,7 @@ export class LeadAddPage implements OnInit {
             this.lead.address = addr.results[0].formatted_address;
             this.lead.lattitude = addr.results[0].geometry.location.lat()
             this.lead.longtitude = addr.results[0].geometry.location.lng()
-            console.log(addr.results[0], addr.results[0].geometry.location.lat(), addr.results[0].geometry.location.lng());
+            // console.log(addr.results[0], addr.results[0].geometry.location.lat(), addr.results[0].geometry.location.lng());
 
           } else {
             this.address = ''
@@ -308,7 +308,7 @@ export class LeadAddPage implements OnInit {
     this.keywordCity = ''
     this.lead.city = ''
     this.city = this.share.statecity[this.lead.state]
-    console.log(this.city);
+    // console.log(this.city);
   }
 
   handleIssues(x) {
@@ -328,7 +328,7 @@ export class LeadAddPage implements OnInit {
   }
 
   createLead() {
-    console.log(this.lead.phone);
+    // console.log(this.lead.phone);
 
     this.lead.phone = this.condis(this.lead.phone)
     this.lead.services = this.keywordServices
@@ -356,7 +356,7 @@ export class LeadAddPage implements OnInit {
     }
 
     else {
-      // console.log(this.lead);
+      // // console.log(this.lead);
 
       // Swal.fire({
       //   icon: 'question',
@@ -371,7 +371,7 @@ export class LeadAddPage implements OnInit {
 
       //   if (a.isConfirmed) {
 
-      //     console.log(this.userid)
+      //     // console.log(this.userid)
 
       //     this.http.post('https://api.nanogapp.com/createLead', {
       //       created: this.datepipe.transform(new Date(), 'yyyy-MM-dd hh:mm:ss'), name: this.lead.name, email: this.lead.email, phone: this.lead.phone,
@@ -381,7 +381,7 @@ export class LeadAddPage implements OnInit {
       //       gender: this.lead.gender, sc_photo: JSON.stringify([]), title : this.lead.customer_title
       //     }).subscribe((s) => {
 
-      //       console.log(s)
+      //       // console.log(s)
       //       this.leadid = s['data']
 
       //       Swal.fire({
@@ -393,7 +393,7 @@ export class LeadAddPage implements OnInit {
       //       })
       //       this.socket.emit('callUpdate', 'fromClient');
       //       // this.socket.fromEvent('usersActivity').subscribe(message => {
-      //       //   console.log(message)
+      //       //   // console.log(message)
       //       // });
       //       this.goLeadDetail()
       //     })
@@ -402,7 +402,7 @@ export class LeadAddPage implements OnInit {
       // })
 
       this.http.post('https://api.nanogapp.com/checkDuplicatePhone', { customer_phone: this.lead.phone }).subscribe((s) => {
-        console.log(s['data']);
+        // console.log(s['data']);
 
         if (s['data'].length > 0) {
           Swal.fire({
@@ -439,7 +439,7 @@ export class LeadAddPage implements OnInit {
               }).subscribe((s) => {
                 this.socket.emit('callUpdate', 'fromClient');
 
-                console.log(s['data'])
+                // console.log(s['data'])
                 this.leadid = s['data']
 
                 Swal.fire({
@@ -497,7 +497,7 @@ export class LeadAddPage implements OnInit {
                 sales_exec : JSON.stringify(userarray)
               }).subscribe((s) => {
 
-                console.log(s['data'])
+                // console.log(s['data'])
                 this.leadid = s['data']
                 this.socket.emit('callUpdate', 'fromClient');
 
@@ -539,7 +539,7 @@ export class LeadAddPage implements OnInit {
   // }
 
   clear() {
-    console.log(this.searchElementRef.nativeElement.value)
+    // console.log(this.searchElementRef.nativeElement.value)
     this.searchElementRef.nativeElement.value = ''
   }
 

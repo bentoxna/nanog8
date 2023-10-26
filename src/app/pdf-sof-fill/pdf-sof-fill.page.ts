@@ -40,7 +40,7 @@ export class PdfSofFillPage implements OnInit {
 
       this.http.post('https://api.nanogapp.com/selectleadinfo', { leadid : this.leadid }).subscribe(res => {
         this.lead = res['data']
-        console.log(this.lead)
+        // console.log(this.lead)
         this.lead.gender ? (this.gender.findIndex(a => a == this.lead.gender) == -1 ? this.change('gender') : this.lead.gender) : this.lead.gender
         this.lead.race ? (this.race.findIndex(a => a == this.lead.race) == -1 ? this.change('race') : this.lead.race) : this.lead.race
         this.lead.maritial_status ? (this.maritial_status.findIndex(a => a == this.lead.maritial_status) == -1 ? this.change('maritial_status') : this.lead.maritial_status) : this.lead.maritial_status
@@ -172,7 +172,7 @@ export class PdfSofFillPage implements OnInit {
   }
 
   save(){
-    console.log(this.lead.customer_phone)
+    // console.log(this.lead.customer_phone)
     if(!this.lead.customer_name || !this.lead.customer_phone || !this.lead.customer_email || !this.lead.address || !this.lead.mailing_address
       || (this.lead.gender == 'Others' ? !this.lead.gender2 : !this.lead.gender) 
       || (this.lead.race == 'Others' ? !this.lead.race2 : !this.lead.race) 
@@ -216,7 +216,7 @@ export class PdfSofFillPage implements OnInit {
         termsncondition : this.lead.termsncondition,
         leadid : this.leadid
       }).subscribe(res => {
-        console.log(res)
+        // console.log(res)
         Swal.fire({
           text : 'Updated Successfully',
           icon : 'success',

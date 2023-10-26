@@ -153,7 +153,7 @@ export class TaskDetailPage implements OnInit {
         this.discounts = a['data']
 
         this.http.post('https://api.nanogapp.com/getAppointmentDetails', { id: this.taskid }).subscribe((s) => {
-          // console.log(s['data'])
+          console.log(s['data'])
           this.appointment = s['data']
           this.salesid = s['data']['sales_id']
           this.sales_status = s['data']['sales_status']
@@ -376,7 +376,8 @@ export class TaskDetailPage implements OnInit {
     // (!appointment.checkin_latt || !appointment.checkin_long|| !appointment.checkin_time || !appointment.checkin_img) && !appointment.check_detail
     // else 
     
-    if ((!this.appointment.checkin_latt || !this.appointment.checkin_long|| !this.appointment.checkin_time || !this.appointment.checkin_img) && !this.appointment.check_detail) {
+    if ((!this.appointment.checkin_latt || !this.appointment.checkin_long|| !this.appointment.checkin_time || !this.appointment.checkin_img) 
+    && !this.appointment.check_detail && !this.appointment.bypass) {
       Swal.fire({
         icon: 'info',
         title: 'Please check in first',
@@ -1732,7 +1733,8 @@ export class TaskDetailPage implements OnInit {
     if (this.sales_status != 'Quotation' && this.sales_status != null) {
 
     }
-    else if ((!this.appointment.checkin_latt || !this.appointment.checkin_long|| !this.appointment.checkin_time || !this.appointment.checkin_img) && !this.appointment.check_detail) {
+    else if ((!this.appointment.checkin_latt || !this.appointment.checkin_long|| !this.appointment.checkin_time || !this.appointment.checkin_img) 
+    && !this.appointment.check_detail && !this.appointment.bypass) {
       Swal.fire({
         icon: 'info',
         title: 'Please check in first',
@@ -1897,7 +1899,8 @@ export class TaskDetailPage implements OnInit {
     if (this.sales_status != 'Quotation' && this.sales_status != null) {
 
     }
-    else if ((!this.appointment.checkin_latt || !this.appointment.checkin_long|| !this.appointment.checkin_time || !this.appointment.checkin_img) && !this.appointment.check_detail) {
+    else if ((!this.appointment.checkin_latt || !this.appointment.checkin_long|| !this.appointment.checkin_time || !this.appointment.checkin_img) 
+    && !this.appointment.check_detail && !this.appointment.bypass) {
       Swal.fire({
         icon: 'info',
         title: 'Please check in first',

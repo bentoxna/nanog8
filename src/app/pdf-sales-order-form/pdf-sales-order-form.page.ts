@@ -119,26 +119,26 @@ export class PdfSalesOrderFormPage implements OnInit {
       this.salesid = a['sid']
       this.tab = a['tab']
 
-      console.log(this.taskid)
+      // console.log(this.taskid)
       this.http.post('https://api.nanogapp.com/getUserDetail', { uid: this.userid }).subscribe(res => {
         this.user = res['data']
-        console.log(this.user)
+        // console.log(this.user)
 
       })
 
       this.http.get('https://api.nanogapp.com/getActiveDiscount').subscribe(a => {
         this.discounts = a['data']
-        console.log(this.discounts)
+        // console.log(this.discounts)
 
         this.http.post('https://api.nanogapp.com/getAppointmentDetails', { id: this.taskid }).subscribe((s) => {
           this.appointment = s['data']
-          console.log(this.appointment)
+          // console.log(this.appointment)
           this.service = s['data']['sales_packages']
           // this.quotation = s['data']['gen_quotation'].map(a => a['pdf'].split('/')[4])
           // this.quotationlink = s['data']['gen_quotation'].map(a => a['pdf'])
           this.createdatestring()
-          // console.log(this.quotation)
-          console.log(this.service)
+          // // console.log(this.quotation)
+          // console.log(this.service)
           for (let i = 0; i < this.service.length; i++) {
             this.service2[i] = this.service[i]
             this.service[i].area == 'others' ? this.service2[i].area = this.service[i].other_area : this.service2[i].area = this.service2[i].area
@@ -146,35 +146,35 @@ export class PdfSalesOrderFormPage implements OnInit {
             this.service2[i].name == null ? this.service2[i].name = 'Other Package' : this.service2[i].name = this.service[i].name
             this.service2[i].discount = this.service[i].total_after ? Number(this.service[i].total - this.service[i].total_after).toFixed(2) : 0
           }
-          console.log(this.service, this.service2)
+          // console.log(this.service, this.service2)
           this.sales_status = s['data']['sales_status']
-          console.log(s['data']['salesorderform_list'])
+          // console.log(s['data']['salesorderform_list'])
           this.pdffileurl = s['data']['salesorderform_list'] ? s['data']['salesorderform_list'][0] : null
-          console.log(this.pdffileurl)
+          // console.log(this.pdffileurl)
           // if(this.pdffileurl.length > 0)
           // {
           //   for (let i = 0; i < this.pdffileurl.length; i++) {
-          //     console.log(this.pdffileurl[i])
+          //     // console.log(this.pdffileurl[i])
           //     this.pdffilename.push(this.pdffileurl[i]['pdf'].split('/')[4])
           //   }
           // }
 
           // this.custompdffileurl = s['data']['custom_quotation']
-          // console.log(this.custompdffileurl)
+          // // console.log(this.custompdffileurl)
           // if(this.custompdffileurl.length > 0)
           // {
           //   for (let i = 0; i < this.custompdffileurl.length; i++) {
-          //     console.log(this.custompdffileurl[i])
+          //     // console.log(this.custompdffileurl[i])
           //     this.custompdffilename.push(this.custompdffileurl[i]['pdf'].split('/')[4])
           //   }
           // }
 
-          // console.log(this.custompdffilename)
-          console.log(this.promocodedetail)
-          console.log(this.appointment.promo_id)
+          // // console.log(this.custompdffilename)
+          // console.log(this.promocodedetail)
+          // console.log(this.appointment.promo_id)
           if (!this.appointment.promo_id) {
             this.http.post('https://api.nanogapp.com/getAllSalesDiscount', { sales_id: this.salesid }).subscribe(a => {
-              console.log(a)
+              // console.log(a)
               this.dpercentage = 0
               this.dnumber = 0
               a['data'].filter(b => b['type'] == true ? ((b['status'] == true || b['status'] == null) ? this.dpercentage += b['percentage'] : this.dpercentage = this.dpercentage) : this.dnumber += b['percentage'])
@@ -207,7 +207,7 @@ export class PdfSalesOrderFormPage implements OnInit {
   datestring = ''
   createdatestring() {
     let temp = this.appointment['installation_date']
-    console.log(temp)
+    // console.log(temp)
 
     if (!temp) {
       this.datestring = ''
@@ -223,7 +223,7 @@ export class PdfSalesOrderFormPage implements OnInit {
           }
           else {
             this.datestring = [this.datestring, this.datePipe.transform(Number(temp[i].from_date), 'yyyy-MM-dd hh:mm a')].join(', ')
-            console.log(this.datestring)
+            // console.log(this.datestring)
           }
 
         }
@@ -234,14 +234,14 @@ export class PdfSalesOrderFormPage implements OnInit {
       }
     }
 
-    console.log(this.datestring)
+    // console.log(this.datestring)
   }
 
   selectedquotationlink
 
   viewquotationpdf() {
     let index = this.quotationlink.findIndex(a => a.split('/')[4] == this.selectedquotation)
-    console.log(this.quotationlink[index])
+    // console.log(this.quotationlink[index])
     this.selectedquotationlink = this.quotationlink[index]
     this.getpdf(this.quotationlink[index], 'system')
   }
@@ -253,19 +253,19 @@ export class PdfSalesOrderFormPage implements OnInit {
     this.discountselected = []
     this.discountselected2 = []
 
-    console.log(this.appointment.discount_applied)
+    // console.log(this.appointment.discount_applied)
     return new Promise((resolve, reject) => {
       this.localstoragediscount = JSON.parse(localStorage.getItem('discount?tid=' + this.taskid))
-      console.log(x)
+      // console.log(x)
 
       if (x == 'fromdatabase' || x == 'fromlocal') {
-        console.log(this.discounts)
-        console.log(x)
+        // console.log(this.discounts)
+        // console.log(x)
         this.filterdiscount(x)
 
-        console.log(this.totaldiscountphoto)
-        console.log(this.totaldiscount)
-        console.log(this.discountselected2)
+        // console.log(this.totaldiscountphoto)
+        // console.log(this.totaldiscount)
+        // console.log(this.discountselected2)
       }
       resolve('done')
     })
@@ -285,7 +285,7 @@ export class PdfSalesOrderFormPage implements OnInit {
         tempdeduct = (temp / 100 * 100).toFixed(2)
       });
 
-      console.log(this.subtotal)
+      // console.log(this.subtotal)
     }
 
     if (this.appointment.sales_packages && this.appointment.sales_packages.length > 0 && this.dpercentage == 0 && this.dnumber == 0) {
@@ -297,19 +297,19 @@ export class PdfSalesOrderFormPage implements OnInit {
     }
 
     this.deductprice = Number(tempdeduct) + Number(this.dnumber)
-    console.log(this.deductprice)
-    console.log(tempdeduct)
-    console.log(this.dnumber)
+    // console.log(this.deductprice)
+    // console.log(tempdeduct)
+    // console.log(this.dnumber)
     // this.deductprice = (this.deductprice / 100 * 100).toFixed(2)
     this.total = (this.total / 100 * 100).toFixed(2)
     // this.subtotalstring = (this.subtotal / 100 * 100).toFixed(2)
     this.subtotalstring = ((this.appointment.sales_packages.map(a => a['total']).reduce((a, b) => a + b)) + this.appointment.skylift_fee + this.appointment.scaff_fee + this.appointment.transportation_fee).toFixed(2)
     this.deductpricestring = ((this.appointment.sales_packages.map(a => Number(a['discount'])).reduce((a, b) => a + b)) + this.deductprice).toFixed(2)
-    console.log(this.subtotalstring)
-    console.log(this.deductpricestring)
+    // console.log(this.subtotalstring)
+    // console.log(this.deductpricestring)
     this.totaldiscountdisplay = (this.dpercentage / 100 * 100).toFixed(2)
 
-    console.log(this.deductprice, this.total, this.subtotalstring, this.totaldiscountdisplay)
+    // console.log(this.deductprice, this.total, this.subtotalstring, this.totaldiscountdisplay)
   }
 
   gettotal2() {
@@ -318,10 +318,10 @@ export class PdfSalesOrderFormPage implements OnInit {
     this.deductprice = 0
     this.appointment.sales_packages.forEach(a => {
       this.subtotal += a['total_after'] ? a['total_after'] : a['total']
-      console.log(a['total_after'])
+      // console.log(a['total_after'])
       this.deductprice = (this.subtotal * this.dpercentage / 100).toFixed(2)
 
-      console.log(this.subtotal)
+      // console.log(this.subtotal)
     });
 
     // this.subtotalstring = (this.subtotal / 100 * 100).toFixed(2)
@@ -336,7 +336,7 @@ export class PdfSalesOrderFormPage implements OnInit {
   //   this.total = 0
   //   this.subtotal = 0
   //   this.deductprice = 0
-  //   console.log(this.totaldiscount)
+  //   // console.log(this.totaldiscount)
 
   //   if (this.appointment.sales_packages != null && this.appointment.sales_packages.length > 0 && this.totaldiscount == 0) {
   //     this.appointment.sales_packages.forEach(a => {
@@ -356,7 +356,7 @@ export class PdfSalesOrderFormPage implements OnInit {
   //   this.deductprice = this.deductprice.toFixed(2)
   //   this.total = this.total.toFixed(2)
   //   this.subtotalstring = (this.subtotal / 100 * 100).toFixed(2)
-  //   console.log(this.totaldiscount, this.total, this.deductprice)
+  //   // console.log(this.totaldiscount, this.total, this.deductprice)
   //   // this.rate.includes('Discount2') ? this.discount2photo = true : this.discount2photo = false
 
   // }
@@ -365,7 +365,7 @@ export class PdfSalesOrderFormPage implements OnInit {
   //   this.total = 0
   //   this.subtotal = 0
   //   this.deductprice = 0
-  //   console.log(this.totaldiscount)
+  //   // console.log(this.totaldiscount)
 
   //   if (this.appointment.sales_packages != null && this.appointment.sales_packages.length > 0 && this.totaldiscount == 0) {
   //     this.appointment.sales_packages.forEach(a => {
@@ -385,7 +385,7 @@ export class PdfSalesOrderFormPage implements OnInit {
   //   this.deductprice = this.deductprice.toFixed(2)
   //   this.total = this.total.toFixed(2)
   //   this.subtotalstring = (this.subtotal / 100 * 100).toFixed(2)
-  //   console.log(this.totaldiscount, this.total, this.deductprice)
+  //   // console.log(this.totaldiscount, this.total, this.deductprice)
   //   // this.rate.includes('Discount2') ? this.discount2photo = true : this.discount2photo = false
 
   // }
@@ -394,7 +394,7 @@ export class PdfSalesOrderFormPage implements OnInit {
     return new Promise((resolve, reject) => {
       if (x == 'fromlocal') {
         this.discountselected = this.discountselected = JSON.parse(localStorage.getItem('discount?tid=' + this.taskid))
-        console.log(this.discountselected)
+        // console.log(this.discountselected)
       }
       else if (x == 'fromdatabase') {
         if (this.appointment.discount_applied != null && this.appointment.discount_applied != undefined && this.discounts) {
@@ -405,8 +405,8 @@ export class PdfSalesOrderFormPage implements OnInit {
             }
           }
         }
-        console.log(this.discountselected)
-        console.log('run here for fromdatabase')
+        // console.log(this.discountselected)
+        // console.log('run here for fromdatabase')
       }
       resolve('done')
     })
@@ -427,7 +427,7 @@ export class PdfSalesOrderFormPage implements OnInit {
     let newdate = [year, month, date].join('-')
     let newdatehour = [new Date().getHours(), new Date().getMinutes()].join(':')
     let combine = [newdate, newdatehour].join(' ')
-    console.log(combine)
+    // console.log(combine)
     return combine
   }
 
@@ -439,11 +439,11 @@ export class PdfSalesOrderFormPage implements OnInit {
       var dataRow = [] as any;
 
       for (let j = 0; j < columns.length; j++) {
-        console.log(columns)
-        console.log(data[i][columns[j]]);
-        console.log(columns[j]);
-        console.log(columns[j]["text"]);
-        console.log(data[i][columns[j]["text"]]);
+        // console.log(columns)
+        // console.log(data[i][columns[j]]);
+        // console.log(columns[j]);
+        // console.log(columns[j]["text"]);
+        // console.log(data[i][columns[j]["text"]]);
 
         if (columns[j]["text"] == "area") {
           dataRow.push({ text: data[i][columns[j]["text"]].toString(), style: "tableData" });
@@ -626,7 +626,7 @@ export class PdfSalesOrderFormPage implements OnInit {
             resolve(this.SOFnum);
           }
   
-          console.log(this.SOFnum)
+          // console.log(this.SOFnum)
   
         })
       }
@@ -657,7 +657,7 @@ export class PdfSalesOrderFormPage implements OnInit {
 
     let imageSign = await this.getBase64ImageFromURL(this.appointment.customer_signature)
 
-    console.log(imageSign);
+    // console.log(imageSign);
 
     var docDefinition = {
       content: [
@@ -993,10 +993,10 @@ export class PdfSalesOrderFormPage implements OnInit {
       }
     };
 
-    console.log(docDefinition)
+    // console.log(docDefinition)
 
     this.uploadpdf(docDefinition).then((a) => {
-      console.log(a)
+      // console.log(a)
       let pdfurl = a['sales_order_form']
 
       window.open(pdfurl, '_system')
@@ -1027,14 +1027,14 @@ export class PdfSalesOrderFormPage implements OnInit {
       //           showConfirmButton: false
       //         }).then(function (result) {
 
-      //           console.log(result.dismiss);
+      //           // console.log(result.dismiss);
 
       //           if (result.dismiss === Swal.DismissReason.timer) {
       //             // globalVariable.fileOpener.open(
       //             //   saveDir + fileName,
       //             //   'application/pdf');
 
-      //             console.log(saveDir + fileName,'application/pdf', '_system')
+      //             // console.log(saveDir + fileName,'application/pdf', '_system')
 
 
       //             window.open(saveDir + fileName,'application/pdf', '_system')
@@ -1043,10 +1043,10 @@ export class PdfSalesOrderFormPage implements OnInit {
       //         });
       //       };
       //       fileWriter.onerror = (e) => {
-      //         console.log('file writer - error event fired: ' + e.toString());
+      //         // console.log('file writer - error event fired: ' + e.toString());
       //       };
       //       fileWriter.write(binaryArray);
-      //       console.log(binaryArray)
+      //       // console.log(binaryArray)
       //     });
       //   });
       // });
@@ -1062,7 +1062,7 @@ export class PdfSalesOrderFormPage implements OnInit {
       var img = new Image();
       img.setAttribute("crossOrigin", "anonymous");
 
-      console.log(img)
+      // console.log(img)
 
       img.onload = () => {
         var canvas = document.createElement("canvas");
@@ -1074,9 +1074,9 @@ export class PdfSalesOrderFormPage implements OnInit {
 
         var dataURL = canvas.toDataURL("image/png");
 
-        console.log("in convert!!!!");
+        // console.log("in convert!!!!");
 
-        console.log(dataURL);
+        // console.log(dataURL);
 
         resolve(dataURL);
       };
@@ -1085,7 +1085,7 @@ export class PdfSalesOrderFormPage implements OnInit {
         reject(error);
       };
 
-      console.log(url);
+      // console.log(url);
 
       img.src = url + "?not-from-cache-please";
 
@@ -1096,26 +1096,26 @@ export class PdfSalesOrderFormPage implements OnInit {
     let temppdf = {} as any
     return new Promise((resolve, reject) => {
       pdfMake.createPdf(x).getDataUrl((dataUrl) => {
-        console.log(dataUrl);
-        console.log(this.quoteid)
+        // console.log(dataUrl);
+        // console.log(this.quoteid)
         this.http.post('https://api.nanogapp.com/uploadSOFFilePDF', { base64: dataUrl, pdfname: this.quoteid }).subscribe((link) => {
-          console.log(link)
+          // console.log(link)
 
           let now = Date.now()
 
           temppdf.sales_order_form = link['imageURL']
-          console.log(temppdf)
+          // console.log(temppdf)
           temppdf.create_date = now
           // this.pdffileurl.unshift(temppdf)
           // this.pdffileurl = temppdf
-          // console.log(this.pdffileurl)
+          // // console.log(this.pdffileurl)
 
           Swal.close()
 
           // this.pdffilename.push(link['imageURL'].split('/')[4])
-          // console.log(link['imageURL']);
-          // console.log(this.pdffilename)
-          // console.log(this.pdffileurl)
+          // // console.log(link['imageURL']);
+          // // console.log(this.pdffilename)
+          // // console.log(this.pdffileurl)
           this.http.post('https://api.nanogapp.com/uploadGenSalesOrderForm', {
             sales_id: this.salesid,
             appointment_id: this.appointment.appointment_id,
@@ -1128,13 +1128,13 @@ export class PdfSalesOrderFormPage implements OnInit {
             sales_status: this.appointment.sales_status
           }).subscribe((res) => {
             if (res['success'] == true) {
-              // console.log(this.pdffileurl)
+              // // console.log(this.pdffileurl)
               resolve(temppdf)
             }
           })
 
         }, awe => {
-          console.log(awe);
+          // console.log(awe);
           resolve('done')
         })
       });
@@ -1168,7 +1168,7 @@ export class PdfSalesOrderFormPage implements OnInit {
     //   this.custompdffileurl.filter(a => a['pdf'].split('/')[4] == x ? pdfurl = a['pdf'] : pdfurl = pdfurl)
     // }
     pdfurl = x
-    console.log(pdfurl)
+    // console.log(pdfurl)
 
 
     // var windowReference = window.open();
@@ -1199,7 +1199,7 @@ export class PdfSalesOrderFormPage implements OnInit {
 
   clicktopop() {
     this.popup = !this.popup
-    console.log(this.popup)
+    // console.log(this.popup)
   }
 }
 

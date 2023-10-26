@@ -37,7 +37,7 @@ export class ScheduleCalanderInsertPage implements OnInit {
     this.salesid = this.navparam.get('sid')
     this.leadid = this.navparam.get('lid')
 
-    console.log(this.selecteddate, this.userid, this.taskid, this.salesid)
+    // console.log(this.selecteddate, this.userid, this.taskid, this.salesid)
 
     
   }
@@ -88,9 +88,9 @@ export class ScheduleCalanderInsertPage implements OnInit {
   }
 
   getTime(){
-    console.log(this.tasktime)
+    // console.log(this.tasktime)
     let temp = new Date(this.selecteddate).setHours(parseInt(this.tasktime.split(':')[0]), parseInt(this.tasktime.split(':')[1]))
-    console.log(temp)
+    // console.log(temp)
     this.selecteddate = temp
   }
 
@@ -105,7 +105,7 @@ export class ScheduleCalanderInsertPage implements OnInit {
   }
 
   selectTime(){
-    console.log('sdasd')
+    // console.log('sdasd')
     document.getElementById('timeslot').click()
   }
 

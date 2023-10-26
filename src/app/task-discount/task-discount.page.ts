@@ -30,13 +30,13 @@ export class TaskDiscountPage implements OnInit {
     this.userid = this.navparam.get('uid')
 
     this.discountselect = JSON.parse(localStorage.getItem('discount?tid=' + this.taskid)) || []
-    console.log(this.discountselect)
+    // console.log(this.discountselect)
 
 
 
     this.http.get('https://api.nanogapp.com/getActiveDiscount').subscribe(a => {
       this.discounts = a['data']
-      console.log(this.discounts)
+      // console.log(this.discounts)
       if(this.discountselect && this.discountselect.length > 0)
       {
         for(let i =0; i < this.discountselect.length ; i++)
@@ -52,7 +52,7 @@ export class TaskDiscountPage implements OnInit {
   }
 
   getclick(i){
-    console.log(this.discounts[i])
+    // console.log(this.discounts[i])
     if(this.discountselect)
     {
       let index = this.discountselect.findIndex(a => a['id'] == this.discounts[i].id)
@@ -73,7 +73,7 @@ export class TaskDiscountPage implements OnInit {
     }
 
 
-    console.log(this.discountselect)
+    // console.log(this.discountselect)
     // for(let i = 0; i < this.discounts.length; i ++)
     // {
     //   for(let j = 0; j < this.discountselect.length; j++)
@@ -85,7 +85,7 @@ export class TaskDiscountPage implements OnInit {
     //   }
     // }
 
-    // console.log(this.discounts)
+    // // console.log(this.discounts)
   }
 
   confirmdiscount(){

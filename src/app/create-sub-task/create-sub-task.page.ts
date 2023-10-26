@@ -57,12 +57,12 @@ export class CreateSubTaskPage implements OnInit{
   //       let fromDirectory = dir.join('/');      
   //       var toDirectory = this.file.dataDirectory;
   
-  //       console.log(fromDirectory , fileName , toDirectory , fileName)
+  //       // console.log(fromDirectory , fileName , toDirectory , fileName)
         
   //       this.file.copyFile(fromDirectory , fileName , toDirectory , fileName).then((res) => {
   //         this.storeMediaFiles([{name: fileName, size: capturedFile.size}]);
   //       },err => {
-  //         console.log('err: ', err);
+  //         // console.log('err: ', err);
   //       });
   //           },
   //     (err: CaptureError) => console.error(err));
@@ -121,7 +121,7 @@ export class CreateSubTaskPage implements OnInit{
     ngOnInit() {
       this.platform.ready().then(() => {
         let path = this.file.dataDirectory;
-        console.log(path, MEDIA_FOLDER_NAME)
+        // console.log(path, MEDIA_FOLDER_NAME)
         this.file.checkDir(path, MEDIA_FOLDER_NAME).then(
           () => {
             this.loadFiles();
@@ -217,7 +217,7 @@ export class CreateSubTaskPage implements OnInit{
         (data: MediaFile[]) => {
           if (data.length > 0) {
             this.copyFileToLocalDir(data[0].fullPath);
-            console.log(data)
+            // console.log(data)
           }
         },
         (err: CaptureError) => console.error(err)
@@ -249,7 +249,7 @@ export class CreateSubTaskPage implements OnInit{
           this.loadFiles();
         },
         error => {
-          console.log('error: ', error);
+           console.log('error: ', error);
         }
       );
     }
@@ -263,9 +263,9 @@ export class CreateSubTaskPage implements OnInit{
       } else if (f.name.indexOf('.MOV') > -1 || f.name.indexOf('.mp4') > -1) {
   
         // this.videoPlayer.play(f.nativeURL).then(() => {
-        //   console.log('video completed')
+        //   // console.log('video completed')
         // }).catch(err => {
-        //   console.log(err)
+        //   // console.log(err)
         // });
         let options: StreamingVideoOptions = {
             // orientation: 'landscape',
@@ -282,7 +282,7 @@ export class CreateSubTaskPage implements OnInit{
       const path = f.nativeURL.substr(0, f.nativeURL.lastIndexOf('/') + 1);
       this.file.removeFile(path, f.name).then(() => {
         this.loadFiles();
-      }, err => console.log('error remove: ', err));
+      }, err =>  console.log('error remove: ', err));
     }
   
     // takeVideo() {
@@ -290,14 +290,14 @@ export class CreateSubTaskPage implements OnInit{
     //   this.mediaCapture.captureVideo(options)
     //     .then(
     //       (data: MediaFile[]) => {
-    //         console.log(data)
+    //         // console.log(data)
     //         this.checkinvideo.push(data[0]['localURL'])
   
     //       },
     //       (err: CaptureError) => alert(err)
     //     );
   
-    //     console.log(this.checkinvideo)
+    //     // console.log(this.checkinvideo)
     // }
   
     // takePhoto() {

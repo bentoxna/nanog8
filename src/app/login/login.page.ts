@@ -24,13 +24,13 @@ export class LoginPage implements OnInit {
 
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
-        console.log(user)
+        // console.log(user)
         this.user.uid = user.uid
-        console.log(this.user.uid)
+        // console.log(this.user.uid)
         localStorage.setItem('nanogapp_uid', this.user.uid)
         this.http.post('https://api.nanogapp.com/getSalesExec', {uid:this.user.uid}).subscribe((a) => {
           this.user = a['data']
-          console.log(this.user)
+          // console.log(this.user)
           Swal.fire({
             title: 'Welcome',
             text: this.user.user_name,
@@ -40,7 +40,7 @@ export class LoginPage implements OnInit {
             heightAuto: false
           }).then(a => {
 
-            console.log(a)
+            // console.log(a)
             if(this.user['user_role'] == 'Sales Executive')
             {
               this.nav.navigateRoot("home2?uid=" + this.user.uid)
@@ -60,7 +60,7 @@ export class LoginPage implements OnInit {
 
         // firebase.database().ref("users/" + this.user.uid).on('value', (a) => {
         //   this.user = a.val()
-        //   console.log(this.user)
+        //   // console.log(this.user)
         //   Swal.fire({
         //     title: 'Welcome',
         //     text: this.user.name,
@@ -86,7 +86,7 @@ export class LoginPage implements OnInit {
 
   login() {
     firebase.auth().signInWithEmailAndPassword(this.user.email, this.user.password).then(a => {
-      console.log(a)
+      // console.log(a)
     }).catch(e => {
       Swal.fire({
         text: e.message,

@@ -24,13 +24,13 @@ export class ProfilePage implements OnInit {
     //   this.http.post('https://api.nanogapp.com/getSalesExec', {uid : a.uid}).subscribe(b =>
     //   {
     //     this.user = b['user']
-    //     console.log(this.user)
+    //     // console.log(this.user)
     //   })
     // })
 
     this.http.post('https://api.nanogapp.com/getAppointmentForExecByDate', { execId: this.userid, startDate: this.dateselected2, endDate: this.tomorrow }).subscribe((s) => {
       this.appointment = s['data']
-      console.log(this.appointment)
+      // console.log(this.appointment)
     })
   }
 

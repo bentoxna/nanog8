@@ -27,7 +27,7 @@ export class InspectPage implements OnInit {
 
   ngOnInit() {
     this.route.queryParams.subscribe(a => {
-      console.log(a)
+      // console.log(a)
       this.salesid = a['salesid']
       this.leadid = a['leadid']
       this.appointmentid = a['aid']
@@ -70,12 +70,12 @@ export class InspectPage implements OnInit {
 
   refresher(){
     this.http.post('https://api.nanogapp.com/getinspectation', {lead_id : this.leadid}).subscribe(a => {
-      console.log(a)
+      // console.log(a)
       if(a['data'])
       {
         this.inspect = a['data']
         this.imageurl = this.inspect['label_photo'] || []
-        console.log(this.inspect)
+        // console.log(this.inspect)
 
         this.videourl = (this.inspect['label_video']) || []
       }
@@ -102,7 +102,7 @@ export class InspectPage implements OnInit {
           cssClass: 'actionsheet-selection',
           text: 'Capture Image',
           handler: () => {
-            console.log('Capture Image')
+            // console.log('Capture Image')
             this.captureImage()
           }
         },
@@ -157,7 +157,7 @@ export class InspectPage implements OnInit {
       let base64Image = 'data:image/jpeg;base64,' + imageData;
       this.uploadserve2(base64Image).then(res => {
         Swal.close()
-        console.log(res)
+        // console.log(res)
       })
     },
       (err) => {
@@ -193,7 +193,7 @@ export class InspectPage implements OnInit {
           const maxH = maxsize;
           thisImage.onload = (a) => {
 
-            console.log(a);
+            // console.log(a);
             const iw = thisImage.width;
             const ih = thisImage.height;
             const scale = Math.min((maxW / iw), (maxH / ih));
@@ -213,7 +213,7 @@ export class InspectPage implements OnInit {
               Swal.close()
               resolve(res['imageURL'])
             }, awe => {
-              console.log('run here 3')
+              // console.log('run here 3')
               reject(awe)
             })
 
@@ -241,8 +241,8 @@ export class InspectPage implements OnInit {
       showConfirmButton: false,
     })
 
-    console.log(file)
-    console.log(file.type)
+    // console.log(file)
+    // console.log(file.type)
 
     const bucket = new S3({
       region: 'ap-southeast-1',
@@ -259,7 +259,7 @@ export class InspectPage implements OnInit {
     }
 
     bucket.upload(params, (err, data) => {
-      console.log(data)
+      // console.log(data)
       if (err) {
         Swal.close()
 
@@ -271,16 +271,16 @@ export class InspectPage implements OnInit {
           heightAuto: false,
           showConfirmButton: false,
         })
-        console.log('There was an error uploading file: ' + err)
+        // console.log('There was an error uploading file: ' + err)
         return false
       }
 
 
       Swal.close()
 
-      console.log('Successfully uploaded file.', data)
+      // console.log('Successfully uploaded file.', data)
 
-      console.log(data);
+      // console.log(data);
 
       this.videourl.push(
         {
@@ -312,7 +312,7 @@ export class InspectPage implements OnInit {
         let body = new URLSearchParams()
         body.set('image', base64)
 
-        console.log(base64)
+        // console.log(base64)
 
         this.http.post('https://api.nanogapp.com/upload', { image: base64, folder: 'nanog', userid: 'nanog' }).subscribe((res) => {
           this.imageurl.push(res['imageURL'])
@@ -364,7 +364,7 @@ export class InspectPage implements OnInit {
             inspect_video: JSON.stringify(this.videourl) || JSON.stringify([]),
             inspect_remark: this.inspect.inspect_remark,
           }).subscribe(a => {
-            console.log(a)
+            // console.log(a)
             setTimeout(() => {
               Swal.close()
               this.nav.pop()
@@ -400,7 +400,7 @@ export class InspectPage implements OnInit {
             inspect_video: JSON.stringify(this.videourl) || JSON.stringify([]),
             inspect_remark: this.inspect.inspect_remark,
           }).subscribe(a => {
-            console.log(a)
+            // console.log(a)
             setTimeout(() => {
               Swal.close()
               this.nav.pop()
@@ -433,7 +433,7 @@ export class InspectPage implements OnInit {
             inspect_video: JSON.stringify(this.videourl) || JSON.stringify([]),
             inspect_remark: this.inspect.inspect_remark,
           }).subscribe(a => {
-            console.log(a)
+            // console.log(a)
             setTimeout(() => {
               Swal.close()
               this.nav.pop()

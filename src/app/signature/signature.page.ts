@@ -23,7 +23,7 @@ export class SignaturePage implements OnInit {
   }
 
   startDrawing(event: Event) {
-    console.log(event);
+    // console.log(event);
     // works in device not in browser
 
   }
@@ -39,7 +39,7 @@ export class SignaturePage implements OnInit {
   savePad() {
     const base64Data = this.signaturePad.toDataURL();
     this.signatureImg = base64Data;
-    console.log(this.signatureImg);
+    // console.log(this.signatureImg);
     
   }
 

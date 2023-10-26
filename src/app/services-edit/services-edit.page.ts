@@ -81,7 +81,7 @@ export class ServicesEditPage implements OnInit {
       // this.index = 0
       this.http.post('https://api.nanogapp.com/getSalesPackage', { sap_id: this.sapid }).subscribe(a => {
         this.service = a['data']
-        console.log(this.service)
+        // console.log(this.service)
         // if(!a['data']['discount'])
         // {
         //   this.service.discount = 0
@@ -113,12 +113,12 @@ export class ServicesEditPage implements OnInit {
         this.imageurl && this.imageurl.length > 0 ? this.imageurl : this.imageurl = this.service.pack_image
         this.videourl && this.videourl.length > 0 ? this.videourl : this.videourl = this.service.pack_video
 
-        console.log(this.imageurl)
+        // console.log(this.imageurl)
 
-        console.log(this.service)
+        // console.log(this.service)
 
         this.http.get('https://api.nanogapp.com/getPackages').subscribe(a => {
-          console.log(a)
+          // console.log(a)
           this.packages = a['data']
           this.package_install = this.packages.filter(a => a['job_type'] == 'Install')
           this.package_remove = this.packages.filter(a => a['job_type'] == 'Remove')
@@ -134,23 +134,23 @@ export class ServicesEditPage implements OnInit {
         })
 
         this.http.post('https://api.nanogapp.com/getSalesPackageDetails', { sales_id: this.salesid }).subscribe(res => {
-          console.log(res)
+          // console.log(res)
           res['data'].filter(a => a['sap_id'] == this.sapid ? this.allPackagesSubtotal = this.allPackagesSubtotal : this.allPackagesSubtotal += a['total'])
           // this.allPackagesSubtotal = res['data'].map(a => a['total']).reduce((a,b)=> a + b, 0)
-          console.log(this.allPackagesSubtotal)
+          // console.log(this.allPackagesSubtotal)
         })
 
 
         this.http.post('https://api.nanogapp.com/getMainAndAddOnPackagesJoinDiscount', { sap_id: this.sapid }).subscribe(a => {
-          console.log(a)
+          // console.log(a)
           this.package = a['data'][0]
-          console.log(this.package)
+          // console.log(this.package)
           if (this.package.dis_items) {
             this.ServiceCalculator()
           }
           else {
             this.package.aftertotal = this.package.total
-            console.log(this.package.aftertotal)
+            // console.log(this.package.aftertotal)
           }
         })
 
@@ -161,19 +161,19 @@ export class ServicesEditPage implements OnInit {
   ServiceCalculator() {
     return new Promise((resolve, reject) => {
       this.package.aftertotal = this.service.total
-      console.log(this.package.dis_items)
+      // console.log(this.package.dis_items)
       if (this.package.dis_items) {
         for (let j = 0; j < this.package.dis_items.length; j++) {
           if (this.package.dis_items[j].dis_type) {
             this.package.aftertotal = Number((this.package.aftertotal * (100 - this.package.dis_items[j].dis_percentage) / 100).toFixed(2))
-            console.log(this.package.aftertotal)
+            // console.log(this.package.aftertotal)
           }
         }
 
         for (let j = 0; j < this.package.dis_items.length; j++) {
           if (!this.package.dis_items[j].dis_type) {
             this.package.aftertotal = Number((this.package.aftertotal - this.package.dis_items[j].dis_percentage).toFixed(2))
-            console.log(this.package.aftertotal)
+            // console.log(this.package.aftertotal)
           }
         }
       }
@@ -241,15 +241,15 @@ export class ServicesEditPage implements OnInit {
     // }
 
     if (this.service.size && this.service.rate) {
-      console.log(this.index)
+      // console.log(this.index)
       this.service.subtotal = (this.service.size * this.service.rate).toFixed(2)
       this.index > 1 ? this.service.total = this.service.subtotal : this.index++
 
-      console.log(this.service.total)
+      // console.log(this.service.total)
     }
 
-    console.log(this.service.subtotal, this.service.total)
-    console.log(this.service)
+    // console.log(this.service.subtotal, this.service.total)
+    // console.log(this.service)
   }
 
   // calculateothertotal() {
@@ -259,7 +259,7 @@ export class ServicesEditPage implements OnInit {
   // }
 
   // calculateTotal() {
-  //   console.log('run total')
+  //   // console.log('run total')
   //   if (this.service.discount) {
   //         this.service.total = (this.service.subtotal * (100 - this.service.discount) / 100).toFixed(2)
   //       }
@@ -267,7 +267,7 @@ export class ServicesEditPage implements OnInit {
   //         this.service.total = (this.service.subtotal).toFixed(2)
   //       }
 
-  //   console.log(this.service.total, this.service.subtotal)
+  //   // console.log(this.service.total, this.service.subtotal)
   // }
 
 
@@ -289,7 +289,7 @@ export class ServicesEditPage implements OnInit {
   //   this.service.total = (this.service.total - this.service.discount_roundoff).toFixed(2)
   // }
 
-  //   console.log(this.service)
+  //   // console.log(this.service)
 
   // }
 
@@ -453,7 +453,7 @@ export class ServicesEditPage implements OnInit {
         }
       ).then(a => {
         this.ServiceCalculator()
-        console.log(this.package)
+        // console.log(this.package)
 
         if (a['isConfirmed'] == true) {
           this.http.post('https://api.nanogapp.com/updateSalesPackagev2', {
@@ -546,7 +546,7 @@ export class ServicesEditPage implements OnInit {
           cssClass: 'actionsheet-selection',
           text: 'Capture Image',
           handler: () => {
-            console.log('Capture Image')
+            // console.log('Capture Image')
             this.captureImage()
           }
         },
@@ -554,7 +554,7 @@ export class ServicesEditPage implements OnInit {
         //   cssClass: 'actionsheet-selection',
         //   text: 'Record Video',
         //   handler: () => {
-        //     console.log('Record Video')
+        //     // console.log('Record Video')
         //     this.recordVideo()
         //   }
         // },
@@ -637,7 +637,7 @@ export class ServicesEditPage implements OnInit {
         //   showConfirmButton: false,
         // })
         Swal.close()
-        console.log(res)
+        // console.log(res)
       })
     },
       (err) => {
@@ -666,8 +666,8 @@ export class ServicesEditPage implements OnInit {
         if (event.target.files && event.target.files[i]) {
           this.imagectype = event.target.files[i].type;
           // EXIF.getData(event.target.files[0], () => {
-          //   console.log(event.target.files[0]);
-          //   console.log(event.target.files[0].exifdata.Orientation);
+          //   // console.log(event.target.files[0]);
+          //   // console.log(event.target.files[0].exifdata.Orientation);
           //   const orientation = EXIF.getTag(this, 'Orientation');
           const can = document.createElement('canvas');
           const ctx = can.getContext('2d');
@@ -676,7 +676,7 @@ export class ServicesEditPage implements OnInit {
           const maxH = maxsize;
           thisImage.onload = (a) => {
 
-            console.log(a);
+            // console.log(a);
             const iw = thisImage.width;
             const ih = thisImage.height;
             const scale = Math.min((maxW / iw), (maxH / ih));
@@ -687,9 +687,9 @@ export class ServicesEditPage implements OnInit {
             ctx.save();
             // const width = can.width; const styleWidth = can.style.width;
             // const height = can.height; const styleHeight = can.style.height;
-            // console.log(event.target.files[0]);
+            // // console.log(event.target.files[0]);
             // if (event.target.files[0] && event.target.files[0].exifdata.Orientation) {
-            //   console.log(event.target.files[0].exifdata.Orientation);
+            //   // console.log(event.target.files[0].exifdata.Orientation);
             //   if (event.target.files[0].exifdata.Orientation > 4) {
             //     can.width = height; can.style.width = styleHeight;
             //     can.height = width; can.style.height = styleWidth;
@@ -743,7 +743,7 @@ export class ServicesEditPage implements OnInit {
             // this.http.post('https://img.vsnap.my/upload', { image: this.imagec, folder: 'hockwong', userid: '5KLVpP3MdneiM1kgcHR26LGFSW52' }).subscribe((link) => {
 
 
-            //   console.log(link['imageURL'])
+            //   // console.log(link['imageURL'])
             //   this.imageurl.push(link['imageURL'])
 
             // })
@@ -761,7 +761,7 @@ export class ServicesEditPage implements OnInit {
       (data: MediaFile[]) => {
         if (data.length > 0) {
           this.copyFileToLocalDir(data[0].fullPath);
-          console.log(data)
+          // console.log(data)
         }
       },
       (err: CaptureError) => alert(err)
@@ -835,7 +835,7 @@ export class ServicesEditPage implements OnInit {
         //   cssClass: 'actionsheet-selection',
         //   text: 'Record Video',
         //   handler: () => {
-        //     console.log('Record Video')
+        //     // console.log('Record Video')
         //     this.recordVideo()
         //   }
         // },
@@ -854,8 +854,8 @@ export class ServicesEditPage implements OnInit {
   uploadFile(event) {
     let uploadedFile = event.target.files;
 
-    // console.log(uploadedFile)
-    // console.log(uploadedFile.item(0))
+    // // console.log(uploadedFile)
+    // // console.log(uploadedFile.item(0))
     this.uploadToS3(uploadedFile.item(0))
   }
 
@@ -882,7 +882,7 @@ export class ServicesEditPage implements OnInit {
     }
 
     bucket.upload(params, (err, data) => {
-      console.log(data)
+      // console.log(data)
       if (err) {
 
         Swal.close()
@@ -895,17 +895,17 @@ export class ServicesEditPage implements OnInit {
           heightAuto: false,
           showConfirmButton: false,
         })
-        console.log('There was an error uploading file: ' + err)
+        // console.log('There was an error uploading file: ' + err)
         return false
       }
 
 
       Swal.close()
 
-      console.log('Successfully uploaded file.', data)
+      // console.log('Successfully uploaded file.', data)
 
-      // console.log(i)
-      console.log(data);
+      // // console.log(i)
+      // console.log(data);
 
       this.videourl.push(
         {

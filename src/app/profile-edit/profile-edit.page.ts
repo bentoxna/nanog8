@@ -29,7 +29,7 @@ export class ProfileEditPage implements OnInit {
       this.http.post('https://api.nanogapp.com/getSalesExec', { uid: a.uid }).subscribe(s => {
         this.user = s['data']
         this.user.keyword = this.user.user_state
-        console.log(this.user)
+        // console.log(this.user)
         this.checker = this.user.user_state
       })
     })
@@ -45,7 +45,7 @@ export class ProfileEditPage implements OnInit {
 
   filter(x) {
     this.temp = this.state ? this.state.filter(a => a.toLowerCase().includes(x.toLowerCase())) : []
-    console.log(this.temp)
+    // console.log(this.temp)
   }
 
   getfilter(x) {
@@ -84,7 +84,7 @@ export class ProfileEditPage implements OnInit {
   getfirstselection() {
     this.user.keyword = this.temp[0]
     this.checker = this.temp[0]
-    console.log(this.user.keyword)
+    // console.log(this.user.keyword)
   }
 
   submit() {
@@ -158,7 +158,7 @@ export class ProfileEditPage implements OnInit {
               image: pictureurl || '',
               uid: this.user.uid
             }).subscribe(a => {
-              console.log(a)
+              // console.log(a)
               if (a['success'] == 1) {
                 Swal.fire({
                   title: 'Success',
@@ -248,7 +248,7 @@ export class ProfileEditPage implements OnInit {
 
   // imgur(event) {
 
-  //   console.log(event)
+  //   // console.log(event)
   //   let imgurheaders = new HttpHeaders({
   //     'Authorization': 'Client-ID 2dc0beb00bb3279'
   //   });
@@ -276,7 +276,7 @@ export class ProfileEditPage implements OnInit {
 
 
   //         let imagec = canvas.toDataURL();
-  //         console.log(imagec)
+  //         // console.log(imagec)
 
   //         let imgggg = imagec.replace(';base64,', "thisisathingtoreplace;")
   //         let imgarr = imgggg.split("thisisathingtoreplace;")
@@ -303,7 +303,7 @@ export class ProfileEditPage implements OnInit {
 
   // fileChange() {
   //   this.imgur(this.photo).then(a => {
-  //     console.log(a);
+  //     // console.log(a);
   //     this.user.profile_image = a
   //     // eval(z + "=a")
   //   })

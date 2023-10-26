@@ -72,7 +72,7 @@ export class ServiceWarranty2Page implements OnInit {
         this.service = a['data'] || {}
         this.statuscheck = a['data']
         // console.log(this.service.length)
-        console.log(a['data'])
+        // console.log(a['data'])
         this.imageurl = this.service.pack_image || []
         this.videourl = this.service.pack_video || []
 
@@ -81,7 +81,7 @@ export class ServiceWarranty2Page implements OnInit {
 
       this.http.post('https://api.nanogapp.com/getSalesPackage', { sap_id: this.linked_sapid }).subscribe(a => {
         this.linked_service = a['data']
-        console.log(this.linked_service)
+        // console.log(this.linked_service)
       })
     })
   }
@@ -305,7 +305,7 @@ export class ServiceWarranty2Page implements OnInit {
           cssClass: 'actionsheet-selection',
           text: 'Capture Image',
           handler: () => {
-            console.log('Capture Image')
+            // console.log('Capture Image')
             this.captureImage()
           }
         },
@@ -313,7 +313,7 @@ export class ServiceWarranty2Page implements OnInit {
         //   cssClass: 'actionsheet-selection',
         //   text: 'Record Video',
         //   handler: () => {
-        //     console.log('Record Video')
+        //     // console.log('Record Video')
         //     this.recordVideo()
         //   }
         // },
@@ -388,7 +388,7 @@ export class ServiceWarranty2Page implements OnInit {
       this.uploadserve2(base64Image).then(res => {
         this.sweetalert = false
         Swal.close()
-        console.log(res)
+        // console.log(res)
       })
     },
       (err) => {
@@ -414,8 +414,8 @@ export class ServiceWarranty2Page implements OnInit {
       if (event.target.files && event.target.files[0] && event.target.files[0].size < (81928192)) {
         this.imagectype = event.target.files[0].type;
         // EXIF.getData(event.target.files[0], () => {
-        //   console.log(event.target.files[0]);
-        //   console.log(event.target.files[0].exifdata.Orientation);
+        //   // console.log(event.target.files[0]);
+        //   // console.log(event.target.files[0].exifdata.Orientation);
         //   const orientation = EXIF.getTag(this, 'Orientation');
           const can = document.createElement('canvas');
           const ctx = can.getContext('2d');
@@ -424,7 +424,7 @@ export class ServiceWarranty2Page implements OnInit {
           const maxH = maxsize;
           thisImage.onload = (a) => {
 
-            console.log(a);
+            // console.log(a);
             const iw = thisImage.width;
             const ih = thisImage.height;
             const scale = Math.min((maxW / iw), (maxH / ih));
@@ -435,9 +435,9 @@ export class ServiceWarranty2Page implements OnInit {
             ctx.save();
             // const width = can.width; const styleWidth = can.style.width;
             // const height = can.height; const styleHeight = can.style.height;
-            // console.log(event.target.files[0]);
+            // // console.log(event.target.files[0]);
             // if (event.target.files[0] && event.target.files[0].exifdata.Orientation) {
-            //   console.log(event.target.files[0].exifdata.Orientation);
+            //   // console.log(event.target.files[0].exifdata.Orientation);
             //   if (event.target.files[0].exifdata.Orientation > 4) {
             //     can.width = height; can.style.width = styleHeight;
             //     can.height = width; can.style.height = styleWidth;
@@ -491,7 +491,7 @@ export class ServiceWarranty2Page implements OnInit {
             // this.http.post('https://img.vsnap.my/upload', { image: this.imagec, folder: 'hockwong', userid: '5KLVpP3MdneiM1kgcHR26LGFSW52' }).subscribe((link) => {
 
 
-            //   console.log(link['imageURL'])
+            //   // console.log(link['imageURL'])
             //   this.imageurl.push(link['imageURL'])
 
             // })
@@ -512,7 +512,7 @@ export class ServiceWarranty2Page implements OnInit {
       (data: MediaFile[]) => {
         if (data.length > 0) {
           this.copyFileToLocalDir(data[0].fullPath);
-          console.log(data)
+          // console.log(data)
         }
       },
       (err: CaptureError) => alert(err)
@@ -540,7 +540,7 @@ export class ServiceWarranty2Page implements OnInit {
         //   cssClass: 'actionsheet-selection',
         //   text: 'Record Video',
         //   handler: () => {
-        //     console.log('Record Video')
+        //     // console.log('Record Video')
         //     this.recordVideo()
         //   }
         // },
@@ -559,8 +559,8 @@ export class ServiceWarranty2Page implements OnInit {
   uploadFile(event) {
     let uploadedFile = event.target.files;
 
-    // console.log(uploadedFile)
-    // console.log(uploadedFile.item(0))
+    // // console.log(uploadedFile)
+    // // console.log(uploadedFile.item(0))
     this.uploadToS3(uploadedFile.item(0))
   }
 
@@ -587,7 +587,7 @@ export class ServiceWarranty2Page implements OnInit {
     }
 
     bucket.upload(params, (err, data) => {
-      console.log(data)
+      // console.log(data)
       if (err) {
 
         Swal.close()
@@ -600,17 +600,17 @@ export class ServiceWarranty2Page implements OnInit {
           heightAuto: false,
           showConfirmButton: false,
         })
-        console.log('There was an error uploading file: ' + err)
+        // console.log('There was an error uploading file: ' + err)
         return false
       }
 
 
       Swal.close()
 
-      console.log('Successfully uploaded file.', data)
+      // console.log('Successfully uploaded file.', data)
 
-      // console.log(i)
-      console.log(data);
+      // // console.log(i)
+      // console.log(data);
 
       this.videourl.push(
         {

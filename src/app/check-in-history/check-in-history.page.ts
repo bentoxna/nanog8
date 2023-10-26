@@ -22,20 +22,20 @@ export class CheckInHistoryPage implements OnInit {
 
   ngOnInit() {
     this.route.queryParams.subscribe(a => {
-      console.log(a)
+      // console.log(a)
       this.http.post('https://api.nanogapp.com/getAppointmentDetails', {id: a.tid}).subscribe(s => {
-        console.log(s)
+        // console.log(s)
         this.appointment = s['data']
-        console.log(this.appointment)
+        // console.log(this.appointment)
         this.imageurl = s['data']['checkin_img']
-        console.log(this.imageurl)
+        // console.log(this.imageurl)
 
         this.convertlocation()
       })
 
       this.http.post('https://api.nanogapp.com/getSalesExec', { uid: a.uid }).subscribe((s) => {
         this.user = s['data']
-        console.log(this.user)
+        // console.log(this.user)
       })
     })
 
@@ -50,7 +50,7 @@ export class CheckInHistoryPage implements OnInit {
     this.nativeGeocoder.reverseGeocode(this.appointment.checkin_latt, this.appointment.checkin_long, options)
     .then((result: NativeGeocoderResult[]) => {
 
-        console.log(JSON.stringify(result[0]))
+        // console.log(JSON.stringify(result[0]))
         this.address = result[0]
 
         let address = []
@@ -78,11 +78,11 @@ export class CheckInHistoryPage implements OnInit {
         }
         this.addressstring = address.filter(a => a != '')
         this.addressstring = this.addressstring.toString()
-        console.log(this.addressstring)
+        // console.log(this.addressstring)
 
       }
     )
-    .catch((error: any) => console.log(error));
+    .catch((error: any) =>  console.log(error));
   }
 
   viewPhoto(x)

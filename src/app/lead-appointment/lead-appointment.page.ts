@@ -168,7 +168,7 @@ export class LeadAppointmentPage implements OnInit {
   //         return;
   //       }
 
-  //       console.log({ place }, place.geometry.location?.lat(), place.geometry.location?.lng());
+  //       // console.log({ place }, place.geometry.location?.lat(), place.geometry.location?.lng());
   //       this.lead.address = place.formatted_address
   //       this.lead.company_address = place.name
   //       //set latitude, longitude and zoom
@@ -188,12 +188,12 @@ export class LeadAppointmentPage implements OnInit {
 
   ngOnInit() {
     this.socket.connect(); 
-    // console.log(new Date().toLocaleString());
+    // // console.log(new Date().toLocaleString());
     this.actroute.queryParams.subscribe((a) => {
 
       this.userid = a['uid']
       this.leadId = a['lid']
-      console.log(this.leadId);
+      // console.log(this.leadId);
 
       this.tabs = 'details'
 
@@ -202,7 +202,7 @@ export class LeadAppointmentPage implements OnInit {
 
       // this.http.post('https://api.nanogapp.com/getAppointmentDetails', { id: a['id'] }).subscribe((s) => {
       //   this.appointment = s['data']
-      //   console.log(this.appointment);
+      //   // console.log(this.appointment);
       // })
 
     })
@@ -240,22 +240,22 @@ export class LeadAppointmentPage implements OnInit {
 
     this.http.get('https://api.nanogapp.com/getAds').subscribe((s) => {
       this.ads_list = s['data']
-      // console.log('ads', this.ads_list);
+      // // console.log('ads', this.ads_list);
     })
 
     this.http.get('https://api.nanogapp.com/getChannel').subscribe((s) => {
       this.channel_list = s['data']
-      // console.log('channel', this.channel_list);
+      // // console.log('channel', this.channel_list);
     })
 
     this.http.get('https://api.nanogapp.com/getAllSubCompany').subscribe((s) => {
       this.company_list = s['data']
-      console.log('company', this.company_list);
+      // console.log('company', this.company_list);
     })
 
     this.http.post('https://api.nanogapp.com/getLeadDetail', { lead_id: this.leadId }).subscribe((s) => {
       this.lead = s['data']
-      console.log(this.lead)
+      // console.log(this.lead)
 
       this.oriAddress = this.lead.address
       this.oriCompAddress = this.lead.company_address
@@ -274,12 +274,12 @@ export class LeadAppointmentPage implements OnInit {
 
       this.http.post('https://api.nanogapp.com/getSalesPackageViaAppointment', { appointment_id: this.lead.appointment_id }).subscribe((s) => {
         this.sales_package = s['data'].sort((a, b) => a.sap_id - b.sap_id)
-        console.log('sales package', this.sales_package);
+        // console.log('sales package', this.sales_package);
       })
 
       this.http.post('https://api.nanogapp.com/getSales', { appointment_id: this.lead.appointment_id }).subscribe((s) => {
         this.sales_list = s['data']
-        console.log('sales', this.sales_list);
+        // console.log('sales', this.sales_list);
 
         this.calcDue()
 
@@ -292,7 +292,7 @@ export class LeadAppointmentPage implements OnInit {
 
           this.http.post('https://api.nanogapp.com/getAllScheduleBySales', { sales_id: this.sales_list.id }).subscribe((s) => {
             this.schedule_list = s['data'].sort((a, b) => a.id - b.id)
-            console.log('schedule_list', this.schedule_list);
+            // console.log('schedule_list', this.schedule_list);
 
             if (this.schedule_list.length > 0) {
               this.schedule_date = this.schedule_list.at(-1).schedule_date
@@ -305,22 +305,22 @@ export class LeadAppointmentPage implements OnInit {
 
       this.http.post('https://api.nanogapp.com/getSalesPayment', { id: this.lead.appointment_id }).subscribe((s) => {
         this.payment_list = s['data'].sort((a, b) => a.id - b.id)
-        console.log('payment', this.payment_list);
+        // console.log('payment', this.payment_list);
       })
 
       this.http.get('https://api.nanogapp.com/getLabel').subscribe((s) => {
 
         this.label_list = s['data']
-        // console.log(this.label_list);
+        // // console.log(this.label_list);
 
         this.label_main_list = s['data'].filter(a => a.main == true).sort((a, b) => a.id - b.id)
         this.selectedMainLabel = this.lead.label_m
         this.selectedSubLabel = this.lead.label_s
         this.label_sub_list = s['data'].filter(a => (a.main == false && a.category == this.selectedMainLabel)).sort((a, b) => a.name - b.name)
-        console.log('label', this.label_main_list, this.label_sub_list);
+        // console.log('label', this.label_main_list, this.label_sub_list);
         this.http.post('https://api.nanogapp.com/getSpecificUser', { user_role: 'Sales Executive' }).subscribe((s) => {
           this.sales_exec = s['data']
-          console.log('sales exec', this.sales_exec);
+          // console.log('sales exec', this.sales_exec);
           if (this.lead.appointment_time != 'NaN' && this.lead.appointment_time != null && this.lead.appointment_time != '') {
             this.lead.appointment_time = parseInt(this.lead.appointment_time)
 
@@ -371,7 +371,7 @@ export class LeadAppointmentPage implements OnInit {
       if (!this.lead.sc_photo) {
         this.lead.sc_photo = [] as any
       }
-      console.log('Lead', this.lead);
+      // console.log('Lead', this.lead);
 
       this.keywordServices = this.lead.services
       this.keywordChannel = this.lead.channel
@@ -390,7 +390,7 @@ export class LeadAppointmentPage implements OnInit {
 
         this.http.post('https://api.nanogapp.com/getSpecificUser', { user_role: 'Sales Executive' }).subscribe((s) => {
           this.sales_exec = s['data']
-          // console.log('sales exec', this.sales_exec);
+          // // console.log('sales exec', this.sales_exec);
           this.SEblur(this.lead.appointment_time)
         })
 
@@ -417,7 +417,7 @@ export class LeadAppointmentPage implements OnInit {
             return;
           }
 
-          console.log({ place }, place.geometry.location?.lat(), place.geometry.location?.lng());
+          // console.log({ place }, place.geometry.location?.lat(), place.geometry.location?.lng());
           this.lead.address = place.formatted_address
           this.lead.company_address = place.name
           //set latitude, longitude and zoom
@@ -451,7 +451,7 @@ export class LeadAppointmentPage implements OnInit {
 
       navigator.geolocation.getCurrentPosition((position) => {
 
-        console.log(this.lead.lattitude, this.lead.longtitude)
+        // console.log(this.lead.lattitude, this.lead.longtitude)
 
         if (this.lead.lattitude && this.lead.longtitude) {
           this.latitude = this.lead.lattitude;
@@ -518,7 +518,7 @@ export class LeadAppointmentPage implements OnInit {
       //     fetch(api)
       //       .then((response) => response.json())
       //       .then((data) => {
-      //         console.log(address = data || 'Your location')
+      //         // console.log(address = data || 'Your location')
       //         this.map_location = data.features[0].properties.display_name
       //         resolve(address = data.features[0].properties.display_name || 'Your location');
 
@@ -570,12 +570,12 @@ export class LeadAppointmentPage implements OnInit {
       },
     ];
 
-    console.log(this.markers);
+    // console.log(this.markers);
 
   }
 
   eventHandler(event: any, name: string) {
-    // console.log(event, name);
+    // // console.log(event, name);
     switch (name) {
       case 'mapDblclick': // Add marker on double click event
         this.setMarkerPosition(event.latLng.lat(), event.latLng.lng())
@@ -605,7 +605,7 @@ export class LeadAppointmentPage implements OnInit {
             this.lead.address = addr.results[0].formatted_address;
             this.lead.lattitude = addr.results[0].geometry.location.lat()
             this.lead.longtitude = addr.results[0].geometry.location.lng()
-            console.log(addr.results[0], addr.results[0].geometry.location.lat(), addr.results[0].geometry.location.lng());
+            // console.log(addr.results[0], addr.results[0].geometry.location.lat(), addr.results[0].geometry.location.lng());
           } else {
             this.address = ''
             window.alert('No results found');
@@ -632,19 +632,19 @@ export class LeadAppointmentPage implements OnInit {
 
   //   if (this.lead.lattitude != null && this.lead.longtitude != null) {
   //     api = `https://nominatim.openstreetmap.org/search?format=geojson&limit=10&q=${encodeURI(this.lead.lattitude + ',' + this.lead.longtitude)}&countrycodes=my`;
-  //     console.log('in');
+  //     // console.log('in');
 
   //   } else {
   //     api = `https://nominatim.openstreetmap.org/search?format=geojson&limit=10&q=${encodeURI(this.lead.address)}&countrycodes=my`;
-  //     console.log('out');
+  //     // console.log('out');
   //   }
 
   //   return new Promise((resolve) => {
   //     fetch(api)
   //       .then((response) => response.json())
   //       .then((data) => {
-  //         console.log(data || 'Your location')
-  //         // console.log(data.features[0].geometry.coordinates[0], data.features[0].geometry.coordinates[1]);
+  //         // console.log(data || 'Your location')
+  //         // // console.log(data.features[0].geometry.coordinates[0], data.features[0].geometry.coordinates[1]);
   //         if (data.features.length == 0) {
 
   //           Swal.fire({
@@ -688,7 +688,7 @@ export class LeadAppointmentPage implements OnInit {
 
   // onMapClick() {
   //   this.map.on('click', e => {
-  //     console.log(e.latlng.lat)
+  //     // console.log(e.latlng.lat)
   //   })
 
   // }
@@ -724,7 +724,7 @@ export class LeadAppointmentPage implements OnInit {
   //       fetch(api)
   //         .then((response) => response.json())
   //         .then((data) => {
-  //           console.log(address = data || 'Your location')
+  //           // console.log(address = data || 'Your location')
   //           this.map_location = data.features[0].properties.display_name
   //           resolve(address = data.features[0].properties.display_name || 'Your location');
   //         })
@@ -749,7 +749,7 @@ export class LeadAppointmentPage implements OnInit {
     // await modal.present();
 
     // const { data } = await modal.onWillDismiss();
-    // console.log(data)
+    // // console.log(data)
 
     // this.refresh()
     // if (data == 1) {
@@ -763,19 +763,19 @@ export class LeadAppointmentPage implements OnInit {
   calcDue() {
     if (this.sales_list != null) {
       this.totalDue = this.sales_list.total - this.lead.total_price
-      console.log(this.totalDue);
+      // console.log(this.totalDue);
     }
 
   }
 
   SEblur(x) {
     let date: string = this.datepipe.transform(new Date(x), 'dd MMM yyyy')
-    // console.log(date);
+    // // console.log(date);
 
     let firstDay = new Date(date).getTime()
     let lastDay = (new Date(date).getTime() + 86400000)
 
-    // console.log(firstDay, lastDay);
+    // // console.log(firstDay, lastDay);
 
 
     this.http.post('https://api.nanogapp.com/getAppointmentList', { firstDay: firstDay, lastDay: lastDay }).subscribe((s) => {
@@ -788,7 +788,7 @@ export class LeadAppointmentPage implements OnInit {
           this.appointment[i].distanceOf = null
         }
       }
-      console.log('appointment', this.appointment);
+      // console.log('appointment', this.appointment);
 
       this.appointment = lodash.chain(this.appointment).groupBy('assigned_to').map((value, key) => ({
         group: key,
@@ -796,7 +796,7 @@ export class LeadAppointmentPage implements OnInit {
 
       })).value() || []
 
-      console.log('appointment_lodash', this.appointment)
+      // console.log('appointment_lodash', this.appointment)
 
       for (let i = 0; i < this.sales_exec.length; i++) {
         let temp = this.appointment
@@ -814,7 +814,7 @@ export class LeadAppointmentPage implements OnInit {
         }
       }
 
-      console.log('salec_exec', this.sales_exec);
+      // console.log('salec_exec', this.sales_exec);
 
     })
 
@@ -840,7 +840,7 @@ export class LeadAppointmentPage implements OnInit {
 
   // assignSales(x) {
 
-  //   console.log(x);
+  //   // console.log(x);
 
   //   if (x.SElist[0].lists.length > 0) {
 
@@ -850,8 +850,8 @@ export class LeadAppointmentPage implements OnInit {
   //       // 3600000 = 1 hour
   //       let up = new Date(this.lead.date + ', ' + this.lead.time).getTime() + 7000000
   //       let down = new Date(this.lead.date + ', ' + this.lead.time).getTime() - 7000000
-  //       // console.log(x.SElist[0].lists[i].appointment_time);
-  //       // console.log(up, down);
+  //       // // console.log(x.SElist[0].lists[i].appointment_time);
+  //       // // console.log(up, down);
 
   //       if (Number(x.SElist[0].lists[i].appointment_time) >= up || Number(x.SElist[0].lists[i].appointment_time) <= down) {
 
@@ -965,7 +965,7 @@ export class LeadAppointmentPage implements OnInit {
     this.openPicture = true
 
     this.img = x
-    console.log(this.img);
+    // console.log(this.img);
   }
 
   closePic() {
@@ -1005,7 +1005,7 @@ export class LeadAppointmentPage implements OnInit {
   }
 
   focus(x, selection) {
-    // console.log(x,selection);
+    // // console.log(x,selection);
 
     if (x) {
       eval(selection + '= true')
@@ -1047,7 +1047,7 @@ export class LeadAppointmentPage implements OnInit {
     this.keywordCity = ''
     this.lead.city = ''
     this.city = this.share.statecity[this.lead.customer_state]
-    console.log(this.city);
+    // console.log(this.city);
   }
 
   emailValidator(email) {
@@ -1114,7 +1114,7 @@ export class LeadAppointmentPage implements OnInit {
       // this.lead.coordinator = salesCoor.filter(a => a.name = this.keywordSalesCoord)[0]['uid']
       // }
 
-      console.log(this.lead);
+      // console.log(this.lead);
 
       Swal.fire({
         icon: 'question',
@@ -1163,7 +1163,7 @@ export class LeadAppointmentPage implements OnInit {
 
   // Appointment
   // checkAppointment(x) {
-  //   console.log(x);
+  //   // console.log(x);
 
   //   if (x.SElist[0].lists.length > 0) {
 
@@ -1173,12 +1173,12 @@ export class LeadAppointmentPage implements OnInit {
   //       // 3600000 = 1 hour
   //       let up = new Date(this.lead.date + ', ' + this.lead.time).getTime() + 7000000
   //       let down = new Date(this.lead.date + ', ' + this.lead.time).getTime() - 7000000
-  //       console.log(x.SElist[0].lists[i].appointment_time);
-  //       console.log(up, down);
+  //       // console.log(x.SElist[0].lists[i].appointment_time);
+  //       // console.log(up, down);
 
   //       if (Number(x.SElist[0].lists[i].appointment_time) >= up || Number(x.SElist[0].lists[i].appointment_time) <= down) {
 
-  //         console.log('yes');
+  //         // console.log('yes');
   //         pass = true
   //       } else {
   //         if (this.lead.appointment_id != x.SElist[0].lists[i].appointment_id) {
@@ -1196,7 +1196,7 @@ export class LeadAppointmentPage implements OnInit {
   //           }).then(a => {
 
   //             if (a.isConfirmed) {
-  //               console.log('yes');
+  //               // console.log('yes');
   //               pass = true
   //             } else {
   //               pass = false
@@ -1231,7 +1231,7 @@ export class LeadAppointmentPage implements OnInit {
 
   updateAppointment() {
     // , 'lattitude', 'longitude'
-    // console.log(this.keywordSalesExec);
+    // // console.log(this.keywordSalesExec);
 
     // this.lead.assigned_to = this.sales_exec.filter(a => a.user_name == this.keywordSalesExec)[0].uid
 
@@ -1242,7 +1242,7 @@ export class LeadAppointmentPage implements OnInit {
 
       let appointment_time = new Date(this.lead.date + ', ' + this.lead.time).getTime()
 
-      console.log(this.lead);
+      // console.log(this.lead);
 
       Swal.fire({
         icon: 'question',
@@ -1255,7 +1255,7 @@ export class LeadAppointmentPage implements OnInit {
         cancelButtonColor: '#ff0000',
       }).then(a => {
 
-        console.log(this.lead)
+        // console.log(this.lead)
 
         if (a.isConfirmed) {
 
@@ -1340,7 +1340,7 @@ export class LeadAppointmentPage implements OnInit {
   //   await modal.present();
 
   //   const { data } = await modal.onWillDismiss();
-  //   console.log(data)
+  //   // console.log(data)
 
   //   // this.refresh()
   //   if (data != null) {
@@ -1359,14 +1359,14 @@ export class LeadAppointmentPage implements OnInit {
       z.sc_approval = y
     }
 
-    console.log(z);
+    // console.log(z);
     this.http.post('https://api.nanogapp.com/updatePaymentReceipt', { receipt: JSON.stringify(receiptArr), payment_id: z.id }).subscribe((s) => {
     })
 
     this.http.post('https://api.nanogapp.com/updateApproval', { role: x, approval: y, id: z.id }).subscribe((s) => {
 
       if (this.totalDue <= 0 && this.payment_list.every(a => a.ac_approval == 'Approved') && this.payment_list.every(a => a.sc_approval == 'Approved')) {
-        console.log('in');
+        // console.log('in');
 
         this.http.post('https://api.nanogapp.com/updatePaymentStatus', {
           payment_status: 'Completed', id: this.sales_list.id
@@ -1384,7 +1384,7 @@ export class LeadAppointmentPage implements OnInit {
         })
 
       } else {
-        console.log('out');
+        // console.log('out');
         this.http.post('https://api.nanogapp.com/updatePaymentStatus', {
           payment_status: 'Pending', id: this.sales_list.id
         }).subscribe((s) => {
@@ -1433,7 +1433,7 @@ export class LeadAppointmentPage implements OnInit {
 
       if (a.isConfirmed) {
 
-        console.log(z);
+        // console.log(z);
 
         if (y == 'Approved') {
 
@@ -1490,7 +1490,7 @@ export class LeadAppointmentPage implements OnInit {
       this.http.post('https://api.nanogapp.com/updateApproval', { role: x, approval: y, id: z.id, remark_ac_reject: remark, remark_sc_reject: z.remark_sc_reject }).subscribe((s) => {
 
         if (this.totalDue <= 0 && this.payment_list.every(a => a.ac_approval == 'Approved') && this.payment_list.every(a => a.sc_approval == 'Approved')) {
-          console.log('in');
+          // console.log('in');
 
           this.http.post('https://api.nanogapp.com/updatePaymentStatus', {
             payment_status: 'Completed', id: this.sales_list.id
@@ -1508,7 +1508,7 @@ export class LeadAppointmentPage implements OnInit {
           })
 
         } else {
-          console.log('out');
+          // console.log('out');
 
           this.http.post('https://api.nanogapp.com/updatePaymentStatus', {
             payment_status: 'Pending', id: this.sales_list.id
@@ -1532,7 +1532,7 @@ export class LeadAppointmentPage implements OnInit {
       this.http.post('https://api.nanogapp.com/updateApproval', { role: x, approval: y, id: z.id, remark_ac_reject: z.remark_ac_reject, remark_sc_reject: remark }).subscribe((s) => {
 
         if (this.totalDue <= 0 && this.payment_list.every(a => a.ac_approval == 'Approved') && this.payment_list.every(a => a.sc_approval == 'Approved')) {
-          console.log('in');
+          // console.log('in');
 
           this.http.post('https://api.nanogapp.com/updatePaymentStatus', {
             payment_status: 'Completed', id: this.sales_list.id
@@ -1550,7 +1550,7 @@ export class LeadAppointmentPage implements OnInit {
           })
 
         } else {
-          console.log('out');
+          // console.log('out');
 
           this.http.post('https://api.nanogapp.com/updatePaymentStatus', {
             payment_status: 'Pending', id: this.sales_list.id
@@ -1574,7 +1574,7 @@ export class LeadAppointmentPage implements OnInit {
 
   // Tasklist
   addTask(x) {
-    console.log(x);
+    // console.log(x);
 
     let temp = {
       task: "",
@@ -1582,7 +1582,7 @@ export class LeadAppointmentPage implements OnInit {
     }
 
     x.push(temp)
-    console.log(x);
+    // console.log(x);
     // setTimeout(() => {
     //   this.myContent.scrollToBottom(0);
     // }, 50);
@@ -1590,7 +1590,7 @@ export class LeadAppointmentPage implements OnInit {
   }
 
   deleteTask(x, y) {
-    console.log(x, y);
+    // console.log(x, y);
 
     Swal.fire({
       title: 'Delete Task',
@@ -1607,7 +1607,7 @@ export class LeadAppointmentPage implements OnInit {
         if (index !== -1) {
           x.splice(index, 1);
         }
-        console.log(x);
+        // console.log(x);
       }
     })
 
@@ -1615,11 +1615,11 @@ export class LeadAppointmentPage implements OnInit {
 
   submitTaskList() {
 
-    console.log(this.sales_package);
+    // console.log(this.sales_package);
 
     let pass = true
     let temp = this.sales_package.map(a => ({ task: a.task, sap_id: a.sap_id, from_date: a.from_date }))
-    console.log(temp);
+    // console.log(temp);
 
     // for (let i = 0; i < this.sales_package.length; i++) {
     //   if (this.sales_package[i].task == null || this.sales_package[i].task == '') {
@@ -1747,7 +1747,7 @@ export class LeadAppointmentPage implements OnInit {
           //   this.sales_list.subcon_choice.push({ company: this.keywordCompany, date: new Date().getTime() })
           //   this.http.post('https://api.nanogapp.com/updateSalesSub', { choice: JSON.stringify(this.sales_list.subcon_choice), state: 'Pending', pending_subcon: this.keywordCompany, id: this.lead.appointment_id }).subscribe(s => {
           //   })
-          //   console.log('2');
+          //   // console.log('2');
           // }
 
 
@@ -1777,7 +1777,7 @@ export class LeadAppointmentPage implements OnInit {
 
       if (a.isConfirmed) {
         this.lead.sc_photo.splice(x, 1)
-        console.log(this.lead.sc_photo);
+        // console.log(this.lead.sc_photo);
 
         this.http.post('https://api.nanogapp.com/updateLeadScPhoto', { sc_photo: tempPhoto, id: this.lead.lead_id }).subscribe((s) => {
 
@@ -1805,7 +1805,7 @@ export class LeadAppointmentPage implements OnInit {
   base64img;
 
   fileChange(event, name, maxsize) {
-    console.log(this.lead);
+    // console.log(this.lead);
     const files = event.target.files;
 
     for(let i = 0; i< files.length ; i++)
@@ -1814,8 +1814,8 @@ export class LeadAppointmentPage implements OnInit {
     if (event.target.files && event.target.files[i] && event.target.files[i].size < 10485768) {
       // this.imagectype = event.target.files[0].type;
       // EXIF.getData(event.target.files[0], () => {
-      // console.log(event.target.files[0]);
-      //  console.log(event.target.files[0].exifdata.Orientation);
+      // // console.log(event.target.files[0]);
+      //  // console.log(event.target.files[0].exifdata.Orientation);
       //  const orientation = EXIF.getTag(this, 'Orientation');
       const can = document.createElement('canvas');
       const ctx = can.getContext('2d');
@@ -1824,7 +1824,7 @@ export class LeadAppointmentPage implements OnInit {
       const maxW = maxsize;
       const maxH = maxsize;
       thisImage.onload = (a) => {
-        // console.log(a);
+        // // console.log(a);
         const iw = thisImage.width;
         const ih = thisImage.height;
         const scale = Math.min((maxW / iw), (maxH / ih));
@@ -1835,7 +1835,7 @@ export class LeadAppointmentPage implements OnInit {
         ctx.save();
         // const width = can.width; const styleWidth = can.style.width;
         // const height = can.height; const styleHeight = can.style.height;
-        // console.log(event.target.files[0]);
+        // // console.log(event.target.files[0]);
         ctx.drawImage(thisImage, 0, 0, iwScaled, ihScaled);
         ctx.restore();
         this.imagec = can.toDataURL();
@@ -1846,9 +1846,9 @@ export class LeadAppointmentPage implements OnInit {
         this.lead['sc_photo'] ? this.lead['sc_photo'].push('https://i.pinimg.com/originals/a2/dc/96/a2dc9668f2cf170fe3efeb263128b0e7.gif') : this.lead['sc_photo'] = ['https://i.pinimg.com/originals/a2/dc/96/a2dc9668f2cf170fe3efeb263128b0e7.gif'];
 
         // this.http.post('https://forcar.vsnap.my/upload', { image: this.imagec, folder: 'goalgame', userid: Date.now() }).subscribe((link) => {
-        //   console.log(link['imageURL']);
+        //   // console.log(link['imageURL']);
         //   this.lead['sc_photo'][this.lengthof(this.lead['sc_photo']) - 1] = link['imageURL']
-        //   console.log(this.lead['sc_photo']);
+        //   // console.log(this.lead['sc_photo']);
 
         //   let tempPhoto = JSON.stringify(this.lead.sc_photo)
         //   this.http.post('https://api.nanogapp.com/updateLeadScPhoto', { sc_photo: tempPhoto, id: this.lead.lead_id }).subscribe((s) => {
@@ -1857,9 +1857,9 @@ export class LeadAppointmentPage implements OnInit {
         // });
 
         this.http.post('https://api.nanogapp.com/upload', { image: this.imagec, folder: 'nano', userid: 'NanoGApp' }).subscribe((link) => {
-            // console.log(link['imageURL']);
+            // // console.log(link['imageURL']);
             this.lead['sc_photo'][this.lengthof(this.lead['sc_photo']) - 1] = link['imageURL']
-            // console.log(this.lead['sc_photo']);
+            // // console.log(this.lead['sc_photo']);
   
             let tempPhoto = JSON.stringify(this.lead.sc_photo)
             this.http.post('https://api.nanogapp.com/updateLeadScPhoto', { sc_photo: tempPhoto, id: this.lead.lead_id }).subscribe((s) => {
@@ -1903,7 +1903,7 @@ export class LeadAppointmentPage implements OnInit {
           const maxH = maxsize;
           thisImage.onload = (a) => {
 
-            console.log(a);
+            // console.log(a);
             const iw = thisImage.width;
             const ih = thisImage.height;
             const scale = Math.min((maxW / iw), (maxH / ih));
@@ -1925,7 +1925,7 @@ export class LeadAppointmentPage implements OnInit {
               Swal.close()
               resolve(res['imageURL'])
             }, awe => {
-              console.log('run here 3')
+              // console.log('run here 3')
               reject(awe)
             })
 
@@ -1944,7 +1944,7 @@ export class LeadAppointmentPage implements OnInit {
   }
 
   clear(){
-    console.log(this.searchElementRef.nativeElement.value)
+    // console.log(this.searchElementRef.nativeElement.value)
     this.searchElementRef.nativeElement.value = ''
   }
 

@@ -111,14 +111,14 @@ export class TaskPaymentPage implements OnInit {
 
   refresher() {
     // this.route.queryParams.subscribe(a => {
-    //   console.log(a)
+    //   // console.log(a)
     //   this.userid = a['uid']
     //   this.taskid = a['tid']
     //   this.paymenttype = a['type']
 
     //   this.http.post('https://api.nanogapp.com/getUserDetail', { uid: this.userid }).subscribe(res => {
     //     this.user = res['data']
-    //     console.log(this.user)
+    //     // console.log(this.user)
     //   })
     //   this.http.post('https://api.nanogapp.com/getAppointmentDetails', { id: this.taskid }).subscribe(res => {
     //     this.appointment = res['data']
@@ -130,43 +130,43 @@ export class TaskPaymentPage implements OnInit {
     //     this.http.post('https://api.nanogapp.com/checkPaymentLog', { sales_id: this.appointment.sales_id }).subscribe(res => {
     //       this.paymentlog = res['data']
     //       let tempPayment = this.paymentlog.filter(a => a['ac_approval'] != 'Rejected' && a['sc_approval'] != 'Rejected')
-    //       console.log(this.paymentlog)
+    //       // console.log(this.paymentlog)
     //       for (let i = 0; i < tempPayment.length; i++) {
     //         this.totaldeposit = this.totaldeposit + tempPayment[i].total
     //       }
-    //       console.log(this.totaldeposit)
+    //       // console.log(this.totaldeposit)
     //       this.http.get('https://api.nanogapp.com/getActiveDiscount').subscribe(a => {
     //         this.discounts = a['data']
-    //         console.log(this.discounts)
+    //         // console.log(this.discounts)
     //         if (this.promocodedetail.id) {
-    //           console.log(this.promocodedetail)
+    //           // console.log(this.promocodedetail)
     //           this.dpercentage = this.promocodedetail.percentage
     //           this.gettotal2()
     //         }
     //         else {
-    //           console.log('here')
+    //           // console.log('here')
     //           this.dpercentage = 0
     //           this.dnumber = 0
     //           this.http.post('https://api.nanogapp.com/getAllSalesDiscount', { sales_id: this.salesid }).subscribe(a => {
-    //             console.log(a)
+    //             // console.log(a)
     //             this.discountPhoto = a['data'].filter(b => b['type'] == true && b['need_photo'] == true && b['photo'].length < 1)
     //             this.discountPhoto.length > 0 ? this.discountPhotoStatus = true : this.discountPhotoStatus = false
-    //             console.log(this.discountPhoto)
-    //             console.log(this.discountPhotoStatus)
+    //             // console.log(this.discountPhoto)
+    //             // console.log(this.discountPhotoStatus)
     //             a['data'].filter(b => b['type'] == true ? (b['status'] == true || b['status'] == null ? this.dpercentage += b['percentage'] : this.dpercentage = this.dpercentage) : this.dnumber += b['percentage'])
-    //             console.log(this.dpercentage)
-    //             console.log(this.dnumber)
+    //             // console.log(this.dpercentage)
+    //             // console.log(this.dnumber)
     //             this.gettotal()
     //           })
     //         }
     //       })
-    //       console.log(this.appointment)
+    //       // console.log(this.appointment)
     //     })
     //   })
     // })
 
     this.route.queryParams.subscribe(a => {
-      console.log(a)
+      // console.log(a)
       this.userid = a['uid']
       this.taskid = a['tid']
       this.salesid = a['sid']
@@ -174,11 +174,11 @@ export class TaskPaymentPage implements OnInit {
 
       this.http.post('https://api.nanogapp.com/getUserDetail', { uid: this.userid }).subscribe(res => {
         this.user = res['data']
-        console.log(this.user)
+        // console.log(this.user)
       })
 
       this.http.post('https://api.nanogapp.com/getAppointmentDetails', { id: this.taskid }).subscribe(res => {
-        console.log(res)
+        // console.log(res)
         this.appointment = res['data']
         this.promocodedetail.id = res['data']['promo_id']
         this.promocodedetail.percentage = res['data']['promo_percent']
@@ -191,24 +191,24 @@ export class TaskPaymentPage implements OnInit {
           this.paymentlog = res['data']
           this.totaldeposit = 0
           res['data'].filter(a => (a['ac_approval'] != 'Rejected' && a['sc_approval'] != 'Rejected') ? this.totaldeposit += a['total'] : this.totaldeposit = this.totaldeposit)
-          console.log(this.totaldeposit)
+          // console.log(this.totaldeposit)
 
           this.http.get('https://api.nanogapp.com/getActiveDiscount').subscribe(a => {
             this.discounts = a['data']
-            console.log(this.discounts)
-            console.log(this.promocodedetail)
+            // console.log(this.discounts)
+            // console.log(this.promocodedetail)
             if (this.promocodedetail.id) {
-              console.log(this.promocodedetail)
+              // console.log(this.promocodedetail)
               this.dpercentage = this.promocodedetail.percentage
               this.gettotal2()
             }
             else {
-              console.log('here')
+              // console.log('here')
               this.dpercentage = 0
               this.dnumber = 0
               this.http.post('https://api.nanogapp.com/getAllSalesDiscount', { sales_id: this.salesid }).subscribe(a => {
                 a['data'].filter(b => b['type'] == true ? (b['status'] == true || b['status'] == null ? this.dpercentage += b['percentage'] : this.dpercentage = this.dpercentage) : this.dnumber += b['percentage'])
-                console.log(this.dpercentage, this.dnumber)
+                // console.log(this.dpercentage, this.dnumber)
                 this.gettotal()
               })
             }
@@ -220,7 +220,7 @@ export class TaskPaymentPage implements OnInit {
 
 
       this.http.post('https://api.nanogapp.com/getAppointmentDetails', { id: this.taskid }).subscribe((s) => {
-        console.log(s['data'])
+        // console.log(s['data'])
         this.appointment = s['data']
         this.sales_packages = s['data']['sales_packages']
         this.sales_packages_main = s['data']['sales_packages'].filter(a => !a['addon_id'])
@@ -266,7 +266,7 @@ export class TaskPaymentPage implements OnInit {
       this.total = this.subtotal - this.totaldeposit + this.scaffnSkylift
     }
     else if (this.appointment.sales_packages && this.appointment.sales_packages.length > 0 && ((this.dpercentage != 0 || this.dnumber != 0) || (this.dpercentage != 0 && this.dnumber != 0))) {
-      console.log('here')
+      // console.log('here')
       this.total = this.subtotal - this.deductprice - this.dnumber - this.totaldeposit + this.scaffnSkylift
     }
 
@@ -274,7 +274,7 @@ export class TaskPaymentPage implements OnInit {
     this.total = (this.total / 100 * 100).toFixed(2)
     this.subtotalstring = (this.subtotal / 100 * 100).toFixed(2)
     this.totaldiscountdisplay = (this.dpercentage / 100 * 100).toFixed(2)
-    console.log(this.total, this.deductprice)
+    // console.log(this.total, this.deductprice)
   }
 
 
@@ -358,7 +358,7 @@ export class TaskPaymentPage implements OnInit {
 
         this.http.post('https://api.nanogapp.com/upload', { image: base64, folder: 'nanog', userid: 'nanog' }).subscribe((res) => {
           this.receipturl.push(res['imageURL'])
-          console.log(this.receipturl)
+          // console.log(this.receipturl)
           resolve(res['imageURL'])
         }, awe => {
           reject(awe)
@@ -392,7 +392,7 @@ export class TaskPaymentPage implements OnInit {
       let base64Image = 'data:image/jpeg;base64,' + imageData;
       this.uploadserve(base64Image).then(res => {
         Swal.close()
-        console.log(res)
+        // console.log(res)
       })
     },
       (err) => {
@@ -420,8 +420,8 @@ export class TaskPaymentPage implements OnInit {
         if (event.target.files && event.target.files[i]) {
           this.imagectype = event.target.files[i].type;
           // EXIF.getData(event.target.files[0], () => {
-          //   console.log(event.target.files[0]);
-          //   console.log(event.target.files[0].exifdata.Orientation);
+          //   // console.log(event.target.files[0]);
+          //   // console.log(event.target.files[0].exifdata.Orientation);
           //   const orientation = EXIF.getTag(this, 'Orientation');
           const can = document.createElement('canvas');
           const ctx = can.getContext('2d');
@@ -430,7 +430,7 @@ export class TaskPaymentPage implements OnInit {
           const maxH = maxsize;
           thisImage.onload = (a) => {
 
-            console.log(a);
+            // console.log(a);
             const iw = thisImage.width;
             const ih = thisImage.height;
             const scale = Math.min((maxW / iw), (maxH / ih));
@@ -441,9 +441,9 @@ export class TaskPaymentPage implements OnInit {
             ctx.save();
             // const width = can.width; const styleWidth = can.style.width;
             // const height = can.height; const styleHeight = can.style.height;
-            // console.log(event.target.files[0]);
+            // // console.log(event.target.files[0]);
             // if (event.target.files[0] && event.target.files[0].exifdata.Orientation) {
-            //   console.log(event.target.files[0].exifdata.Orientation);
+            //   // console.log(event.target.files[0].exifdata.Orientation);
             //   if (event.target.files[0].exifdata.Orientation > 4) {
             //     can.width = height; can.style.width = styleHeight;
             //     can.height = width; can.style.height = styleWidth;
@@ -591,7 +591,7 @@ export class TaskPaymentPage implements OnInit {
   //             this.selectedpaymentmethod = this.paymentothers
   //           }
   //           this.deposit = (this.deposit / 100 * 100).toFixed(2)
-  //           console.log(this.deposit)
+  //           // console.log(this.deposit)
   //           if (this.deposit >= this.total) {
   //             this.deposit = this.total
   //             x = 'Full Payment'
@@ -623,7 +623,7 @@ export class TaskPaymentPage implements OnInit {
   //             created_by: this.userid,
   //             gateway: this.selectedpaymentmethod
   //           }).subscribe(res => {
-  //             console.log(res)
+  //             // console.log(res)
   //             if (res['success'] == true) {
   //               this.nav.pop()
   //             }
@@ -677,7 +677,7 @@ export class TaskPaymentPage implements OnInit {
   //             created_by: this.userid,
   //             gateway: this.selectedpaymentmethod
   //           }).subscribe(res => {
-  //             console.log(res)
+  //             // console.log(res)
   //             if (res['success'] == true) {
   //               this.nav.pop()
   //             }
@@ -694,14 +694,14 @@ export class TaskPaymentPage implements OnInit {
   pay2() {
     this.deposit = (this.deposit / 100 * 100).toFixed(2)
     this.total = (this.total / 100 * 100).toFixed(2)
-    console.log(this.total)
+    // console.log(this.total)
     let payment_status
     let sales_satus
     let total: number = +this.total
     let deposit: number = +this.deposit
-    console.log(total - deposit)
-    // console.log(this.deposit, this.total)
-    // console.log(deposit, total)
+    // console.log(total - deposit)
+    // // console.log(this.deposit, this.total)
+    // // console.log(deposit, total)
     if (!this.appointment.customer_email) {
       Swal.fire({
         text: 'Enter customer email before make payment',
@@ -766,7 +766,7 @@ export class TaskPaymentPage implements OnInit {
               //   alert(res['error'])
               // }
             })
-            // console.log(this.email)
+            // // console.log(this.email)
           }
         }
       })
@@ -813,7 +813,7 @@ export class TaskPaymentPage implements OnInit {
       })
     }
     else if (deposit > total) {
-      console.log(deposit, total)
+      // console.log(deposit, total)
       Swal.fire({
         text: 'Cannot pay more than total price',
         icon: 'error',
@@ -838,7 +838,7 @@ export class TaskPaymentPage implements OnInit {
     //   })
     // }
     else {
-      // console.log(this.deposit, this.total, total)
+      // // console.log(this.deposit, this.total, total)
       // if(deposit >= total)
       // {
       //   deposit = total
@@ -851,8 +851,8 @@ export class TaskPaymentPage implements OnInit {
       sales_satus = 'Deposit'
       payment_status = 'Deposited'
       // }
-      // console.log(sales_satus, payment_status)
-      // console.log(this.deposit, total)
+      // // console.log(sales_satus, payment_status)
+      // // console.log(this.deposit, total)
       Swal.fire(
         {
           text: 'Are you sure pay RM ' + deposit + '?',
@@ -895,7 +895,7 @@ export class TaskPaymentPage implements OnInit {
             aid: this.taskid,
             cust_sign: this.customersignimage
           }).subscribe(res => {
-            console.log(res)
+            // console.log(res)
             if (res['success'] == true) {
               // this.nav.navigateRoot('tab2-pending-approval')
               Swal.fire({
@@ -936,7 +936,7 @@ export class TaskPaymentPage implements OnInit {
   }
 
   getpaymentmethod(i) {
-    console.log(this.paymentmethod[i])
+    // console.log(this.paymentmethod[i])
     this.selectedpaymentmethod = this.paymentmethod[i]
     this.paymentdropdownstatus = false
   }
@@ -962,12 +962,12 @@ export class TaskPaymentPage implements OnInit {
       {
         let tempfile = temp[i]
         this.toBase64(tempfile).then(data => {
-          console.log('955',data)
+          // console.log('955',data)
           this.http.post('https://api.nanogapp.com/uploadReceiptPDF', { base64: data }).subscribe((link) => {
             Swal.close()
             this.pdffileurl.push(link['imageURL'])
           }, awe => {
-            console.log(awe);
+            // console.log(awe);
           })
         });
       }
@@ -1010,7 +1010,7 @@ export class TaskPaymentPage implements OnInit {
 
   changeTermAndConditionStatus() {
     this.appointment.termsncondition = true
-    console.log(this.appointment.termsncondition)
+    // console.log(this.appointment.termsncondition)
     this.customersign()
   }
 

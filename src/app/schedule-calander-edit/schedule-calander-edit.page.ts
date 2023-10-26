@@ -41,18 +41,18 @@ export class ScheduleCalanderEditPage implements OnInit {
     this.scheduleid = this.navparam.get('scid')
 
     this.http.post('https://api.nanogapp.com/getSpecificSchedule', { schedule_id: this.scheduleid }).subscribe(res => {
-      console.log(res)
+      // console.log(res)
       this.wholeremark = res['data']
       this.remark = res['data']['remark']
       let scheduletime = res['data']['schedule_date']
       this.keepinview = res['data']['schedule_kiv']
       this.tasktime = new Date(parseInt(scheduletime))
-      console.log(scheduletime)
+      // console.log(scheduletime)
       let month = ('' + (new Date(parseInt(scheduletime)).getMonth() + 1)).length < 2 ? '0' + (new Date(parseInt(scheduletime)).getMonth() + 1) : '' + (new Date(parseInt(scheduletime)).getMonth() + 1)
       this.taskdate = [new Date(parseInt(scheduletime)).getFullYear(), month, new Date(parseInt(scheduletime)).getDate()].join('-')
       this.tasktime = [this.checklength('' + new Date(parseInt(scheduletime)).getHours()),  this.checklength('' + new Date(parseInt(scheduletime)).getMinutes())].join(':')
-      console.log(this.tasktime)
-      console.log(this.taskdate)
+      // console.log(this.tasktime)
+      // console.log(this.taskdate)
     })
   }
 
@@ -62,11 +62,11 @@ export class ScheduleCalanderEditPage implements OnInit {
   }
 
   checklength(x){
-    console.log(x)
+    // console.log(x)
     if(x.length < 2)
     {
       let temp = '0' + x
-      console.log(temp)
+      // console.log(temp)
       return  temp
     }
     else
@@ -76,11 +76,11 @@ export class ScheduleCalanderEditPage implements OnInit {
   }
 
   getTime(){
-    console.log(this.tasktime)
-    console.log(this.taskdate)
+    // console.log(this.tasktime)
+    // console.log(this.taskdate)
     let temp = new Date(this.taskdate).getTime()
     let temp2 = new Date(temp).setHours(this.tasktime.split(':')[0], this.tasktime.split(':')[1])
-    console.log(temp, temp2)
+    // console.log(temp, temp2)
     this.selecteddate = temp2
   }
 
@@ -89,7 +89,7 @@ export class ScheduleCalanderEditPage implements OnInit {
   }
 
   confirmremark() {
-    console.log(this.selecteddate)
+    // console.log(this.selecteddate)
     let now = new Date().getTime()
     if (this.remark == '') {
       Swal.fire({
@@ -120,7 +120,7 @@ export class ScheduleCalanderEditPage implements OnInit {
             kiv : this.keepinview,
             uid : this.userid
           }).subscribe(a => {
-            console.log(a)
+            // console.log(a)
             if (a['success'] == true) {
               if (a['data'] == undefined) {
                 Swal.fire({

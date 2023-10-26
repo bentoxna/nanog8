@@ -24,9 +24,9 @@ export class Tab0NotificationHistoryPage implements OnInit {
 
   refresher(){
     this.http.post('https://api.nanogapp.com/getNotificationHistory', { uid: this.userid }).subscribe((s) => {
-      console.log(s)
+      // console.log(s)
        this.notificationHistory = s['data']
-       console.log(this.notificationHistory)
+       // console.log(this.notificationHistory)
     })
   }
 
@@ -39,7 +39,7 @@ export class Tab0NotificationHistoryPage implements OnInit {
     if(x.task_id)
     {
       this.http.post('https://api.nanogapp.com/updatestatus', { uid: this.userid, his_id : x.his_id }).subscribe((s) => {
-        console.log(s)
+        // console.log(s)
         this.refresher()
       })
       this.nav.navigateForward('task-detail?uid=' + this.userid + '&tid=' + x.task_id)
@@ -47,11 +47,11 @@ export class Tab0NotificationHistoryPage implements OnInit {
     else
     {
       this.http.post('https://api.nanogapp.com/updatestatus', { uid: this.userid, his_id : x.his_id }).subscribe((s) => {
-        console.log(s)
+        // console.log(s)
         this.refresher()
       })
     }
-    console.log(x)
+    // console.log(x)
 
   }
 
@@ -66,7 +66,7 @@ export class Tab0NotificationHistoryPage implements OnInit {
       if(a['isConfirmed'])
       {
         this.http.post('https://api.nanogapp.com/updateallstatus', { uid: this.userid }).subscribe((s) => {
-          console.log(s)
+          // console.log(s)
           this.refresher()
         })
       }

@@ -74,13 +74,13 @@ export class LeadTaskPage implements OnInit {
 
       this.filterword = ''
 
-      console.log(this.startdate, this.enddate)
+      // console.log(this.startdate, this.enddate)
       this.http.post('https://api.nanogapp.com/getLeadListForApp', {
         uid : this.userid,
         fromdate : this.startdatemonth,
         todate : this.enddatemonth
       }).subscribe((s) => {
-        console.log(s['data']);
+        // console.log(s['data']);
         this.leadlistmonth = s['data']
          this.getcalendar().then(a => {
           this.dates.filter(a => a['date'] == this.sdate ? a['selected'] = true : a['selected'] = false)
@@ -92,9 +92,9 @@ export class LeadTaskPage implements OnInit {
         fromdate : this.startdate,
         todate : this.enddate
       }).subscribe((s) => {
-        console.log(s['data']);
+        // console.log(s['data']);
         // this.leadlist = s['data']
-        // console.log(this.leadlist)
+        // // console.log(this.leadlist)
         
         // this.leadListbackup = s['data'].filter(a => a.sales_exec == this.userid).sort((a, b) => b.lead_id - a.lead_id)
         // this.leadlist = s['data'].filter(a => a.sales_exec == this.userid).sort((a, b) => b.lead_id - a.lead_id)
@@ -103,7 +103,7 @@ export class LeadTaskPage implements OnInit {
         this.leadListbackup = s['data']
         // this.pendingAppointment = s['data'].filter(a => a.sales_exec == this.user.uid).filter(a => a.label_s == 'Pending Appointment Date').sort((a, b) => b.lead_id - a.lead_id)
   
-        console.log(this.leadlist)
+        // console.log(this.leadlist)
         // if (this.user.user_role == 'Super Admin' || this.user.user_role == 'System Admin') {
         //   this.leads = s['data'].sort((a, b) => b.lead_id - a.lead_id)
         //   this.pendingAppointment = s['data'].sort((a, b) => b.lead_id - a.lead_id).filter(a => a.label_s == 'Pending Appointment Date')
@@ -121,10 +121,10 @@ export class LeadTaskPage implements OnInit {
         // this.storeAllLeadsOriginData = this.leads
         // this.storePendingAppOriginData = this.pendingAppointment
   
-        // console.log(this.storePendingAppOriginData);
+        // // console.log(this.storePendingAppOriginData);
   
-        // console.log('lead', this.leads);
-        // console.log('appointment', this.pendingAppointment);
+        // // console.log('lead', this.leads);
+        // // console.log('appointment', this.pendingAppointment);
   
         // if ((this.user.user_role == 'Super Admin' || this.user.user_role == 'System Admin') && this.pendingAppointment.length == 0) {
         //   this.tab = 'all'
@@ -151,7 +151,7 @@ export class LeadTaskPage implements OnInit {
   
         // this.filteredLabel = tempLabelFilter.map(a => ({ label_s: a['label_s'], label_s_colour: a['label_s_colour'], status: false }))
         // // this.filteredLabel.filter(a => a['status'] = false)
-        // console.log(this.filteredLabel);
+        // // console.log(this.filteredLabel);
       })
     })
   }
@@ -162,13 +162,13 @@ export class LeadTaskPage implements OnInit {
 
       this.filterword = ''
 
-      console.log(this.startdate, this.enddate)
+      // console.log(this.startdate, this.enddate)
       this.http.post('https://api.nanogapp.com/getLeadListForApp', {
         uid : this.userid,
         fromdate : this.startdatemonth,
         todate : this.enddatemonth
       }).subscribe((s) => {
-        console.log(s['data']);
+        // console.log(s['data']);
         this.leadlistmonth = s['data']
         this.getcalendar()
       })
@@ -178,23 +178,23 @@ export class LeadTaskPage implements OnInit {
         fromdate : this.startdate,
         todate : this.enddate
       }).subscribe((s) => {
-        console.log(s['data']);
+        // console.log(s['data']);
         this.leadlist = s['data']
         this.leadListbackup = s['data']
-        console.log(this.leadlist)
+        // console.log(this.leadlist)
 
       })
     })
   }
 
   getdate(x,no){
-    console.log(x,no)
+    // console.log(x,no)
     this.dates.filter((a,i) => i == no ? a['selected'] = true : a['selected'] = false )
-    console.log(this.dates)
+    // console.log(this.dates)
     this.startdate = new Date(this.syear , this.smonth, this.dates[no]['date'], 0,0,0).getTime()
     this.enddate = new Date(this.syear , this.smonth, this.dates[no]['date'], 23,59,59).getTime()
-    console.log(this.startdate)
-    console.log(this.enddate)
+    // console.log(this.startdate)
+    // console.log(this.enddate)
     this.outsideyear = new Date(this.startdate).getFullYear()
     this.outsidemnth = new Date(this.startdate).getMonth()
     this.outsidedate = new Date(this.startdate).getDate()
@@ -205,7 +205,7 @@ export class LeadTaskPage implements OnInit {
       todate : this.enddate
     }).subscribe((s) => {
       this.leadlist = s['data']
-      console.log(this.leadlist)
+      // console.log(this.leadlist)
       this.leadListbackup = s['data']
       this.calendar = false
     })
@@ -256,7 +256,7 @@ export class LeadTaskPage implements OnInit {
 
   concatcalendar(){
     let daycheck = new Date(this.syear, this.smonth , 1).getDay()
-    console.log(daycheck)
+    // console.log(daycheck)
     let tempdates = [] as any
     for(let i = 0; i < daycheck ; i++)
     {
@@ -269,7 +269,7 @@ export class LeadTaskPage implements OnInit {
 
     this.dates = tempdates.concat(this.dates)
 
-    console.log(this.dates)
+    // console.log(this.dates)
   }
 
   back(){
@@ -288,8 +288,8 @@ export class LeadTaskPage implements OnInit {
 
   //   this.leadlist = this.leadListbackup
   //   this.leadlist = this.leadListbackup.filter(a => ((a['customer_name'] || '') + (a['customer_phone'] || '') + (a['customer_email'] || '')).toLowerCase().includes(this.filterword.toLowerCase()))
-  //   console.log(this.leadlist)
-  //   console.log(this.leadListbackup)
+  //   // console.log(this.leadlist)
+  //   // console.log(this.leadListbackup)
   // }
 
   searchfromdatabase(){
@@ -305,7 +305,7 @@ export class LeadTaskPage implements OnInit {
       uid : this.userid,
       keyword : this.filterword.toLowerCase()
     }).subscribe((s) => {
-      console.log(s['data']);
+      // console.log(s['data']);
       this.leadlistfilter = s['data']
       setTimeout(() => {
         if(this.leadlistfilter.length > 0)

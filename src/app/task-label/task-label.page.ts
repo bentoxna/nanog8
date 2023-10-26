@@ -44,32 +44,32 @@ export class TaskLabelPage implements OnInit {
       this.labelm = a['labelm']
       this.labels = a['labels']
 
-      console.log(this.leadid, this.labelm, this.labels)
+      // console.log(this.leadid, this.labelm, this.labels)
 
       this.http.get('https://api.nanogapp.com/getLabel').subscribe(a => {
-        console.log(a)
+        // console.log(a)
         this.alllabel = a['data']
         // this.mainlabel = this.alllabel.filter(a => a['main'] == true && a['status'] == true && (a['id'] == 55 || a['id'] == 50))
         this.mainlabel = this.alllabel.filter(a => a['main'] == true && a['status'] == true &&  a['id'] == 50)
         this.label.mainlabel = this.mainlabel[0]
         this.sublabel = this.alllabel.filter(a => a['main'] == false && a['status'] == true)
-        console.log(this.alllabel)
-        console.log(this.mainlabel)
-        console.log(this.sublabel)
+        // console.log(this.alllabel)
+        // console.log(this.mainlabel)
+        // console.log(this.sublabel)
 
         // this.label.mainlabel = this.mainlabel.filter(a => a['id'] == this.labelm)[0]
         this.sublabelDependMainLabel = this.sublabel.filter(a => a['category'] == this.label.mainlabel.category)
         this.label.sublabel = this.sublabel.filter(a => a['id'] == this.labels)[0]
 
-        console.log(this.label)
+        // console.log(this.label)
       })
 
       this.http.post('https://api.nanogapp.com/getLabelForLead', { lead_id: this.leadid }).subscribe(a => {
-        console.log(a['data'])
+        // console.log(a['data'])
         this.label.remark = a['data']['label_remark']
         this.imageurl && this.imageurl.length > 0 ? this.imageurl = this.imageurl : (!a['data']['label_photo'] ? this.imageurl = [] : this.imageurl = a['data']['label_photo'])
         this.videourl && this.videourl.length > 0 ? this.videourl = this.videourl : (!a['data']['label_video'] ? this.videourl = [] : this.videourl = a['data']['label_video'])
-        console.log('here 71', this.imageurl)
+        // console.log('here 71', this.imageurl)
       })
     })
   }
@@ -124,7 +124,7 @@ export class TaskLabelPage implements OnInit {
             // label_video: JSON.stringify(this.videourl) || JSON.stringify([]),
             remark: this.label.remark,
           }).subscribe(a => {
-            console.log(a)
+            // console.log(a)
             setTimeout(() => {
               Swal.close()
               this.nav.pop()
@@ -152,7 +152,7 @@ export class TaskLabelPage implements OnInit {
         //   cssClass: 'actionsheet-selection',
         //   text: 'Record Video',
         //   handler: () => {
-        //     console.log('Record Video')
+        //     // console.log('Record Video')
         //     this.recordVideo()
         //   }
         // },
@@ -169,8 +169,8 @@ export class TaskLabelPage implements OnInit {
   uploadFile(event) {
     let uploadedFile = event.target.files;
 
-    // console.log(uploadedFile)
-    // console.log(uploadedFile.item(0))
+    // // console.log(uploadedFile)
+    // // console.log(uploadedFile.item(0))
     this.uploadToS3(uploadedFile.item(0))
   }
 
@@ -197,7 +197,7 @@ export class TaskLabelPage implements OnInit {
     }
 
     bucket.upload(params, (err, data) => {
-      console.log(data)
+      // console.log(data)
       if (err) {
 
         Swal.close()
@@ -210,17 +210,17 @@ export class TaskLabelPage implements OnInit {
           heightAuto: false,
           showConfirmButton: false,
         })
-        console.log('There was an error uploading file: ' + err)
+        // console.log('There was an error uploading file: ' + err)
         return false
       }
 
 
       Swal.close()
 
-      console.log('Successfully uploaded file.', data)
+      // console.log('Successfully uploaded file.', data)
 
-      // console.log(i)
-      console.log(data);
+      // // console.log(i)
+      // console.log(data);
 
       this.videourl.push(
         {
@@ -287,7 +287,7 @@ export class TaskLabelPage implements OnInit {
           cssClass: 'actionsheet-selection',
           text: 'Capture Image',
           handler: () => {
-            console.log('Capture Image')
+            // console.log('Capture Image')
             this.captureImage()
           }
         },
@@ -295,7 +295,7 @@ export class TaskLabelPage implements OnInit {
         //   cssClass: 'actionsheet-selection',
         //   text: 'Record Video',
         //   handler: () => {
-        //     console.log('Record Video')
+        //     // console.log('Record Video')
         //     this.recordVideo()
         //   }
         // },
@@ -335,7 +335,7 @@ export class TaskLabelPage implements OnInit {
         // }, awe => {
         //   reject(awe)
         // })
-        console.log(base64)
+        // console.log(base64)
 
         this.http.post('https://api.nanogapp.com/upload', { image: base64, folder: 'nanog', userid: 'nanog' }).subscribe((res) => {
           this.imageurl.push(res['imageURL'])
@@ -368,7 +368,7 @@ export class TaskLabelPage implements OnInit {
       let base64Image = 'data:image/jpeg;base64,' + imageData;
       this.uploadserve2(base64Image).then(res => {
         Swal.close()
-        console.log(res)
+        // console.log(res)
       })
     },
       (err) => {
@@ -395,15 +395,15 @@ export class TaskLabelPage implements OnInit {
   //     for(let i = 0; i< files.length ; i++)
   //     {
   //     if (event.target.files && event.target.files[i] && event.target.files[i].size < (10485768)) {
-  //       // console.log('here')
-  //       // console.log(event.target.files[i].type)
+  //       // // console.log('here')
+  //       // // console.log(event.target.files[i].type)
   //       this.imagectype = event.target.files[i].type;
-  //       // console.log(this.imagectype)
-  //       // console.log(event.target.files[i])
+  //       // // console.log(this.imagectype)
+  //       // // console.log(event.target.files[i])
   //       // EXIF.getData(event.target.files[0], () => {
-  //       //   console.log('run here 4')
-  //       //   console.log(event.target.files[0]);
-  //       //   console.log(event.target.files[0].exifdata.Orientation);
+  //       //   // console.log('run here 4')
+  //       //   // console.log(event.target.files[0]);
+  //       //   // console.log(event.target.files[0].exifdata.Orientation);
   //       //   const orientation = EXIF.getTag(this, 'Orientation');
   //         const can = document.createElement('canvas');
   //         const ctx = can.getContext('2d');
@@ -412,7 +412,7 @@ export class TaskLabelPage implements OnInit {
   //         const maxH = maxsize;
   //         thisImage.onload = (a) => {
 
-  //           console.log(a);
+  //           // console.log(a);
   //           const iw = thisImage.width;
   //           const ih = thisImage.height;
   //           const scale = Math.min((maxW / iw), (maxH / ih));
@@ -423,9 +423,9 @@ export class TaskLabelPage implements OnInit {
   //           ctx.save();
   //           // const width = can.width; const styleWidth = can.style.width;
   //           // const height = can.height; const styleHeight = can.style.height;
-  //           // console.log(event.target.files[0]);
+  //           // // console.log(event.target.files[0]);
   //           // if (event.target.files[0] && event.target.files[0].exifdata.Orientation) {
-  //           //   console.log(event.target.files[0].exifdata.Orientation);
+  //           //   // console.log(event.target.files[0].exifdata.Orientation);
   //           //   if (event.target.files[0].exifdata.Orientation > 4) {
   //           //     can.width = height; can.style.width = styleHeight;
   //           //     can.height = width; can.style.height = styleWidth;
@@ -445,12 +445,12 @@ export class TaskLabelPage implements OnInit {
   //           ctx.restore();
 
   //           this.imagec = can.toDataURL();
-  //           console.log(this.imagec.length)
+  //           // console.log(this.imagec.length)
   //            this.dataURLToBlob(this.imagec).then(a => {
-  //             console.log(a)
+  //             // console.log(a)
   //             // Calculate the size in kilobytes
   //             const fileSizeKB = Math.round(a.size / 1024);
-  //             console.log('Image size:', fileSizeKB, 'KB');
+  //             // console.log('Image size:', fileSizeKB, 'KB');
   //           })
 
 
@@ -466,16 +466,16 @@ export class TaskLabelPage implements OnInit {
   //           let body = new URLSearchParams()
   //           body.set('image', this.base64img)
 
-  //           // console.log(base64)
+  //           // // console.log(base64)
 
   //           this.http.post('https://api.nanogapp.com/upload', { image: this.imagec, folder: 'nanog', userid: 'nanog' }).subscribe((res) => {
-  //             // console.log('run here 2')
-  //             // console.log(res)
+  //             // // console.log('run here 2')
+  //             // // console.log(res)
   //             this.imageurl.push(res['imageURL'])
   //             Swal.close()
   //             resolve(res['imageURL'])
   //           }, awe => {
-  //             console.log('run here 3')
+  //             // console.log('run here 3')
   //             reject(awe)
   //           })
 
@@ -498,7 +498,7 @@ export class TaskLabelPage implements OnInit {
   //         allowOutsideClick: false,
   //         showConfirmButton: false,
   //       })
-  //       console.log(event.target.files[i].size)
+  //       // console.log(event.target.files[i].size)
   //         this.imagectype = event.target.files[i].type;
   //         const canvas = document.createElement('canvas');
   //         const ctx = canvas.getContext('2d');
@@ -507,7 +507,7 @@ export class TaskLabelPage implements OnInit {
   //         const maxH = maxsize;
   //         thisImage.onload = (a) => {
 
-  //           console.log(a)
+  //           // console.log(a)
   //           const iw = thisImage.width;
   //           const ih = thisImage.height;
   //           const scale = Math.min((maxW / iw), (maxH / ih));
@@ -524,12 +524,12 @@ export class TaskLabelPage implements OnInit {
   //           // const compressedImage = canvas.toDataURL();
 
   //           this.imagec = canvas.toDataURL('image/jpeg', 0.8);
-  //           console.log(this.imagec.length)
+  //           // console.log(this.imagec.length)
   //           this.dataURLToBlob(this.imagec).then(a => {
-  //             console.log(a)
+  //             // console.log(a)
   //             // Calculate the size in kilobytes
   //             const fileSizeKB = Math.round(a.size / 1024);
-  //             console.log('Image size:', fileSizeKB, 'KB');
+  //             // console.log('Image size:', fileSizeKB, 'KB');
   //           })
 
   //           const imgggg = this.imagec.replace(';base64,', 'thisisathingtoreplace;');
@@ -541,13 +541,13 @@ export class TaskLabelPage implements OnInit {
   //           let body = new URLSearchParams()
   //           body.set('image', this.base64img)
   //           this.http.post('https://api.nanogapp.com/upload', { image: this.imagec, folder: 'nanog', userid: 'nanog' }).subscribe((res) => {
-  //             console.log('run here 2')
-  //             console.log(res)
+  //             // console.log('run here 2')
+  //             // console.log(res)
   //             this.imageurl.push(res['imageURL'])
   //             Swal.close()
   //             resolve(res['imageURL'])
   //           }, awe => {
-  //             console.log('run here 3')
+  //             // console.log('run here 3')
   //             reject(awe)
   //           })
 
@@ -583,7 +583,7 @@ export class TaskLabelPage implements OnInit {
           const maxH = maxsize;
           thisImage.onload = (a) => {
 
-            console.log(a);
+            // console.log(a);
             const iw = thisImage.width;
             const ih = thisImage.height;
             const scale = Math.min((maxW / iw), (maxH / ih));
@@ -597,11 +597,11 @@ export class TaskLabelPage implements OnInit {
             ctx.restore();
 
             this.imagec = can.toDataURL();
-            // console.log(this.imagec.length)
+            // // console.log(this.imagec.length)
             //  this.dataURLToBlob(this.imagec).then(a => {
-            //   console.log(a)
+            //   // console.log(a)
             //   const fileSizeKB = Math.round(a.size / 1024);
-            //   console.log('Image size:', fileSizeKB, 'KB');
+            //   // console.log('Image size:', fileSizeKB, 'KB');
             // })
 
 
@@ -618,7 +618,7 @@ export class TaskLabelPage implements OnInit {
               Swal.close()
               resolve(res['imageURL'])
             }, awe => {
-              console.log('run here 3')
+              // console.log('run here 3')
               reject(awe)
             })
 

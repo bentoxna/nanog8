@@ -50,16 +50,16 @@ export class QuotationPdfPage implements OnInit {
   ngOnInit() {
 
     this.quotation.date = this.changeformat(this.quotation.date)
-    console.log(this.quotation.date)
+    // console.log(this.quotation.date)
 
     this.route.queryParams.subscribe(a => {
-      console.log(a)
+      // console.log(a)
       this.userid = a['uid']
       this.taskid = a['tid']
 
       this.http.post('https://api.nanogapp.com/getUserDetail', { uid: this.userid }).subscribe(res => {
         this.user = res['data']
-        console.log(this.user)
+        // console.log(this.user)
       })
 
       this.http.post('https://api.nanogapp.com/getAppointmentDetails', { id: this.taskid }).subscribe(res => {
@@ -76,27 +76,27 @@ export class QuotationPdfPage implements OnInit {
           this.discount = 10
         }
 
-        console.log(this.discount)
+        // console.log(this.discount)
 
         for (let i = 0; i < res['data']['sales_packages'].length; i++) {
           this.subtotal = this.subtotal + res['data']['sales_packages'][i]['amount']
-          console.log(res['data']['sales_packages'][i]['amount'])
-          console.log('Total: ' + this.subtotal)
+          // console.log(res['data']['sales_packages'][i]['amount'])
+          // console.log('Total: ' + this.subtotal)
         }
 
         this.subtotalstring = (this.subtotal).toFixed(2).toString()
         this.discountamount = (this.subtotal / 100 * this.discount).toFixed(2).toString()
-        console.log(this.discountamount)
+        // console.log(this.discountamount)
         this.total = (this.subtotal / 100 * (100 - this.discount)).toFixed(2).toString()
-        console.log(this.total)
-        console.log(this.service)
-        console.log(this.task)
+        // console.log(this.total)
+        // console.log(this.service)
+        // console.log(this.task)
       })
     })
   }
 
   createbrowser(x) {
-    console.log(x)
+    // console.log(x)
     /** Process the type1 base64 string **/
     var myBaseString = x;
     // Split the base64 string in data and contentType
@@ -111,7 +111,7 @@ export class QuotationPdfPage implements OnInit {
     var filename = "mypdf.pdf";
 
     // this.b64toBlob(realData, dataType, 512);
-    // console.log(this.blob)
+    // // console.log(this.blob)
 
 
     let content = x.split('base64,')[1]
@@ -123,7 +123,7 @@ export class QuotationPdfPage implements OnInit {
     var byteArray = new Uint8Array(byteNumbers);
     var file = new Blob([byteArray], { type: 'application/pdf;' });
     var fileURL = URL.createObjectURL(file);
-    console.log(fileURL)
+    // console.log(fileURL)
     // window.open(fileURL);
 
     // let url = encodeURIComponent(block[1]);
@@ -174,7 +174,7 @@ export class QuotationPdfPage implements OnInit {
     }
 
     let newdate = [year, month, date].join('-')
-    console.log(newdate)
+    // console.log(newdate)
     return newdate
   }
 
@@ -186,13 +186,13 @@ export class QuotationPdfPage implements OnInit {
     for (let i = 0; i < data.length; i++) {
       var dataRow = [] as any;
 
-      console.log(data);
+      // console.log(data);
 
       for (let j = 0; j < columns.length; j++) {
-        console.log(data[i][columns[j]]);
-        console.log(columns[j]);
-        console.log(columns[j]["text"]);
-        console.log(data[i][columns[j]["text"]]);
+        // console.log(data[i][columns[j]]);
+        // console.log(columns[j]);
+        // console.log(columns[j]["text"]);
+        // console.log(data[i][columns[j]["text"]]);
 
         if (columns[j]["text"] == "place") {
           dataRow.push({ text: data[i][columns[j]["text"]].toString(), style: "tableData" });
@@ -212,16 +212,16 @@ export class QuotationPdfPage implements OnInit {
           dataRow.push({ text: "RM " + (Math.round(data[i][columns[j]["text"]] * 100) / 100).toFixed(2).toString(), style: "tableData" });
         }
         else {
-          console.log(data[i][columns[j]["text"]]);
+          // console.log(data[i][columns[j]["text"]]);
           dataRow.push({ text: data[i][columns[j]["text"]].toString(), style: "tableData" });
         }
 
       }
 
-      console.log(dataRow);
+      // console.log(dataRow);
 
       body.push(dataRow);
-      console.log(body)
+      // console.log(body)
     }
     //Change Table's header
     columns[0].text = "Place"
@@ -231,7 +231,7 @@ export class QuotationPdfPage implements OnInit {
     columns[4].text = "Height"
     columns[5].text = "Price"
 
-    console.log(body)
+    // console.log(body)
     return body
   }
 
@@ -378,7 +378,7 @@ export class QuotationPdfPage implements OnInit {
 
 
     // pdfMake.createPdf(docDefinition).getDataUrl((dataUrl) => {
-    //   // console.log(dataUrl);
+    //   // // console.log(dataUrl);
     //   this.createbrowser(dataUrl)
     // });
 
@@ -405,7 +405,7 @@ export class QuotationPdfPage implements OnInit {
                 showConfirmButton: false
               }).then(function (result) {
 
-                console.log(result.dismiss);
+                // console.log(result.dismiss);
 
                 if (result.dismiss === Swal.DismissReason.timer) {
                   // globalVariable.fileOpener.open(
@@ -416,7 +416,7 @@ export class QuotationPdfPage implements OnInit {
               });
             };
             fileWriter.onerror = (e) => {
-              console.log('file writer - error event fired: ' + e.toString());
+              // console.log('file writer - error event fired: ' + e.toString());
             };
             fileWriter.write(binaryArray);
           });

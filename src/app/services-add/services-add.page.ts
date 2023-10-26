@@ -38,7 +38,7 @@ export class ServicesAddPage implements OnInit {
   files: FileList;
   public testup(event) {
     this.files = event.target.files;
-    console.log(this.files)
+    // console.log(this.files)
   }
 
   taskid
@@ -88,41 +88,41 @@ export class ServicesAddPage implements OnInit {
       this.leadid = a['lid']
       this.servicetype = a['servicetype']
 
-      console.log(this.sapid)
+      // console.log(this.sapid)
 
       this.service['discount_roundoff'] = 0
       this.service['package_warranty'] ? this.service['package_warranty'] : this.service['package_warranty'] = 1
-      console.log(this.service)
+      // console.log(this.service)
       this.http.get('https://api.nanogapp.com/getPackages').subscribe(a => {
         this.packages = a['data']
         for (let i = 0; i < this.packages.length; i++) {
           this.packages[i].detailstatus = false
         }
-        console.log(this.packages)
+        // console.log(this.packages)
 
         this.package_install = this.packages.filter(a => a['job_type'] == 'Install')
         this.package_remove = this.packages.filter(a => a['job_type'] == 'Remove')
-        console.log(this.package_install, this.package_remove)
+        // console.log(this.package_install, this.package_remove)
       })
 
       this.http.get('https://api.nanogapp.com/getAllPlace').subscribe(a => {
         this.arealist = a['data']
         this.arealist.push({ name: 'others' })
-        console.log(this.arealist)
+        // console.log(this.arealist)
       })
     })
 
     this.http.post('https://api.nanogapp.com/getSalesPackageDetails', { sales_id: this.salesid }).subscribe(res => {
       this.allPackagesSubtotal = res['data'].map(a => a['total']).reduce((a, b) => a + b, 0)
-      console.log(this.allPackagesSubtotal)
+      // console.log(this.allPackagesSubtotal)
     })
 
-    console.log(this.taskid, this.uid, this.salesid)
+    // console.log(this.taskid, this.uid, this.salesid)
   }
 
 
   handleChange(x){
-    console.log(x['detail']['value'])
+    // console.log(x['detail']['value'])
     this.service.package_warranty = x['detail']['value']
     // let warranty = x['detail']['value']
     // this.http.post('https://api.nanogapp.com/updatewarranty', {warranty : warranty , salesid: this.salesid}).subscribe(a => { 
@@ -170,7 +170,7 @@ export class ServicesAddPage implements OnInit {
           cssClass: 'actionsheet-selection',
           text: 'Capture Image',
           handler: () => {
-            console.log('Capture Image')
+            // console.log('Capture Image')
             this.captureImage()
           }
         },
@@ -178,7 +178,7 @@ export class ServicesAddPage implements OnInit {
         //   cssClass: 'actionsheet-selection',
         //   text: 'Record Video',
         //   handler: () => {
-        //     console.log('Record Video')
+        //     // console.log('Record Video')
         //     this.recordVideo()
         //   }
         // },
@@ -198,11 +198,11 @@ export class ServicesAddPage implements OnInit {
 
   // opengallery(){
   //   this.camera.getPicture(this.gelleryOptions).then((imgData) => {
-  //     console.log('image data =>  ', imgData);
+  //     // console.log('image data =>  ', imgData);
   //     this.base64Img = 'data:image/jpeg;base64,' + imgData;
   //     this.userImg = this.base64Img;
   //     }, (err) => {
-  //     console.log(err);
+  //     // console.log(err);
   //     })
   // }
 
@@ -239,7 +239,7 @@ export class ServicesAddPage implements OnInit {
         // }, awe => {
         //   reject(awe)
         // })
-        console.log(base64)
+        // console.log(base64)
 
         this.http.post('https://api.nanogapp.com/upload', { image: base64, folder: 'nanog', uid: 'nanog' }).subscribe((res) => {
           this.imageurl.push(res['imageURL'])
@@ -274,7 +274,7 @@ export class ServicesAddPage implements OnInit {
       this.uploadserve2(base64Image).then(res => {
         this.sweetalert = false
         Swal.close()
-        console.log(res)
+        // console.log(res)
       })
     },
       (err) => {
@@ -290,11 +290,11 @@ export class ServicesAddPage implements OnInit {
     return new Promise((resolve, reject) => {
       this.sweetalert = true
 
-      // console.log(event)
+      // // console.log(event)
       const files = event.target.files;
       // const files2 = event.target.files[1]
-      // console.log(files)
-      // console.log(files2)
+      // // console.log(files)
+      // // console.log(files2)
       for(let i = 0; i< files.length ; i++)
       {
         Swal.fire({
@@ -307,12 +307,12 @@ export class ServicesAddPage implements OnInit {
         })
         if (event.target.files && event.target.files[i]) {
           this.imagectype = event.target.files[i].type;
-          // console.log(this.imagectype)
-          // console.log(event.target.files[0])
+          // // console.log(this.imagectype)
+          // // console.log(event.target.files[0])
           // EXIF.getData(event.target.files[0], () => {
-          //   console.log('run here 4')
-          //   console.log(event.target.files[0]);
-          //   console.log(event.target.files[0].exifdata.Orientation);
+          //   // console.log('run here 4')
+          //   // console.log(event.target.files[0]);
+          //   // console.log(event.target.files[0].exifdata.Orientation);
           //   const orientation = EXIF.getTag(this, 'Orientation');
           const can = document.createElement('canvas');
           const ctx = can.getContext('2d');
@@ -321,7 +321,7 @@ export class ServicesAddPage implements OnInit {
           const maxH = maxsize;
           thisImage.onload = (a) => {
   
-            // console.log(a);
+            // // console.log(a);
             const iw = thisImage.width;
             const ih = thisImage.height;
             const scale = Math.min((maxW / iw), (maxH / ih));
@@ -332,9 +332,9 @@ export class ServicesAddPage implements OnInit {
             ctx.save();
             // const width = can.width; const styleWidth = can.style.width;
             // const height = can.height; const styleHeight = can.style.height;
-            // console.log(event.target.files[0]);
+            // // console.log(event.target.files[0]);
             // if (event.target.files[0] && event.target.files[0].exifdata.Orientation) {
-            //   console.log(event.target.files[0].exifdata.Orientation);
+            //   // console.log(event.target.files[0].exifdata.Orientation);
             //   if (event.target.files[0].exifdata.Orientation > 4) {
             //     can.width = height; can.style.width = styleHeight;
             //     can.height = width; can.style.height = styleWidth;
@@ -371,7 +371,7 @@ export class ServicesAddPage implements OnInit {
               Swal.close()
               resolve(res['imageURL'])
             }, awe => {
-              console.log('run here 3')
+              // console.log('run here 3')
               reject(awe)
             })
   
@@ -383,8 +383,8 @@ export class ServicesAddPage implements OnInit {
   }
 
   filechange(ev, maxsize) {
-    console.log(ev)
-    console.log(maxsize)
+    // console.log(ev)
+    // console.log(maxsize)
   }
 
   recordVideo() {
@@ -392,7 +392,7 @@ export class ServicesAddPage implements OnInit {
       (data: MediaFile[]) => {
         if (data.length > 0) {
           this.copyFileToLocalDir(data[0].fullPath);
-          console.log(data)
+          // console.log(data)
         }
       },
       (err: CaptureError) => alert(err)
@@ -633,8 +633,8 @@ export class ServicesAddPage implements OnInit {
   }
 
   // setsqft(){
-  //   console.log(this.service.height)
-  //   console.log(this.service.width)
+  //   // console.log(this.service.height)
+  //   // console.log(this.service.width)
   //   if((this.service.height == undefined || this.service.height == null) && (this.service.height == undefined || this.service.width == null))
   //   {
   //     this.dropdownitemstatus = false
@@ -647,7 +647,7 @@ export class ServicesAddPage implements OnInit {
   //     {
   //       this.filterpackage[i].detailstatus = false
   //     }
-  //     console.log(this.filterpackage)
+  //     // console.log(this.filterpackage)
   //     this.dropdownitemstatus = true
   //     this.dropdown = true
   //   }
@@ -674,7 +674,7 @@ export class ServicesAddPage implements OnInit {
   }
 
   calculateothersubtotal() {
-    console.log(this.service.size, this.service.sizerate, this.service.discount)
+    // console.log(this.service.size, this.service.sizerate, this.service.discount)
     if (this.service.size && this.service.sizerate && this.service.discount) {
       this.service.subtotal = (this.service.size * this.service.sizerate).toFixed(2)
       this.calculateTotal('others')
@@ -683,7 +683,7 @@ export class ServicesAddPage implements OnInit {
       this.service.subtotal = (this.service.size * this.service.sizerate).toFixed(2)
       this.service.total = this.service.subtotal
     }
-    console.log(this.service.subtotal, this.service.total)
+    // console.log(this.service.subtotal, this.service.total)
   }
 
   // calculateothertotal() {
@@ -691,7 +691,7 @@ export class ServicesAddPage implements OnInit {
   // }
 
   async getdropdownitemdetail(i) {
-    console.log(this.packages[i])
+    // console.log(this.packages[i])
     // if(this.filterpackage[i].detailstatus == true)
     // {
     //   for(let i = 0; i< this.filterpackage.length; i++)
@@ -704,7 +704,7 @@ export class ServicesAddPage implements OnInit {
     //   {
     //     this.filterpackage[i].detailstatus = false
     //   }
-    //   console.log(this.filterpackage[i])
+    //   // console.log(this.filterpackage[i])
     //   this.filterpackage[i].detailstatus = true
     //   this.selectedpackage = this.filterpackage[i]
     // }
@@ -718,11 +718,11 @@ export class ServicesAddPage implements OnInit {
       for (let i = 0; i < this.packages.length; i++) {
         this.packages[i].detailstatus = false
       }
-      console.log(this.packages[i])
+      // console.log(this.packages[i])
       this.packages[i].detailstatus = true
       this.selectedpackage = this.packages[i]
     }
-    console.log(this.selectedpackage)
+    // console.log(this.selectedpackage)
 
     // Swal.fire({
     //   title: 'Package Detail',
@@ -771,13 +771,13 @@ export class ServicesAddPage implements OnInit {
     if (this.service.services && this.service.sqft && this.service.area && this.remove == false) {
       let temp = this.package_install.filter(a => a['service'].toLowerCase() == this.service.services.toLowerCase()
         && a['sqft'].toLowerCase() == this.service.sqft.toLowerCase())
-      console.log(temp)
+      // console.log(temp)
       return temp
     }
     else if (this.service.services && this.service.sqft && this.service.area && this.remove == true) {
       let temp = this.package_remove.filter(a => a['service'].toLowerCase() == this.service.services.toLowerCase()
         && a['sqft'].toLowerCase() == this.service.sqft.toLowerCase())
-      console.log(temp)
+      // console.log(temp)
       return temp
     }
   }
@@ -802,7 +802,7 @@ export class ServicesAddPage implements OnInit {
   }
 
   // getsize(i){
-  //   console.log(i)
+  //   // console.log(i)
   //   if(i == 'others')
   //   {
   //     this.getpackageprice()
@@ -823,19 +823,19 @@ export class ServicesAddPage implements OnInit {
 
   changesqftlist() {
     this.service.sqft = undefined
-    // console.log(this.service.services.toLowerCase(), this.service.area.toLowerCase())
-    // console.log(this.service.services.toLowerCase() == 'waterproofing' && this.service.area.toLowerCase() == 'bathroom')
+    // // console.log(this.service.services.toLowerCase(), this.service.area.toLowerCase())
+    // // console.log(this.service.services.toLowerCase() == 'waterproofing' && this.service.area.toLowerCase() == 'bathroom')
     if (this.service.services && this.service.area) {
       if (this.service.services.toLowerCase() == 'waterproofing' && this.service.area.toLowerCase() == 'bathroom') {
-        console.log('here')
+        // console.log('here')
         this.sizelist = ['0-80', '81-120', '121-200', 'others']
       }
       else if (this.service.services.toLowerCase() == 'anti-slip' && this.service.area.toLowerCase() == 'bathroom') {
-        console.log('here2')
+        // console.log('here2')
         this.sizelist = ['0-50', '51-100', '101-150', 'others']
       }
       else {
-        console.log('here4')
+        // console.log('here4')
         this.sizelist = ['0-100', '101-200', '201-300', '301-400', '401-500', 'others']
       }
     }
@@ -850,12 +850,12 @@ export class ServicesAddPage implements OnInit {
   //     && a['sqft'].toLowerCase() == this.service.size.toLowerCase())
   //     this.packageselected = temp
   //     this.packageselected.length > 0 ? this.packageprice = this.packageselected[0].amount : this.packageprice = 0
-  //     console.log(this.packageselected)
+  //     // console.log(this.packageselected)
   //     this.calculateTotal()
   //   }
   //   else if(this.service.size == 'others' || this.service.area == 'others')
   //   {
-  //     console.log('here1')
+  //     // console.log('here1')
   //     this.packageselected = [];
   //     this.packageprice = 0;
   //     this.packagetotal = 0;
@@ -863,7 +863,7 @@ export class ServicesAddPage implements OnInit {
   //   }
   //   else
   //   {
-  //     console.log('here2')
+  //     // console.log('here2')
   //     this.packageselected = [];
   //     this.packagetotal = 0;
   //     this.calculateTotal()
@@ -886,7 +886,7 @@ export class ServicesAddPage implements OnInit {
     //   this.service.total = (this.service.total - this.service.discount_roundoff).toFixed(2)
     // }
     this.service.total = (this.service.subtotal).toFixed(2)
-    console.log(this.service)
+    // console.log(this.service)
   }
 
   async selectMedia2() {
@@ -905,7 +905,7 @@ export class ServicesAddPage implements OnInit {
         //   cssClass: 'actionsheet-selection',
         //   text: 'Record Video',
         //   handler: () => {
-        //     console.log('Record Video')
+        //     // console.log('Record Video')
         //     this.recordVideo()
         //   }
         // },
@@ -922,8 +922,8 @@ export class ServicesAddPage implements OnInit {
   uploadFile(event) {
     let uploadedFile = event.target.files;
 
-    // console.log(uploadedFile)
-    // console.log(uploadedFile.item(0))
+    // // console.log(uploadedFile)
+    // // console.log(uploadedFile.item(0))
     this.uploadToS3(uploadedFile.item(0))
   }
 
@@ -950,7 +950,7 @@ export class ServicesAddPage implements OnInit {
     }
 
     bucket.upload(params, (err, data) => {
-      console.log(data)
+      // console.log(data)
       if (err) {
 
         Swal.close()
@@ -963,17 +963,17 @@ export class ServicesAddPage implements OnInit {
           heightAuto: false,
           showConfirmButton: false,
         })
-        console.log('There was an error uploading file: ' + err)
+        // console.log('There was an error uploading file: ' + err)
         return false
       }
 
 
       Swal.close()
 
-      console.log('Successfully uploaded file.', data)
+      // console.log('Successfully uploaded file.', data)
 
-      // console.log(i)
-      console.log(data);
+      // // console.log(i)
+      // console.log(data);
 
       this.videourl.push(
         {

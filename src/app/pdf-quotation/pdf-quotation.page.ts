@@ -122,7 +122,7 @@ export class PdfQuotationPage implements OnInit {
 
         this.http.post('https://api.nanogapp.com/getAppointmentDetails', { id: this.taskid }).subscribe((s) => {
           this.appointment = s['data']
-          console.log(this.appointment)
+          // console.log(this.appointment)
           this.service = s['data']['sales_packages']
           for (let i = 0; i < this.service.length; i++) {
             this.service2[i] = this.service[i]
@@ -179,7 +179,7 @@ export class PdfQuotationPage implements OnInit {
   }
 
   handleChange() {
-    // console.log(x['detail']['value'])
+    // // console.log(x['detail']['value'])
     // let warranty = x['detail']['value']
     this.http.post('https://api.nanogapp.com/updateworkingduration', { working_duration: this.appointment.working_duration, salesid: this.salesid }).subscribe(a => {
       Swal.fire({
@@ -266,7 +266,7 @@ export class PdfQuotationPage implements OnInit {
   //   this.total = 0
   //   this.subtotal = 0
   //   this.deductprice = 0
-  //   console.log(this.totaldiscount)
+  //   // console.log(this.totaldiscount)
 
   //   if (this.appointment.sales_packages != null && this.appointment.sales_packages.length > 0 && this.totaldiscount == 0) {
   //     this.appointment.sales_packages.forEach(a => {
@@ -286,7 +286,7 @@ export class PdfQuotationPage implements OnInit {
   //   this.deductprice = this.deductprice.toFixed(2)
   //   this.total = this.total.toFixed(2)
   //   this.subtotalstring = (this.subtotal / 100 * 100).toFixed(2)
-  //   console.log(this.totaldiscount, this.total, this.deductprice)
+  //   // console.log(this.totaldiscount, this.total, this.deductprice)
   //   // this.rate.includes('Discount2') ? this.discount2photo = true : this.discount2photo = false
 
   // }
@@ -295,7 +295,7 @@ export class PdfQuotationPage implements OnInit {
   //   this.total = 0
   //   this.subtotal = 0
   //   this.deductprice = 0
-  //   console.log(this.totaldiscount)
+  //   // console.log(this.totaldiscount)
 
   //   if (this.appointment.sales_packages != null && this.appointment.sales_packages.length > 0 && this.totaldiscount == 0) {
   //     this.appointment.sales_packages.forEach(a => {
@@ -315,7 +315,7 @@ export class PdfQuotationPage implements OnInit {
   //   this.deductprice = this.deductprice.toFixed(2)
   //   this.total = this.total.toFixed(2)
   //   this.subtotalstring = (this.subtotal / 100 * 100).toFixed(2)
-  //   console.log(this.totaldiscount, this.total, this.deductprice)
+  //   // console.log(this.totaldiscount, this.total, this.deductprice)
   //   // this.rate.includes('Discount2') ? this.discount2photo = true : this.discount2photo = false
 
   // }
@@ -409,7 +409,7 @@ export class PdfQuotationPage implements OnInit {
 
 
         // else {
-        //   console.log(data[i][columns[j]["text"]]);
+        //   // console.log(data[i][columns[j]["text"]]);
         //   dataRow.push({ text: data[i][columns[j]["text"]].toString(), style: "tableData" });
         // }
 
@@ -478,7 +478,7 @@ export class PdfQuotationPage implements OnInit {
         }
 
         this.returnquotenumber().then(a => {
-          console.log(a)
+          // console.log(a)
           this.http.post('https://api.nanogapp.com/updateSalesQuotation', {
             quote_no : a,
             sales_id: this.appointment.sales_id,
@@ -505,14 +505,14 @@ export class PdfQuotationPage implements OnInit {
       // if(this.appointment.quote_no)
       // {
       //   this.quotationnumber = this.appointment.quote_no
-      //   console.log(this.quotationnumber)
+      //   // console.log(this.quotationnumber)
       //   resolve(this.quotationnumber)
       // }
       // else{
       //  this.http.get('https://api.nanogapp.com/getquotationNumber').subscribe(a => {
-      //       console.log(a)
+      //       // console.log(a)
       //       this.quotationnumber = (a['data']['count'] + 1)
-      //       console.log(this.quotationnumber)
+      //       // console.log(this.quotationnumber)
       //       resolve(this.quotationnumber)
       //   })
       // }
@@ -890,14 +890,14 @@ export class PdfQuotationPage implements OnInit {
       //           showConfirmButton: false
       //         }).then(function (result) {
 
-      //           console.log(result.dismiss);
+      //           // console.log(result.dismiss);
 
       //           if (result.dismiss === Swal.DismissReason.timer) {
       //             // globalVariable.fileOpener.open(
       //             //   saveDir + fileName,
       //             //   'application/pdf');
 
-      //             console.log(saveDir + fileName,'application/pdf', '_system')
+      //             // console.log(saveDir + fileName,'application/pdf', '_system')
 
 
       //             window.open(saveDir + fileName,'application/pdf', '_system')
@@ -906,10 +906,10 @@ export class PdfQuotationPage implements OnInit {
       //         });
       //       };
       //       fileWriter.onerror = (e) => {
-      //         console.log('file writer - error event fired: ' + e.toString());
+      //         // console.log('file writer - error event fired: ' + e.toString());
       //       };
       //       fileWriter.write(binaryArray);
-      //       console.log(binaryArray)
+      //       // console.log(binaryArray)
       //     });
       //   });
       // });
@@ -1047,7 +1047,7 @@ export class PdfQuotationPage implements OnInit {
     //   // Create a URL for the Blob
     //   const url = window.URL.createObjectURL(blob);
     //   window.open(url)
-    //   console.log(url)
+    //   // console.log(url)
     //   // Set the URL to the iframe to display the PDF content
     //   // document.querySelector('iframe').src = url;
     // })

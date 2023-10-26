@@ -29,7 +29,7 @@ export class TaskEquipmentPage implements OnInit {
 
   ngOnInit() {
     this.route.queryParams.subscribe(a => {
-      console.log(a)
+      // console.log(a)
       this.salesid = a['salesid']
       this.leadid = a['leadid']
 
@@ -42,7 +42,7 @@ export class TaskEquipmentPage implements OnInit {
     this.http.post('https://api.nanogapp.com/getScaffAndSkylift', {
       salesid : this.salesid
     }).subscribe(a => {
-      console.log(a)
+      // console.log(a)
       this.scaffheight = a['data'][0]['scaff_height']
       this.scafffee = a['data'][0]['scaff_fee']
       this.skyliftheight = a['data'][0]['skylift_height']
@@ -51,7 +51,7 @@ export class TaskEquipmentPage implements OnInit {
     })
 
     this.http.post('https://api.nanogapp.com/getSalesExec', {uid:this.userid}).subscribe((s) => {
-      console.log(s['data'].user_name)
+      // console.log(s['data'].user_name)
       this.username = s['data'].user_name
     })
   }
@@ -67,7 +67,7 @@ export class TaskEquipmentPage implements OnInit {
     this.skyliftheight = (this.skyliftheight * 100 / 100).toFixed(2)
     this.skyliftfee = (this.skyliftfee * 100 / 100).toFixed(2)
     this.transportation_fee = (this.transportation_fee * 100 / 100).toFixed(2)
-    console.log(this.scaffheight, this.scafffee, this.skyliftheight, this.skyliftfee)
+    // console.log(this.scaffheight, this.scafffee, this.skyliftheight, this.skyliftfee)
     Swal.fire({
       text : 'Are you sure to update the scaffolding and skylift information?',
       icon : 'info',
@@ -88,7 +88,7 @@ export class TaskEquipmentPage implements OnInit {
           by : this.username,
           transportation_fee : this.transportation_fee || 0
         }).subscribe(a => {
-          console.log(a)
+          // console.log(a)
           // this.nav.pop()
           Swal.fire({
             title : 'Update Successfully',

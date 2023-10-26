@@ -118,13 +118,13 @@ export class TaskAllPage implements OnInit {
     private platform: Platform) { }
 
   ngOnInit() {
-    console.log(this.heighter())
+    // console.log(this.heighter())
 
 
 
     this.route.queryParams.subscribe(s => {
       this.userid = s.uid
-      console.log(s)
+      // console.log(s)
 
 
       this.temp.now = new Date()
@@ -138,30 +138,30 @@ export class TaskAllPage implements OnInit {
         this.temp.tomorrowmilli = this.temp.todaymilli + 86400000
       }
 
-      console.log(this.temp.todaymilli, this.temp.tomorrowmilli)
+      // console.log(this.temp.todaymilli, this.temp.tomorrowmilli)
 
       this.http.post('https://api.nanogapp.com/getAppointmentDetailsForExec', { uid: this.userid }).subscribe((s) => {
         this.appointmentAll = s['data'].filter(a => (a['phone_row_number'] == 1 && a['address_row_number'] == 1) || a['verified'] == true || a['warranty_id'])
-        console.log(this.appointmentAll)
+        // console.log(this.appointmentAll)
         this.filteredappointment = s['data']
 
         this.today = this.changedateformat2(this.today2)
         this.showCalendar(this.currentMonth, this.currentYear)
       })
 
-      console.log(this.userid, this.temp.todaymilli, this.temp.tomorrowmilli)
+      // console.log(this.userid, this.temp.todaymilli, this.temp.tomorrowmilli)
 
       this.http.post('https://api.nanogapp.com/getAppointmentForExecByDate', { execId: this.userid, startDate: this.temp.todaymilli, endDate: this.temp.tomorrowmilli }).subscribe((s) => {
         this.appointment =  s['data'].filter(a => (a['phone_row_number'] == 1 && a['address_row_number'] == 1) || a['verified'] == true || a['warranty_id'])
-        console.log(this.appointment)
+        // console.log(this.appointment)
 
         this.appointmentwithpaymentdone = this.filterappointment('done')
-        console.log(this.appointmentwithpaymentdone)
+        // console.log(this.appointmentwithpaymentdone)
         this.appointmenwithoutpaymentdone = this.filterappointment('havent')
-        console.log(this.appointmenwithoutpaymentdone)
+        // console.log(this.appointmenwithoutpaymentdone)
 
         // let temp = this.appointment[0].customer_phone
-        // console.log(temp.search([0]))
+        // // console.log(temp.search([0]))
       })
     })
 
@@ -181,7 +181,7 @@ export class TaskAllPage implements OnInit {
   //change the format of date ex: 2022-10-05 00:00:00
   changedateformat(x) {
 
-    console.log(x)
+    // console.log(x)
     let year = x.getFullYear()
     let month = '' + (x.getMonth() + 1)
     let date = '' + x.getDate()
@@ -203,7 +203,7 @@ export class TaskAllPage implements OnInit {
   //change the format of date ex: 2022-10-05 without time
   changedateformat2(x) {
 
-    console.log(x)
+    // console.log(x)
     let year = x.getFullYear()
     let month = '' + (x.getMonth() + 1)
     let date = '' + x.getDate()
@@ -244,7 +244,7 @@ export class TaskAllPage implements OnInit {
       }
     }
 
-    console.log(this.dates)
+    // console.log(this.dates)
   }
 
   async showCalendar2(month, year) {
@@ -253,7 +253,7 @@ export class TaskAllPage implements OnInit {
 
     let firstDay = (new Date(year, month)).getDay();
     let daysInMonth = 32 - new Date(year, month, 32).getDate();
-    console.log(this.monthToShow2, this.yearToShow2)
+    // console.log(this.monthToShow2, this.yearToShow2)
     this.monthToShow2 = this.months[month]
     this.yearToShow2 = year
 
@@ -272,7 +272,7 @@ export class TaskAllPage implements OnInit {
         }
       }
     }
-    console.log(this.dates2)
+    // console.log(this.dates2)
   }
 
   async showCalendar3(month, year) {
@@ -299,14 +299,14 @@ export class TaskAllPage implements OnInit {
         }
       }
     }
-    console.log(this.dates3)
+    // console.log(this.dates3)
   }
 
   returnTwoDigits(x) {
 
     //temp is use to receive the dates and return it as an object which contain status, date and fulldate
     let temp = {} as any
-    // console.log(temp)
+    // // console.log(temp)
     temp.date = (x.toString().length == 1 ? '' : '') + x
     // temp.date = (x.toString().length == 1 ? '0' : '') + x
 
@@ -316,33 +316,33 @@ export class TaskAllPage implements OnInit {
     }
     temp.fulldate = [this.yearToShow, findmonth, temp.date].join('-')
     temp.fulldatemilli = new Date(parseInt(this.yearToShow), parseInt(findmonth) - 1, parseInt(temp.date), 0).getTime()
-    // console.log(temp.fulldatemilli)
+    // // console.log(temp.fulldatemilli)
     temp.fulldatetomorrowmilli = temp.fulldatemilli + 86400000
     temp.todaymilli = new Date(parseInt(this.today.split('-')[0]), parseInt(this.today.split('-')[1]) - 1, parseInt(this.today.split('-')[2]), 0).getTime()
     temp.tomorrowmilli = temp.todaymilli + 86400000
 
-    // console.log(temp.fulldatemilli)
-    // console.log(temp.fulldatetomorrowmilli)
+    // // console.log(temp.fulldatemilli)
+    // // console.log(temp.fulldatetomorrowmilli)
 
-    // console.log(new Date(temp.fulldate).getTime())
+    // // console.log(new Date(temp.fulldate).getTime())
 
-    // console.log(this.appointmentAll)
-    // console.log(new Date(this.appointmentAll[0]['appointment_time']))
+    // // console.log(this.appointmentAll)
+    // // console.log(new Date(this.appointmentAll[0]['appointment_time']))
     // for(let i = 0; i < this.appointmentAll.length; i++)
     // {
     //   this.appointmentAll[i].milli = new Date(this.appointmentAll[i].appointment_time)
-    //   console.log(this.appointmentAll[i].milli)
+    //   // console.log(this.appointmentAll[i].milli)
     // }
     // for(let i = 0; i < this.appointmentAll.length; i++)
     // {
     //   this.appointmentAll[i].appointment_time = new Date(this.appointmentAll[i].appointment_time)
     // }
-    // console.log(this.appointmentAll)
+    // // console.log(this.appointmentAll)
 
     //temp2 use to find whether got appointment for the day selected or not, if temp2 is not empty, then temp.status = true mean got appointment
     // let temp2 = this.appointmentAll.filter(a => a['appointment_time'].includes(temp.fulldate))
     let temp2 = this.appointmentAll.filter(a => a['appointment_time'] >= temp.fulldatemilli).filter(b => b['appointment_time'] < temp.fulldatetomorrowmilli)
-    // console.log(temp2)
+    // // console.log(temp2)
 
     // temp3 use to find whether is today or not, today will not show the red dot even though have the task for today
     // let temp3
@@ -351,9 +351,9 @@ export class TaskAllPage implements OnInit {
     temp2.length > 0 ? temp.status = true : temp.status = false
 
     //make the red dot on selected date disappear while the date has been selected (while come back from another month or year)
-    // console.log(temp['fulldate'])
+    // // console.log(temp['fulldate'])
     if (temp['fulldate'] == this.selectedDate) {
-      // console.log(temp['fulldate'], this.selectedDate)
+      // // console.log(temp['fulldate'], this.selectedDate)
       temp.status = false
     }
 
@@ -364,7 +364,7 @@ export class TaskAllPage implements OnInit {
 
     //temp is use to receive the dates and return it as an object which contain status, date and fulldate
     let temp = {} as any
-    console.log(temp)
+    // console.log(temp)
     temp.date = (x.toString().length == 1 ? '0' : '') + x
 
     let findmonth = '' + (this.months.findIndex(a => a == this.monthToShow2) + 1)
@@ -380,20 +380,20 @@ export class TaskAllPage implements OnInit {
     //temp2 use to find whether got appointment for the day selected or not, if temp2 is not empty, then temp.status = true mean got appointment
     // let temp2 = this.appointmentAll.filter(a => a['appointment_time'].includes(temp.fulldate))
     let temp2 = this.appointmentAll.filter(a => a['appointment_time'] >= temp.fulldatemilli).filter(b => b['appointment_time'] < temp.fulldatetomorrowmilli)
-    console.log(temp2)
+    // console.log(temp2)
 
     //temp3 use to find whether is today or not, today will not show the red dot even though have the task for today
     let temp3
     temp2.length > 0 ? temp3 = temp2.filter(a => a['appointment_time'] >= temp.todaymilli).filter(b => b['appointment_time'] < temp.tomorrowmilli) : temp3 = []
-    console.log(temp3)
+    // console.log(temp3)
 
     temp2.length > 0 ? temp3.length > 0 ? temp.status = false : temp.status = true : temp.status = false
-    console.log(this.selectedDate2)
+    // console.log(this.selectedDate2)
 
     //make the red dot on selected date disappear while the date has been selected (while come back from another month or year)
-    console.log(temp['fulldate'])
+    // console.log(temp['fulldate'])
     if (temp['fulldate'] == this.selectedDate2) {
-      console.log(temp['fulldate'], this.selectedDate2)
+      // console.log(temp['fulldate'], this.selectedDate2)
       temp.status = false
     }
 
@@ -404,7 +404,7 @@ export class TaskAllPage implements OnInit {
 
     //temp is use to receive the dates and return it as an object which contain status, date and fulldate
     let temp = {} as any
-    console.log(temp)
+    // console.log(temp)
     temp.date = (x.toString().length == 1 ? '0' : '') + x
 
     let findmonth = '' + (this.months.findIndex(a => a == this.monthToShow3) + 1)
@@ -421,20 +421,20 @@ export class TaskAllPage implements OnInit {
     //temp2 use to find whether got appointment for the day selected or not, if temp2 is not empty, then temp.status = true mean got appointment
     // let temp2 = this.appointmentAll.filter(a => a['appointment_time'].includes(temp.fulldate))
     let temp2 = this.appointmentAll.filter(a => a['appointment_time'] >= temp.fulldatemilli).filter(b => b['appointment_time'] < temp.fulldatetomorrowmilli)
-    console.log(temp2)
+    // console.log(temp2)
 
     //temp3 use to find whether is today or not, today will not show the red dot even though have the task for today
     let temp3
     temp2.length > 0 ? temp3 = temp2.filter(a => a['appointment_time'] >= temp.todaymilli).filter(b => b['appointment_time'] < temp.tomorrowmilli) : temp3 = []
-    console.log(temp3)
+    // console.log(temp3)
 
     temp2.length > 0 ? temp3.length > 0 ? temp.status = false : temp.status = true : temp.status = false
-    console.log(this.selectedDate3)
+    // console.log(this.selectedDate3)
 
     //make the red dot on selected date disappear while the date has been selected (while come back from another month or year)
-    console.log(temp['fulldate'])
+    // console.log(temp['fulldate'])
     if (temp['fulldate'] == this.selectedDate3) {
-      console.log(temp['fulldate'], this.selectedDate3)
+      // console.log(temp['fulldate'], this.selectedDate3)
       temp.status = false
     }
 
@@ -476,14 +476,14 @@ export class TaskAllPage implements OnInit {
   }
 
   getnumber(a) {
-    console.log(a)
+    // console.log(a)
     this.selectedDate = a['fulldate']
     this.showCalendar(this.currentMonth, this.currentYear)
     this.selectedDay = a.date
     this.monthToCheck = this.monthToShow
     this.yearToCheck = this.yearToShow
 
-    console.log(this.monthToCheck)
+    // console.log(this.monthToCheck)
     let findmonth = '' + (this.months.findIndex(a => a == this.monthToCheck) + 1)
     if (findmonth.length < 2) {
       findmonth = '0' + findmonth
@@ -504,28 +504,28 @@ export class TaskAllPage implements OnInit {
     // let tomorrowmilli2 = new Date(dateselectedmilli + 86400000)
     // let tomorrow = this.changedateformat(tomorrowmilli)
 
-    console.log(this.dateselectedmilli)
-    console.log(this.dateselectedtomorrowmilli)
+    // console.log(this.dateselectedmilli)
+    // console.log(this.dateselectedtomorrowmilli)
 
     this.http.post('https://api.nanogapp.com/getAppointmentForExecByDate', { execId: this.userid, startDate: this.dateselectedmilli, endDate: this.dateselectedtomorrowmilli }).subscribe((s) => {
       this.appointment =  s['data'].filter(a => (a['phone_row_number'] == 1 && a['address_row_number'] == 1) || a['verified'] == true || a['warranty_id'])
-      console.log(this.appointment)
+      // console.log(this.appointment)
 
       this.appointmentwithpaymentdone = this.filterappointment('done')
-      console.log(this.appointmentwithpaymentdone)
+      // console.log(this.appointmentwithpaymentdone)
       this.appointmenwithoutpaymentdone = this.filterappointment('havent')
-      console.log(this.appointmenwithoutpaymentdone)
+      // console.log(this.appointmenwithoutpaymentdone)
     })
 
     //2022-10-11 00:00:00
-    // console.log(dateselected2)
-    // console.log(tomorrow)
+    // // console.log(dateselected2)
+    // // console.log(tomorrow)
 
     this.calendar = false
   }
 
   getnumber2(a) {
-    console.log(a)
+    // console.log(a)
     this.selectedDate2 = a['fulldate']
     this.showCalendar2(this.currentMonth2, this.currentYear2)
     this.selectedDay2 = a.date
@@ -551,7 +551,7 @@ export class TaskAllPage implements OnInit {
   }
 
   godetail(x) {
-    console.log(x)
+    // console.log(x)
     this.nav.navigateForward('task-detail?uid=' + this.userid + '&tid=' + x)
   }
 
@@ -601,7 +601,7 @@ export class TaskAllPage implements OnInit {
   // datepipe
 
   filterer2(x) {
-    console.log(x)
+    // console.log(x)
     return (x || []).filter(a =>
       a['customer_name'].toLowerCase().includes(this.filterkeyword.toLowerCase())
       && (!this.status ? (a['sales_status'] || a['sales_status'] == null) : (this.status == 'Appointment' ? !a['sales_status'] : a['sales_status'] == this.status))
@@ -662,19 +662,19 @@ export class TaskAllPage implements OnInit {
   filterdatestatus(x) {
     // this.filterstatustab = false
     if (x == 'from') {
-      console.log('run here1')
+      // console.log('run here1')
       this.datetab1 == true ? this.datetab1 = false : this.datetab1 = true
       this.datetab2 = false
       this.filterstatustab = false
-      console.log(this.currentMonth2, this.currentYear2)
+      // console.log(this.currentMonth2, this.currentYear2)
       this.showCalendar2(this.currentMonth2, this.currentYear2)
     }
     else {
-      console.log('run here2')
+      // console.log('run here2')
       this.datetab1 = false
       this.datetab2 == true ? this.datetab2 = false : this.datetab2 = true
       this.filterstatustab = false
-      console.log(this.currentMonth3, this.currentYear3)
+      // console.log(this.currentMonth3, this.currentYear3)
       this.showCalendar3(this.currentMonth3, this.currentYear3)
     }
   }
@@ -694,12 +694,12 @@ export class TaskAllPage implements OnInit {
 
     this.route.queryParams.subscribe(s => {
       this.userid = s.uid
-      console.log(s)
+      // console.log(s)
     })
 
     this.http.post('https://api.nanogapp.com/getAppointmentDetailsForExec', { uid: this.userid }).subscribe((s) => {
       this.appointmentAll = s['data']
-      console.log(this.appointmentAll)
+      // console.log(this.appointmentAll)
       this.filteredappointment = s['data']
       // this.filterer('Appointment' , 'status')
 
@@ -709,19 +709,19 @@ export class TaskAllPage implements OnInit {
 
     this.http.post('https://api.nanogapp.com/getAppointmentForExecByDate', { execId: this.userid, startDate: this.temp.todaymilli, endDate: this.temp.tomorrowmilli }).subscribe((s) => {
       this.appointment = s['data']
-      console.log(this.appointment)
+      // console.log(this.appointment)
 
       this.appointmentwithpaymentdone = this.filterappointment('done')
-      console.log(this.appointmentwithpaymentdone)
+      // console.log(this.appointmentwithpaymentdone)
       this.appointmenwithoutpaymentdone = this.filterappointment('havent')
-      console.log(this.appointmenwithoutpaymentdone)
+      // console.log(this.appointmenwithoutpaymentdone)
     })
 
 
   }
 
   mapnavigate(latitude, longitude, address) {
-    console.log(latitude, longitude, address)
+    // console.log(latitude, longitude, address)
     if (latitude != null && longitude != null) {
       let destination = latitude + ',' + longitude;
 

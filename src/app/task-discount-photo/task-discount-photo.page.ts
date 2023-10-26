@@ -50,11 +50,11 @@ export class TaskDiscountPhotoPage implements OnInit {
       this.salesid = a['sid']
     })
     this.http.post('https://api.nanogapp.com/getAllSalesDiscount', { sales_id: this.salesid }).subscribe(a => {
-      console.log(a)
+      // console.log(a)
       this.custom = a['data'].filter(a => a['discount_id'] == null && a['need_photo'] == true)
       this.noncustom = a['data'].filter(a => a['discount_id'] != null && a['status'] == true && a['need_photo'] == true)
-      console.log(this.custom)
-      console.log(this.noncustom)
+      // console.log(this.custom)
+      // console.log(this.noncustom)
 
     }
     )
@@ -118,7 +118,7 @@ export class TaskDiscountPhotoPage implements OnInit {
       let base64Image = 'data:image/jpeg;base64,' + imageData;
       this.uploadserve(base64Image).then(res => {
         Swal.close()
-        console.log(res)
+        // console.log(res)
       })
     },
       (err) => {
@@ -148,8 +148,8 @@ export class TaskDiscountPhotoPage implements OnInit {
       if (event.target.files && event.target.files[i] && event.target.files[i].size < (10485768)) {
         this.imagectype = event.target.files[i].type;
         // EXIF.getData(event.target.files[0], () => {
-        //   console.log(event.target.files[0]);
-        //   console.log(event.target.files[0].exifdata.Orientation);
+        //   // console.log(event.target.files[0]);
+        //   // console.log(event.target.files[0].exifdata.Orientation);
         //   const orientation = EXIF.getTag(this, 'Orientation');
           const can = document.createElement('canvas');
           const ctx = can.getContext('2d');
@@ -158,7 +158,7 @@ export class TaskDiscountPhotoPage implements OnInit {
           const maxH = maxsize;
           thisImage.onload = (a) => {
 
-            console.log(a);
+            // console.log(a);
             const iw = thisImage.width;
             const ih = thisImage.height;
             const scale = Math.min((maxW / iw), (maxH / ih));
@@ -169,9 +169,9 @@ export class TaskDiscountPhotoPage implements OnInit {
             ctx.save();
             // const width = can.width; const styleWidth = can.style.width;
             // const height = can.height; const styleHeight = can.style.height;
-            // console.log(event.target.files[0]);
+            // // console.log(event.target.files[0]);
             // if (event.target.files[0] && event.target.files[0].exifdata.Orientation) {
-            //   console.log(event.target.files[0].exifdata.Orientation);
+            //   // console.log(event.target.files[0].exifdata.Orientation);
             //   if (event.target.files[0].exifdata.Orientation > 4) {
             //     can.width = height; can.style.width = styleHeight;
             //     can.height = width; can.style.height = styleWidth;
@@ -201,7 +201,7 @@ export class TaskDiscountPhotoPage implements OnInit {
             let body = new URLSearchParams()
             body.set('image', this.base64img)
 
-            console.log(this.custom[this.sncustom])
+            // console.log(this.custom[this.sncustom])
 
 
             // this.http.post('https://api.imgbb.com/1/upload?expiration=0&key=c0f647e7fcbb11760226c50f87b58303', body.toString(), { headers, observe: 'response' }).subscribe(res => {
@@ -300,7 +300,7 @@ export class TaskDiscountPhotoPage implements OnInit {
     }).subscribe(a => {
       this.refresher()
       Swal.close()
-      console.log(a)
+      // console.log(a)
     })
   }
 
@@ -332,7 +332,7 @@ export class TaskDiscountPhotoPage implements OnInit {
         //   reject(awe)
         // })
 
-        console.log(base64)
+        // console.log(base64)
 
         this.http.post('https://api.nanogapp.com/upload', { image: base64, folder: 'nanog', userid: 'nanog' }).subscribe((res) => {
           this.noncustom[this.snnoncustom].photo.push((res['imageURL']))
@@ -362,7 +362,7 @@ export class TaskDiscountPhotoPage implements OnInit {
       let base64Image = 'data:image/jpeg;base64,' + imageData;
       this.uploadserve2(base64Image).then(res => {
         Swal.close()
-        console.log(res)
+        // console.log(res)
       })
     },
       (err) => {
@@ -388,8 +388,8 @@ export class TaskDiscountPhotoPage implements OnInit {
       if (event.target.files && event.target.files[i] && event.target.files[i].size < (10485768)) {
         this.imagectype = event.target.files[i].type;
         // EXIF.getData(event.target.files[0], () => {
-        //   console.log(event.target.files[0]);
-        //   console.log(event.target.files[0].exifdata.Orientation);
+        //   // console.log(event.target.files[0]);
+        //   // console.log(event.target.files[0].exifdata.Orientation);
         //   const orientation = EXIF.getTag(this, 'Orientation');
           const can = document.createElement('canvas');
           const ctx = can.getContext('2d');
@@ -398,7 +398,7 @@ export class TaskDiscountPhotoPage implements OnInit {
           const maxH = maxsize;
           thisImage.onload = (a) => {
 
-            console.log(a);
+            // console.log(a);
             const iw = thisImage.width;
             const ih = thisImage.height;
             const scale = Math.min((maxW / iw), (maxH / ih));
@@ -409,9 +409,9 @@ export class TaskDiscountPhotoPage implements OnInit {
             ctx.save();
             // const width = can.width; const styleWidth = can.style.width;
             // const height = can.height; const styleHeight = can.style.height;
-            // console.log(event.target.files[0]);
+            // // console.log(event.target.files[0]);
             // if (event.target.files[0] && event.target.files[0].exifdata.Orientation) {
-            //   console.log(event.target.files[0].exifdata.Orientation);
+            //   // console.log(event.target.files[0].exifdata.Orientation);
             //   if (event.target.files[0].exifdata.Orientation > 4) {
             //     can.width = height; can.style.width = styleHeight;
             //     can.height = width; can.style.height = styleWidth;
@@ -441,7 +441,7 @@ export class TaskDiscountPhotoPage implements OnInit {
             let body = new URLSearchParams()
             body.set('image', this.base64img)
 
-            console.log(this.custom[this.snnoncustom])
+            // console.log(this.custom[this.snnoncustom])
 
 
             // this.http.post('https://api.imgbb.com/1/upload?expiration=0&key=c0f647e7fcbb11760226c50f87b58303', body.toString(), { headers, observe: 'response' }).subscribe(res => {
@@ -515,8 +515,8 @@ export class TaskDiscountPhotoPage implements OnInit {
   // }
 
   viewPhoto2(i, yi) {
-    console.log(i, yi)
-    console.log(this.noncustom[i].photo[yi])
+    // console.log(i, yi)
+    // console.log(this.noncustom[i].photo[yi])
     this.nav.navigateForward('image-viewer?imageurl=' +  this.noncustom[i].photo[yi])
   }
 
@@ -541,14 +541,14 @@ export class TaskDiscountPhotoPage implements OnInit {
   }
 
   saveToDatabase2(i) {
-    console.log(this.noncustom[i])
+    // console.log(this.noncustom[i])
     this.http.post('https://api.nanogapp.com/updatePhotoForSalesDiscount', {
       photo: JSON.stringify(this.noncustom[i].photo) || JSON.stringify([]),
       id: this.noncustom[i].id,
     }).subscribe(a => {
       this.refresher()
       Swal.close()
-      console.log(a)
+      // console.log(a)
     })
   }
 

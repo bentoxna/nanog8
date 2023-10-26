@@ -40,7 +40,7 @@ export class TaskPaymentSignPage implements OnInit {
 
   startDrawing(event: Event) {
     this.status = true
-    // console.log(event);
+    // // console.log(event);
     // works in device not in browser
 
   }
@@ -65,7 +65,7 @@ export class TaskPaymentSignPage implements OnInit {
     else {
       const base64Data = this.signaturePad.toDataURL();
       this.signatureImg = base64Data;
-      console.log(this.signatureImg);
+      // console.log(this.signatureImg);
       this.uploadserve2(this.signatureImg).then(a => {
         Swal.close()
         this.modal.dismiss(this.imageurl)
@@ -100,7 +100,7 @@ export class TaskPaymentSignPage implements OnInit {
           //   sub_sub_sign: temp,
           //   sales_id: this.salesid,
           // }).subscribe(a => {
-          //   console.log(a)
+          //   // console.log(a)
           //   resolve((res['imageURL']))
           // })
           resolve(res['imageURL'])

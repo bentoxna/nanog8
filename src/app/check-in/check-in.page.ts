@@ -76,12 +76,12 @@ export class CheckInPage implements OnInit {
   //       let fromDirectory = dir.join('/');      
   //       var toDirectory = this.file.dataDirectory;
 
-  //       console.log(fromDirectory , fileName , toDirectory , fileName)
+  //       // console.log(fromDirectory , fileName , toDirectory , fileName)
 
   //       this.file.copyFile(fromDirectory , fileName , toDirectory , fileName).then((res) => {
   //         this.storeMediaFiles([{name: fileName, size: capturedFile.size}]);
   //       },err => {
-  //         console.log('err: ', err);
+  //         // console.log('err: ', err);
   //       });
   //           },
   //     (err: CaptureError) => console.error(err));
@@ -171,7 +171,7 @@ export class CheckInPage implements OnInit {
   // ngOnInit() {
   //   this.plt.ready().then(() => {
   //     let path = this.file.dataDirectory;
-  //     console.log(path, MEDIA_FOLDER_NAME)
+  //     // console.log(path, MEDIA_FOLDER_NAME)
   //     this.file.checkDir(path, MEDIA_FOLDER_NAME).then(
   //       () => {
   //         this.loadFiles();
@@ -185,7 +185,7 @@ export class CheckInPage implements OnInit {
 
   // ngOnInit() {
   //   this.route.queryParams.subscribe(a => {
-  //     console.log(a)
+  //     // console.log(a)
   //     this.task = a
   //     this.leadid = a['lid']
   //     this.userid = a['uid']
@@ -194,24 +194,24 @@ export class CheckInPage implements OnInit {
   //     this.checkin.now = 1690830530001
   //     this.http.post('https://api.nanogapp.com/getSalesExec', { uid: a.uid }).subscribe((s) => {
   //       this.user = s['data']
-  //       console.log(this.user)
+  //       // console.log(this.user)
   //     })
   //     this.checkingstatus()
   //   })
   // }
 
   ngOnInit() {
-    console.log('address string', this.addressstring)
+    // console.log('address string', this.addressstring)
 
     this.getaddress()
     // this.getphoto()
     this.gpsstatuschecker()
     this.platformType()
 
-    console.log(this.platformType())
+    // console.log(this.platformType())
 
     this.route.queryParams.subscribe(a => {
-      console.log(a)
+      // console.log(a)
       this.task = a
       this.leadid = a['lid']
       this.userid = a['uid']
@@ -219,10 +219,10 @@ export class CheckInPage implements OnInit {
       this.appointment_time = a['time']
       this.http.post('https://api.nanogapp.com/getSalesExec', { uid: a.uid }).subscribe((s) => {
         this.user = s['data']
-        console.log(this.user)
+        // console.log(this.user)
       })
       // this.selectedtask = this.customer.filter(x => (x['tid'].toLowerCase()).includes(a['tid'].toLowerCase()))
-      // console.log(this.selectedtask)
+      // // console.log(this.selectedtask)
 
     })
   }
@@ -247,19 +247,19 @@ export class CheckInPage implements OnInit {
   async getlocation() {
     return new Promise((resolve, reject) => {
       this.geolocation.getCurrentPosition().then((resp) => {
-        console.log(resp)
+        // console.log(resp)
         this.location = resp.coords
         resolve(this.location)
       }).catch((error) => {
-        console.log('Error getting location', error);
+        // console.log('Error getting location', error);
         reject()
       });
     })
   }
 
   // convertlocation() {
-  //   console.log('run here geocoder')
-  //   console.log(this.location.latitude, this.location.longitude)
+  //   // console.log('run here geocoder')
+  //   // console.log(this.location.latitude, this.location.longitude)
   //   let options: NativeGeocoderOptions = {
   //     useLocale: true,
   //     maxResults: 5
@@ -268,7 +268,7 @@ export class CheckInPage implements OnInit {
   //   this.nativeGeocoder.reverseGeocode(2.7092367, 101.964655, options)
   //     .then((result: NativeGeocoderResult[]) => {
 
-  //       console.log(JSON.stringify(result[0]))
+  //       // console.log(JSON.stringify(result[0]))
   //       this.address = result[0]
 
   //       let address = []
@@ -283,7 +283,7 @@ export class CheckInPage implements OnInit {
   //         address.push(this.address.countryName)
   //         this.addressstring = address.filter(a => a != '')
   //         this.addressstring = this.addressstring.toString()
-  //         console.log(this.addressstring)
+  //         // console.log(this.addressstring)
 
   //         Swal.close()
   //       }
@@ -298,7 +298,7 @@ export class CheckInPage implements OnInit {
   //         address.push(this.address.countryName)
   //         this.addressstring = address.filter(a => a != '')
   //         this.addressstring = this.addressstring.toString()
-  //         console.log(this.addressstring)
+  //         // console.log(this.addressstring)
 
   //         Swal.close()
   //       }
@@ -306,7 +306,7 @@ export class CheckInPage implements OnInit {
 
   //     }
   //     ).catch((error: any) => {
-  //       console.log(error)
+  //       // console.log(error)
   //       Swal.close()
   //     } 
   //     );
@@ -316,8 +316,8 @@ export class CheckInPage implements OnInit {
     let geocoder = new google.maps.Geocoder;
     let latlng = { lat: this.location.latitude, lng: this.location.longitude };
     geocoder.geocode({ 'location': latlng }, (results, status) => {
-      console.log(results);
-      console.log(status);
+      // console.log(results);
+      // console.log(status);
       if (results.length > 0) {
         this.addressstring = results[0].formatted_address
         this.addressstring = this.addressstring.toString()
@@ -327,7 +327,7 @@ export class CheckInPage implements OnInit {
         this.addressstring = 'Undefined Address'
         Swal.close()
       }
-      console.log(this.addressstring)
+      // console.log(this.addressstring)
 
     });
   }
@@ -426,13 +426,13 @@ export class CheckInPage implements OnInit {
         let base64Image = 'data:image/jpeg;base64,' + imageData;
         // this.photo.push(base64Image)
         this.checkin.now = new Date().getTime();
-        console.log(base64Image)
+        // console.log(base64Image)
         this.uploadserve2(base64Image).then(res => {
           Swal.close()
           resolve(res)
         })
       }, (err) => {
-        console.log(err)
+        // console.log(err)
         // Handle error
       });
     })
@@ -449,7 +449,7 @@ export class CheckInPage implements OnInit {
     }
     else if (this.imageurl.length < 9) {
       await this.takePhoto().then(a => {
-        console.log(this.addressstring)
+        // console.log(this.addressstring)
         if (!this.addressstring) {
           this.getaddress()
         }
@@ -498,7 +498,7 @@ export class CheckInPage implements OnInit {
     })
   }
   // submit(){
-  //   console.log({
+  //   // console.log({
   //     latt: this.location.latitude,
   //     long: this.location.longitude,
   //     time: this.checkin.now,
@@ -576,12 +576,12 @@ export class CheckInPage implements OnInit {
           // let datetime2 = [datetime, todayarray[4]].join(' ')
           // let datetime3 = new Date(datetime2).getTime()
 
-          // console.log(datetime3)
+          // // console.log(datetime3)
 
-          console.log(this.checkin.now)
+          // console.log(this.checkin.now)
 
 
-          console.log(this.location.latitude, this.location.longitude, this.checkin.now, this.imageurl, this.task.tid)
+          // console.log(this.location.latitude, this.location.longitude, this.checkin.now, this.imageurl, this.task.tid)
 
           if(this.checkin_status == 'first')
           {
@@ -657,7 +657,7 @@ export class CheckInPage implements OnInit {
       let hour = Math.floor(millisecond / (1000 * 60 * 60))
       let min = Math.floor((millisecond % (1000 * 60 * 60)) / (1000 * 60))
       string = 'early ' + (hour ?  (hour + ' hour ') : '') + min + ' minutes' 
-      console.log(string)
+      // console.log(string)
     }
     else if(num1 > num2)
     {
@@ -665,7 +665,7 @@ export class CheckInPage implements OnInit {
       let hour = Math.floor(millisecond / (1000 * 60 * 60))
       let min = Math.floor((millisecond % (1000 * 60 * 60)) / (1000 * 60))
       string = 'late ' + (hour ?  (hour + ' hour ') : '') + min + ' minutes' 
-      console.log(string)
+      // console.log(string)
     }
     // if(num1 <= num2)
     // {
@@ -697,8 +697,8 @@ export class CheckInPage implements OnInit {
     //     temp = 'more than 1 day late'
     //   }
     // }
-    console.log(this.checkin.now) 
-    console.log(this.appointment_time)
+    // console.log(this.checkin.now) 
+    // console.log(this.appointment_time)
     
     return string
   }
@@ -722,9 +722,9 @@ export class CheckInPage implements OnInit {
 
 
   removePhoto(x) {
-    console.log(x)
+    // console.log(x)
     let findphoto = this.imageurl.findIndex(a => a == x)
-    console.log(findphoto)
+    // console.log(findphoto)
     if (findphoto != -1) {
       this.imageurl.splice(findphoto, 1)
     }
@@ -735,7 +735,7 @@ export class CheckInPage implements OnInit {
   //     res => {
   //       this.files = res;
   //     },
-  //     err => console.log('error loading files: ', err)
+  //     err => // console.log('error loading files: ', err)
   //   );
   // }
 
@@ -844,7 +844,7 @@ export class CheckInPage implements OnInit {
   //         this.loadFiles();
   //       },
   //       error => {
-  //         console.log('error: ', error);
+  //         // console.log('error: ', error);
   //       }
   //     );
   //   }
@@ -858,9 +858,9 @@ export class CheckInPage implements OnInit {
   //     } else if (f.name.indexOf('.MOV') > -1 || f.name.indexOf('.mp4') > -1) {
 
   //       // this.videoPlayer.play(f.nativeURL).then(() => {
-  //       //   console.log('video completed')
+  //       //   // console.log('video completed')
   //       // }).catch(err => {
-  //       //   console.log(err)
+  //       //   // console.log(err)
   //       // });
   //       let options: StreamingVideoOptions = {
   //           // orientation: 'landscape',
@@ -877,7 +877,7 @@ export class CheckInPage implements OnInit {
   //     const path = f.nativeURL.substr(0, f.nativeURL.lastIndexOf('/') + 1);
   //     this.file.removeFile(path, f.name).then(() => {
   //       this.loadFiles();
-  //     }, err => console.log('error remove: ', err));
+  //     }, err => // console.log('error remove: ', err));
   //   }
 
   // takeVideo() {
@@ -885,14 +885,14 @@ export class CheckInPage implements OnInit {
   //   this.mediaCapture.captureVideo(options)
   //     .then(
   //       (data: MediaFile[]) => {
-  //         console.log(data)
+  //         // console.log(data)
   //         this.checkinvideo.push(data[0]['localURL'])
 
   //       },
   //       (err: CaptureError) => alert(err)
   //     );
 
-  //     console.log(this.checkinvideo)
+  //     // console.log(this.checkinvideo)
   // }
 
   platformType() {

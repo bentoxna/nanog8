@@ -32,15 +32,15 @@ export class ReminderPage implements OnInit {
 
   ngOnInit() {
     this.http.post('https://api.nanogapp.com/getAppointmentForReminder2', { execId: this.userid, startDate: this.sevendaysafterstart, endDate: this.sevendaysafterend }).subscribe((s) => {
-      console.log(s)
+      // console.log(s)
       this.appointmentsevendaysbefore = s['data']
     })
     this.http.post('https://api.nanogapp.com/getAppointmentForReminder2', { execId: this.userid, startDate: this.threedaysafterstart, endDate: this.threedaysafterend }).subscribe((s) => {
-      console.log(s)
+      // console.log(s)
       this.appointmentthreedaysbefore = s['data']
     })
     this.http.post('https://api.nanogapp.com/getAppointmentForReminder2', { execId: this.userid, startDate: this.onedaysafterstart, endDate: this.onedaysafterend }).subscribe((s) => {
-      console.log(s)
+      // console.log(s)
       this.appointmentonedaysbefore = s['data']
     })
 
@@ -55,7 +55,7 @@ export class ReminderPage implements OnInit {
   }
 
   mapnavigate(latitude, longitude, address) {
-    console.log(latitude, longitude, address)
+    // console.log(latitude, longitude, address)
     if (latitude != null && longitude != null) {
       let destination = latitude + ',' + longitude;
 

@@ -46,56 +46,56 @@ export class HomePage {
     // this.route.queryParams.subscribe(a => {
     //   firebase.database().ref('users/' + a.uid).on('value', a =>{
     //     this.user = a.val()
-    //     console.log(this.user)
+    //     // console.log(this.user)
     //   })
     // })
 
     // this.http.post('https://api.nanogapp.com/getAppointmentForExecByDate', {execId:"LbdDaz3w3yPFVjTEQVr6PbGP3PC3", startDate: '2022-10-05 00:00:00', endDate: '2022-10-04 00:00:00'}).subscribe((s) => {
           
-    //   console.log(s)
+    //   // console.log(s)
     //   this.todaytask = s['appointment']
-    //   console.log(this.todaytask)
+    //   // console.log(this.todaytask)
     // })
     
 
     this.route.queryParams.subscribe(a => {
-      console.log(a)
+      // console.log(a)
       this.http.post('https://api.nanogapp.com/getSalesExec', {uid:a.uid}).subscribe((s) => {
-        console.log(s['data'].user_name)
+        // console.log(s['data'].user_name)
         this.user = s['data']
-        console.log(this.user)
+        // console.log(this.user)
         localStorage.setItem('nanogapp_uid', this.user.uid)
         this.temp.now = new Date()
         this.temp.today = this.changedateformat(this.temp.now)
         this.temp.todaymilli = new Date(this.temp.today).getTime()
 
         this.temp.tomorrowmilli = this.temp.todaymilli + 86400000
-        console.log(this.temp.tomorrowmilli)
+        // console.log(this.temp.tomorrowmilli)
         // this.temp.tomorrowmilli2 = new Date(this.temp.todaymilli + 86400000)
         // this.temp.tomorrow = this.changedateformat(this.temp.tomorrowmilli2)
         
         this.temp.thedateaftertomorrowmilli = this.temp.todaymilli + (86400000 * 2)
-        console.log(this.temp.todaymilli + (86400000 * 2))
+        // console.log(this.temp.todaymilli + (86400000 * 2))
         // this.temp.thedateaftertomorrowmilli2 = new Date(this.temp.todaymilli + (86400000 * 2))
         // this.temp.thedateaftertomorrow = this.changedateformat(this.temp.thedateaftertomorrowmilli2)
 
-        console.log(this.customer)
+        // console.log(this.customer)
 
         this.http.post('https://api.nanogapp.com/getAppointmentForExecByDate', {execId:a.uid, startDate: this.temp.todaymilli, endDate: this.temp.tomorrowmilli}).subscribe((s) => {
-          console.log(s)
+          // console.log(s)
           this.todaytask = s['data']
           for(let i = 0 ; i < this.todaytask.length; i ++)
           {
             this.todaytask[i].appointment_time2 = this.todaytask[i].appointment_time.split('T')
           }
-          console.log(this.todaytask)
+          // console.log(this.todaytask)
         })
 
         this.http.post('https://api.nanogapp.com/getAppointmentForExecByDate', {execId:a.uid, startDate: this.temp.tomorrowmilli, endDate: this.temp.thedateaftertomorrowmilli}).subscribe((s) => {
           
-          console.log(s)
+          // console.log(s)
           this.tomorrowtask = s['data']
-          console.log(this.tomorrowtask)
+          // console.log(this.tomorrowtask)
         })
 
       })
@@ -104,7 +104,7 @@ export class HomePage {
   }
 
   changedateformat(x){
-    console.log(x)
+    // console.log(x)
     let year = x.getFullYear()
     let month = '' + (x.getMonth() + 1)
     let date = '' + x.getDate()
@@ -122,7 +122,7 @@ export class HomePage {
     let fulldate = [year, month, date].join('-')
     let fulldatewithtime = [fulldate, hour].join(' ')
 
-    console.log(fulldatewithtime)
+    // console.log(fulldatewithtime)
     return fulldatewithtime
   }
 
@@ -157,7 +157,7 @@ export class HomePage {
   }
 
   godetail(x){
-    console.log(x)
+    // console.log(x)
     this.nav.navigateForward('task-detail?uid=' + this.user.uid + '&tid=' + x)
   }
 
@@ -170,7 +170,7 @@ export class HomePage {
   }
 
   signout(){
-    console.log('run here')
+    // console.log('run here')
     firebase.auth().signOut()
   }
 
@@ -199,7 +199,7 @@ export class HomePage {
 
 
   mapnavigate(latitude, longitude, address) {
-    console.log(latitude, longitude, address)
+    // console.log(latitude, longitude, address)
     if (latitude != null && longitude != null) {
       let destination = latitude + ',' + longitude;
 

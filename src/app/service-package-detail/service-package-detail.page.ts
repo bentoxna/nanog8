@@ -21,7 +21,7 @@ export class ServicePackageDetailPage implements OnInit {
       this.package_id = a['pid']
 
       this.http.post('https://api.nanogapp.com/getPackagesByPackageId', {pid : a['pid']}).subscribe(a => {
-        console.log(a['data'])
+        // console.log(a['data'])
       })
     })
   }

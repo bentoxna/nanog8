@@ -34,11 +34,11 @@ packagediscountitem = [] as any
     this.taskid = this.navparams.get('tid')
     this.salesid = this.navparams.get('sid')
     this.sapid = this.navparams.get('sapid') ? this.navparams.get('sapid') : null
-    console.log(this.sapid, this.taskid, this.salesid)
+    // console.log(this.sapid, this.taskid, this.salesid)
     // this.http.post('https://api.nanogapp.com/getAppointmentDetails', { id: this.taskid }).subscribe((s) => { 
-    //   console.log(s)
+    //   // console.log(s)
     //   this.totalprice = s['data']['sales_packages'].map(a => a['total']).reduce((a,b) => a + b, 0)  
-    //   console.log(this.totalprice)
+    //   // console.log(this.totalprice)
     // }) 
 
     this.http.post('https://api.nanogapp.com/getAllSalesDiscount', {sales_id: this.salesid}).subscribe(a => { 
@@ -48,9 +48,9 @@ packagediscountitem = [] as any
     })
 
     this.http.post('https://api.nanogapp.com/getMainAndAddOnPackagesJoinDiscount', { sap_id: this.sapid }).subscribe(a => {
-      console.log(a)
+      // console.log(a)
       this.package = a['data'][0]
-      console.log(this.package)
+      // console.log(this.package)
       if(this.package && this.package.dis_items)
       {
         this.ServiceCalculator()
@@ -58,7 +58,7 @@ packagediscountitem = [] as any
       else if(this.package && !this.package.dis_items)
       {
         this.package.aftertotal = this.package.total
-        console.log(this.package.aftertotal)
+        // console.log(this.package.aftertotal)
       }
     })
 
@@ -67,7 +67,7 @@ packagediscountitem = [] as any
   ServiceCalculator(){
       return new Promise((resolve, reject) => {
         this.package.aftertotal = this.package.total
-        console.log(this.package.dis_items)
+        // console.log(this.package.dis_items)
         if(this.package.dis_items)
         {
           for(let j = 0 ; j < this.package.dis_items.length; j++)
@@ -75,7 +75,7 @@ packagediscountitem = [] as any
             if(this.package.dis_items[j].dis_type)
             {
               this.package.aftertotal = Number((this.package.aftertotal * (100 - this.package.dis_items[j].dis_percentage) / 100).toFixed(2))
-              console.log(this.package.aftertotal)
+              // console.log(this.package.aftertotal)
             }
           }
     
@@ -84,7 +84,7 @@ packagediscountitem = [] as any
             if(!this.package.dis_items[j].dis_type)
             {
               this.package.aftertotal = Number((this.package.aftertotal - this.package.dis_items[j].dis_percentage).toFixed(2))
-              console.log(this.package.aftertotal)
+              // console.log(this.package.aftertotal)
             }
           }
         }
@@ -118,7 +118,7 @@ packagediscountitem = [] as any
       }
 
       this.package.aftertotal = this.package.total
-      console.log(this.package.dis_items)
+      // console.log(this.package.dis_items)
       if(this.package.dis_items)
       {
         for(let j = 0 ; j < this.package.dis_items.length; j++)
@@ -126,7 +126,7 @@ packagediscountitem = [] as any
           if(this.package.dis_items[j].dis_type)
           {
             this.package.aftertotal = Number((this.package.aftertotal * (100 - this.package.dis_items[j].dis_percentage) / 100).toFixed(2))
-            console.log(this.package.aftertotal)
+            // console.log(this.package.aftertotal)
           }
         }
   
@@ -135,7 +135,7 @@ packagediscountitem = [] as any
           if(!this.package.dis_items[j].dis_type)
           {
             this.package.aftertotal = Number((this.package.aftertotal - this.package.dis_items[j].dis_percentage).toFixed(2))
-            console.log(this.package.aftertotal)
+            // console.log(this.package.aftertotal)
           }
         }
       }
@@ -209,7 +209,7 @@ packagediscountitem = [] as any
           if(this.sapid)
           {
             this.ServiceCalculator2().then(a => {
-              console.log(a)
+              // console.log(a)
               this.http.post('https://api.nanogapp.com/AddNewSalesPackageDiscountWritten', {
                 name : this.custom.name, 
                 remark : null,
@@ -228,7 +228,7 @@ packagediscountitem = [] as any
           }
           else if(!this.sapid)
           {
-            console.log('run here for discount?')
+            // console.log('run here for discount?')
             this.http.post('https://api.nanogapp.com/AddNewSalesDiscountWritten', {
               name : this.custom.name, 
               remark : null,

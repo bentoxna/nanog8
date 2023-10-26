@@ -32,16 +32,16 @@ export class PdfReceiptInvoicePage implements OnInit {
       this.salesid = a['sid']
 
       this.http.post('https://api.nanogapp.com/getReceiptInApp', {sales_id : this.salesid}).subscribe(a => {
-        console.log(a['data'])
+        // console.log(a['data'])
         this.paymentdetail = a['data']
-        console.log(this.paymentdetail)
+        // console.log(this.paymentdetail)
       })
     })
   }
 
   getpdf(y, i){
     let pdfurl
-    console.log(y)
+    // console.log(y)
 
       // this.paymentdetail[i].receipt.filter(a => a['pdf'].split('/')[4] == y ? pdfurl = a['pdf'] : pdfurl = pdfurl)
     window.open(y.pdf, '_system')

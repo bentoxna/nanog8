@@ -15,7 +15,7 @@ export class ImageViewerPage implements OnInit {
 
   ngOnInit() {
     this.route.queryParams.subscribe(res => {
-      console.log(res)
+      // console.log(res)
       this.photo = res['imageurl']
     })
   }

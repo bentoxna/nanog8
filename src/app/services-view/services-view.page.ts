@@ -79,27 +79,27 @@ export class ServicesViewPage implements OnInit {
         }
         this.filterer(this.packages)
 
-        console.log(this.service, this.otherpackage)
+        // console.log(this.service, this.otherpackage)
 
         this.imageurl = this.service.pack_image
-        console.log(this.imageurl)
+        // console.log(this.imageurl)
 
         this.http.get('https://api.nanogapp.com/getPackages').subscribe(a => {
           this.packages = a['data']
-          console.log(this.packages)
-          console.log(this.service)
-          console.log(this.service.package_id)
+          // console.log(this.packages)
+          // console.log(this.service)
+          // console.log(this.service.package_id)
           let findpackage = a['data'].findIndex(b => b['id'] == this.service.package_id)
-          console.log(findpackage)
+          // console.log(findpackage)
           this.service.package = a['data'][findpackage]
-          console.log(this.service.package)
+          // console.log(this.service.package)
         })
 
 
         this.http.get('https://api.nanogapp.com/getAllPlace').subscribe(a => {
           this.arealist = a['data']
           this.arealist.push({ name: 'others' })
-          console.log(this.arealist)
+          // console.log(this.arealist)
 
         })
       })
@@ -129,7 +129,7 @@ export class ServicesViewPage implements OnInit {
     else {
       this.service.total = (this.service.subtotal).toFixed(2)
     }
-    console.log(this.service.total, this.service.subtotal)
+    // console.log(this.service.total, this.service.subtotal)
   }
   
   platformType() {
@@ -164,11 +164,11 @@ export class ServicesViewPage implements OnInit {
 
 
   filterer(x) {
-    console.log(this.service.services && this.service.sqft && this.service.area)
+    // console.log(this.service.services && this.service.sqft && this.service.area)
     if (this.service.services && this.service.sqft && this.service.area) {
       let temp = this.packages.filter(a => a['service'].toLowerCase() == this.service.services.toLowerCase()
         && a['sqft'].toLowerCase() == this.service.sqft.toLowerCase())
-      console.log(temp)
+      // console.log(temp)
       return temp
     }
   }

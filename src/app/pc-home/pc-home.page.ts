@@ -18,9 +18,9 @@ export class PcHomePage implements OnInit {
 
   ngOnInit() {
     this.route.queryParams.subscribe(a => {
-      console.log(a)
+      // console.log(a)
       this.http.post('https://api.nanogapp.com/getSalesExec', {uid:a.uid}).subscribe((s) => {
-        console.log(s)
+        // console.log(s)
         this.user = s['data']
       })
     })

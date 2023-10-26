@@ -62,15 +62,15 @@ export class ScheduleCalanderPage implements OnInit {
     // this.selectedyear = new Date().getFullYear()
     // this.selectedmonth = new Date().getMonth()
     // this.selecteddate = new Date().getDate()
-    // console.log(this.today)
-    // console.log(this.todaydate)
+    // // console.log(this.today)
+    // // console.log(this.todaydate)
     this.socket.connect();
     this.socket.fromEvent('a').subscribe(message => {
-      // console.log(message)
+      // // console.log(message)
       this.refresher()
     }); 
-    // console.log(new Date().getMonth() + 1)
-    // console.log(new Date().getFullYear())
+    // // console.log(new Date().getMonth() + 1)
+    // // console.log(new Date().getFullYear())
 
     this.createdate((new Date().getMonth() + 1), new Date().getFullYear())
 
@@ -81,28 +81,28 @@ export class ScheduleCalanderPage implements OnInit {
       this.salesid = a['sid']
       this.leadid = a['lid']
 
-      // console.log(this.userid, this.taskid, this.salesid)
+      // // console.log(this.userid, this.taskid, this.salesid)
 
-      // console.log(this.selectedyear, this.selectedmonth)
+      // // console.log(this.selectedyear, this.selectedmonth)
       this.startdate = new Date(parseInt(this.selectedyear), parseInt(this.selectedmonth) -1 , 1).getTime()
-      // console.log(this.startdate)
+      // // console.log(this.startdate)
 
       this.enddate = new Date(parseInt(this.selectedyear), parseInt(this.selectedmonth), 0, 23,59,59).getTime()
-      // console.log(this.enddate)
+      // // console.log(this.enddate)
       this.getworkschedule()
     })
 
-    // console.log(this.userid, this.taskid, this.salesid)
-    // console.log(this.dates)
+    // // console.log(this.userid, this.taskid, this.salesid)
+    // // console.log(this.dates)
     // this.http.post('https://api.nanogapp.com/getUserDetail', { uid: this.userid }).subscribe(res => {
     //   this.user = res['data']
-    //   console.log(this.user)
+    //   // console.log(this.user)
     // })
 
 
     // this.http.post('https://api.nanogapp.com/getAppointmentDetails', { id: this.taskid }).subscribe(res => {
     //   this.appointment = res['data']
-    //   console.log(this.appointment)
+    //   // console.log(this.appointment)
     //   this.salesid = res['data']['sales_id']
     // })
   }
@@ -114,7 +114,7 @@ export class ScheduleCalanderPage implements OnInit {
   // }
 
   refresher(){
-    console.log('here')
+    // console.log('here')
     this.createdate((new Date().getMonth() + 1), new Date().getFullYear())
 
     this.route.queryParams.subscribe(a => {
@@ -123,14 +123,14 @@ export class ScheduleCalanderPage implements OnInit {
       this.taskid = a['tid']
       this.salesid = a['sid']
 
-      console.log(this.userid, this.taskid, this.salesid)
+      // console.log(this.userid, this.taskid, this.salesid)
 
-      console.log(this.selectedyear, this.selectedmonth)
+      // console.log(this.selectedyear, this.selectedmonth)
       this.startdate = new Date(parseInt(this.selectedyear), parseInt(this.selectedmonth) -1 , 1).getTime()
-      console.log(this.startdate)
+      // console.log(this.startdate)
 
       this.enddate = new Date(parseInt(this.selectedyear), parseInt(this.selectedmonth), 0, 23,59,59).getTime()
-      console.log(this.enddate)
+      // console.log(this.enddate)
       this.getworkschedule()
     })
   }
@@ -154,17 +154,17 @@ export class ScheduleCalanderPage implements OnInit {
       //     })
       //   }
       // }
-      console.log(this.startdate, this.enddate)
+      // console.log(this.startdate, this.enddate)
       this.http.post('https://api.nanogapp.com/getScheduleByDateForList', { minimum: this.startdate, maximum: this.enddate}).subscribe(res => {
   
 
         this.allschedule = res['data']
-        console.log(this.allschedule)
+        // console.log(this.allschedule)
         this.http.post('https://api.nanogapp.com/getFromDateByDateForList', { minimum: this.startdate, maximum: this.enddate }).subscribe(s => {
-          console.log(s)
+          // console.log(s)
           this.allfromdate = s['data']
           this.alldate = this.allschedule.concat(this.allfromdate)
-          console.log(this.alldate)
+          // console.log(this.alldate)
           if (this.alldate.length < 1) {
             for (let i = 0; i < this.dates.length; i++) {
               if (this.dates[i] != '') {
@@ -179,7 +179,7 @@ export class ScheduleCalanderPage implements OnInit {
                 this.dates[i].num = 0
                 this.dates[i].isthisappointment = false
                 for (let j = 0; j < this.alldate.length; j++) {
-                  // console.log(new Date(parseInt(this.alldate[j].schedule_date)).getDate())
+                  // // console.log(new Date(parseInt(this.alldate[j].schedule_date)).getDate())
                   if(this.alldate[j].schedule_date && (!this.alldate[j].schedule_date2 || this.alldate[j].schedule_date2 && this.alldate[j].schedule_date2.length < 1))
                   {
                     if (this.dates[i].date == new Date(parseInt(this.alldate[j].schedule_date)).getDate()) {
@@ -189,8 +189,8 @@ export class ScheduleCalanderPage implements OnInit {
                         let findsalesid = this.dates[i]['sales_id'].findIndex(a => a == this.alldate[j].sales_id)
                         if(i == 8)
                         {
-                          console.log(findsalesid)
-                          console.log(this.alldate[j].sales_id)
+                          // console.log(findsalesid)
+                          // console.log(this.alldate[j].sales_id)
                         }
                         if(findsalesid == -1)
                         {
@@ -257,7 +257,7 @@ export class ScheduleCalanderPage implements OnInit {
         // this.refresher()
       })
       // this.http.post('https://api.nanogapp.com/getScheduleByDate', { minimum: this.startdate, maximum: this.enddate}).subscribe(res => {
-      //   console.log(res)
+      //   // console.log(res)
       //   this.allschedule = res['data']
       //   if (this.allschedule.length < 1) {
       //     for (let i = 0; i < this.dates.length; i++) {
@@ -351,7 +351,7 @@ export class ScheduleCalanderPage implements OnInit {
     //   this.todaydate = '0' + this.todaydate
     // }
 
-    console.log(this.todayyear, this.todaymonth, this.todaydate)
+    // console.log(this.todayyear, this.todaymonth, this.todaydate)
     return [this.todayyear, this.todaymonth, this.todaydate].join('-')
   }
 
@@ -360,12 +360,12 @@ export class ScheduleCalanderPage implements OnInit {
   //   this.todaymonth = x
   //   this.todaydate = z
 
-  //   console.log(this.todayyear, this.todaymonth, this.todaydate)
+  //   // console.log(this.todayyear, this.todaymonth, this.todaydate)
   //   return [this.todayyear, this.todaymonth, this.todaydate].join('-')
   // }
 
   createdate(x, y) {
-    console.log(x, y)
+    // console.log(x, y)
     this.dates = []
     let datelength = new Date(parseInt(y), parseInt(x), 0, 23, 59, 59).getDate()
     for (let i = 0; i < datelength; i++) {
@@ -394,7 +394,7 @@ export class ScheduleCalanderPage implements OnInit {
   }
 
   previousmonth() {
-    console.log('previous')
+    // console.log('previous')
     if (this.todaymonth >= 2) {
       this.todaymonth = parseInt(this.todaymonth) - 1
     }
@@ -414,13 +414,13 @@ export class ScheduleCalanderPage implements OnInit {
     this.createdate(this.todaymonth, this.todayyear)
     this.startdate = new Date(parseInt(this.todayyear), parseInt(this.todaymonth) - 1, 1).getTime()
     this.enddate = new Date(parseInt(this.todayyear) , parseInt(this.todaymonth), 0, 23, 59, 59).getTime()
-    console.log(this.todayyear, this.todaymonth)
-    console.log(this.startdate, this.enddate)
+    // console.log(this.todayyear, this.todaymonth)
+    // console.log(this.startdate, this.enddate)
     this.getworkschedule()
   }
 
   nextmonth() {
-    console.log('next')
+    // console.log('next')
     if (this.todaymonth <= 11) {
       this.todaymonth = parseInt(this.todaymonth) + 1
       this.todayyear = this.todayyear
@@ -436,36 +436,36 @@ export class ScheduleCalanderPage implements OnInit {
     else if (this.todaymonth < 2) {
       monthbynewDate = 12
     }
-    console.log(this.todayyear, this.todaymonth, monthbynewDate)
+    // console.log(this.todayyear, this.todaymonth, monthbynewDate)
     this.createdate(this.todaymonth, this.todayyear)
     this.startdate = new Date(parseInt(this.todayyear), parseInt(this.todaymonth) - 1, 1).getTime()
     this.enddate = new Date(parseInt(this.todayyear), parseInt(this.todaymonth), 0, 23, 59, 59).getTime()
-    console.log(this.todayyear, this.todaymonth, monthbynewDate)
-    console.log(this.startdate, this.enddate)
+    // console.log(this.todayyear, this.todaymonth, monthbynewDate)
+    // console.log(this.startdate, this.enddate)
     this.getworkschedule()
 
   }
 
   getdate(x) {
-    // console.log(x)
+    // // console.log(x)
     this.selecteddate = x
     this.fulldate = new Date(parseInt(this.selectedyear), parseInt(this.selectedmonth) - 1, parseInt(this.selecteddate)).getTime()
     let fulltomorrow = new Date(parseInt(this.selectedyear), parseInt(this.selectedmonth) - 1, parseInt(this.selecteddate), 23, 59, 59).getTime()
 
-    // console.log(this.fulldate, fulltomorrow)
+    // // console.log(this.fulldate, fulltomorrow)
 
     this.http.post('https://api.nanogapp.com/getScheduleByDate', { minimum: this.fulldate, maximum: fulltomorrow }).subscribe(res => {
-      console.log(res['data'])
+      // console.log(res['data'])
       this.bookinglist = res['data']
 
 
       this.http.post('https://api.nanogapp.com/getFromDateByDate', { minimum: this.fulldate, maximum: fulltomorrow }).subscribe(s => {
         this.installlist = s['data']
-        console.log(this.installlist)
+        // console.log(this.installlist)
 
         this.alllist = this.bookinglist.concat(this.installlist)
 
-        console.log(this.alllist)
+        // console.log(this.alllist)
         this.alllist.filter(a => a['created_by'] == this.userid ? a['owm'] = true : a['owm'] = false)
 
       })
@@ -486,23 +486,23 @@ export class ScheduleCalanderPage implements OnInit {
       //     }
       //   }
       // }
-      console.log(this.dates)
+      // console.log(this.dates)
     })
   }
 
 
   // getdate2(x) {
-  //   console.log(x)
+  //   // console.log(x)
   //   this.selecteddate = x
-  //   console.log(this.selectedmonth, this.selectedyear, this.selecteddate.date)
+  //   // console.log(this.selectedmonth, this.selectedyear, this.selecteddate.date)
   //   this.fulldate = new Date([this.selectedyear, this.selectedmonth, this.selecteddate.date].join('-')).getTime()
-  //   console.log(this.fulldate)
+  //   // console.log(this.fulldate)
   //   let fulltomorrow = this.fulldate + 86400000
 
   //   this.http.post('https://api.nanogapp.com/getScheduleByDate', { minimum: this.fulldate, maximum: fulltomorrow }).subscribe(res => {
   //     let temp = res['data']
-  //     console.log(temp)
-  //     console.log(this.dates)
+  //     // console.log(temp)
+  //     // console.log(this.dates)
   //     for (let i = 0; i < this.dates.length; i++) {
   //       if (this.dates[i].date == this.selecteddate.date) {
   //         for (let j = 0; j < this.dates[i].list.length; j++) {
@@ -514,25 +514,25 @@ export class ScheduleCalanderPage implements OnInit {
   //       }
   //     }
 
-  //     console.log(this.dates)
+  //     // console.log(this.dates)
   //   })
   // }
 
   // test(x, i){
-  //   console.log(x)
-  //   console.log(i)
-  //   console.log(this.selecteddate)
+  //   // console.log(x)
+  //   // console.log(i)
+  //   // console.log(this.selecteddate)
   // }
 
   async insertschedule(x, i, scid) {
-    console.log(x)
+    // console.log(x)
     let index = 0
     if (x.data == '') {
       this.http.post('https://api.nanogapp.com/getAllScheduleBySales', { sales_id: this.salesid }).subscribe(res => {
-        console.log(res)
+        // console.log(res)
         this.schedulework = res['data']
         this.scheduleworkapprove = this.schedulework.filter(a => a['approve_status'] != false)
-        console.log(this.scheduleworkapprove)
+        // console.log(this.scheduleworkapprove)
         if(this.scheduleworkapprove.length > 0)
         {
           Swal.fire({
@@ -565,7 +565,7 @@ export class ScheduleCalanderPage implements OnInit {
       })
 
       modal.onDidDismiss().then(a => {
-        console.log(a)
+        // console.log(a)
         if (a['data'] == 'success') {
           this.getdate(this.selecteddate)
           for (let i = 0; i < this.dates.length; i++) {
@@ -578,7 +578,7 @@ export class ScheduleCalanderPage implements OnInit {
       })
       await modal.present()
     }
-    console.log(x, i, scid)
+    // console.log(x, i, scid)
   }
 
   async insert(x, i , scid){
@@ -589,7 +589,7 @@ export class ScheduleCalanderPage implements OnInit {
       })
 
       modal.onDidDismiss().then(a => {
-        console.log(a)
+        // console.log(a)
         if (a['data'] == 'success') {
           this.getdate(this.selecteddate)
           for (let i = 0; i < this.dates.length; i++) {
@@ -598,13 +598,13 @@ export class ScheduleCalanderPage implements OnInit {
             }
           }
           this.http.post('https://api.nanogapp.com/getScheduleByDate', { minimum: this.startdate, maximum: this.enddate}).subscribe(res => {
-            console.log(res)
+            // console.log(res)
             this.allschedule = res['data']
             this.http.post('https://api.nanogapp.com/getFromDateByDate', { minimum: this.startdate, maximum: this.enddate }).subscribe(s => {
-              console.log(s)
+              // console.log(s)
               this.allfromdate = s['data']
               this.alldate = this.allschedule.concat(this.allfromdate)
-              console.log(this.alldate)
+              // console.log(this.alldate)
               if (this.alldate.length < 1) {
                 for (let i = 0; i < this.dates.length; i++) {
                   if (this.dates[i] != '') {
@@ -619,7 +619,7 @@ export class ScheduleCalanderPage implements OnInit {
                     this.dates[i].num = 0
                     this.dates[i].isthisappointment = false
                     for (let j = 0; j < this.alldate.length; j++) {
-                      // console.log(new Date(parseInt(this.alldate[j].schedule_date)).getDate())
+                      // // console.log(new Date(parseInt(this.alldate[j].schedule_date)).getDate())
                       if (this.dates[i].date == new Date(parseInt(this.alldate[j].schedule_date)).getDate()) {
                         this.dates[i].num = this.dates[i].num + 1
                         if (this.alldate[j]['sales_id'] == this.salesid) {
@@ -631,7 +631,7 @@ export class ScheduleCalanderPage implements OnInit {
                 }
               }
             })
-            console.log(this.dates)
+            // console.log(this.dates)
           })
         }
       })
@@ -661,7 +661,7 @@ export class ScheduleCalanderPage implements OnInit {
           schedule_id: scid,
           status: false,
         }).subscribe(a => {
-          console.log(a)
+          // console.log(a)
           if (a['success'] == true) {
             if (a['data'] == undefined) {
               Swal.fire({
@@ -724,19 +724,19 @@ export class ScheduleCalanderPage implements OnInit {
   search(){
     let temp1
     let temp2
-    console.log(this.keyword)
+    // console.log(this.keyword)
     this.http.post('https://api.nanogapp.com/getFromDateBySearch', {
       keyword : this.keyword.toLowerCase()
         }).subscribe(a => {
-          console.log(a)
+          // console.log(a)
           temp1 = a['data']
           this.http.post('https://api.nanogapp.com/getScheduleBySearch', {
             keyword : this.keyword.toLowerCase()
           }).subscribe(b => {
-            console.log(b)
+            // console.log(b)
             temp2 = b['data']
             this.scheduletasklist = temp1.concat(temp2)
-            console.log(this.scheduletasklist)
+            // console.log(this.scheduletasklist)
           })
         })
   }

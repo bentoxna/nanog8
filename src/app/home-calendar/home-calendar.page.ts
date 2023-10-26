@@ -54,12 +54,12 @@ export class HomeCalendarPage implements OnInit {
     private socket: Socket) { }
 
   ngOnInit() {
-    console.log(this.today)
-    console.log(this.todaydate)
+    // console.log(this.today)
+    // console.log(this.todaydate)
 
     this.socket.connect();
     this.socket.fromEvent('a').subscribe(message => {
-      console.log(message)
+      // console.log(message)
       this.refresher()
     });
 
@@ -70,19 +70,19 @@ export class HomeCalendarPage implements OnInit {
       this.taskid = a['tid']
       this.salesid = a['sid']
 
-      console.log(this.userid, this.taskid, this.salesid)
+      // console.log(this.userid, this.taskid, this.salesid)
 
-      console.log(this.selectedyear, this.selectedmonth)
+      // console.log(this.selectedyear, this.selectedmonth)
       this.startdate = new Date(parseInt(this.selectedyear), parseInt(this.selectedmonth) - 1, 1).getTime()
-      console.log(this.startdate)
+      // console.log(this.startdate)
 
       this.enddate = new Date(parseInt(this.selectedyear), parseInt(this.selectedmonth), 0, 23, 59, 59).getTime()
-      console.log(this.enddate)
+      // console.log(this.enddate)
       this.getworkschedule()
     })
 
-    console.log(this.userid, this.taskid, this.salesid)
-    console.log(this.dates)
+    // console.log(this.userid, this.taskid, this.salesid)
+    // console.log(this.dates)
   }
 
   // refresher(){
@@ -92,7 +92,7 @@ export class HomeCalendarPage implements OnInit {
   // }
 
   refresher() {
-    console.log('here')
+    // console.log('here')
     this.createdate((new Date().getMonth() + 1), new Date().getFullYear())
 
     this.route.queryParams.subscribe(a => {
@@ -101,30 +101,30 @@ export class HomeCalendarPage implements OnInit {
       this.taskid = a['tid']
       this.salesid = a['sid']
 
-      console.log(this.userid, this.taskid, this.salesid)
+      // console.log(this.userid, this.taskid, this.salesid)
 
-      console.log(this.selectedyear, this.selectedmonth)
+      // console.log(this.selectedyear, this.selectedmonth)
       this.startdate = new Date(parseInt(this.selectedyear), parseInt(this.selectedmonth) - 1, 1).getTime()
-      console.log(this.startdate)
+      // console.log(this.startdate)
 
       this.enddate = new Date(parseInt(this.selectedyear), parseInt(this.selectedmonth), 0, 23, 59, 59).getTime()
-      console.log(this.enddate)
+      // console.log(this.enddate)
       this.getworkschedule()
     })
   }
 
   // getworkschedule() {
-  //   console.log(this.startdate, this.enddate)
+  //   // console.log(this.startdate, this.enddate)
   //   this.http.post('https://api.nanogapp.com/getScheduleByDateForList', { minimum: this.startdate, maximum: this.enddate }).subscribe(res => {
 
   //     this.allschedule = res['data']
-  //     console.log(this.allschedule)
+  //     // console.log(this.allschedule)
 
   //     this.http.post('https://api.nanogapp.com/getFromDateByDateForList', { minimum: this.startdate, maximum: this.enddate }).subscribe(s => {
-  //       console.log(s)
+  //       // console.log(s)
   //       this.allfromdate = s['data']
   //       this.alldate = this.allschedule.concat(this.allfromdate)
-  //       console.log(this.alldate)
+  //       // console.log(this.alldate)
   //       if (this.alldate.length < 1) {
   //         for (let i = 0; i < this.dates.length; i++) {
   //           if (this.dates[i] != '') {
@@ -139,7 +139,7 @@ export class HomeCalendarPage implements OnInit {
   //             this.dates[i].num = 0
   //             this.dates[i].isthisappointment = false
   //             for (let j = 0; j < this.alldate.length; j++) {
-  //               // console.log(new Date(parseInt(this.alldate[j].schedule_date)).getDate())
+  //               // // console.log(new Date(parseInt(this.alldate[j].schedule_date)).getDate())
   //               if (this.dates[i].date == new Date(parseInt(this.alldate[j].schedule_date)).getDate()) {
   //                 this.dates[i].num = this.dates[i].num + 1
   //                 if (this.alldate[j]['sales_id'] == this.salesid) {
@@ -168,17 +168,17 @@ export class HomeCalendarPage implements OnInit {
     //     })
     //   }
     // }
-    console.log(this.startdate, this.enddate)
+    // console.log(this.startdate, this.enddate)
     this.http.post('https://api.nanogapp.com/getScheduleByDateForList', { minimum: this.startdate, maximum: this.enddate}).subscribe(res => {
 
 
       this.allschedule = res['data']
-      console.log(this.allschedule)
+      // console.log(this.allschedule)
       this.http.post('https://api.nanogapp.com/getFromDateByDateForList', { minimum: this.startdate, maximum: this.enddate }).subscribe(s => {
-        console.log(s)
+        // console.log(s)
         this.allfromdate = s['data']
         this.alldate = this.allschedule.concat(this.allfromdate)
-        console.log(this.alldate)
+        // console.log(this.alldate)
         if (this.alldate.length < 1) {
           for (let i = 0; i < this.dates.length; i++) {
             if (this.dates[i] != '') {
@@ -193,7 +193,7 @@ export class HomeCalendarPage implements OnInit {
               this.dates[i].num = 0
               this.dates[i].isthisappointment = false
               for (let j = 0; j < this.alldate.length; j++) {
-                // console.log(new Date(parseInt(this.alldate[j].schedule_date)).getDate())
+                // // console.log(new Date(parseInt(this.alldate[j].schedule_date)).getDate())
                 if(this.alldate[j].schedule_date && (!this.alldate[j].schedule_date2 || this.alldate[j].schedule_date2 && this.alldate[j].schedule_date2.length < 1))
                 {
                   if (this.dates[i].date == new Date(parseInt(this.alldate[j].schedule_date)).getDate()) {
@@ -266,7 +266,7 @@ export class HomeCalendarPage implements OnInit {
       // this.refresher()
     })
     // this.http.post('https://api.nanogapp.com/getScheduleByDate', { minimum: this.startdate, maximum: this.enddate}).subscribe(res => {
-    //   console.log(res)
+    //   // console.log(res)
     //   this.allschedule = res['data']
     //   if (this.allschedule.length < 1) {
     //     for (let i = 0; i < this.dates.length; i++) {
@@ -333,12 +333,12 @@ export class HomeCalendarPage implements OnInit {
     this.todaymonth = '' + (x.getMonth() + 1)
     this.todaydate = '' + (x.getDate())
 
-    console.log(this.todayyear, this.todaymonth, this.todaydate)
+    // console.log(this.todayyear, this.todaymonth, this.todaydate)
     return [this.todayyear, this.todaymonth, this.todaydate].join('-')
   }
 
   createdate(x, y) {
-    console.log(x, y)
+    // console.log(x, y)
     this.dates = []
     let datelength = new Date(parseInt(y), parseInt(x), 0, 23, 59, 59).getDate()
     for (let i = 0; i < datelength; i++) {
@@ -362,7 +362,7 @@ export class HomeCalendarPage implements OnInit {
   }
 
   previousmonth() {
-    console.log('previous')
+    // console.log('previous')
     if (this.todaymonth >= 2) {
       this.todaymonth = parseInt(this.todaymonth) - 1
     }
@@ -374,13 +374,13 @@ export class HomeCalendarPage implements OnInit {
     this.createdate(this.todaymonth, this.todayyear)
     this.startdate = new Date(parseInt(this.todayyear), parseInt(this.todaymonth) - 1, 1).getTime()
     this.enddate = new Date(parseInt(this.todayyear), parseInt(this.todaymonth), 0, 23, 59, 59).getTime()
-    console.log(this.todayyear, this.todaymonth)
-    console.log(this.startdate, this.enddate)
+    // console.log(this.todayyear, this.todaymonth)
+    // console.log(this.startdate, this.enddate)
     this.getworkschedule()
   }
 
   nextmonth() {
-    console.log('next')
+    // console.log('next')
     if (this.todaymonth <= 11) {
       this.todaymonth = parseInt(this.todaymonth) + 1
       this.todayyear = this.todayyear
@@ -396,30 +396,30 @@ export class HomeCalendarPage implements OnInit {
     else if (this.todaymonth < 2) {
       monthbynewDate = 12
     }
-    console.log(this.todayyear, this.todaymonth, monthbynewDate)
+    // console.log(this.todayyear, this.todaymonth, monthbynewDate)
     this.createdate(this.todaymonth, this.todayyear)
     this.startdate = new Date(parseInt(this.todayyear), parseInt(this.todaymonth) - 1, 1).getTime()
     this.enddate = new Date(parseInt(this.todayyear), parseInt(this.todaymonth), 0, 23, 59, 59).getTime()
-    console.log(this.todayyear, this.todaymonth, monthbynewDate)
-    console.log(this.startdate, this.enddate)
+    // console.log(this.todayyear, this.todaymonth, monthbynewDate)
+    // console.log(this.startdate, this.enddate)
     this.getworkschedule()
 
   }
 
   getdate(x) {
-    console.log(x)
+    // console.log(x)
     this.selecteddate = x
     this.fulldate = new Date(parseInt(this.selectedyear), parseInt(this.selectedmonth) - 1, parseInt(this.selecteddate)).getTime()
     let fulltomorrow = new Date(parseInt(this.selectedyear), parseInt(this.selectedmonth) - 1, parseInt(this.selecteddate), 23, 59, 59).getTime()
 
-    console.log(this.fulldate, fulltomorrow)
+    // console.log(this.fulldate, fulltomorrow)
 
     this.http.post('https://api.nanogapp.com/getScheduleByDate', { minimum: this.fulldate, maximum: fulltomorrow }).subscribe(res => {
-      console.log(res['data'])
+      // console.log(res['data'])
       this.bookinglist = res['data']
       this.http.post('https://api.nanogapp.com/getFromDateByDate', { minimum: this.fulldate, maximum: fulltomorrow }).subscribe(s => {
         this.installlist = s['data']
-        console.log(this.installlist)
+        // console.log(this.installlist)
 
         this.alllist = this.bookinglist.concat(this.installlist)
         this.alllist.filter(a => a['created_by'] == this.userid ? a['owm'] = true : a['owm'] = false)
@@ -427,7 +427,7 @@ export class HomeCalendarPage implements OnInit {
       })
 
 
-      console.log(this.dates)
+      // console.log(this.dates)
     })
   }
 

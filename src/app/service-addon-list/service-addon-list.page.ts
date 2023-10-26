@@ -27,21 +27,21 @@ export class ServiceAddonListPage implements OnInit {
     private nav: NavController) { }
 
   ngOnInit() {
-    console.log(this.uid)
+    // console.log(this.uid)
     this.route.queryParams.subscribe(a => {
       this.sap = a['sap']
       this.sid = a['sid']
       this.tid = a['tid']
       this.lid = a['lid']
 
-      console.log(this.sap)
+      // console.log(this.sap)
       this.refresher()
     })
   }
 
   refresher(){
     this.http.post('https://api.nanogapp.com/getMainAndAddOnPackages', { sap_id: this.sap }).subscribe(a => {
-      console.log(a)
+      // console.log(a)
       this.wholeService = a['data']
       this.mainService = a['data'].filter(a => !a['addon_id'])
       this.addonService = a['data'].filter(a => a['addon_id'])
@@ -71,7 +71,7 @@ export class ServiceAddonListPage implements OnInit {
   }
 
   delete(i){
-    console.log(this.addonService[i])
+    // console.log(this.addonService[i])
     let delete_id = this.addonService[i].sap_id
     Swal.fire({
       text : 'Are you sure want to delete this packages?',
