@@ -1916,4 +1916,65 @@ export class TaskDetailPage implements OnInit {
   inspect(){
     this.nav.navigateForward('inspect?aid=' + this.appointment.appointment_id + '&salesid=' + this.salesid + '&leadid=' + this.appointment.lead_id)
   }
+
+
+  openSignature() {
+    Swal.fire({
+      title: 'Signature Type',
+      icon: 'info',
+      showDenyButton: true,
+      showCancelButton: false,
+      html: '<b>Sof/Payment Signature</b><br/>https://admin-nanog.web.app/form-page?no=' + this.appointment.lead_id + '&form=4&type=1&t=' + new Date().getTime() + '<br/><br/><b>Installation Signature</b><br/>https://admin-nanog.web.app/form-page?no=' + this.appointment.lead_id + '&form=4&type=2&t=' + new Date().getTime(),
+      confirmButtonText: 'Copy SOF/Payment Signature',
+      denyButtonText: `Copy Installation Signature`,
+      heightAuto: false,
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        this.copyLinkToClipboard('https://admin-nanog.web.app/form-page?no=' + this.appointment.lead_id + '&form=4&type=1&t=' + new Date().getTime())
+        // window.open('https://admin-nanog.web.app/form-page?no=' + this.lead.lead_id + '&form=4&type=1&t=' + new Date().getTime(), '_blank');
+      } else if (result.isDenied) {
+        this.copyLinkToClipboard('https://admin-nanog.web.app/form-page?no=' + this.appointment.lead_id + '&form=4&type=2&t=' + new Date().getTime())
+        // window.open('https://admin-nanog.web.app/form-page?no=' + this.lead.lead_id + '&form=4&type=2&t=' + new Date().getTime(), '_blank');
+      }
+    })
+  }
+
+  copyLinkToClipboard(x) {
+    const link = x;
+
+    // Create a temporary input element
+    const input = document.createElement('input');
+    input.value = link;
+    document.body.appendChild(input);
+
+    // Select the input element's content
+    input.select();
+
+    // Copy the selected content to clipboard
+    document.execCommand('copy');
+
+    // Remove the temporary input element
+    document.body.removeChild(input);
+    const Toast = Swal.mixin({
+      toast: true,
+      position: 'top',
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        Swal.showLoading()
+      }
+    })
+
+    Toast.fire({
+      icon: 'info',
+      title: 'Link Copied to ClipBoard'
+    })
+
+    // Optionally, you can show a notification to indicate that the link has been copied.
+    // You can use a library like ngx-toastr or create your own notification component.
+    // For example, if you're using ngx-toastr:
+    // this.toastr.success('Link copied to clipboard!', 'Success');
+  }
 }

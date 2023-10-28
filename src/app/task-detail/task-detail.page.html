@@ -60,15 +60,23 @@
 
 
                         <div [ngClass]="'buttonstatus ? button4 : button4x'" (click)="inspect()"
-                        style="background: lightblue; color: darkcyan; border: 1px solid darkcyan; box-shadow: 0 0 6px 0 #ddd; height: 30px; width: 150px; font-size: 11px; font-weight: 600;
+                        style="background: rgb(219, 244, 253); color: darkcyan; border: 1px solid darkcyan; box-shadow: 0 0 6px 0 #ddd; height: 30px; width: 150px; font-size: 11px; font-weight: 600;
                             display: flex; justify-content: center; align-items: center; text-align: center; right: 10px; top: 25px;  border-radius: 10px;text-shadow: 0 0 2px #ddd; margin-top: 10px;">
                         Inspect</div>
 
 
                     <div [ngClass]="'buttonstatus ? button5 : button5x'" (click)="addequipment()"
-                        style="background: white; color: #000; border: 1px solid black; box-shadow: 0 0 6px 0 #ddd; height: 30px; width: 150px; font-size: 11px; font-weight: 600;
+                        style="background: rgb(219, 244, 253); color: darkcyan; border: 1px solid darkcyan; box-shadow: 0 0 6px 0 #ddd; height: 30px; width: 150px; font-size: 11px; font-weight: 600;
                             display: flex; justify-content: center; align-items: center; text-align: center; border-radius: 10px; margin-top: 5px;">
                         Add Equipment</div>
+
+
+                        <div [ngClass]="'buttonstatus ? button6 : button6x'" (click)="openSignature()"
+                        style="background: white; color: #000; border: 1px solid black; box-shadow: 0 0 6px 0 #ddd; height: 30px; 
+                        width: 150px; font-size: 11px; font-weight: 600;
+                            display: flex; justify-content: center; align-items: center; text-align: center; border-radius: 10px; margin-top: 15px;">
+                        Request Signature</div>
+
                 </div>
 
 
@@ -304,6 +312,12 @@
                     </div>
                 </div> -->
 
+                <!-- <div (click)="openSignature()" class="quotation_button"
+                style="width: 130px; cursor: pointer; padding: 8px 15px; border-radius: 10px;margin-left: 15px;">
+                <div style="width: 100%; text-align: center; font-size: 10px; font-weight: 500; letter-spacing: 1px; ">
+                  Request Signature</div>
+              </div> -->
+
                 <div *ngIf="((!appointment.checkin_latt || !appointment.checkin_long|| !appointment.checkin_time || !appointment.checkin_img) 
                 && !appointment.check_detail)
                 || ((!appointment.checkin_latt || !appointment.checkin_long|| !appointment.checkin_time || !appointment.checkin_img) 
@@ -312,7 +326,7 @@
                     (click)="checkin('first')" style="width:100%; display: flex; justify-content: center;">
                     <div
                         style="width: 90%; text-align: center; padding: 8px 0; font-size: 16px; font-weight: 600; border: 2px solid #6DAD48; border-radius: 10px;">
-                        Check In</div>
+                        {{appointment['bypass'] ? 'Check-in Not Required' : 'Check In'}}</div>
                 </div>
 
 
@@ -325,7 +339,7 @@
                     style="width:100%; display: flex; justify-content: center; margin-top: 10px;">
                     <div
                         style="width: 90%; text-align: center; padding: 8px 0; font-size: 16px; font-weight: 600; border: 2px solid #6DAD48; border-radius: 10px;">
-                        Check In</div>
+                        {{appointment['bypass'] ? 'Check-in Not Required' : 'Check In'}}</div>
                 </div>
 
 
