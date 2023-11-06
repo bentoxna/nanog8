@@ -260,6 +260,10 @@ const routes: Routes = [
     path: 'website-sign',
     loadChildren: () => import('./website-sign/website-sign.module').then( m => m.WebsiteSignPageModule)
   },
+  {
+    path: 'pdf-service-form',
+    loadChildren: () => import('./pdf-service-form/pdf-service-form.module').then( m => m.PdfServiceFormPageModule)
+  },
 
 
 
