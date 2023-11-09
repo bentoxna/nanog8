@@ -88,6 +88,9 @@ export class PdfServiceFormPage implements OnInit {
 
           Swal.close()
           this.loading = true
+
+          // this.remarkarray()
+          // this.workerarray()
         })
 
     })
@@ -192,6 +195,44 @@ export class PdfServiceFormPage implements OnInit {
     // columns[5].text = "Rate(RM)"
     // columns[6].text = "Price(RM)"
     return body
+  }
+
+
+  remarkarray() {
+    let remarkbody = [] as any
+    if (this.services.schedule_remarks && this.services.schedule_remarks.length > 0) {
+      this.services.schedule_remarks.forEach(a => {
+        const dataitem = a.schedule_remark;
+        remarkbody.push({text : dataitem, style: 'dataItem2'});
+      })
+
+
+      return remarkbody
+
+    }
+    else
+    {
+      return []
+    }
+  }
+
+
+  workerarray() {
+    let workerbody = [] as any
+    if (this.services.assigned_worker && this.services.assigned_worker.length > 0) {
+      this.services.assigned_worker.forEach(a => {
+        const dataitem = a.user_name + '\n ' +  a.user_phone_no + '\n ' + a.user_email;
+        workerbody.push({text : dataitem, style: 'dataItem'});
+      })
+
+
+      return workerbody
+
+    }
+    else
+    {
+      return []
+    }
   }
 
 
@@ -438,6 +479,20 @@ export class PdfServiceFormPage implements OnInit {
             // { text: 'total', style: "tableHeader" }
           ],
         ),
+        {
+          columns: [
+            { text: 'Remarks', fontSize: 12, width: '100%', bold: true, margin: [0, 10, 0, 2], alignment: 'left', },
+          ]
+        },
+
+        this.remarkarray(),
+  
+
+
+       
+        
+
+        
         // this.extraservicetable(),
         // {
         //   columns: [
@@ -501,10 +556,8 @@ export class PdfServiceFormPage implements OnInit {
           columns: [
             {
               stack: [
-                { text: 'Created by:', fontSize: 11, width: '45%', bold: true, margin: [0, 0, 0, 2], alignment: 'left', },
-                { text: this.user.user_name + '(' + this.user.user_role + ')', fontSize: 9, width: '45%', color: '#444444', alignment: 'left', margin: [0, 5, 0, 0] },
-                { text: this.user.user_phone_no, fontSize: 9, width: '45%', color: '#444444', alignment: 'left', margin: [0, 0, 0, 0] },
-                { text: this.user.user_email, fontSize: 9, width: '45%', color: '#444444', alignment: 'left', margin: [0, 0, 0, 0] },
+                { text: 'Workers Information', fontSize: 11, width: '55%', bold: true, margin: [0, 0, 0, 2] },
+                this.workerarray(),
               ],
               width: '45%'
             },
@@ -539,7 +592,7 @@ export class PdfServiceFormPage implements OnInit {
           columns: [
             { 
               stack: [
-                { text: 'Worker Signature', fontSize: 11, width: '55%', bold: true, margin: [0, 20, 0, 2], alignment: 'right' },
+                { text: 'Worker Signature', fontSize: 11, width: '55%', bold: true, margin: [0, 20, 0, 4], alignment: 'right' },
                 {
                   columns: [
                     {
@@ -577,7 +630,15 @@ export class PdfServiceFormPage implements OnInit {
         },
         boldText: {
           bold: true
-        }
+        },
+        dataItem: {
+          fontSize: 9,
+          margin: [0, 0, 0, 4],
+        },
+        dataItem2: {
+          fontSize: 9,
+          margin: [0, 0, 0, 2],
+        },
       }
     };
 
