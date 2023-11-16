@@ -270,36 +270,49 @@ export class PdfServiceFormPage implements OnInit {
 
     return new Promise((resolve, reject) => {
       console.log(this.services.sales_id)
+      let num = this.services.sales_order_number
+      let tempnum = '' + this.services.sales_order_number
+      if ((num + '').length < 5) {
+        for (let i = 0; i < (5 - (num + '').length); i++) {
+          tempnum = '0' + tempnum
+          console.log(tempnum)
+        }
+        resolve(tempnum);
+      }
+      else if ((num + '').length >= 5) {
+        tempnum = '' + tempnum
+        resolve(tempnum);
+      }
 
-        this.http.post('https://api.nanogapp.com/getServiceFormnumber', {sales_id : this.services.sales_id}).subscribe(a => {
-          let num : Number
-          if(a['data'][0]['id'])
-          {
-            num =  a['data'][0]['id']
-            this.services.serviceformid = a['data'][0]['id']
-          }
-          else
-          {
-            num = a['data'][0]['sofkey'] + 1
-          }
+        // this.http.post('https://api.nanogapp.com/getServiceFormnumber', {sales_id : this.services.sales_id}).subscribe(a => {
+        //   let num : Number
+        //   if(a['data'][0]['id'])
+        //   {
+        //     num =  a['data'][0]['id']
+        //     this.services.serviceformid = a['data'][0]['id']
+        //   }
+        //   else
+        //   {
+        //     num = a['data'][0]['sofkey'] + 1
+        //   }
 
-          this.servicenum = num
-          if ((num + '').length < 5) {
-            for (let i = 0; i < (5 - (num + '').length); i++) {
-              this.servicenum = '0' + this.servicenum
-            }
-            resolve(this.servicenum);
-          }
-          else if ((num + '').length >= 5) {
-            this.servicenum = '' + this.servicenum
-            resolve(this.servicenum);
-          }
-        })
+        //   this.servicenum = num
+        //   if ((num + '').length < 5) {
+        //     for (let i = 0; i < (5 - (num + '').length); i++) {
+        //       this.servicenum = '0' + this.servicenum
+        //     }
+        //     resolve(this.servicenum);
+        //   }
+        //   else if ((num + '').length >= 5) {
+        //     this.servicenum = '' + this.servicenum
+        //     resolve(this.servicenum);
+        //   }
+        // })
       })
   }
 
   async openpdf() {
-    this.quoteid = 'SER/NANO-' + await this.getservicenum()
+    this.quoteid = 'SOF/NANO-' + await this.getservicenum()
 
     Swal.fire({
       text: 'Processing...',
