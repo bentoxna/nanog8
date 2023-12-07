@@ -806,14 +806,32 @@ export class ServicesEditPage implements OnInit {
 
 
   filterer(x) {
+    // if (this.service.services && this.service.sqft && this.service.area && this.remove == false) {
+    //   let temp = this.package_install.filter(a => a['service'].toLowerCase() == this.service.services.toLowerCase()
+    //     && a['sqft'].toLowerCase() == this.service.sqft.toLowerCase())
+    //   return temp
+    // }
+    // else if (this.service.services && this.service.sqft && this.service.area && this.remove == true) {
+    //   let temp = this.package_remove.filter(a => a['service'].toLowerCase() == this.service.services.toLowerCase()
+    //     && a['sqft'].toLowerCase() == this.service.sqft.toLowerCase())
+    //   return temp
+    // }
     if (this.service.services && this.service.sqft && this.service.area && this.remove == false) {
       let temp = this.package_install.filter(a => a['service'].toLowerCase() == this.service.services.toLowerCase()
-        && a['sqft'].toLowerCase() == this.service.sqft.toLowerCase())
+        &&
+        Number(a['sqft'].split('-')[0]) < (this.service.sqft == 'others' ?  -1 :  Number(this.service.sqft)) 
+        && Number(a['sqft'].split('-')[1]) >= (this.service.sqft == 'others' ? -1 : Number(this.service.sqft))
+        )
+        // console.log(temp)
       return temp
     }
     else if (this.service.services && this.service.sqft && this.service.area && this.remove == true) {
       let temp = this.package_remove.filter(a => a['service'].toLowerCase() == this.service.services.toLowerCase()
-        && a['sqft'].toLowerCase() == this.service.sqft.toLowerCase())
+      &&
+      Number(a['sqft'].split('-')[0]) < (this.service.sqft == 'others' ? -1 : Number(this.service.sqft)) 
+        && Number(a['sqft'].split('-')[1]) >= (this.service.sqft == 'others' ? -1 : Number(this.service.sqft))
+        )
+      // console.log(temp)
       return temp
     }
   }

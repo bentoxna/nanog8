@@ -98,31 +98,25 @@ export class ServicesAddPage implements OnInit {
         for (let i = 0; i < this.packages.length; i++) {
           this.packages[i].detailstatus = false
         }
-        // console.log(this.packages)
 
         this.package_install = this.packages.filter(a => a['job_type'] == 'Install')
         this.package_remove = this.packages.filter(a => a['job_type'] == 'Remove')
-        // console.log(this.package_install, this.package_remove)
       })
 
       this.http.get('https://api.nanogapp.com/getAllPlace').subscribe(a => {
         this.arealist = a['data']
         this.arealist.push({ name: 'others' })
-        // console.log(this.arealist)
       })
     })
 
     this.http.post('https://api.nanogapp.com/getSalesPackageDetails', { sales_id: this.salesid }).subscribe(res => {
       this.allPackagesSubtotal = res['data'].map(a => a['total']).reduce((a, b) => a + b, 0)
-      // console.log(this.allPackagesSubtotal)
     })
 
-    // console.log(this.taskid, this.uid, this.salesid)
   }
 
 
   handleChange(x){
-    // console.log(x['detail']['value'])
     this.service.package_warranty = x['detail']['value']
     // let warranty = x['detail']['value']
     // this.http.post('https://api.nanogapp.com/updatewarranty', {warranty : warranty , salesid: this.salesid}).subscribe(a => { 
@@ -768,15 +762,31 @@ export class ServicesAddPage implements OnInit {
   }
 
   filterer(x) {
+    // if (this.service.services && this.service.sqft && this.service.area && this.remove == false) {
+    //   let temp = this.package_install.filter(a => a['service'].toLowerCase() == this.service.services.toLowerCase()
+    //     && a['sqft'].toLowerCase() == this.service.sqft.toLowerCase())
+    //   return temp
+    // }
+    // else if (this.service.services && this.service.sqft && this.service.area && this.remove == true) {
+    //   let temp = this.package_remove.filter(a => a['service'].toLowerCase() == this.service.services.toLowerCase()
+    //     && a['sqft'].toLowerCase() == this.service.sqft.toLowerCase())
+    //   return temp
+    // }
     if (this.service.services && this.service.sqft && this.service.area && this.remove == false) {
       let temp = this.package_install.filter(a => a['service'].toLowerCase() == this.service.services.toLowerCase()
-        && a['sqft'].toLowerCase() == this.service.sqft.toLowerCase())
-      // console.log(temp)
+        &&
+        Number(a['sqft'].split('-')[0]) < (this.service.sqft == 'others' ?  -1 :  Number(this.service.sqft)) 
+        && Number(a['sqft'].split('-')[1]) >= (this.service.sqft == 'others' ? -1 : Number(this.service.sqft))
+        )
+        // console.log(temp)
       return temp
     }
     else if (this.service.services && this.service.sqft && this.service.area && this.remove == true) {
       let temp = this.package_remove.filter(a => a['service'].toLowerCase() == this.service.services.toLowerCase()
-        && a['sqft'].toLowerCase() == this.service.sqft.toLowerCase())
+      &&
+      Number(a['sqft'].split('-')[0]) < (this.service.sqft == 'others' ? -1 : Number(this.service.sqft)) 
+        && Number(a['sqft'].split('-')[1]) >= (this.service.sqft == 'others' ? -1 : Number(this.service.sqft))
+        )
       // console.log(temp)
       return temp
     }

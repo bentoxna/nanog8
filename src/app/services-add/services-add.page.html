@@ -158,7 +158,21 @@
           <div style="font-size: 13px; font-weight:600;">Sqft</div>
         </div>
 
-        <div *ngIf="service.services && service.area"
+        <div style="display: flex; align-items:center; justify-content: space-between; margin-top: 10px;">
+          <ion-input placeholder="Enter sqft" type="number" style="background: #E6EED7; padding: 8px 0; text-align: center; font-size: 14px; 
+        --padding-start: 5px; --padding-end: 5px; border-radius: 4px; box-shadow: 0 0 4px 0 #CCCCCC;"
+            [(ngModel)]="service.sqft" (ionChange)="dropdown = true"></ion-input>
+        </div>
+
+        <!-- <div (click)="nonpackage()"
+        style="height: max-content; padding: 10px 16px; background:#E6EED7; margin-top: 5px;">
+        <div
+          style="font-size: 14px; width: max-content; background: #6DAD48; color: #ffffff; padding: 4px 8px; border-radius: 4px; display: flex; justify-content: center; align-items: center;">
+          Non package
+        </div>
+      </div> -->
+
+        <!-- <div *ngIf="service.services && service.area"
           style="width: 100%; display: flex; justify-content:flex-start; margin-top: 5px; flex-wrap: wrap;">
           <div *ngFor="let x of sizelist; let i = index" style="width: calc((100% / 3) - 6px); margin:3px;">
             <div
@@ -166,7 +180,7 @@
               (click)="getsqft(i)" style="padding: 0 6px; font-size: 11px; width: 100%; border-radius: 8px; display: flex; justify-content: center; align-items: center; 
             height: 40px; box-shadow:  0 0 4px 0 #ddd; text-align: center; ">{{x}}</div>
           </div>
-        </div>
+        </div> -->
 
       </div>
 

@@ -1395,7 +1395,7 @@ export class TaskDetailPage implements OnInit {
     //   icon : 'warning',
     //   heightAuto : false,
     // })
-    this.nav.navigateForward('pdf-sales-order-form?uid=' + this.userid + '&tid=' + this.taskid + '&sid=' + this.salesid + '&tab=' + 2)
+    this.nav.navigateForward('pdf-sales-order-form?uid=' + this.userid + '&tid=' + this.taskid + '&sid=' + this.salesid + '&tab=' + (this.appointment.sales_status == 'Full Payment' ? 1 : 2))
     // this.nav.navigateForward('pdf-sof-fill?tid=' + this.taskid + '&sid=' + this.salesid + '&leadid=' + this.appointment.lead_id)
   }
 
