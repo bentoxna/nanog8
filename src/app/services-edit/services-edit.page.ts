@@ -788,19 +788,24 @@ export class ServicesEditPage implements OnInit {
     }
   }
 
-  async getdropdownitemdetail(i) {
-    if (this.packages[i].detailstatus == true) {
-      for (let i = 0; i < this.packages.length; i++) {
-        this.packages[i].detailstatus = false
-      }
-    }
-    else if (this.packages[i].detailstatus == false) {
-      for (let i = 0; i < this.packages.length; i++) {
-        this.packages[i].detailstatus = false
-      }
-      this.packages[i].detailstatus = true
-      this.selectedpackage = this.packages[i]
-    }
+  async getdropdownitemdetail(x) {
+    // if (this.packages[i].detailstatus == true) {
+    //   for (let i = 0; i < this.packages.length; i++) {
+    //     this.packages[i].detailstatus = false
+    //   }
+    // }
+    // else if (this.packages[i].detailstatus == false) {
+    //   for (let i = 0; i < this.packages.length; i++) {
+    //     this.packages[i].detailstatus = false
+    //   }
+    //   this.packages[i].detailstatus = true
+    //   this.selectedpackage = this.packages[i]
+    // }
+    this.packages.filter(a => {
+      a['id'] == x.id ? a.detailstatus = true : a.detailstatus = false
+      // a['id'] == x.id ? this.selectedpackage = a : null
+
+    })
   }
 
 

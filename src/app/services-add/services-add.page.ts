@@ -141,6 +141,7 @@ export class ServicesAddPage implements OnInit {
   }
 
   getpackage(x) {
+    console.log(x)
     this.dropdown = false
     this.service.package = x
     this.nonpackagestatus = false
@@ -684,81 +685,11 @@ export class ServicesAddPage implements OnInit {
   //   this.service.total = (this.service.subtotal / 100 * (100 - this.service.discount)).toFixed(2)
   // }
 
-  async getdropdownitemdetail(i) {
-    // console.log(this.packages[i])
-    // if(this.filterpackage[i].detailstatus == true)
-    // {
-    //   for(let i = 0; i< this.filterpackage.length; i++)
-    //   {
-    //     this.filterpackage[i].detailstatus = false
-    //   }
-    // }
-    // else if(this.filterpackage[i].detailstatus == false){
-    //   for(let i = 0; i< this.filterpackage.length; i++)
-    //   {
-    //     this.filterpackage[i].detailstatus = false
-    //   }
-    //   // console.log(this.filterpackage[i])
-    //   this.filterpackage[i].detailstatus = true
-    //   this.selectedpackage = this.filterpackage[i]
-    // }
+  async getdropdownitemdetail(x) {
+    this.packages.filter(a => {
+      a['id'] == x.id ? a.detailstatus = true : a.detailstatus = false
+    })
 
-    if (this.packages[i].detailstatus == true) {
-      for (let i = 0; i < this.packages.length; i++) {
-        this.packages[i].detailstatus = false
-      }
-    }
-    else if (this.packages[i].detailstatus == false) {
-      for (let i = 0; i < this.packages.length; i++) {
-        this.packages[i].detailstatus = false
-      }
-      // console.log(this.packages[i])
-      this.packages[i].detailstatus = true
-      this.selectedpackage = this.packages[i]
-    }
-    // console.log(this.selectedpackage)
-
-    // Swal.fire({
-    //   title: 'Package Detail',
-    //   text : this.filterpackage[i].name + '\n\n\n\n\n' + this.filterpackage[i].amount,
-    //   heightAuto: false,
-    // })
-
-    // const modal = await this.modal.create({
-    //   cssClass: 'dropdownitemdetailcss',
-    //   component: ServicePackageDetailPage,
-    //   componentProps: {pid : this.filterpackage[i].id}
-    // })
-
-
-    // await modal.present()
-
-    // const actionsheet = await this.actionSheetController.create({
-    //   buttons: [
-    //     {
-    //       text: this.filterpackage[i].name,
-    //     },
-    //     {
-    //       text: this.filterpackage[i].service,
-    //     },
-    //     {
-    //       text: this.filterpackage[i].amount,
-    //     },
-    //     {
-    //       text: this.filterpackage[i].sqft,
-    //     },
-    //     {
-    //       text: this.filterpackage[i].type,
-    //     },
-    //     {
-    //       cssClass: 'actionsheet-cancel',
-    //       text: 'OK',
-    //       role: 'cancel'
-    //     }
-    //   ]
-    // })
-
-    // await actionsheet.present()
   }
 
   filterer(x) {
@@ -778,7 +709,7 @@ export class ServicesAddPage implements OnInit {
         Number(a['sqft'].split('-')[0]) < (this.service.sqft == 'others' ?  -1 :  Number(this.service.sqft)) 
         && Number(a['sqft'].split('-')[1]) >= (this.service.sqft == 'others' ? -1 : Number(this.service.sqft))
         )
-        // console.log(temp)
+        console.log(temp)
       return temp
     }
     else if (this.service.services && this.service.sqft && this.service.area && this.remove == true) {
@@ -787,7 +718,7 @@ export class ServicesAddPage implements OnInit {
       Number(a['sqft'].split('-')[0]) < (this.service.sqft == 'others' ? -1 : Number(this.service.sqft)) 
         && Number(a['sqft'].split('-')[1]) >= (this.service.sqft == 'others' ? -1 : Number(this.service.sqft))
         )
-      // console.log(temp)
+      console.log(temp)
       return temp
     }
   }
