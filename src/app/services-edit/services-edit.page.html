@@ -96,7 +96,7 @@
       <div *ngIf="!nonpackagestatus" style="background: #DEE9CB; margin-top: 10px; border-radius: 8px;">
         <div (click)="dropdownlist()" style="display: flex; justify-content:space-between; align-items: center; background: #C6D8A6; border-radius: 8px; padding: 12px 16px; 
             box-shadow: 0 1px 0 0 #CCCCCC;">
-          <div style="font-size: 14px; font-weight:600;">{{service.package ? service.package.name : 'Select Package'}}</div>
+          <div style="font-size: 14px; font-weight:600;">{{service.package ?  service.package.name + ' (' + service.package.area + ') (' + service.package.service + ')' : 'Select Package'}}</div>
           <ion-icon style="font-size: 16px;" name="{{dropdown == false ? 'chevron-forward-outline' : 'chevron-down-outline'}}"></ion-icon>
         </div>
 
