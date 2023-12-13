@@ -150,12 +150,31 @@
         </div>
       </div> -->
 
+      <!-- <div (click)="nonpackage()"
+      style="height: max-content; padding: 10px 16px; background:#E6EED7; margin-top: 5px; display: flex; justify-content: center;">
+      
+      <div
+        style="font-size: 14px; width: max-content; background: #6DAD48; color: #ffffff; padding: 4px 8px; 
+        border-radius: 4px; display: flex; justify-content: center; align-items: center; width: 95%;">
+        <ion-icon name="nonpackagestatus ? checkbox-outline : square-outline"></ion-icon>Non package
+      </div>
+    </div> -->
 
-      <div style="margin-top: 15px; width: 100%;">
+    <div 
+    (click)="nonpackage()" style="margin-top: 20px; display: flex; background: #6DAD48; border-radius: 9999999px; align-items: center;
+    color: #fff; display: flex; justify-content: center; border: 1px solid #3f791e; font-size: 14px; padding: 10px 0; font-weight: 600; gap: 5px;">
+      <ion-icon name="{{nonpackagestatus ? 'checkbox-outline' : 'square-outline'}}"
+        style="margin-right: 4px; font-size: 20px;"></ion-icon>
+      <div>Click Here to Non-Package</div>
+    </div>
+    
+
+
+      <div *ngIf="!nonpackagestatus" style="margin-top: 15px; width: 100%;">
 
         <div
           style="display: flex; justify-content:space-between; align-items: center; background: #C6D8A6; border-radius: 8px; padding: 10px 16px; box-shadow: 0 1px 0 0 #CCCCCC;">
-          <div style="font-size: 13px; font-weight:600;">Sqft</div>
+          <div style="font-size: 13px; font-weight:600;">Sqft (package)</div>
         </div>
 
         <div style="display: flex; align-items:center; justify-content: space-between; margin-top: 10px;">
@@ -164,13 +183,7 @@
             [(ngModel)]="service.sqft" (ionChange)="dropdown = true"></ion-input>
         </div>
 
-        <!-- <div (click)="nonpackage()"
-        style="height: max-content; padding: 10px 16px; background:#E6EED7; margin-top: 5px;">
-        <div
-          style="font-size: 14px; width: max-content; background: #6DAD48; color: #ffffff; padding: 4px 8px; border-radius: 4px; display: flex; justify-content: center; align-items: center;">
-          Non package
-        </div>
-      </div> -->
+
 
         <!-- <div *ngIf="service.services && service.area"
           style="width: 100%; display: flex; justify-content:flex-start; margin-top: 5px; flex-wrap: wrap;">
@@ -200,7 +213,7 @@
         </div>
       </div> -->
 
-      <div style="margin-top: 20px; width: 100%; display: flex; justify-content: right; font-size: 14px;">
+      <div *ngIf="!nonpackagestatus" style="margin-top: 20px; width: 100%; display: flex; justify-content: right; font-size: 14px;">
         <div (click)="changeToRemove()" style="display: flex; align-items: center;">
           <ion-icon style="font-size: 12px;" *ngIf="!remove" name="square-outline"></ion-icon>
           <ion-icon style="font-size: 12px;" *ngIf="remove" name="checkbox-outline"></ion-icon>
@@ -208,7 +221,7 @@
       </div>
 
 
-      <div style="background: #DEE9CB; margin-top: 5px; border-radius: 8px;">
+      <div *ngIf="!nonpackagestatus" style="background: #DEE9CB; margin-top: 5px; border-radius: 8px;">
         <div (click)="dropdownlist()" style="display: flex; justify-content:space-between; align-items: center; background: #C6D8A6; border-radius: 8px; padding: 12px 16px; 
             box-shadow: 0 1px 0 0 #CCCCCC;">
           <div style="font-size: 14px; font-weight:600;">{{service.package ? service.package.name : 'Select Package'}}
@@ -238,6 +251,9 @@
               <div style="width: 90%; font-size: 12px; padding: 8px; border-top: 1px solid #999;">
                 <div style="display: flex;padding:4px 0 ;">
                   <div>Price :</div>{{x.amount | currency : 'RM '}}
+                </div>
+                <div style="display: flex;padding:4px 0 ;">
+                  <div>Area :</div>{{x.area}}
                 </div>
                 <!-- <div style="display: flex;padding:4px 0 ;">
                   <div>Size :</div>
@@ -271,7 +287,7 @@
 
       <div *ngIf="nonpackagestatus"
         style="background: #DEE9CB; border-radius: 8px; padding: 12px 16px; margin-top: 10px;">
-        <div style="font-size: 14px; font-weight: 600; margin-bottom: 8px;">Size (sqft)</div>
+        <div style="font-size: 14px; font-weight: 600; margin-bottom: 8px;">Size - sqft (non-package)</div>
         <div style="display: flex; align-items:center; justify-content: space-between;">
           <ion-input placeholder="sqft" type="number" style="background: #E6EED7; padding: 8px 0; text-align: center; font-size: 14px; 
         --padding-start: 5px; --padding-end: 5px; border-radius: 4px; box-shadow: 0 0 4px 0 #CCCCCC;"
@@ -294,7 +310,7 @@
 
       <div *ngIf="nonpackagestatus"
         style="background: #DEE9CB; border-radius: 8px; padding: 12px 16px; margin-top: 10px;">
-        <div style="font-size: 14px; font-weight: 600; margin-bottom: 8px;">Size(sqft) Rate</div>
+        <div style="font-size: 14px; font-weight: 600; margin-bottom: 8px;">Size Rate (non-package)</div>
         <div style="display: flex; align-items:center; justify-content: space-between;">
           <ion-input placeholder="0" type="number" style="background: #E6EED7; padding: 8px 0; text-align: center; font-size: 14px; 
       --padding-start: 5px; --padding-end: 5px; border-radius: 4px; box-shadow: 0 0 4px 0 #CCCCCC;"

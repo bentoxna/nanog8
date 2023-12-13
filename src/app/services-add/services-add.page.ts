@@ -661,11 +661,11 @@ export class ServicesAddPage implements OnInit {
   }
 
   nonpackage() {
-    if (this.service.services && this.service.area) {
+    // if (this.service.services && this.service.area) {
       this.dropdown = true
       this.service.sqft = 'others'
-      this.nonpackagestatus = true
-    }
+      this.nonpackagestatus = !this.nonpackagestatus
+    // }
   }
 
   calculateothersubtotal() {
@@ -687,7 +687,7 @@ export class ServicesAddPage implements OnInit {
 
   async getdropdownitemdetail(x) {
     this.packages.filter(a => {
-      a['id'] == x.id ? a.detailstatus = true : a.detailstatus = false
+      a['id'] == x.id ? a.detailstatus = !a.detailstatus : a.detailstatus = false
     })
 
   }
@@ -703,22 +703,23 @@ export class ServicesAddPage implements OnInit {
     //     && a['sqft'].toLowerCase() == this.service.sqft.toLowerCase())
     //   return temp
     // }
+    console.log(this.package_install)
     if (this.service.services && this.service.sqft && this.service.area && this.remove == false) {
       let temp = this.package_install.filter(a => a['service'].toLowerCase() == this.service.services.toLowerCase()
-        &&
+        && (this.service.area == 'others' ? a['area'] :a['area'].toLowerCase() == (this.service.area).toLowerCase()) &&
         Number(a['sqft'].split('-')[0]) < (this.service.sqft == 'others' ?  -1 :  Number(this.service.sqft)) 
         && Number(a['sqft'].split('-')[1]) >= (this.service.sqft == 'others' ? -1 : Number(this.service.sqft))
         )
-        console.log(temp)
+        // console.log(temp)
       return temp
     }
     else if (this.service.services && this.service.sqft && this.service.area && this.remove == true) {
       let temp = this.package_remove.filter(a => a['service'].toLowerCase() == this.service.services.toLowerCase()
-      &&
+      && (this.service.area == 'others' ? a['area'] :a['area'].toLowerCase() == (this.service.area).toLowerCase()) &&
       Number(a['sqft'].split('-')[0]) < (this.service.sqft == 'others' ? -1 : Number(this.service.sqft)) 
         && Number(a['sqft'].split('-')[1]) >= (this.service.sqft == 'others' ? -1 : Number(this.service.sqft))
         )
-      console.log(temp)
+      // console.log(temp)
       return temp
     }
   }
@@ -731,13 +732,13 @@ export class ServicesAddPage implements OnInit {
 
   getarea(i) {
     if (i == 'others') {
-      this.changesqftlist()
+      // this.changesqftlist()
       // this.getpackageprice()
     }
     else {
       this.service.area = this.arealist[i]['name']
       // this.areadropdown = false
-      this.changesqftlist()
+      // this.changesqftlist()
       // this.getpackageprice()
     }
   }

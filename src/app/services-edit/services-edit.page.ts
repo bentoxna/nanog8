@@ -81,7 +81,7 @@ export class ServicesEditPage implements OnInit {
       // this.index = 0
       this.http.post('https://api.nanogapp.com/getSalesPackage', { sap_id: this.sapid }).subscribe(a => {
         this.service = a['data']
-        // console.log(this.service)
+        console.log(this.service)
         // if(!a['data']['discount'])
         // {
         //   this.service.discount = 0
@@ -89,17 +89,17 @@ export class ServicesEditPage implements OnInit {
         // }
         a['data']['size'] ? this.nonpackagestatus = true : this.nonpackagestatus = false
 
-        if (this.service.services && this.service.area) {
-          if (this.service.services.toLowerCase() == 'waterproofing' && this.service.area.toLowerCase() == 'bathroom') {
-            this.sizelist = ['0-80', '81-120', '121-200', 'others']
-          }
-          else if (this.service.services.toLowerCase() == 'anti-slip' && this.service.area.toLowerCase() == 'bathroom') {
-            this.sizelist = ['0-50', '51-100', '101-150', 'others']
-          }
-          else {
-            this.sizelist = ['0-100', '101-200', '201-300', '301-400', '401-500', 'others']
-          }
-        }
+        // if (this.service.services && this.service.area) {
+        //   if (this.service.services.toLowerCase() == 'waterproofing' && this.service.area.toLowerCase() == 'bathroom') {
+        //     this.sizelist = ['0-80', '81-120', '121-200', 'others']
+        //   }
+        //   else if (this.service.services.toLowerCase() == 'anti-slip' && this.service.area.toLowerCase() == 'bathroom') {
+        //     this.sizelist = ['0-50', '51-100', '101-150', 'others']
+        //   }
+        //   else {
+        //     this.sizelist = ['0-100', '101-200', '201-300', '301-400', '401-500', 'others']
+        //   }
+        // }
 
         // if (this.service.sqft == 'others') {
         //   this.nonpackagestatus = true
@@ -193,11 +193,11 @@ export class ServicesEditPage implements OnInit {
 
   getarea(i) {
     if (i == 'others') {
-      this.changesqftlist()
+      // this.changesqftlist()
     }
     else {
       this.service.area = this.arealist[i]['name']
-      this.changesqftlist()
+      // this.changesqftlist()
     }
   }
 
@@ -312,11 +312,11 @@ export class ServicesEditPage implements OnInit {
   }
 
   nonpackage() {
-    if (this.service.services && this.service.area) {
+    // if (this.service.services && this.service.area) {
       this.dropdown = true
-      this.nonpackagestatus = true
+      this.nonpackagestatus = !this.nonpackagestatus
       this.service.sqft = 'others'
-    }
+    // }
   }
 
   // viewPhoto(i)
@@ -802,7 +802,7 @@ export class ServicesEditPage implements OnInit {
     //   this.selectedpackage = this.packages[i]
     // }
     this.packages.filter(a => {
-      a['id'] == x.id ? a.detailstatus = true : a.detailstatus = false
+      a['id'] == x.id ? a.detailstatus = !a.detailstatus : a.detailstatus = false
       // a['id'] == x.id ? this.selectedpackage = a : null
 
     })
@@ -821,9 +821,10 @@ export class ServicesEditPage implements OnInit {
     //     && a['sqft'].toLowerCase() == this.service.sqft.toLowerCase())
     //   return temp
     // }
+    console.log(this.package_install)
     if (this.service.services && this.service.sqft && this.service.area && this.remove == false) {
       let temp = this.package_install.filter(a => a['service'].toLowerCase() == this.service.services.toLowerCase()
-        &&
+        &&( this.service.area == 'others' ? a['area'] :a['area'].toLowerCase() == (this.service.area).toLowerCase()) &&
         Number(a['sqft'].split('-')[0]) < (this.service.sqft == 'others' ?  -1 :  Number(this.service.sqft)) 
         && Number(a['sqft'].split('-')[1]) >= (this.service.sqft == 'others' ? -1 : Number(this.service.sqft))
         )
@@ -832,7 +833,7 @@ export class ServicesEditPage implements OnInit {
     }
     else if (this.service.services && this.service.sqft && this.service.area && this.remove == true) {
       let temp = this.package_remove.filter(a => a['service'].toLowerCase() == this.service.services.toLowerCase()
-      &&
+      && (this.service.area == 'others' ? a['area'] : a['area'].toLowerCase() == (this.service.area).toLowerCase()) &&
       Number(a['sqft'].split('-')[0]) < (this.service.sqft == 'others' ? -1 : Number(this.service.sqft)) 
         && Number(a['sqft'].split('-')[1]) >= (this.service.sqft == 'others' ? -1 : Number(this.service.sqft))
         )

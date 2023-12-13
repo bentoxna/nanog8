@@ -1977,4 +1977,13 @@ export class TaskDetailPage implements OnInit {
     // For example, if you're using ngx-toastr:
     // this.toastr.success('Link copied to clipboard!', 'Success');
   }
+
+
+  getpdf(x) {
+    let pdfurl = x['pdf']
+    window.open(pdfurl, '_system')
+    if (!window.open(pdfurl, '_system')) {
+      window.location.href = pdfurl;
+    }
+  }
 }
