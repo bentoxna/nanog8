@@ -127,12 +127,14 @@ export class PdfSalesOrderFormPage implements OnInit {
       })
 
       this.http.get('https://api.nanogapp.com/getActiveDiscount').subscribe(a => {
+
         this.discounts = a['data']
         // console.log(this.discounts)
 
         this.http.post('https://api.nanogapp.com/getAppointmentDetails', { id: this.taskid }).subscribe((s) => {
           this.appointment = s['data']
           // console.log(this.appointment)
+          console.log(s['data'])
           this.service = s['data']['sales_packages']
           // this.quotation = s['data']['gen_quotation'].map(a => a['pdf'].split('/')[4])
           // this.quotationlink = s['data']['gen_quotation'].map(a => a['pdf'])

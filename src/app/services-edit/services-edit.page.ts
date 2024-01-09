@@ -821,7 +821,7 @@ export class ServicesEditPage implements OnInit {
     //     && a['sqft'].toLowerCase() == this.service.sqft.toLowerCase())
     //   return temp
     // }
-    console.log(this.package_install)
+    // console.log(this.package_install)
     if (this.service.services && this.service.sqft && this.service.area && this.remove == false) {
       let temp = this.package_install.filter(a => a['service'].toLowerCase() == this.service.services.toLowerCase()
         &&( this.service.area == 'others' ? a['area'] :a['area'].toLowerCase() == (this.service.area).toLowerCase()) &&
