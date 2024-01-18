@@ -415,11 +415,11 @@ export class HomeCalendarPage implements OnInit {
     // console.log(this.fulldate, fulltomorrow)
 
     this.http.post('https://api.nanogapp.com/getScheduleByDate', { minimum: this.fulldate, maximum: fulltomorrow }).subscribe(res => {
-      // console.log(res['data'])
+      console.log(res['data'])
       this.bookinglist = res['data']
       this.http.post('https://api.nanogapp.com/getFromDateByDate', { minimum: this.fulldate, maximum: fulltomorrow }).subscribe(s => {
         this.installlist = s['data']
-        // console.log(this.installlist)
+        console.log(this.installlist)
 
         this.alllist = this.bookinglist.concat(this.installlist)
         this.alllist.filter(a => a['created_by'] == this.userid ? a['owm'] = true : a['owm'] = false)
