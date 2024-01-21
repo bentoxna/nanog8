@@ -19,7 +19,7 @@ export class ScheduleCalanderInsertPage implements OnInit {
   salesid
   leadid
 
-  tasktime = '10:00'
+  tasktime = '09:30'
 
   constructor(private modal: ModalController,
     private navparam: NavParams,
