@@ -548,7 +548,7 @@ export class Tab1UpcomingTaskPage implements OnInit {
 
     this.http.post('https://api.nanogapp.com/getAppointmentForExecByDatev2forlist', { execId: this.userid, startDate: this.dateselectedmilli, endDate: this.dateselectedtomorrowmilli }).subscribe((s) => {
       this.appointment =  s['data'].filter(a =>( (a['phone_row_number'] == 1) || a['verified'] == true || a['warranty_id'])  )
-      // console.log(this.appointment)
+      console.log(this.appointment)
 
       this.appointmentwithpaymentdone = this.filterappointment('done')
       // console.log(this.appointmentwithpaymentdone)

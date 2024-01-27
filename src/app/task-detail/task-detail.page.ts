@@ -1400,6 +1400,13 @@ export class TaskDetailPage implements OnInit {
   }
 
 
+  serviceform() {
+
+    this.nav.navigateForward('pdf-service-form-view?uid=' + this.userid + '&tid=' + this.taskid + '&sid=' + this.salesid + '&leadid=' + this.appointment.lead_id)
+ 
+  }
+
+
   payby(x) {
     console.log(this.total)
     // console.log(this.appointment.sales_packages)

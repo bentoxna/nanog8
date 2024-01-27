@@ -264,6 +264,10 @@ const routes: Routes = [
     path: 'pdf-service-form',
     loadChildren: () => import('./pdf-service-form/pdf-service-form.module').then( m => m.PdfServiceFormPageModule)
   },
+  {
+    path: 'pdf-service-form-view',
+    loadChildren: () => import('./pdf-service-form-view/pdf-service-form-view.module').then( m => m.PdfServiceFormViewPageModule)
+  },
 
 
 
