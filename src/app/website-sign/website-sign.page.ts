@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ActionSheetController, ModalController, NavController, Platform, ToastController } from '@ionic/angular';
-import { Camera, CameraOptions } from '@awesome-cordova-plugins/camera/ngx';
+// import { Camera, CameraOptions } from '@awesome-cordova-plugins/camera/ngx';
 // import { PhotoViewer } from '@awesome-cordova-plugins/photo-viewer/ngx';
 import Swal from 'sweetalert2';
 import * as EXIF from 'exif-js';
@@ -15,7 +15,8 @@ import { File } from '@awesome-cordova-plugins/file/ngx';
 import { TermsAndConditionPage } from '../terms-and-condition/terms-and-condition.page';
 import { TaskPaymentSignPage } from '../task-payment-sign/task-payment-sign.page';
 declare let cordova: any;
-
+import { Plugins } from '@capacitor/core';
+const { Camera } = Plugins;
 
 @Component({
   selector: 'app-website-sign',
@@ -90,7 +91,7 @@ export class WebsiteSignPage implements OnInit {
     private http: HttpClient,
     private platform: Platform,
     private actionSheetController: ActionSheetController,
-    private camera: Camera,
+    // private camera: Camera,
     // private photoViewer: PhotoViewer,
     private nav: NavController,
     private file: File,
@@ -379,25 +380,48 @@ export class WebsiteSignPage implements OnInit {
   }
 
   takePhoto() {
-    const options: CameraOptions = {
-      quality: 25,
-      destinationType: this.camera.DestinationType.DATA_URL,
-      encodingType: this.camera.EncodingType.JPEG,
-      mediaType: this.camera.MediaType.PICTURE,
-      correctOrientation: true,
-      saveToPhotoAlbum: true
-    }
+    // const options: CameraOptions = {
+    //   quality: 25,
+    //   destinationType: this.camera.DestinationType.DATA_URL,
+    //   encodingType: this.camera.EncodingType.JPEG,
+    //   mediaType: this.camera.MediaType.PICTURE,
+    //   correctOrientation: true,
+    //   saveToPhotoAlbum: true
+    // }
 
-    this.camera.getPicture(options).then((imageData) => {
-      let base64Image = 'data:image/jpeg;base64,' + imageData;
-      this.uploadserve(base64Image).then(res => {
-        Swal.close()
-        // console.log(res)
-      })
-    },
-      (err) => {
-        alert(err)
-      });
+    // this.camera.getPicture(options).then((imageData) => {
+    //   let base64Image = 'data:image/jpeg;base64,' + imageData;
+    //   this.uploadserve(base64Image).then(res => {
+    //     Swal.close()
+    //     // console.log(res)
+    //   })
+    // },
+    //   (err) => {
+    //     alert(err)
+    //   });
+    console.log('take photo');
+    return new Promise(async (resolve, reject) => {
+      try {
+        const image = await Camera.getPhoto({
+          quality: 50,
+          allowEditing: false,
+          resultType: 'base64',
+          source: 'CAMERA',
+          width: 600,
+          height: 1000
+        });
+
+        let base64Image = 'data:image/jpeg;base64,' + image.base64String;
+        this.uploadserve(base64Image).then(res => {
+          Swal.close()
+          resolve(res)
+        })
+
+      } catch (error) {
+        console.error('Error taking photo', error);
+        // Handle error
+      }
+    })
   }
 
   imagectype;
@@ -883,8 +907,8 @@ export class WebsiteSignPage implements OnInit {
             sales_id: this.appointment.sales_id,
             type: this.paymenttype,
             // payment_image: link,
-            receipt_img : JSON.stringify(this.receipturl || []),
-            receipt_pdf : JSON.stringify(this.pdffileurl || []),
+            receipt_img: JSON.stringify(this.receipturl || []),
+            receipt_pdf: JSON.stringify(this.pdffileurl || []),
             total: deposit,
             created_by: this.userid,
             gateway: this.selectedpaymentmethod,
@@ -954,8 +978,7 @@ export class WebsiteSignPage implements OnInit {
     })
     if (event.target.files && event.target.files.length > 0) {
       let temp = event.target.files
-      for(let i = 0;  i < event.target.files.length; i++)
-      {
+      for (let i = 0; i < event.target.files.length; i++) {
         let tempfile = temp[i]
         this.toBase64(tempfile).then(data => {
           // console.log('955',data)
@@ -1044,7 +1067,7 @@ export class WebsiteSignPage implements OnInit {
   }
 
 
-  createsof(){
+  createsof() {
     this.nav.navigateForward('pdf-sales-order-form?uid=' + this.userid + '&tid=' + this.taskid + '&sid=' + this.salesid)
   }
 

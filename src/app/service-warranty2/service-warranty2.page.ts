@@ -6,9 +6,12 @@ import { ActionSheetController, ModalController, NavController, NavParams, Platf
 import Swal from 'sweetalert2';
 // import * as EXIF from 'exif-js';
 
-import { Camera, CameraOptions } from '@awesome-cordova-plugins/camera/ngx';
+// import { Camera, CameraOptions } from '@awesome-cordova-plugins/camera/ngx';
 import { MediaCapture, MediaFile, MediaFileData, CaptureError } from '@awesome-cordova-plugins/media-capture/ngx';
-import * as S3 from 'aws-sdk/clients/s3';
+// import * as S3 from 'aws-sdk/clients/s3';
+import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
+import { Plugins } from '@capacitor/core';
+const { Camera } = Plugins;
 
 @Component({
   selector: 'app-service-warranty2',
@@ -19,7 +22,7 @@ export class ServiceWarranty2Page implements OnInit {
 
 
   sapid
-  linked_sapid : number
+  linked_sapid: number
   salesid
 
   statuscheck
@@ -56,7 +59,7 @@ export class ServiceWarranty2Page implements OnInit {
     // private photoViewer : PhotoViewer,
     private actionSheetController: ActionSheetController,
     private mediaCapture: MediaCapture,
-    private camera: Camera,
+    // private camera: Camera,
     private nav: NavController,
     private platform: Platform) { }
 
@@ -89,7 +92,7 @@ export class ServiceWarranty2Page implements OnInit {
     return this.platform.platforms()
   }
 
- 
+
   back() {
     this.nav.pop()
   }
@@ -144,44 +147,43 @@ export class ServiceWarranty2Page implements OnInit {
 
         console.log({
           sales_id: this.salesid,
-          width: this.linked_service.width ||  null,
-          height: this.linked_service.width ||  null,
+          width: this.linked_service.width || null,
+          height: this.linked_service.width || null,
           image: JSON.stringify(this.imageurl) || JSON.stringify([]),
           video: JSON.stringify(this.videourl) || JSON.stringify([]),
           remark: this.service.remark,
-          package_id: this.linked_service.package_id ||  null ,
-          sub_total:   null,   
-          total:  null,
+          package_id: this.linked_service.package_id || null,
+          sub_total: null,
+          total: null,
           discount: null,
-          service: this.linked_service.service ||  null,
-          area: this.linked_service.area ||  null,
-          sqft: this.linked_service.sqft ||  null,
-          size: this.linked_service.size ||  null,
-          rate:  this.linked_service.rate ||  null,
-          other_area: this.linked_service.other_area ||  null,
-          linked_sp : this.linked_sapid,
+          service: this.linked_service.service || null,
+          area: this.linked_service.area || null,
+          sqft: this.linked_service.sqft || null,
+          size: this.linked_service.size || null,
+          rate: this.linked_service.rate || null,
+          other_area: this.linked_service.other_area || null,
+          linked_sp: this.linked_sapid,
         })
         if (a['isConfirmed'] == true) {
-          if(!this.statuscheck)
-          {
+          if (!this.statuscheck) {
             this.http.post('https://api.nanogapp.com/addNewSalesPackage2', {
               sales_id: this.salesid,
-              width: this.linked_service.width ||  null,
-              height: this.linked_service.width ||  null,
+              width: this.linked_service.width || null,
+              height: this.linked_service.width || null,
               image: JSON.stringify(this.imageurl) || JSON.stringify([]),
               video: JSON.stringify(this.videourl) || JSON.stringify([]),
               remark: this.service.remark,
-              package_id: this.linked_service.package_id ||  null ,
+              package_id: this.linked_service.package_id || null,
               sub_total: null,
               total: null,
               discount: null,
-              service: this.linked_service.service ||  null,
-              area: this.linked_service.area ||  null,
-              sqft: this.linked_service.sqft ||  null,
-              size: this.linked_service.size ||  null,
-              rate:  this.linked_service.rate ||  null,
-              other_area: this.linked_service.other_area ||  null,
-              linked_sp : this.linked_sapid,
+              service: this.linked_service.service || null,
+              area: this.linked_service.area || null,
+              sqft: this.linked_service.sqft || null,
+              size: this.linked_service.size || null,
+              rate: this.linked_service.rate || null,
+              other_area: this.linked_service.other_area || null,
+              linked_sp: this.linked_sapid,
             }).subscribe(a => {
               if (a['success']) {
                 Swal.fire(
@@ -221,8 +223,7 @@ export class ServiceWarranty2Page implements OnInit {
               }
             })
           }
-          else
-          {
+          else {
             if (a['isConfirmed'] == true) {
               this.http.post('https://api.nanogapp.com/updateSalesPackage', {
                 sap_id: this.service.sap_id,
@@ -371,29 +372,52 @@ export class ServiceWarranty2Page implements OnInit {
 
 
   captureImage() {
-    const options: CameraOptions = {
-      quality: 50,
-      destinationType: this.camera.DestinationType.DATA_URL,
-      encodingType: this.camera.EncodingType.JPEG,
-      mediaType: this.camera.MediaType.PICTURE,
-      targetHeight: 1000,
-      targetWidth: 600,
-      correctOrientation: true,
-      saveToPhotoAlbum: true
-    }
+    // const options: CameraOptions = {
+    //   quality: 50,
+    //   destinationType: this.camera.DestinationType.DATA_URL,
+    //   encodingType: this.camera.EncodingType.JPEG,
+    //   mediaType: this.camera.MediaType.PICTURE,
+    //   targetHeight: 1000,
+    //   targetWidth: 600,
+    //   correctOrientation: true,
+    //   saveToPhotoAlbum: true
+    // }
 
-    this.camera.getPicture(options).then((imageData) => {
-      this.sweetalert = true
-      let base64Image = 'data:image/jpeg;base64,' + imageData;
-      this.uploadserve2(base64Image).then(res => {
-        this.sweetalert = false
-        Swal.close()
-        // console.log(res)
-      })
-    },
-      (err) => {
-        alert(err)
-      }); confirm
+    // this.camera.getPicture(options).then((imageData) => {
+    //   this.sweetalert = true
+    //   let base64Image = 'data:image/jpeg;base64,' + imageData;
+    //   this.uploadserve2(base64Image).then(res => {
+    //     this.sweetalert = false
+    //     Swal.close()
+    //     // console.log(res)
+    //   })
+    // },
+    //   (err) => {
+    //     alert(err)
+    //   }); confirm
+    console.log('take photo');
+    return new Promise(async (resolve, reject) => {
+      try {
+        const image = await Camera.getPhoto({
+          quality: 50,
+          allowEditing: false,
+          resultType: 'base64',
+          source: 'CAMERA',
+          width: 600,
+          height: 1000
+        });
+
+        let base64Image = 'data:image/jpeg;base64,' + image.base64String;
+        this.uploadserve2(base64Image).then(res => {
+          Swal.close()
+          resolve(res)
+        })
+
+      } catch (error) {
+        console.error('Error taking photo', error);
+        // Handle error
+      }
+    })
   }
 
   imagectype;
@@ -417,87 +441,87 @@ export class ServiceWarranty2Page implements OnInit {
         //   // console.log(event.target.files[0]);
         //   // console.log(event.target.files[0].exifdata.Orientation);
         //   const orientation = EXIF.getTag(this, 'Orientation');
-          const can = document.createElement('canvas');
-          const ctx = can.getContext('2d');
-          const thisImage = new Image;
-          const maxW = maxsize;
-          const maxH = maxsize;
-          thisImage.onload = (a) => {
+        const can = document.createElement('canvas');
+        const ctx = can.getContext('2d');
+        const thisImage = new Image;
+        const maxW = maxsize;
+        const maxH = maxsize;
+        thisImage.onload = (a) => {
 
-            // console.log(a);
-            const iw = thisImage.width;
-            const ih = thisImage.height;
-            const scale = Math.min((maxW / iw), (maxH / ih));
-            const iwScaled = iw * scale;
-            const ihScaled = ih * scale;
-            can.width = iwScaled;
-            can.height = ihScaled;
-            ctx.save();
-            // const width = can.width; const styleWidth = can.style.width;
-            // const height = can.height; const styleHeight = can.style.height;
-            // // console.log(event.target.files[0]);
-            // if (event.target.files[0] && event.target.files[0].exifdata.Orientation) {
-            //   // console.log(event.target.files[0].exifdata.Orientation);
-            //   if (event.target.files[0].exifdata.Orientation > 4) {
-            //     can.width = height; can.style.width = styleHeight;
-            //     can.height = width; can.style.height = styleWidth;
-            //   }
-            //   switch (event.target.files[0].exifdata.Orientation) {
-            //     case 2: ctx.translate(width, 0); ctx.scale(-1, 1); break;
-            //     case 3: ctx.translate(width, height); ctx.rotate(Math.PI); break;
-            //     case 4: ctx.translate(0, height); ctx.scale(1, -1); break;
-            //     case 5: ctx.rotate(0.5 * Math.PI); ctx.scale(1, -1); break;
-            //     case 6: ctx.rotate(0.5 * Math.PI); ctx.translate(0, -height); break;
-            //     case 7: ctx.rotate(0.5 * Math.PI); ctx.translate(width, -height); ctx.scale(-1, 1); break;
-            //     case 8: ctx.rotate(-0.5 * Math.PI); ctx.translate(-width, 0); break;
-            //   }
-            // }
+          // console.log(a);
+          const iw = thisImage.width;
+          const ih = thisImage.height;
+          const scale = Math.min((maxW / iw), (maxH / ih));
+          const iwScaled = iw * scale;
+          const ihScaled = ih * scale;
+          can.width = iwScaled;
+          can.height = ihScaled;
+          ctx.save();
+          // const width = can.width; const styleWidth = can.style.width;
+          // const height = can.height; const styleHeight = can.style.height;
+          // // console.log(event.target.files[0]);
+          // if (event.target.files[0] && event.target.files[0].exifdata.Orientation) {
+          //   // console.log(event.target.files[0].exifdata.Orientation);
+          //   if (event.target.files[0].exifdata.Orientation > 4) {
+          //     can.width = height; can.style.width = styleHeight;
+          //     can.height = width; can.style.height = styleWidth;
+          //   }
+          //   switch (event.target.files[0].exifdata.Orientation) {
+          //     case 2: ctx.translate(width, 0); ctx.scale(-1, 1); break;
+          //     case 3: ctx.translate(width, height); ctx.rotate(Math.PI); break;
+          //     case 4: ctx.translate(0, height); ctx.scale(1, -1); break;
+          //     case 5: ctx.rotate(0.5 * Math.PI); ctx.scale(1, -1); break;
+          //     case 6: ctx.rotate(0.5 * Math.PI); ctx.translate(0, -height); break;
+          //     case 7: ctx.rotate(0.5 * Math.PI); ctx.translate(width, -height); ctx.scale(-1, 1); break;
+          //     case 8: ctx.rotate(-0.5 * Math.PI); ctx.translate(-width, 0); break;
+          //   }
+          // }
 
-            ctx.drawImage(thisImage, 0, 0, iwScaled, ihScaled);
-            ctx.restore();
+          ctx.drawImage(thisImage, 0, 0, iwScaled, ihScaled);
+          ctx.restore();
 
-            this.imagec = can.toDataURL();
+          this.imagec = can.toDataURL();
 
-            const imgggg = this.imagec.replace(';base64,', 'thisisathingtoreplace;');
-            const imgarr = imgggg.split('thisisathingtoreplace;');
-            this.base64img = imgarr[1];
-            event.target.value = '';
+          const imgggg = this.imagec.replace(';base64,', 'thisisathingtoreplace;');
+          const imgarr = imgggg.split('thisisathingtoreplace;');
+          this.base64img = imgarr[1];
+          event.target.value = '';
 
-            const headers = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' })
-            let body = new URLSearchParams()
-            body.set('image', this.base64img)
-
-
-            // this.http.post('https://api.imgbb.com/1/upload?expiration=0&key=c0f647e7fcbb11760226c50f87b58303', body.toString(), { headers, observe: 'response' }).subscribe(res => {
-            //   this.imageurl.push(res['body']['data'].url)
-            //   this.sweetalert = false
-            //   resolve((res['body'])['data'].url)
-            // }, err => {
-            //   alert(err)
-            //   reject(err)
-            // })
-
-            this.http.post('https://api.nanogapp.com/upload', { image: this.imagec, folder: 'nanog', userid: 'nanog' }).subscribe((res) => {
-              this.imageurl.push(res['imageURL'])
-              this.sweetalert = false
-              Swal.close()
-              resolve(res['imageURL'])
-            }, awe => {
-              reject(awe)
-            })
-
-            // this.uploadToImgur(this.base64img, this.lengthof(this.benefit['photo']) - 1);
-
-            // this.http.post('https://img.vsnap.my/upload', { image: this.imagec, folder: 'hockwong', userid: '5KLVpP3MdneiM1kgcHR26LGFSW52' }).subscribe((link) => {
+          const headers = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' })
+          let body = new URLSearchParams()
+          body.set('image', this.base64img)
 
 
-            //   // console.log(link['imageURL'])
-            //   this.imageurl.push(link['imageURL'])
+          // this.http.post('https://api.imgbb.com/1/upload?expiration=0&key=c0f647e7fcbb11760226c50f87b58303', body.toString(), { headers, observe: 'response' }).subscribe(res => {
+          //   this.imageurl.push(res['body']['data'].url)
+          //   this.sweetalert = false
+          //   resolve((res['body'])['data'].url)
+          // }, err => {
+          //   alert(err)
+          //   reject(err)
+          // })
 
-            // })
+          this.http.post('https://api.nanogapp.com/upload', { image: this.imagec, folder: 'nanog', userid: 'nanog' }).subscribe((res) => {
+            this.imageurl.push(res['imageURL'])
+            this.sweetalert = false
+            Swal.close()
+            resolve(res['imageURL'])
+          }, awe => {
+            reject(awe)
+          })
 
-          };
-          thisImage.src = URL.createObjectURL(event.target.files[0]);
+          // this.uploadToImgur(this.base64img, this.lengthof(this.benefit['photo']) - 1);
+
+          // this.http.post('https://img.vsnap.my/upload', { image: this.imagec, folder: 'hockwong', userid: '5KLVpP3MdneiM1kgcHR26LGFSW52' }).subscribe((link) => {
+
+
+          //   // console.log(link['imageURL'])
+          //   this.imageurl.push(link['imageURL'])
+
+          // })
+
+        };
+        thisImage.src = URL.createObjectURL(event.target.files[0]);
         // });
       } else {
 
@@ -564,69 +588,70 @@ export class ServiceWarranty2Page implements OnInit {
     this.uploadToS3(uploadedFile.item(0))
   }
 
-  uploadToS3(file) {
-    Swal.fire({
-      title: "Uploading",
-      text: "Thank You for Your Patient...",
-      heightAuto: false,
-      icon: 'info',
-      showConfirmButton: false,
-    })
+  async uploadToS3(file) {
+    try {
+      // Show uploading message
+      Swal.fire({
+        title: "Uploading",
+        text: "Thank you for your patience...",
+        heightAuto: false,
+        icon: 'info',
+        showConfirmButton: false,
+      });
 
-    const bucket = new S3({
-      accessKeyId: "AKIA4FJWF7YCVSZJKLFE",
-      secretAccessKey: "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",
-      region: 'ap-southeast-1',
-      signatureVersion: 'v4'
-    })
-
-    const params = {
-      Bucket: 'nanogbucket',
-      Key: 'video name:' + file.name,
-      Body: file
-    }
-
-    bucket.upload(params, (err, data) => {
-      // console.log(data)
-      if (err) {
-
-        Swal.close()
-
-        Swal.fire({
-          title: "Something Wrong",
-          text: "Please try again later",
-          icon: 'error',
-          timer: 2000,
-          heightAuto: false,
-          showConfirmButton: false,
-        })
-        // console.log('There was an error uploading file: ' + err)
-        return false
-      }
-
-
-      Swal.close()
-
-      // console.log('Successfully uploaded file.', data)
-
-      // // console.log(i)
-      // console.log(data);
-
-      this.videourl.push(
-        {
-          link : data.Location,
-          filename : file.name
+      // const s3Client = new S3Client({
+      //   accessKeyId: "AKIA4FJWF7YCVSZJKLFE",
+      //   secretAccessKey: "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",
+      //   region: 'ap-southeast-1',
+      //   signatureVersion: 'v4'
+      // });
+      const s3Client = new S3Client({
+        region: 'ap-southeast-1',
+        credentials: {
+          accessKeyId: "AKIA4FJWF7YCVSZJKLFE",
+          secretAccessKey: "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",
         }
-      )
+      });
+      const params = {
+        Bucket: 'nanogbucket',
+        Key: 'video name:' + file.name,
+        Body: file
+      };
 
-      // this.videourl.link[i].link = data.Location
-      // this.videourl.link[i].filename = file.name
-      return true
-    })
+      const command = new PutObjectCommand(params);
+      const data = await s3Client.send(command);
+      const objectUrl = `https://nanogbucket.s3.ap-southeast-1.amazonaws.com/${encodeURIComponent(params.Key)}`;
 
+      // Close uploading message
+      Swal.close();
+
+      // Add uploaded file details to videourl array
+      this.videourl.push({
+        link: objectUrl,
+        filename: file.name
+      });
+
+      return true; // Indicates successful upload
+    } catch (error) {
+      // Close uploading message on error
+      Swal.close();
+
+      // Show error message
+      Swal.fire({
+        title: "Something went wrong",
+        text: "Please try again later",
+        icon: 'error',
+        timer: 2000,
+        heightAuto: false,
+        showConfirmButton: false,
+      });
+
+      console.error('Error uploading file:', error);
+      return false; // Indicates upload failure
+    }
   }
 
-  removeVideo(i){
+  removeVideo(i) {
     Swal.fire({
       title: 'Are you sure want to delete this video?',
       heightAuto: false,

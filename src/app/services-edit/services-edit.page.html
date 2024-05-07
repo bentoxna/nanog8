@@ -15,14 +15,18 @@
     <div style="width: 90%; margin-bottom: 24px;">
       <div style="margin-top: 10px; width: 100%;">
 
-        <div style="display: flex; justify-content:space-between; align-items: center; background: #C6D8A6;  border-radius: 8px; padding: 10px 16px; box-shadow: 0 1px 0 0 #CCCCCC;">
+        <div
+          style="display: flex; justify-content:space-between; align-items: center; background: #C6D8A6;  border-radius: 8px; padding: 10px 16px; box-shadow: 0 1px 0 0 #CCCCCC;">
           <div style="font-size: 13px; font-weight:600;">Service</div>
         </div>
 
         <div style="width: 100%; display: flex; justify-content: space-between; margin-top: 5px; flex-wrap: wrap;">
           <div *ngFor="let x of servicelist; let i = index" style="width: calc((100% / 3) - 6px); margin: 3px;">
-            <div [ngStyle]="{'background': service.services == x ? '#6DAD48' : '#DEE9CB', 'color' : service.services == x ? '#ffffff' : '#000000'}" (click)="getservice(i)" 
-            style="font-size: 11px; width: 100%; border-radius: 8px; display: flex; text-align: center; justify-content: center; align-items: center; height: 40px; box-shadow:  0 0 4px 0 #ddd; padding: 0 3px;">{{x}}</div>
+            <div
+              [ngStyle]="{'background': service.services == x ? '#6DAD48' : '#DEE9CB', 'color' : service.services == x ? '#ffffff' : '#000000'}"
+              (click)="getservice(i)"
+              style="font-size: 11px; width: 100%; border-radius: 8px; display: flex; text-align: center; justify-content: center; align-items: center; height: 40px; box-shadow:  0 0 4px 0 #ddd; padding: 0 3px;">
+              {{x}}</div>
           </div>
         </div>
 
@@ -30,14 +34,16 @@
 
       <div style="margin-top: 15px; width: 100%;">
 
-        <div style="display: flex; justify-content:space-between; align-items: center; background: #C6D8A6; border-radius: 8px; padding: 10px 16px; box-shadow: 0 1px 0 0 #CCCCCC;">
+        <div
+          style="display: flex; justify-content:space-between; align-items: center; background: #C6D8A6; border-radius: 8px; padding: 10px 16px; box-shadow: 0 1px 0 0 #CCCCCC;">
           <div style="font-size: 13px; font-weight:600;">Area</div>
         </div>
 
         <div style="width: 100%; display: flex; justify-content:flex-start; margin-top: 5px; flex-wrap: wrap;">
           <div *ngFor="let x of arealist; let i = index" style="width: calc((100% / 3) - 6px); margin:3px;">
-            <div [ngStyle]="{'background': service.area == x.name ? '#6DAD48' : '#DEE9CB', 'color' : service.area == x.name ? '#ffffff' : '#000000'}" (click)="getarea(i)" 
-            style="padding: 0 6px; font-size: 11px; width: 100%; border-radius: 8px; display: flex; justify-content: center; align-items: center; 
+            <div
+              [ngStyle]="{'background': service.area == x.name ? '#6DAD48' : '#DEE9CB', 'color' : service.area == x.name ? '#ffffff' : '#000000'}"
+              (click)="getarea(i)" style="padding: 0 6px; font-size: 11px; width: 100%; border-radius: 8px; display: flex; justify-content: center; align-items: center; 
             height: 40px; box-shadow:  0 0 4px 0 #ddd; text-align: center; ">{{x.name}}</div>
           </div>
         </div>
@@ -45,29 +51,38 @@
       </div>
 
 
-      <div *ngIf="service.area == 'others'"
-      style="background: #DEE9CB; border-radius: 8px; padding: 12px 16px;">
-      <div style="display: flex; align-items:center; justify-content: space-between;">
-        <ion-input placeholder="area" type="text" style="background: #E6EED7; padding: 8px 0; text-align: center; font-size: 14px; 
+      <div *ngIf="service.area == 'others'" style="background: #DEE9CB; border-radius: 8px; padding: 12px 16px;">
+        <div style="display: flex; align-items:center; justify-content: space-between;">
+          <ion-input placeholder="area" type="text" style="background: #E6EED7; padding: 8px 0; text-align: center; font-size: 14px; 
         --padding-start: 5px; --padding-end: 5px; border-radius: 4px; box-shadow: 0 0 4px 0 #CCCCCC;"
-          [(ngModel)]="service.other_area"></ion-input>
+            [(ngModel)]="service.other_area"></ion-input>
+        </div>
       </div>
-    </div>
 
+      <div style="display: flex; align-items: center; justify-content: space-evenly; margin-top: 10px;">
 
-    <div 
-    (click)="nonpackage()" style="margin-top: 20px; display: flex; background: #6DAD48; border-radius: 9999999px; align-items: center;
-    color: #fff; display: flex; justify-content: center; border: 1px solid #3f791e; font-size: 14px; padding: 10px 0; font-weight: 600; gap: 5px;">
-      <ion-icon name="{{nonpackagestatus ? 'checkbox-outline' : 'square-outline'}}"
-        style="margin-right: 4px; font-size: 20px;"></ion-icon>
-      <div>Click Here to Non-Package</div>
-    </div>
-    
+        <div (click)="service.pu_status = !service.pu_status"
+          style="width: 48%; display: flex; background: #6DAD48; border-radius: 9999999px; align-items: center;
+        color: #fff; display: flex; align-items: center; border: 1px solid #3f791e; font-size: 14px; padding: 10px 15px; font-weight: 600; gap: 5px;">
+          <ion-icon name="{{service.pu_status ? 'checkbox-outline' : 'square-outline'}}"
+            style="margin: 0 4px; font-size: 20px; "></ion-icon>
+          <div style="font-size: 12px;">With PU</div>
+        </div>
 
+        <div (click)="nonpackage()"
+          style="width: 48%;  display: flex; background: #6DAD48; border-radius: 9999999px; align-items: center;
+          color: #fff; display: flex; align-items: center; border: 1px solid #3f791e; font-size: 14px; padding: 10px 15px; font-weight: 600; gap: 5px;">
+          <ion-icon name="{{nonpackagestatus ? 'checkbox-outline' : 'square-outline'}}"
+            style="margin: 0 4px; font-size: 20px;"></ion-icon>
+          <div style="font-size: 12px;">Non-Package</div>
+        </div>
 
-      <div *ngIf="!nonpackagestatus"   style="margin-top: 15px; width: 100%;">
+      </div>
 
-        <div style="display: flex; justify-content:space-between; align-items: center; background: #C6D8A6; border-radius: 8px; padding: 10px 16px; box-shadow: 0 1px 0 0 #CCCCCC;">
+      <div *ngIf="!nonpackagestatus" style="margin-top: 15px; width: 100%;">
+
+        <div
+          style="display: flex; justify-content:space-between; align-items: center; background: #C6D8A6; border-radius: 8px; padding: 10px 16px; box-shadow: 0 1px 0 0 #CCCCCC;">
           <div style="font-size: 13px; font-weight:600;">Sqft (package)</div>
         </div>
 
@@ -81,27 +96,30 @@
         <div style="display: flex; align-items:center; justify-content: space-between; margin-top: 10px;">
           <ion-input placeholder="Enter sqft" type="number" style="background: #E6EED7; padding: 8px 0; text-align: center; font-size: 14px; 
         --padding-start: 5px; --padding-end: 5px; border-radius: 4px; box-shadow: 0 0 4px 0 #CCCCCC;"
-            [(ngModel)]="service.sqft" (ionChange)="dropdown = true"></ion-input>
+            [(ngModel)]="service.sqft" (ionInput)="dropdown = true"></ion-input>
         </div>
       </div>
 
-      <div *ngIf="!nonpackagestatus" style="margin-top: 20px; width: 100%; display: flex; justify-content: right; font-size: 14px;">
+      <div *ngIf="!nonpackagestatus"
+        style="margin-top: 20px; width: 100%; display: flex; justify-content: right; font-size: 14px;">
         <div (click)="changeToRemove()" style="display: flex; align-items: center;">
           <ion-icon style="font-size: 12px;" *ngIf="!remove" name="square-outline"></ion-icon>
           <ion-icon style="font-size: 12px;" *ngIf="remove" name="checkbox-outline"></ion-icon>
-          <div style="margin-left: 2px;">Removal</div></div>
+          <div style="margin-left: 2px;">Removal</div>
+        </div>
       </div>
 
 
       <div *ngIf="!nonpackagestatus" style="background: #DEE9CB; margin-top: 10px; border-radius: 8px;">
         <div (click)="dropdownlist()" style="display: flex; justify-content:space-between; align-items: center; background: #C6D8A6; border-radius: 8px; padding: 12px 16px; 
             box-shadow: 0 1px 0 0 #CCCCCC;">
-          <div style="font-size: 14px; font-weight:600;">{{service.package ?  service.package.name + ' (' + service.package.area + ') (' + service.package.service + ')' : 'Select Package'}}</div>
-          <ion-icon style="font-size: 16px;" name="{{dropdown == false ? 'chevron-forward-outline' : 'chevron-down-outline'}}"></ion-icon>
+          <div style="font-size: 14px; font-weight:600;">{{service.package ? service.package.name + ' (' +
+            service.package.area + ') (' + service.package.service + ')' : 'Select Package'}}</div>
+          <ion-icon style="font-size: 16px;"
+            name="{{dropdown == false ? 'chevron-forward-outline' : 'chevron-down-outline'}}"></ion-icon>
         </div>
 
-        <div class="dropdown-container" *ngIf="dropdown"
-          style="background: #DEE9CB; border-radius: 8px; width: 100%;">
+        <div class="dropdown-container" *ngIf="dropdown" style="background: #DEE9CB; border-radius: 8px; width: 100%;">
           <div *ngFor="let x of filterer(packages);let i = index" style="height: max-content;"
             [ngStyle]="{'border-bottom': i == (packages.length - 1) ? '' : '1px solid #999' }">
             <div style="width: 100%; display: flex; align-items: center;">
@@ -139,50 +157,52 @@
             </div>
           </div>
 
-          <div (click)="nonpackage()" *ngIf="dropdown && service.services && service.area" 
-          style="height: max-content; padding: 10px 16px;">
-            <div style="font-size: 14px; width: max-content; background: #6DAD48; color: #ffffff; padding: 4px 8px; border-radius: 4px; display: flex; justify-content: center; align-items: center;">
+          <div (click)="nonpackage()" *ngIf="dropdown && service.services && service.area"
+            style="height: max-content; padding: 10px 16px;">
+            <div
+              style="font-size: 14px; width: max-content; background: #6DAD48; color: #ffffff; padding: 4px 8px; border-radius: 4px; display: flex; justify-content: center; align-items: center;">
               Non package
             </div>
           </div>
-          
+
         </div>
       </div>
 
 
       <div *ngIf="nonpackagestatus"
-      style="background: #DEE9CB; border-radius: 8px; padding: 12px 16px; margin-top: 10px;">
-      <div style="font-size: 14px; font-weight: 600; margin-bottom: 8px;">Size - sqft (non-package)</div>
-      <div style="display: flex; align-items:center; justify-content: space-between;">
-        <ion-input placeholder="sqft" type="number" style="background: #E6EED7; padding: 8px 0; text-align: center; font-size: 14px; 
+        style="background: #DEE9CB; border-radius: 8px; padding: 12px 16px; margin-top: 10px;">
+        <div style="font-size: 14px; font-weight: 600; margin-bottom: 8px;">Size - sqft (non-package)</div>
+        <div style="display: flex; align-items:center; justify-content: space-between;">
+          <ion-input placeholder="sqft" type="number" style="background: #E6EED7; padding: 8px 0; text-align: center; font-size: 14px; 
         --padding-start: 5px; --padding-end: 5px; border-radius: 4px; box-shadow: 0 0 4px 0 #CCCCCC;"
-          [(ngModel)]="service.size" (ionChange)="calculateothersubtotal()"></ion-input>
+            [(ngModel)]="service.size" (ionInput)="calculateothersubtotal()"></ion-input>
+        </div>
       </div>
-    </div>
 
-    <div *ngIf="nonpackagestatus"
-    style="background: #DEE9CB; border-radius: 8px; padding: 12px 16px; margin-top: 10px;">
-    <div style="font-size: 14px; font-weight: 600; margin-bottom: 8px;">Size Rate (non-package)</div>
-    <div style="display: flex; align-items:center; justify-content: space-between;">
-      <ion-input placeholder="0" type="number" style="background: #E6EED7; padding: 8px 0; text-align: center; font-size: 14px; 
+      <div *ngIf="nonpackagestatus"
+        style="background: #DEE9CB; border-radius: 8px; padding: 12px 16px; margin-top: 10px;">
+        <div style="font-size: 14px; font-weight: 600; margin-bottom: 8px;">Size Rate (non-package)</div>
+        <div style="display: flex; align-items:center; justify-content: space-between;">
+          <ion-input placeholder="0" type="number" style="background: #E6EED7; padding: 8px 0; text-align: center; font-size: 14px; 
       --padding-start: 5px; --padding-end: 5px; border-radius: 4px; box-shadow: 0 0 4px 0 #CCCCCC;"
-        [(ngModel)]="service.rate" (ionChange)="calculateothersubtotal()"></ion-input>
-    </div>
-  </div>
+            [(ngModel)]="service.rate" (ionInput)="calculateothersubtotal()"></ion-input>
+        </div>
+      </div>
 
-      <div  style="margin-top: 30px; width: 100%;">
+      <div style="margin-top: 30px; width: 100%;">
         <div style="display: flex; justify-content:space-between; align-items: center; background: #C6D8A6; border-radius: 8px; padding: 6px 16px; 
         box-shadow: 0 1px 0 0 #CCCCCC; width: 100%;">
           <div style="font-size: 14px;">Price</div>
-          <div style="font-size: 14px; text-align: right; padding: 10px 0;">{{service.subtotal ? service.subtotal : '0'}}</div>
+          <div style="font-size: 14px; text-align: right; padding: 10px 0;">{{service.subtotal ? service.subtotal :
+            '0'}}</div>
         </div>
-        </div>
+      </div>
 
       <!-- <div *ngIf="service.package && !nonpackagestatus" style="margin-top: 10px; width: 100%;">
         <div style="display: flex; justify-content:space-between; align-items: center; background: #C6D8A6; border-radius: 8px; padding: 6px 16px; 
         box-shadow: 0 1px 0 0 #CCCCCC; width: 100%;">
           <div style="font-size: 14px;">Discount(%)</div>
-          <ion-input (ionChange)="calculateTotal('packages')" [(ngModel)]="service.discount" placeholder="example : 5" type="number" style="font-size: 14px; text-align: right;"></ion-input>
+          <ion-input (ionInput)="calculateTotal('packages')" [(ngModel)]="service.discount" placeholder="example : 5" type="number" style="font-size: 14px; text-align: right;"></ion-input>
         </div>
         </div>
 
@@ -190,7 +210,7 @@
           <div style="display: flex; justify-content:space-between; align-items: center; background: #C6D8A6; border-radius: 8px; padding: 6px 16px; 
           box-shadow: 0 1px 0 0 #CCCCCC; width: 100%;">
             <div style="font-size: 14px;">Discount(%)</div>
-            <ion-input (ionChange)="calculateTotal('others')" [(ngModel)]="otherpackage.discount" placeholder="example : 5" type="number" style="font-size: 14px; text-align: right;"></ion-input>
+            <ion-input (ionInput)="calculateTotal('others')" [(ngModel)]="otherpackage.discount" placeholder="example : 5" type="number" style="font-size: 14px; text-align: right;"></ion-input>
           </div>
           </div>
 
@@ -198,7 +218,7 @@
             <div style="display: flex; justify-content:space-between; align-items: center; background: #C6D8A6; border-radius: 8px; padding: 6px 16px; 
             box-shadow: 0 1px 0 0 #CCCCCC; width: 100%;">
               <div style="font-size: 14px;">Discount(RM)</div>
-              <ion-input (ionChange)="calculateTotal('packages')" [(ngModel)]="service.discount_roundoff" placeholder="example : 5" type="number" style="font-size: 14px; text-align: right;"></ion-input>
+              <ion-input (ionInput)="calculateTotal('packages')" [(ngModel)]="service.discount_roundoff" placeholder="example : 5" type="number" style="font-size: 14px; text-align: right;"></ion-input>
             </div>
             </div>
     
@@ -206,48 +226,54 @@
               <div style="display: flex; justify-content:space-between; align-items: center; background: #C6D8A6; border-radius: 8px; padding: 6px 16px; 
               box-shadow: 0 1px 0 0 #CCCCCC; width: 100%;">
                 <div style="font-size: 14px;">Discount(RM)</div>
-                <ion-input (ionChange)="calculateTotal('others')" [(ngModel)]="otherpackage.discount_roundoff" placeholder="example : 5" type="number" style="font-size: 14px; text-align: right;"></ion-input>
+                <ion-input (ionInput)="calculateTotal('others')" [(ngModel)]="otherpackage.discount_roundoff" placeholder="example : 5" type="number" style="font-size: 14px; text-align: right;"></ion-input>
               </div>
               </div> -->
-              
 
-        <div *ngIf="service.package && !nonpackagestatus" style="margin-top: 10px; width: 100%;">
-          <div style="display: flex; justify-content:space-between; align-items: center; background: #C6D8A6; border-radius: 8px; padding: 6px 16px; 
+
+      <div *ngIf="service.package && !nonpackagestatus" style="margin-top: 10px; width: 100%;">
+        <div style="display: flex; justify-content:space-between; align-items: center; background: #C6D8A6; border-radius: 8px; padding: 6px 16px; 
           box-shadow: 0 1px 0 0 #CCCCCC; width: 100%;">
-            <div style="font-size: 14px; font-weight:600;">Total</div>
-            <ion-input [(ngModel)]="service.total" type="number" style="font-size: 14px; font-weight:600; text-align: right; --placeholder-opacity: 1 !important;"></ion-input>
-            <!-- <div style="font-size: 14px; font-weight:600; text-align: right; padding: 10px 0;">{{service.total}}</div> -->
-          </div>
-          </div>
+          <div style="font-size: 14px; font-weight:600;">Total</div>
+          <ion-input [(ngModel)]="service.total" type="number"
+            style="font-size: 14px; font-weight:600; text-align: right; --placeholder-opacity: 1 !important;"></ion-input>
+          <!-- <div style="font-size: 14px; font-weight:600; text-align: right; padding: 10px 0;">{{service.total}}</div> -->
+        </div>
+      </div>
 
-          <div *ngIf="nonpackagestatus" style="margin-top: 10px; width: 100%;">
-            <div style="display: flex; justify-content:space-between; align-items: center; background: #C6D8A6; border-radius: 8px; padding: 6px 16px; 
+      <div *ngIf="nonpackagestatus" style="margin-top: 10px; width: 100%;">
+        <div style="display: flex; justify-content:space-between; align-items: center; background: #C6D8A6; border-radius: 8px; padding: 6px 16px; 
             box-shadow: 0 1px 0 0 #CCCCCC; width: 100%;">
-              <div style="font-size: 14px; font-weight:600;">Total</div>
-              <ion-input [(ngModel)]="service.total" type="number" style="font-size: 14px; font-weight:600; text-align: right; --placeholder-opacity: 1 !important;"></ion-input>
-              <!-- <div
+          <div style="font-size: 14px; font-weight:600;">Total</div>
+          <ion-input [(ngModel)]="service.total" type="number"
+            style="font-size: 14px; font-weight:600; text-align: right; --placeholder-opacity: 1 !important;"></ion-input>
+          <!-- <div
               style="font-size: 14px; font-weight:600; text-align: right; padding: 10px 0;">{{service.total}}</div> -->
-            </div>
-            </div>
+        </div>
+      </div>
 
 
-            <!-- warranty -->
-            <!-- <div style="margin-top: 10px; width: 100%;">
+      <!-- warranty -->
+      <!-- <div style="margin-top: 10px; width: 100%;">
                 <div style="font-size: 14px; display: flex; align-items: center; gap: 5px;"><ion-icon style="color: #579334;" name="caret-forward-circle-outline"></ion-icon><div>Package Warranty</div></div>
                 <ion-input [(ngModel)]="service.package_warranty" type="number" placeholder="{{service.package_warranty ? 0 : 0}}"
                   style="font-size: 14px; font-weight:600; text-align: right; background: #C6D8A6; border-radius: 8px; --padding-end: 16px; --padding-start : 16px; --placeholder-opacity: 1 !important; opacity: 1 !important; margin-top: 5px;"></ion-input>
             </div> -->
-            <div style="width: 90%; margin-top: 15px;">
-              <div style="font-size: 14px; display: flex; align-items: center; gap: 5px;"><ion-icon style="color: #579334;" name="caret-forward-circle-outline"></ion-icon><div>Package Warranty</div></div>
-        
-            
-                <ion-item>
-                  <ion-select [(ngModel)]="service['package_warranty']" placeholder="{{service['package_warranty'] ? service['package_warranty'] : 0}}" style="font-size: 12px;">
-                    <ion-select-option *ngFor="let x of warranty" value="{{x}}">{{x}}</ion-select-option>
-                  </ion-select>
-                </ion-item>
-            </div>
-     
+      <div style="width: 90%; margin-top: 15px;">
+        <div style="font-size: 14px; display: flex; align-items: center; gap: 5px;"><ion-icon style="color: #579334;"
+            name="caret-forward-circle-outline"></ion-icon>
+          <div>Package Warranty</div>
+        </div>
+
+
+        <ion-item>
+          <ion-select [(ngModel)]="service['package_warranty']"
+            placeholder="{{service['package_warranty'] ? service['package_warranty'] : 0}}" style="font-size: 12px;">
+            <ion-select-option *ngFor="let x of warranty" value="{{x}}">{{x}}</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </div>
+
       <div
         style="background: #DEE9CB; margin-top: 42px; border-radius: 8px; padding: 16px; display: flex;justify-content: flex-start; flex-wrap: wrap;">
         <div *ngFor="let x of imageurl; let i = index;"
@@ -263,11 +289,13 @@
       </div>
 
       <label for="uploadfiles" id="uploadlabel"></label>
-      <input readonly (change)="fileChange2($event, 600)" type="file" id="uploadfiles" accept="image/*" multiple
-        name="files[]" style="display: none;" />
+      <input readonly (change)="fileChange2($event, 600)" type="file" id="uploadfiles" accept="image/*" name="files[]"
+        style="display: none;" />
+      <label for="uploadfiles3" id="uploadlabelmul"></label>
+      <input readonly (change)="fileChange2($event, 600)" type="file" id="uploadfiles3" accept="image/*" name="files[]"
+        multiple style="display: none;" />
 
-
-        <div
+      <div
         style="background: #DEE9CB; margin-top: 2px; border-radius: 8px; padding: 16px; display: flex;justify-content: flex-start; flex-wrap: wrap;">
         <div *ngFor="let x of videourl; let i = index;"
           style="width: 100%;  margin-right:6px; margin-bottom: 6px; position: relative;">
@@ -309,12 +337,15 @@ border: 1px solid #6DAD48; margin-right: 6px; height: 100px; ">
           <div style="font-size: 10px; opacity: 0.70; color: #000000;">
             Total
           </div>
-          <div style="font-size: 16px; font-weight: 600; color:#096A3F; margin-right: 5px; display: flex; flex-wrap: wrap;">
+          <div
+            style="font-size: 16px; font-weight: 600; color:#096A3F; margin-right: 5px; display: flex; flex-wrap: wrap;">
             {{(service.total | currency : 'RM ') || (0 | currency : 'RM ')}}
           </div>
         </div>
 
-        <div (click)="confirm()" style="font-size: 14px; font-weight: 600; color: #FFFFFF; border-radius: 10px; background: #6DAD48; padding: 15px 20px; width: max-content;">Comfirm
+        <div (click)="confirm()"
+          style="font-size: 14px; font-weight: 600; color: #FFFFFF; border-radius: 10px; background: #6DAD48; padding: 15px 20px; width: max-content;">
+          Comfirm
         </div>
       </div>
     </div>

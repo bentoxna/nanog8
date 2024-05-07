@@ -1,0 +1,197 @@
+ion-split-pane {
+    --side-min-width: 220px;
+    --side-max-width: 220px;
+}
+
+ion-menu {
+    --max-width: 250px;
+    --background: white;
+}
+
+ion-searchbar.searchbar {
+    --border-radius: 50px;
+}
+
+.profilePic {
+    background: rgb(240, 252, 242);
+}
+
+.profilePic:hover {
+    background: rgb(61, 78, 93);
+    color: rgb(255, 213, 89);
+}
+
+.create_button {
+    background-color: #84d058;
+    color: #ffffff;
+}
+
+.create_button:hover {
+    color: #ffffff;
+    background-color: #82e04c;
+}
+
+.dropdown {
+    background-color: #f0f1f3;
+}
+
+.dropdown:hover {
+    background-color: #d9d9d9;
+}
+
+.select {
+    background: #8CBF70;
+    color: white;
+}
+
+.xselect:hover {
+    background: #cbecbb;
+}
+
+.xselect {
+    background: white;
+    color: #8CBF70;
+}
+
+.close_button2 {
+    color: #8CBF70;
+    background-color: #cbecbb;
+    transition: all 0.1s ease-in;
+}
+
+.close_button2:hover {
+    color: #ffffff;
+    background-color: red;
+    transition: all 0.1s ease-in;
+}
+
+.resetBtn {
+    color: #87BB69;
+
+    border-radius: 100%;
+}
+
+.groupOfPeople {
+    --offset-bottom: auto !important;
+    --overflow: hidden;
+    overflow: auto;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+// .selectTeam {
+//     cursor: pointer;
+//     transition: all 0.1s ease-in;
+// }
+
+// .selectTeam:hover {
+//     cursor: pointer;
+//     color: #ffffff;
+//     background-color: red;
+//     transition: all 0.1s ease-in;
+// }
+
+.selectTeam {
+    cursor: pointer;
+}
+
+.rejectBtn {
+    cursor: pointer;
+    width: 100px;
+    padding: 10px 0;
+    background: red;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.rejectBtn:hover {
+    cursor: pointer;
+    width: 100px;
+    padding: 10px 0;
+    background: tomato;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.acceptBtn {
+    cursor: pointer;
+    width: 100px;
+    padding: 10px 0;
+    background: #6CAD47;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.acceptBtn:hover {
+    cursor: pointer;
+    width: 100px;
+    padding: 10px 0;
+    background: #87BB69;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.click {
+    background: white;
+    color: #8CBF70;
+    cursor: pointer;
+}
+
+.xclick {
+    background: #8CBF70;
+    color: white;
+    cursor: pointer;
+}
+
+.tab {
+    height: 40px;
+    width: calc((100% - 20px) / 2);
+    border-radius: 10px 10px 0 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+.content {
+    width: 100%;
+    border-radius: 0 0 10px 10px;
+    background: white;
+    box-shadow: 0 5px 8px rgba(0, 0, 0, 0.12);
+    padding: 20px;
+}
+
+.logout {
+    background: white;
+    cursor: pointer;
+}
+
+.logout:hover {
+    background: rgb(61, 78, 93);
+    color: rgb(255, 213, 89);
+}
+
+.quotation_button {
+    background-color: #6CAD47;
+    color: #ffffff;
+}
+
+.quotation_button:hover {
+    color: #ffffff;
+    background-color: #7cc552;
+}
+
+// .tab {
+//     display: flex;
+//     height: 40px;
+//     width: 48%;
+//     align-items: center;
+//     justify-content: center;
+//     font-weight: 500;
+//     border-radius: 10px 10px 0 0;
+//     padding: 0 5px;
+//     cursor: pointer;
+//     text-align: center;
+// }

@@ -1,0 +1,46 @@
+<ion-content style="--background: inherit">
+  <div
+    style="width: 100vw; height: 100vh; display: flex; align-items: center; justify-content: center; flex-direction: column;padding: 0 15px;">
+    <div
+      style="width: 100%; height: 100%; max-width: 600px; display: flex; align-items: center; justify-content: center; flex-direction: column;">
+
+      <div
+        style="width: 100%;background-color: #ffffff; padding: 10px 20px 20px 20px;border-radius: 10px; padding-bottom: 0; ">
+
+        <div style="display: flex;justify-content: flex-end;">
+          <ion-icon (click)="close()" name="close-outline" style="color: red;font-size: 24px;cursor: pointer;">
+          </ion-icon>
+        </div>
+
+        <!-- Generated Quotation -->
+        <div
+          style="width: 100%;font-size: 14px; font-weight: 600; color: #555;background: #6CAD47;color: white;padding: 10px 5px;margin-top: 10px;">
+          Generated Service Form</div>
+
+        <div *ngIf="!serform" style="width: 100%;font-size: 14px; font-weight: 600; margin-bottom: 5px; padding: 10px 5px;
+          color: #999999;text-align: center;background: #efefef;">
+          List is Empty</div>
+
+        <div
+          style="width: 100%; max-height: 500px; overflow-y: auto; display: flex; align-items: flex-start; flex-direction: column;font-size: 13px;font-weight: 600;margin-top: 5px;">
+          <div *ngFor="let x of serform; let i = index"
+            style="width: 100%;margin: 5px 0;display: flex;align-items: center; ">
+            <div>{{i+1}}.&nbsp;</div>
+            <div (click)="checkPdf(x.serviceform)" class="quo_list"
+              style="width: 100%; border-radius: 5px;padding: 8px 5px;cursor: pointer;font-weight: 500;">
+              {{x.created_date | date: 'dd MMM yyyy hh:mm:ss a'}}
+            </div>
+          </div>
+        </div>
+
+        <!-- <div (click)="submit()" class="add_button"
+          style="width: 40%; cursor: pointer; padding: 8px 15px; border-radius: 10px; margin: 10px 0;">
+          <div style="width: 100%; text-align: center; font-size: 12px; font-weight: 500; letter-spacing: 0.5px; ">
+            Generate New Form</div>
+        </div> -->
+
+      </div>
+
+    </div>
+  </div>
+</ion-content>

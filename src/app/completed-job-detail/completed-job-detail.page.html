@@ -1,0 +1,809 @@
+<ion-content style="--background: #eeeeee;">
+  <div
+    style="width: 100%; display: flex; justify-content: center; background: #6DAD48; padding: 16px 0; border-radius: 0 0 10px 10px; box-shadow: 0 0 10px 0 #ddd;">
+
+    <div style="width: 90%; display: flex; justify-content:space-between; align-items: center; ">
+
+      <ion-icon (click)='back()' style='font-size:16px;color: #FFFFFF;' name="chevron-back-outline"></ion-icon>
+
+      <div style="color: #FFFFFF; font-size:16px; font-weight:600;">Installation Details</div>
+
+      <ion-icon style='font-size:20px;color: #FFFFFF; visibility: hidden;' name="chevron-back-outline"></ion-icon>
+
+    </div>
+  </div>
+
+  <div style="width: 100%; padding: 10px;">
+    <div style="display: flex;align-items: center;justify-content: space-between;">
+
+      <div
+        style="display: flex; align-items: center; width: 100%; padding-bottom: 8px; gap: 5px; justify-content: flex-end;">
+        <div>
+          <div *ngIf="sales_list" (click)="genServiceForm()" class="quotation_button"
+            style="width: 130px; cursor: pointer; padding: 8px 15px; border-radius: 10px;">
+            <div style="width: 100%; text-align: center; font-size: 10px; font-weight: 500; letter-spacing: 1px; ">
+              Service Form</div>
+          </div>
+        </div>
+
+        <div *ngIf="lead.whole_status" (click)="openUrl()" class="quotation_button"
+          style="width: 130px; cursor: pointer; padding: 8px 15px; border-radius: 10px;">
+          <div style="width: 100%; text-align: center; font-size: 10px; font-weight: 500; letter-spacing: 1px; ">
+            Complaint Link</div>
+        </div>
+      </div>
+
+    </div>
+
+    <div style="width: 100%; display: flex; flex-direction: column; justify-content: space-between; margin-top: 0;">
+
+      <!-- Left Details -->
+      <div style="width: 100%;">
+        <div
+          style="width: 100%; background: #6CAD47; padding: 20px 20px 0 20px; box-shadow: 0 5px 8px rgba(0, 0, 0, 0.12);">
+          <ion-select [(ngModel)]="tabs" mode="ios" interface="popover" style=" --highlight-color-focused: none !important; background-color: white; color: #6DAD48; border-radius: 10px 10px 0 0;
+              font-size: 14px; font-weight: 600; padding: 0 20px; ">
+            <ion-select-option value="order">Installation Details</ion-select-option>
+            <ion-select-option value="details">Customer Details</ion-select-option>
+            <ion-select-option value="media">Services / Media</ion-select-option>
+            <ion-select-option value="checkin">Check In</ion-select-option>
+            <ion-select-option value="activity">Activity Log</ion-select-option>
+          </ion-select>
+        </div>
+
+        <!-- Order Tab -->
+        <div *ngIf="tabs == 'order'" class="content">
+          <div *ngIf="schedule_list.length > 0">
+            <!-- First Row -->
+            <div style="width: 100%; display: flex; justify-content: space-between;">
+              <div style="width: 100% ;">
+                <div style="display: flex; align-items: center;">
+                  <ion-icon name="caret-forward-outline" style="color: #87BB69; font-size: 16px;"></ion-icon>
+                  <div style="font-weight: bold; font-size: 12px;color: #333;">Sub-con</div>
+                </div>
+
+                <div
+                  style="background: #F0F8ED; border-radius: 10px; margin-top: 5px; font-size: 12px; letter-spacing: 0.5px;">
+                  <ion-input readonly="true" [(ngModel)]="keywordCompany"></ion-input>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Second Row -->
+            <div *ngFor="let x of sales_package; let i = index" style="margin-top: 20px;">
+              <div style="background-color: #F0F8ED; padding: 10px; border-radius: 10px;">
+                <div style="display: flex; align-items: center;">
+                  <ion-icon name="caret-forward-outline" style="color: #87BB69; font-size: 16px;"></ion-icon>
+                  <div style="font-weight: bold; font-size: 12px; color: #333;">{{x.area}}</div>
+                </div>
+
+                <div
+                  style="width: 100%; background: white; color: #6CAD47; margin-top: 5px; border-radius: 10px; padding: 8px; font-size: 12px; display: flex; align-items: center;">
+                  <div style="font-weight: bold;">Service</div>
+                  <div style="margin: 0 5px 0 3px;">:</div>
+                  <div style="color: #333;">{{x.services}}</div>
+                </div>
+
+                <div
+                  style="width: 100%; background: white; color: #6CAD47; margin-top: 5px; border-radius: 10px; padding: 8px; font-size: 12px; display: flex; align-items: center;">
+                  <div style="font-weight: bold;">Name</div>
+                  <div style="margin: 0 5px 0 11px;">:</div>
+                  <div style="color: #333;">{{x.name || 'No Package'}}</div>
+                </div>
+
+                <div *ngIf="x.type"
+                  style="width: 100%; background: white; color: #6CAD47; margin-top: 5px; border-radius: 10px; padding: 8px; font-size: 12px; display: flex; align-items: center;">
+                  <div style="font-weight: bold;">Type</div>
+                  <div style="margin: 0 5px 0 17px;">:</div>
+                  <div style="color: #333;">{{x.type}}</div>
+                </div>
+
+                <div
+                  style="width: 100%; background: white; color: #6CAD47; margin-top: 5px; border-radius: 10px; padding: 8px; font-size: 12px; display: flex; align-items: center;">
+                  <div style="font-weight: bold;">Sqft</div>
+                  <div style="margin: 0 5px 0 21px;">:</div>
+                  <div style="color: #333;">{{x.sqft}}</div>
+                </div>
+
+                <div *ngIf="x.sqft == 'others'"
+                  style="width: 100%; background: white; color: #6CAD47; margin-top: 5px; border-radius: 10px; padding: 8px; font-size: 12px; display: flex; align-items: center;">
+                  <div style="font-weight: bold;">Size</div>
+                  <div style="margin: 0 5px 0 21px;">:</div>
+                  <div style="color: #333;">{{x.size}}</div>
+                </div>
+
+                <div
+                  style="width: 100%; background: white; color: #6CAD47; margin-top: 5px; border-radius: 10px; padding: 8px; font-size: 12px; display: flex; align-items: center;">
+                  <div style="font-weight: bold;">Remark</div>
+                  <div style="margin: 0 5px 0 5px;">:</div>
+                  <div style="color: #333;">{{x.remark || '-'}}</div>
+                </div>
+
+                <div style="width: 100%;display: flex; margin-top: 5px;background: white;
+                    border-radius: 10px;padding: 8px;font-size: 12px; font-weight: 450;color: #6CAD47;">
+                  <div>Preferred Time</div>
+                  <div style="margin-left: 3px;">:</div>
+                  <div>
+                    <div *ngFor="let x of schedule_list; let l = last"
+                      style="width: fit-content;display: flex;align-items: center;margin-left: 10px;padding: 0 5px;font-size: 11.5px; margin-left: 5px; color: #000000;">
+                      {{x.schedule_date | date: 'dd MMM yyyy hh:mm a'}} - {{x.remark || ''}}<span *ngIf="x.schedule_kiv"
+                        style="background-color: #eeca26e4; padding: 2px 5px; border-radius: 5px; color: white; margin-right: 5px; font-size: 11px; margin-left: 5px;">
+                        K.I.V</span><span *ngIf="!l">, </span>
+                    </div>
+                  </div>
+                </div>
+
+                <div *ngIf="x.pack_image.length > 0" style=" display: flex;align-items: center;margin-top: 10px;">
+                  <ion-icon name="caret-forward-outline" style="color: #87BB69; font-size: 16px;"></ion-icon>
+                  <div style="font-weight: 600;font-size: 12px;color: black;">Area Uploaded Image</div>
+                </div>
+
+                <img *ngFor="let y of x.pack_image; let i = index" (click)="openPic(x.pack_image, i, 'image')"
+                  style="min-width: 80px;max-width: 80px;min-height: 90px;max-height: 90px;cursor: pointer;border-radius: 10px;margin: 10px 10px 0 10px;"
+                  src="{{y}}" alt="">
+
+                <!-- Installation Image/Video -->
+                <div *ngIf="x.sub_image.length > 0" style=" display: flex;align-items: center;margin-top: 10px;">
+                  <ion-icon name="caret-forward-outline" style="color: #87BB69; font-size: 16px;"></ion-icon>
+                  <div style="font-weight: 600;font-size: 12px;color: black;">Installation Image/Video</div>
+                </div>
+
+                <div style="display: flex; flex-wrap: wrap;">
+                  <div *ngFor="let y of x.sub_image;let j = index" style="position: relative; width: fit-content;">
+
+                    <img (click)="openPic(x.sub_image, j, 'image')"
+                      style="min-width: 80px;max-width: 80px;min-height: 90px;max-height: 90px;cursor: pointer;border-radius: 10px;margin: 10px 10px 0 10px;"
+                      src="{{y}}" alt="">
+
+                    <!-- <div
+                      style="height: 15px;width: 15px;background-color: white;border-radius: 100px;display: flex;justify-content: center;align-items: center; position: absolute; top: 5px; right: 0px;">
+                      <ion-icon (click)="deletePicInstall(j, 'image', i)"
+                        style="font-size: 13px; color: #a17635;cursor: pointer;" name="close-outline">
+                      </ion-icon>
+                    </div> -->
+
+                  </div>
+                </div>
+
+                <div style="display: flex; flex-wrap: wrap;">
+                  <div *ngFor="let y of x.sub_video; let j = index"
+                    style="width: fit-content; height: 100%; position: relative;">
+
+                    <div (click)="openPic(x.sub_video, j, 'video')"
+                      style="background-color: rgba(0, 0, 0, 0.225); border-radius: 5px; min-width: 80px;max-width: 80px;min-height: 90px;max-height: 90px; cursor: pointer; 
+                        display: flex; align-items: center; justify-content: center; flex-direction: column; color: white; margin: 10px 10px 0 10px;">
+                      <ion-icon style="width: 40px; height: 40px;" name="videocam-outline"></ion-icon>
+                      <div>Video {{j+1}}</div>
+                    </div>
+
+                    <!-- <div
+                      style="height: 15px;width: 15px;background-color: white;border-radius: 100px;display: flex;justify-content: center;align-items: center; position: absolute; top: 5px; right: 0px;">
+                      <ion-icon (click)="deletePicInstall(j, 'video', i)"
+                        style="font-size: 13px; color: #a17635;cursor: pointer;" name="close-outline">
+                      </ion-icon>
+                    </div> -->
+
+                  </div>
+                </div>
+
+                <!-- Complaint Installation Image/Video -->
+                <div *ngIf="x.sub_complaint_image.length > 0"
+                  style=" display: flex;align-items: center;margin-top: 10px;">
+                  <ion-icon name="caret-forward-outline" style="color: #87BB69; font-size: 16px;"></ion-icon>
+                  <div style="font-weight: 600;font-size: 12px;color: black;">Complaint Installation Image/Video</div>
+                </div>
+
+                <div style="display: flex; flex-wrap: wrap;">
+                  <div *ngFor="let y of x.sub_complaint_image; let j = index"
+                    style="position: relative; width: fit-content;">
+
+                    <img (click)="openPic(x.sub_complaint_image, j, 'image')"
+                      style="min-width: 80px;max-width: 80px;min-height: 90px;max-height: 90px;cursor: pointer;border-radius: 10px;margin: 10px 10px 0 10px;"
+                      src="{{y}}" alt="">
+
+                    <!-- <div
+                      style="height: 15px;width: 15px;background-color: white;border-radius: 100px;display: flex;justify-content: center;align-items: center; position: absolute; top: 5px; right: 0px;">
+                      <ion-icon (click)="deletePicComplaint(j, 'image', i)"
+                        style="font-size: 13px; color: #a17635;cursor: pointer;" name="close-outline">
+                      </ion-icon>
+                    </div> -->
+
+                  </div>
+                </div>
+
+                <div style="display: flex; flex-wrap: wrap;">
+                  <div *ngFor="let y of x.sub_complaint_video; let j = index"
+                    style="position: relative; width: fit-content; height: 100%;">
+
+                    <div (click)="openPic(x.sub_complaint_video, j, 'video')"
+                      style="background-color: rgba(9, 9, 9, 0.225); border-radius: 5px; min-width: 80px;max-width: 80px;min-height: 90px;max-height: 90px; cursor: pointer; 
+                      display: flex; align-items: center; justify-content: center; flex-direction: column; color: white; margin: 10px 10px 0 10px;">
+                      <ion-icon style="width: 40px; height: 40px;" name="videocam-outline"></ion-icon>
+                      <div>Video {{j+1}}</div>
+                    </div>
+
+                    <!-- <div
+                      style="height: 15px;width: 15px;background-color: white;border-radius: 100px;display: flex;justify-content: center;align-items: center; position: absolute; top: 5px; right: 0px;">
+                      <ion-icon (click)="deletePicComplaint(j, 'video', i)"
+                        style="font-size: 13px; color: #a17635;cursor: pointer;" name="close-outline">
+                      </ion-icon>
+                    </div> -->
+
+                  </div>
+                </div>
+
+                <div style=" display: flex;align-items: center;margin-top: 10px;">
+                  <ion-icon name="caret-forward-outline" style="color: #87BB69; font-size: 16px;"></ion-icon>
+                  <div style="font-weight: 600;font-size: 12px;color: black;">Installation Date</div>
+                </div>
+
+                <div style="display: flex; align-items: center; margin-top: 5px; flex-wrap: wrap;">
+                  <ng-container *ngFor="let y of x.from_date2;">
+                    <div *ngIf="!x.from_date3.includes(y)"
+                      style="width: fit-content; margin-right: 10px; font-size: 12px; padding: 5px 10px; background: white; border-radius: 10px; display: flex; align-items: center; margin-bottom: 5px;">
+                      {{y | date : 'dd MMM yyyy hh:mm a'}}
+                    </div>
+                  </ng-container>
+                </div>
+
+
+                <div *ngIf="x.from_date3.length > 0" style=" display: flex;align-items: center;margin-top: 10px;">
+                  <ion-icon name="caret-forward-outline" style="color: #87BB69; font-size: 16px;"></ion-icon>
+                  <div style="font-weight: 600;font-size: 12px;color: black;">Complaint Installation Date</div>
+                </div>
+
+                <div style="display: flex; align-items: center; margin-top: 5px; flex-wrap: wrap;">
+                  <div *ngFor="let y of x.from_date3;"
+                    style="width: fit-content; margin-right: 10px; padding: 5px 10px; font-size: 12px; background: white; border-radius: 10px; display: flex; align-items: center; margin-bottom: 5px;">
+                    {{y | date : 'dd MMM yyyy hh:mm a'}}<span></span>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- Third Row -->
+            <div *ngIf="lead['assigned_worker'] != null">
+              <div style="background-color: #F0F8ED; padding: 10px; border-radius: 10px; margin-top: 20px;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <div style="font-weight: 600;">Assigned Team</div>
+                </div>
+
+                <div>
+                  <div style="display: flex; align-items: center;">
+                    <ion-icon name="caret-forward-outline" style="color: #87BB69; font-size: 16px;"></ion-icon>
+                    <div style="font-weight: bold; font-size: 12px; color: #333; margin-top: 10px;">Team Leader</div>
+                  </div>
+
+                  <div
+                    style="background: white; border-radius: 10px; height: 34px; margin: 10px 0; display: flex; align-items: center; padding: 0 3px; font-size: 14px;">
+                    <div *ngIf="storeTeamLeader != ''"
+                      style="background: rgb(1, 192, 166); border-radius: 10px; padding: 5px 10px; color: white;">
+                      {{storeTeamLeader}}</div>
+                  </div>
+
+                  <div style="display: flex; align-items: center;">
+                    <ion-icon name="caret-forward-outline" style="color: #87BB69; font-size: 16px;"></ion-icon>
+                    <div style="font-weight: bold; font-size: 12px; color: #333;">Team Members</div>
+                  </div>
+
+                  <div
+                    style="background: white; border-radius: 10px; height: 34px; margin-top: 10px; display: flex; align-items: center; padding: 0 3px; font-size: 14px;">
+                    <div *ngFor="let memberList of storeTeamMember" style="display: flex;">
+                      <div
+                        style="background: rgb(1, 192, 166); border-radius: 10px; padding: 5px 10px; color: white; margin-right: 5px;">
+                        {{memberList['user_name']}}</div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <div *ngIf="sales_list.final_reject_remark.length > 0"
+              style="background-color: #F0F8ED; padding: 10px; border-radius: 10px; margin-top: 20px;">
+              <div style=" font-weight: 600;">
+                Rejected Remark
+                <div *ngFor="let x of sales_list.final_reject_remark; let i = index" style="display: flex;">
+                  <div style="font-size: 11px; margin-top: 7px; margin-right: 5px;">
+                    {{i+1}}.
+                  </div>
+                  <div style="font-weight: 400; font-size: 11px;">
+                    <div style=" margin-top: 7px;">Title : {{x.title || '-'}}</div>
+                    <div>Message : {{x.msg}}</div>
+                    <div style="margin-top: 3px;">Date : {{x.time | date: 'dd MMM yyyy hh:mm a'}}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- <div *ngIf="!sales_list.final_approval"
+              style="display: flex; justify-content: flex-end; color: white; margin-top: 20px;">
+              <div class="acceptBtn" (click)="rejectInstall()"
+                style="width: max-content; margin-left: 20px; background-color: tomato; padding: 10px;">
+                Reject Installation</div>
+              <div class="acceptBtn" (click)="approveInstall()"
+                style="width: max-content; margin-left: 20px; background-color: #6CAD47; padding: 10px;">
+                Approve Installation</div>
+            </div>
+
+            <div *ngIf="sales_list.final_approval"
+              style="display: flex; align-items: center; justify-content: flex-end; color: white; margin-top: 20px;">
+              <div class="acceptBtn" (click)="changeStatus()"
+                style="width: max-content; margin-left: 20px; background-color: tomato; padding: 5px 10px; font-size: 12px; border-radius: 5px;">
+                Edit Status</div>
+              <div style="margin-left: 20px; font-size: 16px; color: #6CAD47; font-weight: 500;">
+                Installation Completed</div>
+            </div> -->
+
+          </div>
+        </div>
+
+        <!-- Details -->
+        <div *ngIf="tabs == 'details'"
+          style="font-size: 13px; border-radius: 0 0 10px 10px;background: white;box-shadow: 0 5px 8px rgba(0, 0, 0, 0.12); padding: 20px 40px 40px 40px ;">
+
+          <div style="width: 100%; display: flex; padding: 7px 0; border-bottom: 1px solid #69696932;">
+            <ion-icon name="caret-forward-outline" style="color: #87BB69; font-size: 16px;"></ion-icon>
+            <div style="width: 30%; font-weight: bolder; color: black;">Title</div>
+            <div style="width: 70%; font-weight: bold; color: #6CAD47;">{{lead.customer_title || '-'}}</div>
+          </div>
+
+          <div style="width: 100%; display: flex; padding: 7px 0; border-bottom: 1px solid #69696932;">
+            <ion-icon name="caret-forward-outline" style="color: #87BB69; font-size: 16px;"></ion-icon>
+            <div style="width: 30%; font-weight: bolder; color: black;">Name</div>
+            <div style="width: 70%; font-weight: bold; color: #6CAD47;">{{lead.customer_name}}</div>
+          </div>
+
+          <div style="width: 100%; display: flex; padding: 7px 0; border-bottom: 1px solid #69696932;">
+            <ion-icon name="caret-forward-outline" style="color: #87BB69; font-size: 16px;"></ion-icon>
+            <div style="width: 30%; font-weight: bolder; color: black;">Phone</div>
+            <div style="width: 70%; font-weight: bold; color: #6CAD47;">{{lead.customer_phone}}</div>
+          </div>
+
+          <div style="width: 100%; display: flex; padding: 7px 0; border-bottom: 1px solid #69696932;">
+            <ion-icon name="caret-forward-outline" style="color: #87BB69; font-size: 16px;"></ion-icon>
+            <div style="width: 30%; font-weight: bolder; color: black;">Email</div>
+            <div style="width: 70%; font-weight: bold; color: #6CAD47;">{{lead.customer_email || '-'}}</div>
+          </div>
+
+          <div style="width: 100%; display: flex; padding: 7px 0; border-bottom: 1px solid #69696932;">
+            <ion-icon name="caret-forward-outline" style="color: #87BB69; font-size: 16px;"></ion-icon>
+            <div style="width: 30%; font-weight: bolder; color: black;">Gender</div>
+            <div style="width: 70%; font-weight: bold; color: #6CAD47;">{{lead.gender || '-'}}</div>
+          </div>
+
+          <div style="width: 100%; display: flex; padding: 7px 0; border-bottom: 1px solid #69696932;">
+            <ion-icon name="caret-forward-outline" style="color: #87BB69; font-size: 16px;"></ion-icon>
+            <div style="width: 30%; font-weight: bolder; color: black;">Race</div>
+            <div style="width: 70%; font-weight: bold; color: #6CAD47;">{{lead.race || '-'}}</div>
+          </div>
+
+          <div style="width: 100%; display: flex; padding: 7px 0; border-bottom: 1px solid #69696932;">
+            <ion-icon name="caret-forward-outline" style="color: #87BB69; font-size: 16px;"></ion-icon>
+            <div style="width: 30%; font-weight: bolder; color: black;">City/State</div>
+            <div *ngIf="lead.customer_state" style="width: 70%; font-weight: bold; color: #6CAD47;">
+              {{lead.customer_city}}, {{lead.customer_state}}</div>
+            <div *ngIf="!lead.customer_state" style="width: 70%; font-weight: bold; color: #6CAD47;">-</div>
+          </div>
+
+          <div style="width: 100%; display: flex; padding: 7px 0; border-bottom: 1px solid #69696932;">
+            <ion-icon name="caret-forward-outline" style="color: #87BB69; font-size: 16px;"></ion-icon>
+            <div style="width: 30%; font-weight: bolder; color: black;">Floor/Unit</div>
+            <div style="width: 70%; font-weight: bold; color: #6CAD47;">{{lead.unit || '-'}}</div>
+          </div>
+
+          <div style="width: 100%; display: flex; padding: 7px 0; border-bottom: 1px solid #69696932;">
+            <ion-icon name="caret-forward-outline" style="color: #87BB69; font-size: 16px;"></ion-icon>
+            <div style="width: 30%; font-weight: bolder; color: black;">Address</div>
+            <div style="width: 70%; font-weight: bold; color: #6CAD47;">{{lead.address || '-'}}</div>
+          </div>
+
+          <div style="width: 100%; display: flex; padding: 7px 0; border-bottom: 1px solid #69696932;">
+            <ion-icon name="caret-forward-outline" style="color: #87BB69; font-size: 16px;"></ion-icon>
+            <div style="width: 30%; font-weight: bolder; color: black;">Company Address</div>
+            <div style="width: 70%; font-weight: bold; color: #6CAD47;">{{lead.company_address || '-'}}</div>
+          </div>
+
+          <div style="width: 100%; display: flex; padding: 7px 0; border-bottom: 1px solid #69696932;">
+            <ion-icon name="caret-forward-outline" style="color: #87BB69; font-size: 16px;"></ion-icon>
+            <div style="width: 30%; font-weight: bolder; color: black;">Services</div>
+            <div style="width: 70%; font-weight: bold; color: #6CAD47;">{{lead.services || '-'}}</div>
+          </div>
+
+          <div style="width: 100%; display: flex; padding: 7px 0; border-bottom: 1px solid #69696932;">
+            <ion-icon name="caret-forward-outline" style="color: #87BB69; font-size: 16px;"></ion-icon>
+            <div style="width: 30%; font-weight: bolder; color: black;">Issues</div>
+            <div style="width: 70%; ">
+              <div *ngFor="let x of lead.issues; let l = last"
+                style="width: fit-content; font-weight: bold; color: #6CAD47; display: flex; flex-wrap: wrap; ">
+                {{x}}<span *ngIf="!l">, </span></div>
+            </div>
+          </div>
+
+          <div style="width: 100%; display: flex; padding: 7px 0; border-bottom: 1px solid #69696932;">
+            <ion-icon name="caret-forward-outline" style="color: #87BB69; font-size: 16px;"></ion-icon>
+            <div style="width: 30%; font-weight: bolder; color: black;">Channel</div>
+            <div style="width: 70%; font-weight: bold; color: #6CAD47;">{{lead.channel || '-'}}</div>
+          </div>
+
+          <div style="width: 100%; display: flex; padding: 7px 0; border-bottom: 1px solid #69696932;">
+            <ion-icon name="caret-forward-outline" style="color: #87BB69; font-size: 16px;"></ion-icon>
+            <div style="width: 30%; font-weight: bolder; color: black;">Ads</div>
+            <div style="width: 70%; font-weight: bold; color: #6CAD47;">{{lead.ads || '-'}}</div>
+          </div>
+
+          <div style="width: 100%; display: flex; padding: 7px 0; border-bottom: 1px solid #69696932;">
+            <ion-icon name="caret-forward-outline" style="color: #87BB69; font-size: 16px;"></ion-icon>
+            <div style="width: 30%; font-weight: bolder; color: black;">Label</div>
+            <div style="width: 70%; font-weight: bold; display: flex; flex-wrap: wrap; align-items: center;">
+
+              <div
+                style="display: flex; align-items: center; background: #87BB69; border-radius: 5px; padding: 0 7px;  margin-right: 6px;">
+                <div [ngStyle]="{'background': lead.label_m_colour != null ? lead.label_m_colour : 'white'}"
+                  style="width: 10px;height: 10px;"></div>
+                <div style="padding: 5px;font-size: 12px; color: white;">{{lead.label_m}}</div>
+              </div>
+
+              <div style="display: flex; align-items: center; background: #87BB69; border-radius: 5px; padding: 0 7px;">
+                <div [ngStyle]="{'background': lead.label_s_colour != null ?lead.label_s_colour : 'white'}"
+                  style="width: 10px;height: 10px; "></div>
+                <div style="padding: 5px;font-size: 12px; color: white;">{{lead.label_s}}</div>
+              </div>
+
+            </div>
+          </div>
+
+          <div style="width: 100%; display: flex; padding: 7px 0; border-bottom: 1px solid #69696932;">
+            <ion-icon name="caret-forward-outline" style="color: #87BB69; font-size: 16px;"></ion-icon>
+            <div style="width: 30%; font-weight: bolder; color: black;">Sales Coordinator</div>
+            <div style="width: 70%; font-weight: bold; color: #6CAD47;">{{lead.sales_coordinator || '-'}}</div>
+          </div>
+
+          <div style="width: 100%; display: flex; padding: 7px 0; border-bottom: 1px solid #69696932;">
+            <ion-icon name="caret-forward-outline" style="color: #87BB69; font-size: 16px;"></ion-icon>
+            <div style="width: 30%; font-weight: bolder; color: black;">Consultant</div>
+            <div style="width: 70%; font-weight: bold; color: #6CAD47;"><span
+                *ngFor="let x of lead.assigned_to4 let l = last">{{x || '-'}}<span *ngIf="!l">, </span></span></div>
+          </div>
+
+
+          <div style="width: 100%; display: flex; padding: 7px 0; border-bottom: 1px solid #69696932;">
+            <ion-icon name="caret-forward-outline" style="color: #87BB69; font-size: 16px;"></ion-icon>
+            <div style="width: 30%; font-weight: bolder; color: black;">Remark</div>
+            <div *ngIf="lead.remark_json" class="flex-container" style="width: 70%;">
+              <div *ngFor="let x of lead.remark_json; let i = index"
+                style="width: 100%; font-weight: bold; color: #6CAD47;"><span *ngIf="x.remark">{{i+1}}. {{x.remark
+                  || '-'}}</span><span *ngIf="!x.remark">-</span></div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Right Details || media -->
+        <div *ngIf="tabs == 'media'" style="width: 100%;">
+          <div>
+
+            <div *ngIf="schedule_list.length > 0" class="content">
+              <!-- Sales Executive Image -->
+              <div
+                style="width: 100%;min-width: 45px;border: 1px solid #ededed;background: #6CAD47;padding: 5px 10px;color: white;font-size: 12px;">
+                Installation/Services Details :</div>
+
+              <!-- display: grid;grid-template-columns: repeat(auto-fit, minmax(130px,1fr)); -->
+              <div *ngFor="let x of sales_package"
+                style="width: 100%;border-radius: 10px;padding: 10px;background: #F0F8ED;margin: 10px 0 ;">
+
+                <div
+                  style="width: 100%;display: flex;flex-direction: column;justify-content: space-around;margin-left: 10px;color: #6CAD47;font-weight: 500;font-size: 14px;">
+                  <div style="font-size: 16px; font-weight: 600; margin-bottom: 10px">
+                    {{x.area == 'others' ? x.other_area : x.area}} <span *ngIf="x.area == 'others'"
+                      style="font-size: 9px;">({{x.area}})</span>
+                  </div>
+
+                  <div style="display: flex; justify-content: space-between;">
+                    <div style="width: 50%;">Service <span style="margin-left: 2px;">:</span> <span
+                        style="font-size: 12px;color: black;margin-left: 4px;">{{x.services}}</span>
+                    </div>
+                    <div style="width: 50%;">Name <span style="margin-left: 10px;">:</span> <span
+                        style="font-size: 12px;color: black;margin-left: 4px;">{{x.name || 'No Package'}}</span></div>
+                  </div>
+
+                  <div style="display: flex; justify-content: space-between;">
+                    <div *ngIf="x.type" style="width: 50%;">Type <span style="margin-left: 18px;">:</span> <span
+                        style="font-size: 12px;color: black;margin-left: 4px;">{{x.type}}</span></div>
+                    <div style="width: 50%;">Sqft <span style="margin-left: 22px;">:</span>
+                      <span style="font-size: 12px;color: black;margin-left: 4px;">{{x.sqft}}</span>
+                    </div>
+                    <div *ngIf="x.sqft == 'others'" style="width: 50%;">Rate <span style="margin-left: 18px;">:</span>
+                      <span style="font-size: 12px;color: black;margin-left: 4px;">{{x.rate}}</span>
+                    </div>
+                  </div>
+
+                  <div *ngIf="x.sqft == 'others'" style="display: flex; justify-content: space-between;">
+                    <div style="width: 50%;">Size <span style="margin-left: 22px;">:</span> <span
+                        style="font-size: 12px;color: black;margin-left: 4px;">{{x.size}}</span></div>
+                  </div>
+
+                  <div>Remark <span>:</span> <span style="font-size: 12px;color: black;margin-left: 4px;">{{x.remark||
+                      '-'}}</span></div>
+                </div>
+                <img *ngFor="let y of x.pack_image; let i = index" (click)="openPic(x.pack_image, i, 'image')"
+                  style="min-width: 80px;max-width: 80px;min-height: 90px;max-height: 90px;cursor: pointer;border-radius: 10px;margin: 10px 10px 0 10px;"
+                  src="{{y}}" alt="">
+
+              </div>
+
+              <div *ngIf="sales_package.length <= 0"
+                style="color: #999999; font-size: 12px;text-align: center;padding: 7px 0;background: #efefef; margin-bottom: 5px;">
+                No Services Added Currently
+              </div>
+
+              <!-- Label Image -->
+              <div style="width: 100%;min-width: 45px;border: 1px solid #ededed; background: #6CAD47;
+        padding: 5px 10px;color: white;font-size: 12px;">Inspection Photo :</div>
+
+              <!-- Label Photo -->
+              <div *ngIf="lead.label_photo" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));height: 100%; margin: 10px 0;
+         border: 2px solid #87BB69;border-radius: 10px;">
+                <div *ngFor="let x of lead.label_photo; let i = index" style="height: 100%;padding: 5px;">
+
+                  <div style="position: relative;">
+                    <img (click)="openPic(lead.label_photo, i, 'image')"
+                      style="border-radius: 5px; height: 100px;min-width: 100px;max-width: 100px; object-fit: cover;cursor: pointer;"
+                      src="{{x || ''}}" alt="">
+
+                  </div>
+                </div>
+
+              </div>
+
+              <div *ngIf="lengthof(lead.label_photo) <= 0"
+                style="color: #999999; font-size: 12px;text-align: center;padding: 7px 0;background: #efefef; margin-bottom: 5px;">
+                No Photo Uploaded Currently
+              </div>
+
+              <!-- Sales Coordinator Image -->
+              <div
+                style="width: 100%;min-width: 45px;border: 1px solid #ededed;background: #6CAD47;padding: 5px 10px;color: white;font-size: 12px;">
+                Uploaded Image :</div>
+
+              <div
+                style="display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));height: 100%; margin-top: 10px;  border: 2px solid #87BB69;border-radius: 10px;">
+
+
+                <div *ngFor="let x of lead.sc_photo; let i = index" style="height: 100%;padding: 5px;">
+
+                  <div style="position: relative;">
+                    <img (click)="openPic(lead.sc_photo, i, 'image')"
+                      style="border-radius: 5px; height: 100px;min-width: 100px;max-width: 100px; object-fit: cover;cursor: pointer;"
+                      src="{{x || ''}}" alt="">
+
+                  </div>
+
+                  <div
+                    style="width: 100%; font-size: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; background-color: #6CAD47; border-radius: 10px; color: white;">
+                    Image Issue</div>
+
+                </div>
+
+              </div>
+              <div style="color: #666; font-size: 11px;"><span style="color: red;">*</span>If image cannot be view,
+                click
+                the "Image Issue" button.</div>
+
+              <!-- Sales Coordinator Video -->
+              <div
+                style="width: 100%;min-width: 45px;border: 1px solid #ededed;background: #6CAD47;padding: 5px 10px;color: white;font-size: 12px;">
+                Uploaded Video :</div>
+
+              <!-- (dragover)="onDragOver($event, '', 600)" (drop)="onDropSuccess($event, '', 600, 'video')" -->
+              <div
+                style="display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));height: 100%; margin-top: 10px;  border: 2px solid #87BB69;border-radius: 10px;">
+
+                <div *ngFor="let x of lead.sc_video; let i = index"
+                  style="height: 100%;padding: 5px;display: flex;justify-content: center;">
+
+                  <div (click)="openPic(lead.sc_video, i, 'video')" style="background-color: rgba(0, 0, 0, 0.225); border-radius: 5px; height: 100px;min-width: 100px;max-width: 100px; cursor: pointer; 
+              display: flex; align-items: center; justify-content: center; flex-direction: column; color: white;">
+                    <ion-icon style="width: 40px; height: 40px;" name="videocam-outline"></ion-icon>
+                    <div>Video {{i+1}}</div>
+                  </div>
+
+                  <!--  <div
+                    style="height: 15px;width: 15px;background-color: white;border-radius: 100px;margin-left: -20px;margin-top: 5px;display: flex;justify-content: center;align-items: center;">
+                    <ion-icon (click)="deletePic(i, 'video')" style="font-size: 13px; color: #a17635;cursor: pointer;"
+                    name="close-outline">
+                  </ion-icon> 
+                  </div>-->
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+        </div>
+
+        <!-- Check-in Status -->
+        <div *ngIf="sales_list != null && loading && tabs == 'checkin'" style="width: 100%;max-width: 700px;">
+
+          <!-- New Check-in -->
+          <div *ngIf="lead.check_details"
+            style="width: 100%;border-radius: 0 0 10px 10px;background: white;box-shadow: 0 5px 8px rgba(0, 0, 0, 0.12);padding: 30px 40px;">
+
+            <div *ngFor="let x of lead.check_details">
+              <!-- Check In Time -->
+              <div *ngIf="x.check_address" style="width: 100%;display: flex;font-size: 12px; margin-top: 15px;">
+                <div
+                  style="width: 30%;min-width: 45px;border: 1px solid #ededed;background: #6CAD47;padding: 5px 10px;color: white;">
+                  Check In Time :</div>
+                <div
+                  style="width: 70%;border: 1px solid #ededed;background: #F0F8ED;padding: 5px 10px;color: rgb(101, 108, 120);">
+                  {{x.check_time | date: 'dd-MM-yyyy hh:mm a'}}</div>
+              </div>
+
+              <!-- Check In Address -->
+              <div *ngIf="x.check_address" style="width: 100%;display: flex;font-size: 12px;">
+                <div
+                  style="width: 30%;min-width: 45px;border: 1px solid #ededed;background: #6CAD47;padding: 5px 10px;color: white;">
+                  Check In Address :</div>
+                <div
+                  style="width: 70%;border: 1px solid #ededed;background: #F0F8ED;padding: 5px 10px;color: rgb(101, 108, 120);">
+                  {{x.check_address || '-'}}</div>
+              </div>
+
+              <div style="display: grid;grid-template-columns: repeat(auto-fill, minmax(120px,1fr));">
+                <img *ngFor="let y of x.check_img; let i = index" (click)="openPic(x.check_img, i, 'image')"
+                  style="min-width: 120px;max-width: 120px;min-height: 130px;max-height: 130px;cursor: pointer;border-radius: 10px;margin-top: 10px;padding: 0 2px;color: black"
+                  src="{{y}}" alt="">
+              </div>
+
+            </div>
+
+          </div>
+
+          <!-- Old Check-in -->
+          <div *ngIf="!lead.check_details"
+            style="width: 100%;border-radius: 0 0 10px 10px;background: white;box-shadow: 0 5px 8px rgba(0, 0, 0, 0.12);padding: 40px;">
+
+
+            <!-- Check In Time -->
+            <div style="width: 100%;display: flex;font-size: 12px;">
+              <div
+                style="width: 30%;min-width: 45px;border: 1px solid #ededed;background: #6CAD47;padding: 5px 10px;color: white;">
+                Check In Time :</div>
+              <div
+                style="width: 70%;border: 1px solid #ededed;background: #F0F8ED;padding: 5px 10px;color: rgb(101, 108, 120);">
+                {{lead.checkin_time | date: 'dd-MM-yyyy hh:mm a'}}</div>
+            </div>
+
+            <!-- Check In Address -->
+            <div style="width: 100%;display: flex;font-size: 12px;">
+              <div
+                style="width: 30%;min-width: 45px;border: 1px solid #ededed;background: #6CAD47;padding: 5px 10px;color: white;">
+                Check In Address :</div>
+              <div
+                style="width: 70%;border: 1px solid #ededed;background: #F0F8ED;padding: 5px 10px;color: rgb(101, 108, 120);">
+                {{lead.checkin_address || '-'}}</div>
+            </div>
+
+            <div style="display: grid;grid-template-columns: repeat(auto-fill, minmax(120px,1fr));">
+              <img *ngFor="let x of lead.checkin_img; let i = index" (click)="openPic(lead.checkin_img, i, 'image')"
+                style="min-width: 120px;max-width: 120px;min-height: 130px;max-height: 130px;cursor: pointer;border-radius: 10px;margin-top: 10px;padding: 0 2px;color: black"
+                src="{{x}}" alt="">
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- Activity Log -->
+        <div *ngIf="tabs == 'activity'" style="width: 100%; max-width: 700px">
+
+          <div
+            style="width: 100%;border-radius: 0 0 10px 10px;background: white;box-shadow: 0 5px 8px rgba(0, 0, 0, 0.12);padding: 20px;">
+            <div style="width: 100%;display: flex;background: #6cad47;color: white;font-size: 12px;">
+              <div style="width: 22%; border: 1px solid #ededed; padding: 5px 10px">
+                Activity Type
+              </div>
+              <div style="width: 50%; border: 1px solid #ededed; padding: 5px 10px">
+                Remark
+              </div>
+              <div style="width: 30%; border: 1px solid #ededed; padding: 5px 10px">
+                Date & Time
+              </div>
+            </div>
+
+            <div *ngFor="let x of activity_log"
+              style="width: 100%; display: flex; background: #f0f8ed; color: rgb(101, 108, 120); font-size: 12px; ">
+              <div style="width: 20%; border: 1px solid #ededed; padding: 5px 10px">
+                {{x.activity_type}}
+              </div>
+              <div style="width: 50%; border: 1px solid #ededed; padding: 5px 10px">
+                {{x.remark || '-'}}
+              </div>
+              <div style="width: 30%; border: 1px solid #ededed; padding: 5px 10px">
+                {{x.activity_time | date : 'dd MMM yyyy hh:mm:ss a'}}
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+
+    </div>
+  </div>
+</ion-content>
+
+<div *ngIf="openPictureOld" style="width: 100%;height: 100%;position: absolute;background: rgba(206, 206, 206, 0.481);
+display: flex;align-items: center;justify-content: center;">
+  <div style="position: relative;z-index: 12515;">
+    <img style="max-height: 600px;" src="{{img}}" alt="">
+    <div (click)="closePic3()" style="background: white;box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.12);padding: 5px; border-radius: 5px;
+      display: flex;align-items: center;position: absolute;top: -15px;right: -30px;cursor: pointer;">
+      <ion-icon style="color: tomato;font-size: 20px;" name="close-circle-outline"></ion-icon>
+      <div style="color: tomato;font-size: 15px;font-weight: 500;margin-left: 5px;">Close</div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="openPicture" (click)="closePic($event)"
+  style="width: 100%;height: 100%;position: absolute;background: rgba(206, 206, 206, 0.481); display: flex;align-items: center;justify-content: center; user-select: none;">
+  <div style="position: relative; z-index: 12515; margin-top: -90px;">
+    <div style="width: 320px; display: flex; justify-content: center; background-color: black;">
+      <img style="min-height: 420px; max-height: 420px; " src="{{img}}" alt="">
+    </div>
+    <div (click)="closePic2()" style="background: white;box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.12);padding: 5px; border-radius: 5px; 
+      display: flex;align-items: center;position: absolute;top: -15px;right: 0;cursor: pointer;">
+      <ion-icon style="color: tomato;font-size: 20px;" name="close-circle-outline"></ion-icon>
+      <div style="color: tomato;font-size: 15px;font-weight: 500;margin-left: 5px;">Close</div>
+    </div>
+    <div
+      style="height: 45px; width: 150px; position: absolute; top: 110%; left: 0; transform: translateY(-50%);cursor: pointer; 
+      display: flex; align-items: center; justify-content: center; background-color: #8080808d; border-radius: 10px; backdrop-filter: blur(5px);"
+      (click)="navigatePhoto('previous')">
+      <ion-icon style="color: white;font-size: 30px;" name="arrow-back-circle-outline"></ion-icon>
+    </div>
+    <div
+      style="height: 45px; width: 150px; position: absolute; top: 110%; right: 0; transform: translateY(-50%);cursor: pointer; 
+      display: flex; align-items: center; justify-content: center; background-color: #8080808d; border-radius: 10px; backdrop-filter: blur(5px);"
+      (click)="navigatePhoto('next')">
+      <ion-icon style="color: white;font-size: 30px;" name="arrow-forward-circle-outline"></ion-icon>
+    </div>
+    <!-- <div
+      style="height: 45px; width: 150px; position: absolute; top: 123%; right: 26%; transform: translateY(-50%);cursor: pointer; 
+      display: flex; align-items: center; justify-content: center; background-color: #8080808d; border-radius: 10px; backdrop-filter: blur(5px);"
+      (click)="download()">
+      <div style="color: white;">Download</div>
+    </div> -->
+    <!-- <img id="imageElement" src="" style="width: 50px; height: 50px;"> -->
+    <div style="width: fit-content; position: absolute; bottom: 15px; right: 15px; text-align: center; color: white; background-color: #80808066; 
+      padding: 5px 10px; border-radius: 10px; backdrop-filter: blur(5px); display: flex; justify-content: center;">
+      {{selectedImgIndex + 1}}/{{currentImgArr.length}}
+    </div>
+  </div>
+</div>
+
+<div *ngIf="openVideo" (click)="closeVideo($event)"
+  style="width: 100%;height: 100%;position: absolute;background: rgba(206, 206, 206, 0.481); display: flex;align-items: center;justify-content: center; user-select: none;">
+  <div style="position: relative;z-index: 12515;">
+    <div style="width: 600px; display: flex; justify-content: center; background-color: black;">
+      <video style="max-height: 600px; max-width: 600px;" controls>
+        <source [src]="img" type="video/mp4">
+        <source [src]="img" type="video/webm">
+        <source [src]="img" type="video/ogg">
+        <source [src]="img" type="video/avi">
+        <source [src]="img" type="video/mpeg">
+        Your browser does not support the video tag.
+      </video>
+    </div>
+    <div (click)="closeVideo2()" style="background: white;box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.12);padding: 5px; border-radius: 5px; 
+      display: flex;align-items: center;position: absolute;top: -15px;right: -30px;cursor: pointer;">
+      <ion-icon style="color: tomato;font-size: 20px;" name="close-circle-outline"></ion-icon>
+      <div style="color: tomato;font-size: 15px;font-weight: 500;margin-left: 5px;">Close</div>
+    </div>
+  </div>
+</div>

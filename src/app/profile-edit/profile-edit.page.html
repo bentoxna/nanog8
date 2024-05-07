@@ -61,7 +61,7 @@
       <div style="padding-top: 16px ;">
         <div style="font-size: 14px; font-weight:600; padding-bottom: 6px; padding-left: 10px;">State</div>
         <ion-input (keyup.enter)="getfirstselection()" id="4" (ionBlur)="clearfilterlist();ionblur($event, 4);"
-          (ionFocus)="filter(user.keyword);ionfocus($event, 4);" (ionChange)="filter(user.keyword)"
+          (ionFocus)="filter(user.keyword);ionfocus($event, 4);" (ionInput)="filter(user.keyword)"
           style="border: 1px solid #cacaca; background-color:#f1fcec; border-radius: 10px; --padding-start: 10px; --padding-top:10px; --padding-end:10px; font-size: 12px;"
           placeholder="Enter Address" [(ngModel)]="user.keyword" type="text"></ion-input>
         <div style="margin-top: 1px;" *ngIf="user.keyword != checker">

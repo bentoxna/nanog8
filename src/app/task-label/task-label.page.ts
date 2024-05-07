@@ -3,8 +3,11 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ActionSheetController, NavController, Platform } from '@ionic/angular';
 import Swal from 'sweetalert2';
-import * as S3 from 'aws-sdk/clients/s3';
-import { Camera, CameraOptions } from '@awesome-cordova-plugins/camera/ngx';
+import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
+// import * as S3 from 'aws-sdk/clients/s3';
+// import { Camera, CameraOptions } from '@awesome-cordova-plugins/camera/ngx';
+import { Plugins } from '@capacitor/core';
+const { Camera } = Plugins;
 
 @Component({
   selector: 'app-task-label',
@@ -34,7 +37,8 @@ export class TaskLabelPage implements OnInit {
     private http: HttpClient,
     private platform: Platform,
     private actionSheetController: ActionSheetController,
-    private camera: Camera) { }
+    // private camera: Camera
+    ) { }
 
   ngOnInit() {
     this.route.queryParams.subscribe(a => {
@@ -174,66 +178,67 @@ export class TaskLabelPage implements OnInit {
     this.uploadToS3(uploadedFile.item(0))
   }
 
-  uploadToS3(file) {
-    Swal.fire({
-      title: "Uploading",
-      text: "Thank You for Your Patient...",
-      heightAuto: false,
-      icon: 'info',
-      showConfirmButton: false,
-    })
+  async uploadToS3(file) {
+    try {
+      // Show uploading message
+      Swal.fire({
+        title: "Uploading",
+        text: "Thank you for your patience...",
+        heightAuto: false,
+        icon: 'info',
+        showConfirmButton: false,
+      });
 
-    const bucket = new S3({
-      accessKeyId: "AKIA4FJWF7YCVSZJKLFE",
-      secretAccessKey: "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",
-      region: 'ap-southeast-1',
-      signatureVersion: 'v4'
-    })
-
-    const params = {
-      Bucket: 'nanogbucket',
-      Key: 'video name:' + file.name,
-      Body: file
-    }
-
-    bucket.upload(params, (err, data) => {
-      // console.log(data)
-      if (err) {
-
-        Swal.close()
-
-        Swal.fire({
-          title: "Something Wrong",
-          text: "Please try again later",
-          icon: 'error',
-          timer: 2000,
-          heightAuto: false,
-          showConfirmButton: false,
-        })
-        // console.log('There was an error uploading file: ' + err)
-        return false
-      }
-
-
-      Swal.close()
-
-      // console.log('Successfully uploaded file.', data)
-
-      // // console.log(i)
-      // console.log(data);
-
-      this.videourl.push(
-        {
-          link: data.Location,
-          filename: file.name
+      // const s3Client = new S3Client({
+      //   accessKeyId: "AKIA4FJWF7YCVSZJKLFE",
+      //   secretAccessKey: "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",
+      //   region: 'ap-southeast-1',
+      //   signatureVersion: 'v4'
+      // });
+      const s3Client = new S3Client({
+        region: 'ap-southeast-1',
+        credentials: {
+          accessKeyId: "AKIA4FJWF7YCVSZJKLFE",
+          secretAccessKey: "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",
         }
-      )
+      });
+      const params = {
+        Bucket: 'nanogbucket',
+        Key: 'video name:' + file.name,
+        Body: file
+      };
 
-      // this.videourl.link[i].link = data.Location
-      // this.videourl.link[i].filename = file.name
-      return true
-    })
+      const command = new PutObjectCommand(params);
+      const data = await s3Client.send(command);
+      const objectUrl = `https://nanogbucket.s3.ap-southeast-1.amazonaws.com/${encodeURIComponent(params.Key)}`;
 
+      // Close uploading message
+      Swal.close();
+
+      // Add uploaded file details to videourl array
+      this.videourl.push({
+        link: objectUrl,
+        filename: file.name
+      });
+
+      return true; // Indicates successful upload
+    } catch (error) {
+      // Close uploading message on error
+      Swal.close();
+
+      // Show error message
+      Swal.fire({
+        title: "Something went wrong",
+        text: "Please try again later",
+        icon: 'error',
+        timer: 2000,
+        heightAuto: false,
+        showConfirmButton: false,
+      });
+
+      console.error('Error uploading file:', error);
+      return false; // Indicates upload failure
+    }
   }
 
   removeVideo(i) {
@@ -278,9 +283,16 @@ export class TaskLabelPage implements OnInit {
       buttons: [
         {
           cssClass: 'actionsheet-selection',
-          text: 'Upload from gallery',
+          text: 'Upload Single Photo',
           handler: () => {
             document.getElementById('uploadlabel').click()
+          }
+        },
+        {
+          cssClass: 'actionsheet-selection',
+          text: 'Upload Multiple Photo',
+          handler: () => {
+            document.getElementById('uploadlabelmul').click()
           }
         },
         {
@@ -353,27 +365,50 @@ export class TaskLabelPage implements OnInit {
 
 
   captureImage() {
-    const options: CameraOptions = {
-      quality: 25,
-      destinationType: this.camera.DestinationType.DATA_URL,
-      encodingType: this.camera.EncodingType.JPEG,
-      mediaType: this.camera.MediaType.PICTURE,
-      targetHeight: 1000,
-      targetWidth: 600,
-      // correctOrientation: true,
-      saveToPhotoAlbum: true
-    }
+    // const options: CameraOptions = {
+    //   quality: 25,
+    //   destinationType: this.camera.DestinationType.DATA_URL,
+    //   encodingType: this.camera.EncodingType.JPEG,
+    //   mediaType: this.camera.MediaType.PICTURE,
+    //   targetHeight: 1000,
+    //   targetWidth: 600,
+    //   // correctOrientation: true,
+    //   saveToPhotoAlbum: true
+    // }
 
-    this.camera.getPicture(options).then((imageData) => {
-      let base64Image = 'data:image/jpeg;base64,' + imageData;
-      this.uploadserve2(base64Image).then(res => {
-        Swal.close()
-        // console.log(res)
-      })
-    },
-      (err) => {
-        alert(err)
-      });
+    // this.camera.getPicture(options).then((imageData) => {
+    //   let base64Image = 'data:image/jpeg;base64,' + imageData;
+    //   this.uploadserve2(base64Image).then(res => {
+    //     Swal.close()
+    //     // console.log(res)
+    //   })
+    // },
+    //   (err) => {
+    //     alert(err)
+    //   });
+    console.log('take photo');
+    return new Promise(async (resolve, reject) => {
+      try {
+        const image = await Camera.getPhoto({
+          quality: 50,
+          allowEditing: false,
+          resultType: 'base64',
+          source: 'CAMERA',
+          width: 600,
+          height: 1000
+        });
+
+        let base64Image = 'data:image/jpeg;base64,' + image.base64String;
+        this.uploadserve2(base64Image).then(res => {
+          Swal.close()
+          resolve(res)
+        })
+
+      } catch (error) {
+        console.error('Error taking photo', error);
+        // Handle error
+      }
+    })
   }
 
   imagectype;

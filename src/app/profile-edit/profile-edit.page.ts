@@ -1,11 +1,13 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Camera, CameraOptions } from '@awesome-cordova-plugins/camera/ngx';
+// import { Camera, CameraOptions } from '@awesome-cordova-plugins/camera/ngx';
 import { NavController, Platform } from '@ionic/angular';
 import Swal from 'sweetalert2';
 import firebase from 'firebase';
 import 'firebase/database';
+import { Plugins } from '@capacitor/core';
+const { Camera } = Plugins;
 
 @Component({
   selector: 'app-profile-edit',
@@ -14,8 +16,10 @@ import 'firebase/database';
 })
 export class ProfileEditPage implements OnInit {
 
-  constructor(private route: ActivatedRoute, private http: HttpClient, private camera: Camera, private nav: NavController,
-    private platform : Platform) { }
+  constructor(private route: ActivatedRoute, private http: HttpClient, 
+    // private camera: Camera,
+     private nav: NavController,
+    private platform: Platform) { }
 
   user = {} as any
   temp = [] as any
@@ -58,23 +62,44 @@ export class ProfileEditPage implements OnInit {
   }
 
   takephoto() {
-    const options: CameraOptions = {
-      quality: 50,
-      destinationType: this.camera.DestinationType.DATA_URL,
-      encodingType: this.camera.EncodingType.JPEG,
-      mediaType: this.camera.MediaType.PICTURE,
-      correctOrientation: true,
-      saveToPhotoAlbum: true
-    }
+    // const options: CameraOptions = {
+    //   quality: 50,
+    //   destinationType: this.camera.DestinationType.DATA_URL,
+    //   encodingType: this.camera.EncodingType.JPEG,
+    //   mediaType: this.camera.MediaType.PICTURE,
+    //   correctOrientation: true,
+    //   saveToPhotoAlbum: true
+    // }
 
-    this.camera.getPicture(options).then((imageData) => {
-      let base64Image = 'data:image/jpeg;base64,' + imageData;
-      this.photo = base64Image
-    },
-      (err) => {
-        alert(err)
-      });
+    // this.camera.getPicture(options).then((imageData) => {
+    //   let base64Image = 'data:image/jpeg;base64,' + imageData;
+    //   this.photo = base64Image
+    // },
+    //   (err) => {
+    //     alert(err)
+    //   });
 
+
+    console.log('take photo');
+    return new Promise(async (resolve, reject) => {
+      try {
+        const image = await Camera.getPhoto({
+          quality: 50,
+          allowEditing: false,
+          resultType: 'base64',
+          source: 'CAMERA',
+          width: 600,
+          height: 1000
+        });
+
+        let base64Image = 'data:image/jpeg;base64,' + image.base64String;
+        this.photo = base64Image
+
+      } catch (error) {
+        console.error('Error taking photo', error);
+        // Handle error
+      }
+    })
   }
 
   cancel() {
@@ -309,7 +334,7 @@ export class ProfileEditPage implements OnInit {
   //   })
   // }
 
-  platformType(){
+  platformType() {
     return this.platform.platforms()
   }
 

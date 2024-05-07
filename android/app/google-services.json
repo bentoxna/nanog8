@@ -8,6 +8,42 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:499222044325:android:900a387027b1c67265774c",
+        "android_client_info": {
+          "package_name": "com.nano.subcon"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "499222044325-g58ul8bli3j5j7340q8c9g0a0mbqlk9r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAHONqpSCaWGsmkyzBfOc7D_LLi3zaEUrs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "499222044325-g58ul8bli3j5j7340q8c9g0a0mbqlk9r.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "499222044325-3sr91qgupvin21ead2d20979lh1ojak4.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.nano.user"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:499222044325:android:6ba4c102f3e524a965774c",
         "android_client_info": {
           "package_name": "com.nano.user"
@@ -30,6 +66,13 @@
             {
               "client_id": "499222044325-g58ul8bli3j5j7340q8c9g0a0mbqlk9r.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "499222044325-3sr91qgupvin21ead2d20979lh1ojak4.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.nano.user"
+              }
             }
           ]
         }

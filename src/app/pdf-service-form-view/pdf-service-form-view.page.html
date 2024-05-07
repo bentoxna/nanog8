@@ -25,9 +25,9 @@
   <div style="width: 100%; display: flex; flex-direction: column; align-items: center; height: 100%;">
 
     <div style="width: 90%;" *ngFor="let x of serform">
-      <div (click)="getpdf(x)" style="display: flex; align-items: center; padding: 10px 0; margin: 10px 0; box-shadow: 0 0 6px 0 #ddd;">
+      <div (click)="getpdf(x.serviceform)" style="display: flex; align-items: center; padding: 10px 0; margin: 10px 0; box-shadow: 0 0 6px 0 #ddd;">
         <img src="assets/icon/pdflogo.png" style="width: 20%;"/>
-        <div style="width: 80%;">{{x}}</div>
+        <div style="width: 80%;">{{x.created_date | date : 'dd MMM yyyy hh:mm:ss a'}}</div>
       </div>
     </div>
 

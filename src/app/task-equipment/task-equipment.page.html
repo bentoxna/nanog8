@@ -12,67 +12,167 @@
 </ion-header>
 
 <ion-content>
-<div style="width: 100%; display: flex; flex-direction: column; align-items: center; padding: 20px 0;">
-  <div style="width: 90%;">
+  <div style="width: 100%; display: flex; flex-direction: column; align-items: center; padding: 20px 0;">
+    <div style="width: 90%;">
 
-    <div style="padding: 10px; border-radius: 10px;display: flex; flex-direction: column; align-items: center;">
-      <div style="font-size: 14px; display: flex; align-items: center; gap: 5px; width: 100%; font-weight: 600;"><ion-icon style="color: #579334;" name="caret-forward-circle-outline"></ion-icon><div>Scaffolding</div></div>
-      <div style="width: 100%;">
-      <!-- <div style="margin-top: 20px;">
+      <div style="padding: 10px; border-radius: 10px;display: flex; flex-direction: column; align-items: center;">
+        <div style="font-size: 14px; display: flex; align-items: center; gap: 5px; width: 100%; font-weight: 600;">
+          <ion-icon style="color: #579334;" name="caret-forward-circle-outline"></ion-icon>
+          <div>Scaffolding</div>
+        </div>
+        <div style="width: 100%;">
+          <!-- <div style="margin-top: 20px;">
         <ion-item>
           <ion-label for="scaffolding" position="floating" style="font-size: 13px;">Enter Scaffolding Height(cm)</ion-label>
           <ion-input [(ngModel)]="scaffheight" id="scaffolding" placeholder="" type="number" style="font-size: 12px;"></ion-input>
         </ion-item>
       </div> -->
-      <div style="margin-top: 10px;">
-        <ion-item>
-          <ion-label for="scafheight" position="floating" style="font-size: 13px;">Enter Scaffolding Fee (RM)</ion-label>
-          <ion-input [(ngModel)]="scafffee" id="scafheight" placeholder="" type="number" style="font-size: 12px;"></ion-input>
-        </ion-item>
-      </div>
-      </div>
-    </div>
+          <div style="margin-top: 10px;">
 
-    <div style="padding: 10px; border-radius: 10px; margin-top: 20px; display: flex; flex-direction: column; align-items: center;">
-      <!-- <div style="font-weight: 600; width: 100%;">Skylift</div> -->
-      <div style="font-size: 14px; display: flex; align-items: center; gap: 5px; width: 100%; font-weight: 600;"><ion-icon style="color: #579334;" name="caret-forward-circle-outline"></ion-icon><div>Skylift</div></div>
-      <div style="width: 100%;">
-        <!-- <div style="margin-top: 20px;">
+            <div style="font-size: 13px; font-weight: 500;">Package : <span style="font-size: 11px;">{{scaffname ||
+                '-'}}</span></div>
+            <div style="font-size: 13px; font-weight: 500;">Price :
+              <span style="font-size: 11px;"><span *ngIf="scafffee">RM </span>{{scafffee || '-'}}</span>
+            </div>
+
+            <div
+              style="max-width: 400px; display: flex; align-items: center; justify-content: space-between; margin-top: 10px; font-size: 13px;">
+
+              <div (click)="selectScaff.open()"
+                style="width: 48%; background: #6DAD48; color: #ffffff; padding: 10px; border-radius: 5px;">Select
+                Scaffolding</div>
+
+              <div *ngIf="scafffee" (click)="remove('scaff')"
+                style="width: 48%; background: tomato; color: #ffffff; padding: 10px; border-radius: 5px;">Remove
+                Selection
+              </div>
+
+            </div>
+
+            <!-- Hidden ion-select with template reference variable -->
+            <ion-select #selectScaff class="ion-no-padding" [(ngModel)]="scafffee" (ionChange)="equipName('scaff')"
+              placeholder="Select an equipment type" md="ios" style="display: none;">
+              <ion-select-option *ngFor="let x of equipScaffolding" [value]="x.price">{{x.name}}</ion-select-option>
+            </ion-select>
+
+          </div>
+        </div>
+      </div>
+
+      <div
+        style="padding: 10px; border-radius: 10px; margin-top: 20px; display: flex; flex-direction: column; align-items: center;">
+        <!-- <div style="font-weight: 600; width: 100%;">Skylift</div> -->
+        <div style="font-size: 14px; display: flex; align-items: center; gap: 5px; width: 100%; font-weight: 600;">
+          <ion-icon style="color: #579334;" name="caret-forward-circle-outline"></ion-icon>
+          <div>Skylift</div>
+        </div>
+        <div style="width: 100%;">
+          <!-- <div style="margin-top: 20px;">
           <ion-item>
             <ion-label for="skylift" position="floating" style="font-size: 13px;">Enter Skylift Height(cm)</ion-label>
             <ion-input [(ngModel)]="skyliftheight" id="skylift" placeholder="" type="number" style="font-size: 12px;"></ion-input>
           </ion-item>
         </div> -->
-        <div style="margin-top: 10px;">
-          <ion-item>
-            <ion-label for='skyfee' position="floating" style="font-size: 13px;">Enter Skylift Fee (RM)</ion-label>
-            <ion-input [(ngModel)]="skyliftfee" id="skyfee" placeholder="" type="number" style="font-size: 12px;"></ion-input>
-          </ion-item>
+          <!-- <div style="margin-top: 10px;">
+            <ion-item>
+              <ion-label for='skyfee' position="floating" style="font-size: 13px;">Enter Skylift Fee (RM)</ion-label>
+              <ion-input [(ngModel)]="skyliftfee" id="skyfee" placeholder="" type="number"
+                style="font-size: 12px;"></ion-input>
+            </ion-item>
+          </div> -->
+          <div style="margin-top: 10px;">
+
+            <div style="font-size: 13px; font-weight: 500;">Package : <span style="font-size: 11px;">{{skyliftname ||
+                '-'}}</span></div>
+            <div style="font-size: 13px; font-weight: 500;">Price :
+              <span style="font-size: 11px;"><span *ngIf="skyliftfee">RM </span>{{skyliftfee || '-'}}</span>
+            </div>
+
+            <div
+              style="max-width: 400px; display: flex; align-items: center; justify-content: space-between; margin-top: 10px; font-size: 13px;">
+
+              <div (click)="selectSkylift.open()"
+                style="width: 48%; background: #6DAD48; color: #ffffff; padding: 10px; border-radius: 5px;">Select
+                Skylift</div>
+
+              <div *ngIf="skyliftfee" (click)="remove('skylift')"
+                style="width: 48%; background: tomato; color: #ffffff; padding: 10px; border-radius: 5px;">Remove
+                Selection
+              </div>
+
+            </div>
+
+            <!-- Hidden ion-select with template reference variable -->
+            <ion-select #selectSkylift class="ion-no-padding" [(ngModel)]="skyliftfee"
+              (ionChange)="equipName('skylift')" placeholder="Select an equipment type" md="ios" style="display: none;">
+              <ion-select-option *ngFor="let x of equipSkylift" [value]="x.price">{{x.name}}</ion-select-option>
+            </ion-select>
+
+          </div>
         </div>
+
+      </div>
+
+
+      <div
+        style="padding: 10px; border-radius: 10px; margin-top: 20px; display: flex; flex-direction: column; align-items: center;">
+        <!-- <div style="font-weight: 600; width: 100%;">Transportation Fee</div> -->
+        <div style="font-size: 14px; display: flex; align-items: center; gap: 5px; width: 100%; font-weight: 600;">
+          <ion-icon style="color: #579334;" name="caret-forward-circle-outline"></ion-icon>
+          <div>Transportation</div>
+        </div>
+        <div style="width: 100%; ">
+          <!-- <ion-item>
+            <ion-label for='transportation_fee' position="floating" style="font-size: 13px;">Enter Transportation Fee
+              (RM)</ion-label>
+            <ion-input [(ngModel)]="transportation_fee" id="transportation_fee" placeholder="" type="number"
+              style="font-size: 12px;"></ion-input>
+          </ion-item> -->
+          <div style="margin-top: 10px;">
+
+            <div style="font-size: 13px; font-weight: 500;">Package : <span
+                style="font-size: 11px;">{{transportation_name ||
+                '-'}}</span></div>
+            <div style="font-size: 13px; font-weight: 500;">Price :
+              <span style="font-size: 11px;"><span *ngIf="transportation_fee">RM </span>{{transportation_fee ||
+                '-'}}</span>
+            </div>
+
+            <div
+              style="max-width: 400px; display: flex; align-items: center; justify-content: space-between; margin-top: 10px; font-size: 13px;">
+
+              <div (click)="selectTransport.open()"
+                style="width: 48%; background: #6DAD48; color: #ffffff; padding: 10px; border-radius: 5px;">Select
+                Transportation</div>
+
+              <div *ngIf="transportation_fee" (click)="remove('transport')"
+                style="width: 48%; background: tomato; color: #ffffff; padding: 10px; border-radius: 5px;">Remove
+                Selection
+              </div>
+
+            </div>
+
+            <!-- Hidden ion-select with template reference variable -->
+            <ion-select #selectTransport class="ion-no-padding" [(ngModel)]="transportation_fee"
+              (ionChange)="equipName('transport')" placeholder="Select an equipment type" md="ios"
+              style="display: none;">
+              <ion-select-option *ngFor="let x of equipTransport" [value]="x.price">{{x.name}}</ion-select-option>
+            </ion-select>
+
+          </div>
+
+        </div>
+
       </div>
 
     </div>
-
-
-    <div style="padding: 10px; border-radius: 10px; margin-top: 20px; display: flex; flex-direction: column; align-items: center;">
-      <!-- <div style="font-weight: 600; width: 100%;">Transportation Fee</div> -->
-      <div style="font-size: 14px; display: flex; align-items: center; gap: 5px; width: 100%; font-weight: 600;"><ion-icon style="color: #579334;" name="caret-forward-circle-outline"></ion-icon><div>Transportation</div></div>
-      <div style="width: 100%; ">
-          <ion-item>
-            <ion-label for='transportation_fee' position="floating" style="font-size: 13px;">Enter Transportation Fee (RM)</ion-label>
-            <ion-input [(ngModel)]="transportation_fee" id="transportation_fee" placeholder="" type="number" style="font-size: 12px;"></ion-input>
-          </ion-item>
-      </div>
-
-    </div>
-
   </div>
-</div>
 
 </ion-content>
 
 <ion-footer>
   <div style="width: 100%; display: flex; justify-content: center;  text-align: center; margin-bottom: 20px; ">
-    <div (click)="save()" style="background: #6DAD48; color: #ffffff; width: 90%; padding: 10px 0; border-radius: 20px;">Save</div>
+    <div (click)="save()"
+      style="background: #6DAD48; color: #ffffff; width: 90%; padding: 10px 0; border-radius: 20px;">Save</div>
   </div>
-  </ion-footer>
+</ion-footer>

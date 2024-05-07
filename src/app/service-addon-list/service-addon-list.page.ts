@@ -67,7 +67,7 @@ export class ServiceAddonListPage implements OnInit {
   }
 
   addon() {
-      this.nav.navigateForward('services-add?tid=' + this.tid + '&sid=' + this.sid + '&sapid=' + this.mainService[0].sap_id +'&lid=' + this.lid + '&servicetype=' + 'addon')
+      this.nav.navigateForward('services-add2?tid=' + this.tid + '&sid=' + this.sid + '&sapid=' + this.mainService[0].sap_id +'&lid=' + this.lid + '&servicetype=' + 'addon')
   }
 
   delete(i){

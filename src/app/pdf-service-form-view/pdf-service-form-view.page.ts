@@ -10,7 +10,7 @@ import { NavController } from '@ionic/angular';
 })
 export class PdfServiceFormViewPage implements OnInit {
 
-  userid 
+  userid
   taskid
   salesid
   leadid
@@ -19,8 +19,8 @@ export class PdfServiceFormViewPage implements OnInit {
   constructor(
     private nav: NavController,
     private http: HttpClient,
-    private route : ActivatedRoute
-) { }
+    private route: ActivatedRoute
+  ) { }
 
   ngOnInit() {
 
@@ -32,10 +32,18 @@ export class PdfServiceFormViewPage implements OnInit {
 
       this.http.post('https://api.nanogapp.com/getServiceFormByLead', { lead_id: this.leadid }).subscribe((s) => {
 
-      this.serform = s['data']
-      // this.sales_custom_quotation = this.sales.custom_quotation
-      console.log('serform', this.serform);
-    })
+        this.serform = s['data']
+        console.log('serform1', this.serform);
+        if (this.serform && this.serform.length > 0) {
+          // Sort the array in descending order based on timestamp
+          this.serform.sort((a, b) => b.created_date - a.created_date);
+
+          // Take the first element (latest one) and create a new array
+          this.serform = [this.serform[0]];
+
+        }
+        console.log('serform', this.serform);
+      })
     })
   }
 
@@ -50,7 +58,7 @@ export class PdfServiceFormViewPage implements OnInit {
     }
   }
 
-  back(){
+  back() {
     this.nav.pop()
   }
 }

@@ -23,12 +23,12 @@ export class Tab1UpcomingTaskPage implements OnInit {
   today2 = new Date();
   currentMonth = this.today2.getMonth();
   // currentMonth2 = this.today2.getMonth();
-  currentMonth2 =  new Date(new Date().getTime() - 2629800000).getMonth()
+  currentMonth2 = new Date(new Date().getTime() - 2629800000).getMonth()
   currentMonth3 = this.today2.getMonth();
   // currentMonth2 = this.months[this.today2.getMonth()]
   currentYear = this.today2.getFullYear();
   // currentYear2 = this.today2.getFullYear();
-  currentYear2 =  new Date(new Date().getTime() - 2629800000).getFullYear()
+  currentYear2 = new Date(new Date().getTime() - 2629800000).getFullYear()
   currentYear3 = this.today2.getFullYear();
   currentDay = this.today2.getDate();
   currentDay2 = this.today2.getDate();
@@ -68,7 +68,7 @@ export class Tab1UpcomingTaskPage implements OnInit {
   yearToCheck3 = this.currentYear3
 
   daysv1 = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT']
-  days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sut']
+  days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 
   temp = [] as any
   appointment = [] as any
@@ -121,44 +121,60 @@ export class Tab1UpcomingTaskPage implements OnInit {
 
   ngOnInit() {
     // console.log(this.heighter())
+    // const Toast = Swal.mixin({
+    //   toast: true,
+    //   position: 'top',
+    //   showConfirmButton: false,
+    //   timer: 10000,
+    //   timerProgressBar: true,
+    //   didOpen: (toast) => {
+    //     Swal.showLoading()
+    //   }
+    // })
 
-      this.temp.now = new Date()
-      if (this.dateselectedmilli) {
-        this.temp.todaymilli = this.dateselectedmilli
-        this.temp.tomorrowmilli = this.temp.todaymilli + 86400000
-      }
-      else {
-        this.temp.todaymilli = new Date(new Date().getFullYear(),new Date().getMonth(), new Date().getDate(), 0, 0, 0 ).getTime()
-        this.temp.tomorrowmilli = this.temp.todaymilli + 86400000
-      }
+    // Toast.fire({
+    //   icon: 'info',
+    //   title: 'Loading Data....'
+    // })
+    this.temp.now = new Date()
+    if (this.dateselectedmilli) {
+      this.temp.todaymilli = this.dateselectedmilli
+      this.temp.tomorrowmilli = this.temp.todaymilli + 86400000
+    }
+    else {
+      this.temp.todaymilli = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(), 0, 0, 0).getTime()
+      this.temp.tomorrowmilli = this.temp.todaymilli + 86400000
+    }
 
-      // console.log(this.temp.todaymilli, this.temp.tomorrowmilli)
+    // console.log(this.temp.todaymilli, this.temp.tomorrowmilli)
 
-      this.http.post('https://api.nanogapp.com/getAppointmentDetailsForExec3', { uid: this.userid, month : new Date().getMonth(), year : new Date().getFullYear() }).subscribe((s) => {
-        this.appointmentAll =  s['data'].filter(a =>( (a['phone_row_number'] == 1) || a['verified'] == true || a['warranty_id'])  )
-        // console.log(this.appointmentAll)
-        this.filteredappointment = s['data']
+    this.http.post('https://api.nanogapp.com/getAppointmentDetailsForExec3', { uid: this.userid, month: new Date().getMonth(), year: new Date().getFullYear() }).subscribe((s) => {
+      this.appointmentAll = s['data'].filter(a => ((a['phone_row_number'] == 1) || a['verified'] == true || a['warranty_id']))
+      // console.log(this.appointmentAll)
+      this.filteredappointment = s['data']
 
-        this.today = this.changedateformat2(this.today2)
-        this.showCalendar(this.currentMonth, this.currentYear)
-      })
+      this.today = this.changedateformat2(this.today2)
+      this.showCalendar(this.currentMonth, this.currentYear)
+      // Swal.close()
 
-      this.http.post('https://api.nanogapp.com/getexistsdate', { uid: this.userid, month : new Date().getMonth(), year : new Date().getFullYear() }).subscribe((s) => {
-        // console.log(s)
-      })
+    })
 
-      // console.log(this.userid, this.temp.todaymilli, this.temp.tomorrowmilli)
+    this.http.post('https://api.nanogapp.com/getexistsdate', { uid: this.userid, month: new Date().getMonth(), year: new Date().getFullYear() }).subscribe((s) => {
+      // console.log(s)
+    })
 
-      this.http.post('https://api.nanogapp.com/getAppointmentForExecByDatev2forlist', { execId: this.userid, startDate: this.temp.todaymilli, endDate: this.temp.tomorrowmilli }).subscribe((s) => {
-        this.appointment =  s['data'].filter(a =>( (a['phone_row_number'] == 1) || a['verified'] == true || a['warranty_id'])  )
-        // console.log(this.appointment)
+    // console.log(this.userid, this.temp.todaymilli, this.temp.tomorrowmilli)
 
-        this.appointmentwithpaymentdone = this.filterappointment('done')
-        // console.log(this.appointmentwithpaymentdone)
-        this.appointmenwithoutpaymentdone = this.filterappointment('havent')
-        // console.log(this.appointmenwithoutpaymentdone)
+    this.http.post('https://api.nanogapp.com/getAppointmentForExecByDatev2forlist', { execId: this.userid, startDate: this.temp.todaymilli, endDate: this.temp.tomorrowmilli }).subscribe((s) => {
+      this.appointment = s['data'].filter(a => ((a['phone_row_number'] == 1) || a['verified'] == true || a['warranty_id']))
+      // console.log(this.appointment)
 
-      })
+      this.appointmentwithpaymentdone = this.filterappointment('done')
+      // console.log(this.appointmentwithpaymentdone)
+      this.appointmenwithoutpaymentdone = this.filterappointment('havent')
+      // console.log(this.appointmenwithoutpaymentdone)
+
+    })
   }
 
   filterappointment(x) {
@@ -439,19 +455,19 @@ export class Tab1UpcomingTaskPage implements OnInit {
     this.selectedDay = 1
     this.monthToCheck = this.months[this.currentMonth]
 
-    this.http.post('https://api.nanogapp.com/getAppointmentDetailsForExec3', { uid: this.userid, month : this.currentMonth, year : this.currentYear }).subscribe((s) => {
-      this.appointmentAll =  s['data'].filter(a =>( (a['phone_row_number'] == 1) || a['verified'] == true || a['warranty_id'])  )
+    this.http.post('https://api.nanogapp.com/getAppointmentDetailsForExec3', { uid: this.userid, month: this.currentMonth, year: this.currentYear }).subscribe((s) => {
+      this.appointmentAll = s['data'].filter(a => ((a['phone_row_number'] == 1) || a['verified'] == true || a['warranty_id']))
       // console.log(this.appointmentAll)
       this.filteredappointment = s['data']
 
       // this.today = this.changedateformat2(this.today2)
       this.showCalendar(this.currentMonth, this.currentYear)
 
-      let d1 = new Date(this.currentYear, this.currentMonth, 1,0,0,0).getTime()
-      let d2 = new Date(this.currentYear, this.currentMonth, 1,23,59,59).getTime()
+      let d1 = new Date(this.currentYear, this.currentMonth, 1, 0, 0, 0).getTime()
+      let d2 = new Date(this.currentYear, this.currentMonth, 1, 23, 59, 59).getTime()
       // console.log(d1, d2)
       this.http.post('https://api.nanogapp.com/getAppointmentForExecByDatev2forlist', { execId: this.userid, startDate: d1, endDate: d2 }).subscribe((s) => {
-        this.appointment =  s['data'].filter(a =>( (a['phone_row_number'] == 1) || a['verified'] == true || a['warranty_id'])  )
+        this.appointment = s['data'].filter(a => ((a['phone_row_number'] == 1) || a['verified'] == true || a['warranty_id']))
         // console.log(this.appointment)
 
         this.appointmentwithpaymentdone = this.filterappointment('done')
@@ -480,19 +496,19 @@ export class Tab1UpcomingTaskPage implements OnInit {
     this.currentMonth = (this.currentMonth === 0) ? 11 : this.currentMonth - 1;
     this.selectedDay = 1
     this.monthToCheck = this.months[this.currentMonth]
-    
-    this.http.post('https://api.nanogapp.com/getAppointmentDetailsForExec3', { uid: this.userid, month : this.currentMonth, year : this.currentYear }).subscribe((s) => {
-      this.appointmentAll =  s['data'].filter(a =>( (a['phone_row_number'] == 1) || a['verified'] == true || a['warranty_id'])  )
+
+    this.http.post('https://api.nanogapp.com/getAppointmentDetailsForExec3', { uid: this.userid, month: this.currentMonth, year: this.currentYear }).subscribe((s) => {
+      this.appointmentAll = s['data'].filter(a => ((a['phone_row_number'] == 1) || a['verified'] == true || a['warranty_id']))
       // console.log(this.appointmentAll)
       this.filteredappointment = s['data']
 
       // this.today = this.changedateformat2(this.today2)
       this.showCalendar(this.currentMonth, this.currentYear)
-      let d1 = new Date(this.currentYear, this.currentMonth, 1,0,0,0).getTime()
-      let d2 = new Date(this.currentYear, this.currentMonth, 1,23,59,59).getTime()
+      let d1 = new Date(this.currentYear, this.currentMonth, 1, 0, 0, 0).getTime()
+      let d2 = new Date(this.currentYear, this.currentMonth, 1, 23, 59, 59).getTime()
       // console.log(d1, d2)
       this.http.post('https://api.nanogapp.com/getAppointmentForExecByDatev2forlist', { execId: this.userid, startDate: d1, endDate: d2 }).subscribe((s) => {
-        this.appointment =  s['data'].filter(a =>( (a['phone_row_number'] == 1) || a['verified'] == true || a['warranty_id'])  )
+        this.appointment = s['data'].filter(a => ((a['phone_row_number'] == 1) || a['verified'] == true || a['warranty_id']))
         // console.log(this.appointment)
 
         this.appointmentwithpaymentdone = this.filterappointment('done')
@@ -538,7 +554,7 @@ export class Tab1UpcomingTaskPage implements OnInit {
     // let dateselected2 = [dateselected, hour].join(' ')
 
     // this.dateselectedmilli = new Date(dateselected2).getTime()
-    this.dateselectedmilli = new Date(this.yearToCheck, parseInt(findmonth) - 1 , this.selectedDay, 0, 0,0).getTime()
+    this.dateselectedmilli = new Date(this.yearToCheck, parseInt(findmonth) - 1, this.selectedDay, 0, 0, 0).getTime()
     this.dateselectedtomorrowmilli = this.dateselectedmilli + 86400000
     // let tomorrowmilli2 = new Date(dateselectedmilli + 86400000)
     // let tomorrow = this.changedateformat(tomorrowmilli)
@@ -547,7 +563,7 @@ export class Tab1UpcomingTaskPage implements OnInit {
     // console.log(this.dateselectedtomorrowmilli)
 
     this.http.post('https://api.nanogapp.com/getAppointmentForExecByDatev2forlist', { execId: this.userid, startDate: this.dateselectedmilli, endDate: this.dateselectedtomorrowmilli }).subscribe((s) => {
-      this.appointment =  s['data'].filter(a =>( (a['phone_row_number'] == 1) || a['verified'] == true || a['warranty_id'])  )
+      this.appointment = s['data'].filter(a => ((a['phone_row_number'] == 1) || a['verified'] == true || a['warranty_id']))
       console.log(this.appointment)
 
       this.appointmentwithpaymentdone = this.filterappointment('done')
@@ -736,7 +752,7 @@ export class Tab1UpcomingTaskPage implements OnInit {
       // console.log(s)
     })
 
-    this.http.post('https://api.nanogapp.com/getAppointmentDetailsForExec3', { uid: this.userid, month : new Date().getMonth(), year : new Date().getFullYear() }).subscribe((s) => {
+    this.http.post('https://api.nanogapp.com/getAppointmentDetailsForExec3', { uid: this.userid, month: new Date().getMonth(), year: new Date().getFullYear() }).subscribe((s) => {
       this.appointmentAll = s['data']
       // console.log(this.appointmentAll)
       this.filteredappointment = s['data']
@@ -747,7 +763,7 @@ export class Tab1UpcomingTaskPage implements OnInit {
     })
 
     this.http.post('https://api.nanogapp.com/getAppointmentForExecByDatev2forlist', { execId: this.userid, startDate: this.temp.todaymilli, endDate: this.temp.tomorrowmilli }).subscribe((s) => {
-      this.appointment = s['data'].filter(a =>( (a['phone_row_number'] == 1) || a['verified'] == true || a['warranty_id'])  )
+      this.appointment = s['data'].filter(a => ((a['phone_row_number'] == 1) || a['verified'] == true || a['warranty_id']))
       // console.log(this.appointment)
 
       this.appointmentwithpaymentdone = this.filterappointment('done')
@@ -783,35 +799,33 @@ export class Tab1UpcomingTaskPage implements OnInit {
     }
   }
 
-  platformType(){
+  platformType() {
     return this.platform.platforms()
   }
 
-  magnify(x){
+  magnify(x) {
     Swal.fire({
-      imageUrl : x,
-      heightAuto : false,
+      imageUrl: x,
+      heightAuto: false,
       confirmButtonText: 'Close',
       text: x
     })
   }
 
-  openvideo(x){
+  openvideo(x) {
     this.nav.navigateForward('video-viewer?link=' + x)
   }
 
   video = '' as any
-  async videocontroller(x, y){
+  async videocontroller(x, y) {
     // this.nav.navigateForward('video-viewer?link=' + x)
     // console.log(x)
     const videostart = document.getElementById('videoPlayer') as HTMLVideoElement
-    if(y =='open')
-    {
+    if (y == 'open') {
       this.video = x
       // videostart.play()
     }
-    else if(y == 'close')
-    {
+    else if (y == 'close') {
       videostart.pause()
       this.video = ''
     }

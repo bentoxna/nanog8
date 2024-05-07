@@ -26,7 +26,7 @@
 
 
       <div style="width: 100%; border: 1px solid #6DAD48; border-radius: 5px; margin-top: 10px; ">
-        <!-- <ion-input (ionChange)="getTime()" [(ngModel)]="taskdate" type="date"></ion-input> -->
+        <!-- <ion-input (ionInput)="getTime()" [(ngModel)]="taskdate" type="date"></ion-input> -->
         <input [(ngModel)]="eventtime"  type="date" onclick="this.showPicker()"
         style="border: none; background: #DEE9CB; font-size: 12px; width: 100%; padding-top: 10px; padding-bottom: 10px; letter-spacing: 0.5px;padding: 10px;">
         <!-- <ion-icon name="calendar-outline"></ion-icon> -->
@@ -110,10 +110,12 @@
         </div>
       </div>
 
-      <label for="uploadfiles" id="uploadlabel"></label>
-      <input readonly (change)="fileChange2($event, 600)" type="file" id="uploadfiles" accept="image/*" multiple
-        name="files[]" style="display: none;" />
-
+        <label for="uploadfiles" id="uploadlabel"></label>
+        <input readonly (change)="fileChange2($event, 600)" type="file" id="uploadfiles" accept="image/*" name="files[]" 
+          style="display: none;" />
+        <label for="uploadfiles3" id="uploadlabelmul"></label>
+        <input readonly (change)="fileChange2($event, 600)" type="file" id="uploadfiles3" accept="image/*" name="files[]" multiple
+          style="display: none;" />
 
       <!-- video -->
       <!-- <div

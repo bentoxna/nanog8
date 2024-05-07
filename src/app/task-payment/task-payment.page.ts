@@ -2,21 +2,21 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ActionSheetController, ModalController, NavController, Platform, ToastController } from '@ionic/angular';
-import { Camera, CameraOptions } from '@awesome-cordova-plugins/camera/ngx';
+// import { Camera, CameraOptions } from '@awesome-cordova-plugins/camera/ngx';
 // import { PhotoViewer } from '@awesome-cordova-plugins/photo-viewer/ngx';
 import Swal from 'sweetalert2';
 import * as EXIF from 'exif-js';
 import { Injectable } from '@angular/core';
 // import * as S3 from 'aws-sdk/clients/s3';
 import * as pdfMake from "pdfmake/build/pdfmake";
-import { File } from '@awesome-cordova-plugins/file/ngx';
+// import { File } from '@awesome-cordova-plugins/file/ngx';
 // import { File } from '@awesome-cordova-plugins/file';
 // import { FileOpener } from '@awesome-cordova-plugins/file-opener/ngx';
 import { TermsAndConditionPage } from '../terms-and-condition/terms-and-condition.page';
 import { TaskPaymentSignPage } from '../task-payment-sign/task-payment-sign.page';
 declare let cordova: any;
-
-
+import { Capacitor, Plugins } from '@capacitor/core';
+const { Camera } = Plugins;
 @Component({
   selector: 'app-task-payment',
   templateUrl: './task-payment.page.html',
@@ -90,10 +90,10 @@ export class TaskPaymentPage implements OnInit {
     private http: HttpClient,
     private platform: Platform,
     private actionSheetController: ActionSheetController,
-    private camera: Camera,
+    // private camera: Camera,
     // private photoViewer: PhotoViewer,
     private nav: NavController,
-    private file: File,
+    // private file: File,
     // private fileOpener: FileOpener,
     private modal: ModalController,
     private toastController: ToastController) { }
@@ -263,11 +263,11 @@ export class TaskPaymentPage implements OnInit {
 
     if (this.appointment.sales_packages && this.appointment.sales_packages.length > 0 && this.dpercentage == 0 && this.dnumber == 0) {
 
-      this.total = this.subtotal - this.totaldeposit + this.scaffnSkylift
+      this.total = this.subtotal - this.totaldeposit + this.scaffnSkylift + this.appointment.transportation_fee
     }
     else if (this.appointment.sales_packages && this.appointment.sales_packages.length > 0 && ((this.dpercentage != 0 || this.dnumber != 0) || (this.dpercentage != 0 && this.dnumber != 0))) {
       // console.log('here')
-      this.total = this.subtotal - this.deductprice - this.dnumber - this.totaldeposit + this.scaffnSkylift
+      this.total = this.subtotal - this.deductprice - this.dnumber - this.totaldeposit + this.scaffnSkylift + this.appointment.transportation_fee
     }
 
     this.deductprice = (this.deductprice / 100 * 100).toFixed(2)
@@ -287,7 +287,7 @@ export class TaskPaymentPage implements OnInit {
       this.deductprice = this.subtotal * this.dpercentage / 100
     });
 
-    this.total = this.subtotal - this.deductprice - this.totaldeposit + this.scaffnSkylift
+    this.total = this.subtotal - this.deductprice - this.totaldeposit + this.scaffnSkylift + this.appointment.transportation_fee
 
     this.deductprice = (this.deductprice / 100 * 100).toFixed(2)
     this.total = (this.total / 100 * 100).toFixed(2)
@@ -323,7 +323,13 @@ export class TaskPaymentPage implements OnInit {
           cssClass: 'actionsheet-selection',
           text: 'Upload Pdf',
           handler: () => {
-            document.getElementById('uploadpdf').click()
+            Swal.fire({
+              text: 'Upload PDF Not Available at the moment, please use other methods',
+              icon: 'warning',
+              heightAuto: false,
+              allowOutsideClick: false,
+            })
+            // document.getElementById('uploadpdf').click()
           }
         },
         {
@@ -379,25 +385,48 @@ export class TaskPaymentPage implements OnInit {
   }
 
   takePhoto() {
-    const options: CameraOptions = {
-      quality: 25,
-      destinationType: this.camera.DestinationType.DATA_URL,
-      encodingType: this.camera.EncodingType.JPEG,
-      mediaType: this.camera.MediaType.PICTURE,
-      correctOrientation: true,
-      saveToPhotoAlbum: true
-    }
+    // const options: CameraOptions = {
+    //   quality: 25,
+    //   destinationType: this.camera.DestinationType.DATA_URL,
+    //   encodingType: this.camera.EncodingType.JPEG,
+    //   mediaType: this.camera.MediaType.PICTURE,
+    //   correctOrientation: true,
+    //   saveToPhotoAlbum: true
+    // }
 
-    this.camera.getPicture(options).then((imageData) => {
-      let base64Image = 'data:image/jpeg;base64,' + imageData;
-      this.uploadserve(base64Image).then(res => {
-        Swal.close()
-        // console.log(res)
-      })
-    },
-      (err) => {
-        alert(err)
-      });
+    // this.camera.getPicture(options).then((imageData) => {
+    //   let base64Image = 'data:image/jpeg;base64,' + imageData;
+    //   this.uploadserve(base64Image).then(res => {
+    //     Swal.close()
+    //     // console.log(res)
+    //   })
+    // },
+    //   (err) => {
+    //     alert(err)
+    //   });
+    console.log('take photo');
+    return new Promise(async (resolve, reject) => {
+      try {
+        const image = await Camera.getPhoto({
+          quality: 50,
+          allowEditing: false,
+          resultType: 'base64',
+          source: 'CAMERA',
+          width: 600,
+          height: 1000
+        });
+
+        let base64Image = 'data:image/jpeg;base64,' + image.base64String;
+        this.uploadserve(base64Image).then(res => {
+          Swal.close()
+          resolve(res)
+        })
+
+      } catch (error) {
+        console.error('Error taking photo', error);
+        // Handle error
+      }
+    })
   }
 
   imagectype;
@@ -691,6 +720,8 @@ export class TaskPaymentPage implements OnInit {
   //   }
   // }
 
+  timerInterval
+
   pay2() {
     this.deposit = (this.deposit / 100 * 100).toFixed(2)
     this.total = (this.total / 100 * 100).toFixed(2)
@@ -876,6 +907,30 @@ export class TaskPaymentPage implements OnInit {
           // else if (this.receipturl) {
           //   link = this.receipturl
           // }
+          Swal.fire({
+            icon: 'info',
+            title: 'Loading Payment...',
+            heightAuto: false,
+            showConfirmButton: false,
+            allowOutsideClick: false,
+            // showCancelButton: true,
+            // reverseButtons: true,
+            didOpen: () => {
+              Swal.showLoading(Swal.getConfirmButton())
+
+            }
+          })
+
+          this.timerInterval = setInterval(() => {
+            Swal.fire({
+              icon: 'error',
+              title: 'Error Payment, Please try again',
+              heightAuto: false,
+              showConfirmButton: true,
+              showCancelButton: false,
+            })
+            clearInterval(this.timerInterval);
+          }, 15000);
 
           this.http.post('https://api.nanogapp.com/updateSalesRemark2', {
             remark: this.paymentremark,
@@ -884,10 +939,9 @@ export class TaskPaymentPage implements OnInit {
             payment_status: payment_status,
             sales_id: this.appointment.sales_id,
             type: this.paymenttype,
-            payment_left : ((total - deposit) / 100 * 100).toFixed(2),
-            // payment_image: link,
-            receipt_img : JSON.stringify(this.receipturl || []),
-            receipt_pdf : JSON.stringify(this.pdffileurl || []),
+            payment_left: ((total - deposit) / 100 * 100).toFixed(2),
+            receipt_img: JSON.stringify(this.receipturl || []),
+            receipt_pdf: JSON.stringify(this.pdffileurl || []),
             total: deposit,
             created_by: this.userid,
             gateway: this.selectedpaymentmethod,
@@ -895,9 +949,11 @@ export class TaskPaymentPage implements OnInit {
             aid: this.taskid,
             cust_sign: this.customersignimage
           }).subscribe(res => {
-            // console.log(res)
             if (res['success'] == true) {
-              // this.nav.navigateRoot('tab2-pending-approval')
+
+              Swal.close()
+              clearInterval(this.timerInterval);
+
               Swal.fire({
                 title: 'Pay Successfully',
                 icon: 'success',
@@ -905,13 +961,13 @@ export class TaskPaymentPage implements OnInit {
                 showConfirmButton: false,
                 timer: 1500
               })
-              // this.nav.pop()
-              this.nav.navigateRoot('home2?uid=' + this.userid, {animationDirection: 'back' })
+              this.nav.navigateRoot('home2?uid=' + this.userid, { animationDirection: 'back' })
             }
             else if (res['success'] == false) {
               alert(res['error'])
             }
           })
+
         }
       })
     }
@@ -949,40 +1005,79 @@ export class TaskPaymentPage implements OnInit {
     this.nav.pop()
   }
 
-  fileChangepdf(event) {
+  async fileChangepdf(event) {
     Swal.fire({
       title: 'Processing...',
       icon: 'info',
       heightAuto: false,
       showConfirmButton: false
     })
+    console.log(event.target.files);
+
+    // if (event.target.files && event.target.files.length > 0) {
+    //   for (let i = 0; i < event.target.files.length; i++) {
+
+    //     console.log(event.target.files[i]);
+    //     await this.toBase64(event.target.files[i]).then(data => {
+    //       console.log('base64', data)
+    //       this.http.post('https://api.nanogapp.com/uploadReceiptPDF', { base64: data }).subscribe((link) => {
+    //         Swal.close()
+    //         this.pdffileurl.push(link['imageURL'])
+    //       }, awe => {
+    //         // console.log(awe);
+    //       })
+    //     }, e => {
+    //       console.log(e);
+
+    //     });
+    //   }
+
+    // }
     if (event.target.files && event.target.files.length > 0) {
-      let temp = event.target.files
-      for(let i = 0;  i < event.target.files.length; i++)
-      {
-        let tempfile = temp[i]
-        this.toBase64(tempfile).then(data => {
-          // console.log('955',data)
-          this.http.post('https://api.nanogapp.com/uploadReceiptPDF', { base64: data }).subscribe((link) => {
-            Swal.close()
-            this.pdffileurl.push(link['imageURL'])
-          }, awe => {
-            // console.log(awe);
-          })
-        });
+      for (let i = 0; i < event.target.files.length; i++) {
+        const base64Data = await this.toBase64(event.target.files[i]);
+        console.log('base64', base64Data);
+
+        try {
+          const link = await this.uploadFile(base64Data);
+          this.pdffileurl.push(link['imageURL']);
+          Swal.close();
+        } catch (error) {
+          console.error(error);
+          // Handle upload error
+        }
       }
-
-
     }
   }
 
+  uploadFile(base64Data: string): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.http.post('https://api.nanogapp.com/uploadReceiptPDF', { base64: base64Data }).subscribe(
+        (link) => {
+          resolve(link);
+        },
+        (error) => {
+          reject(error);
+        }
+      );
+    });
+  }
+
   toBase64(blob) {
-    return new Promise((resolve, rej) => {
+    return new Promise<string>((resolve, reject) => {
       const reader = new FileReader();
-      reader.onload = (a) => {
-        resolve(reader.result)
-      }
-      reader.readAsDataURL(blob)
+      console.log(reader);
+
+      reader.onload = () => {
+        console.log('onload');
+        resolve(reader.result as string);
+      };
+      reader.onerror = (error) => {
+        console.log('error');
+        reject(error);
+      };
+      console.log('readAsDataURL');
+      reader.readAsDataURL(blob);
     });
   }
 
@@ -1048,7 +1143,7 @@ export class TaskPaymentPage implements OnInit {
   }
 
 
-  createsof(){
+  createsof() {
     this.nav.navigateForward('pdf-sales-order-form?uid=' + this.userid + '&tid=' + this.taskid + '&sid=' + this.salesid)
   }
 

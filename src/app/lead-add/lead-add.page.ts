@@ -260,7 +260,7 @@ export class LeadAddPage implements OnInit {
       return x.substring(1, x.length)
     } else if (((x || '').toString()).substring(0, 1) == '6') {
       return x
-    } else if (((x || '').toString()).substring(0, 1) == '0') {
+    } else if (((x || '').toString()).substring(0, 1) == '0' || ((x || '').toString()).substring(0, 1) == '5') {
       return '6' + x
     } else {
       return '60' + x

@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Camera, CameraOptions } from '@awesome-cordova-plugins/camera/ngx';
+// import { Camera, CameraOptions } from '@awesome-cordova-plugins/camera/ngx';
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
@@ -25,7 +25,8 @@ import { LocationAccuracy } from '@awesome-cordova-plugins/location-accuracy/ngx
 
 import Swal from 'sweetalert2'
 import { Diagnostic } from '@awesome-cordova-plugins/diagnostic/ngx';
-
+import { Plugins } from '@capacitor/core';
+const { Camera } = Plugins;
 
 import {
   GoogleMap,
@@ -143,10 +144,10 @@ export class CheckInPage implements OnInit {
   checkin_status
 
   customer = [] as any
-  appointment_time : any
+  appointment_time: any
 
   constructor(
-    private camera: Camera,
+    // private camera: Camera,
     private mediaCapture: MediaCapture,
     private sanitizer: DomSanitizer,
     // private imagePicker : ImagePicker,
@@ -204,9 +205,9 @@ export class CheckInPage implements OnInit {
     // console.log('address string', this.addressstring)
 
     this.getaddress()
-    // this.getphoto()
     this.gpsstatuschecker()
     this.platformType()
+    // this.getphoto()
 
     // console.log(this.platformType())
 
@@ -245,17 +246,24 @@ export class CheckInPage implements OnInit {
   }
 
   async getlocation() {
+    console.log('1');
     return new Promise((resolve, reject) => {
+      console.log('2');
       this.geolocation.getCurrentPosition().then((resp) => {
         // console.log(resp)
+        console.log('3');
         this.location = resp.coords
-        resolve(this.location)
+        console.log('4');
+        resolve(this.location);
       }).catch((error) => {
         // console.log('Error getting location', error);
-        reject()
+        console.log('Error getting location:', error);
+        console.log('e');
+        reject(error); // Pass the error to reject
       });
-    })
+    });
   }
+
 
   // convertlocation() {
   //   // console.log('run here geocoder')
@@ -315,22 +323,31 @@ export class CheckInPage implements OnInit {
   async convertlocation() {
     let geocoder = new google.maps.Geocoder;
     let latlng = { lat: this.location.latitude, lng: this.location.longitude };
-    geocoder.geocode({ 'location': latlng }, (results, status) => {
-      // console.log(results);
-      // console.log(status);
-      if (results.length > 0) {
-        this.addressstring = results[0].formatted_address
-        this.addressstring = this.addressstring.toString()
-        Swal.close()
-      }
-      else if (results.length < 1) {
-        this.addressstring = 'Undefined Address'
-        Swal.close()
-      }
-      // console.log(this.addressstring)
 
-    });
+    try {
+      const results: google.maps.GeocoderResult[] = await new Promise((resolve, reject) => {
+        geocoder.geocode({ 'location': latlng }, (results, status) => {
+          if (status === 'OK') {
+            resolve(results);
+          } else {
+            reject(status);
+          }
+        });
+      });
+
+      if (results.length > 0) {
+        this.addressstring = results[0].formatted_address;
+      } else {
+        this.addressstring = 'Undefined Address';
+      }
+
+      Swal.close();
+    } catch (error) {
+      console.error('Geocoding error:', error);
+      Swal.close(); // Close Swal on error as well
+    }
   }
+
 
   uploadserve() {
     return new Promise((resolve, reject) => {
@@ -405,38 +422,41 @@ export class CheckInPage implements OnInit {
     })
   }
 
-  async takePhoto() {
-    return new Promise((resolve, reject) => {
-      const options: CameraOptions = {
-        quality : 25,
-        destinationType: this.camera.DestinationType.DATA_URL,
-        encodingType: this.camera.EncodingType.JPEG,
-        mediaType: this.camera.MediaType.PICTURE,
+  // async takePhoto() {
+  //   console.log('take photo');
 
-        targetHeight: 1000,
-        targetWidth: 600,
 
-        correctOrientation: true,
-        saveToPhotoAlbum: true
-      }
+  //   return new Promise((resolve, reject) => {
+  //     const options: CameraOptions = {
+  //       quality: 25,
+  //       destinationType: this.camera.DestinationType.DATA_URL,
+  //       encodingType: this.camera.EncodingType.JPEG,
+  //       mediaType: this.camera.MediaType.PICTURE,
 
-      this.camera.getPicture(options).then((imageData) => {
-        // imageData is either a base64 encoded string or a file URI
-        // If it's base64 (DATA_URL):
-        let base64Image = 'data:image/jpeg;base64,' + imageData;
-        // this.photo.push(base64Image)
-        this.checkin.now = new Date().getTime();
-        // console.log(base64Image)
-        this.uploadserve2(base64Image).then(res => {
-          Swal.close()
-          resolve(res)
-        })
-      }, (err) => {
-        // console.log(err)
-        // Handle error
-      });
-    })
-  }
+  //       targetHeight: 1000,
+  //       targetWidth: 600,
+
+  //       correctOrientation: true,
+  //       saveToPhotoAlbum: true
+  //     }
+
+  //     this.camera.getPicture(options).then((imageData) => {
+  //       // imageData is either a base64 encoded string or a file URI
+  //       // If it's base64 (DATA_URL):
+  //       let base64Image = 'data:image/jpeg;base64,' + imageData;
+  //       // this.photo.push(base64Image)
+  //       this.checkin.now = new Date().getTime();
+  //       // console.log(base64Image)
+  //       this.uploadserve2(base64Image).then(res => {
+  //         Swal.close()
+  //         resolve(res)
+  //       })
+  //     }, (err) => {
+  //       // console.log(err)
+  //       // Handle error
+  //     });
+  //   })
+  // }
 
   async getphoto() {
     if (this.imageurl.length >= 9) {
@@ -450,42 +470,71 @@ export class CheckInPage implements OnInit {
     else if (this.imageurl.length < 9) {
       await this.takePhoto().then(a => {
         // console.log(this.addressstring)
-        if (!this.addressstring) {
-          this.getaddress()
-        }
+        // if (!this.addressstring) {
+        // this.getaddress()
+        // }
       })
     }
   }
+
+  async takePhoto() {
+    console.log('take photo');
+    return new Promise(async (resolve, reject) => {
+      try {
+        const image = await Camera.getPhoto({
+          quality: 50,
+          allowEditing: false,
+          resultType: 'base64',
+          source: 'CAMERA',
+          width: 600,
+          height: 1000
+        });
+
+        let base64Image = 'data:image/jpeg;base64,' + image.base64String;
+        console.log(base64Image);
+        this.checkin.now = new Date().getTime();
+        this.uploadserve2(base64Image).then(res => {
+          Swal.close()
+          resolve(res)
+        })
+
+      } catch (error) {
+        console.error('Error taking photo', error);
+        // Handle error
+      }
+    })
+  }
+
   timerInterval
 
   async getaddress() {
-    Swal.fire(        {
+    Swal.fire({
       icon: 'info',
-      title : 'Getting address...',
+      title: 'Getting address...',
       heightAuto: false,
-      showConfirmButton : false,
-      allowOutsideClick : false,
+      showConfirmButton: false,
+      allowOutsideClick: false,
       // showCancelButton: true,
       // reverseButtons: true,
-      didOpen : () => {
+      didOpen: () => {
         Swal.showLoading(Swal.getConfirmButton())
         let startTime = new Date().getTime();
 
         // Update the loading time every second
         this.timerInterval = setInterval(() => {
           const elapsedTime = Math.floor((new Date().getTime() - startTime) / 1000); // Calculate elapsed time in seconds
-          
+
           // Update the Swal.fire dialog with the new loading time
           Swal.update({
             icon: 'info',
-            title : 'Getting address...',
+            title: 'Getting address...',
             html: `Loading Time: ${elapsedTime} seconds <br/> If the loading time is too long, please reopen your app and try again`,
             // allowOutsideClick: false,
-            showConfirmButton : false,
-            allowOutsideClick : false,
+            showConfirmButton: false,
+            allowOutsideClick: true,
           });
         }, 1000);
-        
+
       }
     })
     this.getlocation().then(b => {
@@ -583,8 +632,7 @@ export class CheckInPage implements OnInit {
 
           // console.log(this.location.latitude, this.location.longitude, this.checkin.now, this.imageurl, this.task.tid)
 
-          if(this.checkin_status == 'first')
-          {
+          if (this.checkin_status == 'first') {
             this.http.post('https://api.nanogapp.com/checkInAppointment2', {
               latt: this.location.latitude,
               long: this.location.longitude,
@@ -594,12 +642,12 @@ export class CheckInPage implements OnInit {
               checkin_address: this.addressstring,
               lead_id: this.leadid,
               uid: this.userid,
-              check_status : 'in' , 
-              while_check_status : this.checkingstatus()
+              check_status: 'in',
+              while_check_status: this.checkingstatus()
             }).subscribe(a => {
-  
+
               Swal.close()
-  
+
               Swal.fire({
                 title: 'Success',
                 icon: 'success',
@@ -607,13 +655,12 @@ export class CheckInPage implements OnInit {
                 heightAuto: false,
                 timer: 3000,
               })
-  
+
               this.nav.pop()
-  
+
             })
           }
-          else if(this.checkin_status == 'again')
-          {
+          else if (this.checkin_status == 'again') {
             this.http.post('https://api.nanogapp.com/checkInAppointmentAgain', {
               latt: this.location.latitude,
               long: this.location.longitude,
@@ -623,12 +670,12 @@ export class CheckInPage implements OnInit {
               checkin_address: this.addressstring,
               lead_id: this.leadid,
               uid: this.userid,
-              check_status : 'in' , 
-              while_check_status : this.checkingstatus()
+              check_status: 'in',
+              while_check_status: this.checkingstatus()
             }).subscribe(a => {
-  
+
               Swal.close()
-  
+
               Swal.fire({
                 title: 'Success',
                 icon: 'success',
@@ -636,9 +683,9 @@ export class CheckInPage implements OnInit {
                 heightAuto: false,
                 timer: 3000,
               })
-  
+
               this.nav.pop()
-  
+
             })
           }
 
@@ -648,23 +695,22 @@ export class CheckInPage implements OnInit {
     }
   }
 
-  checkingstatus() : string{
+  checkingstatus(): string {
     let string
     let num1 = this.checkin.now
     let num2 = this.appointment_time
-    if(num1 <= num2){
+    if (num1 <= num2) {
       let millisecond = num2 - num1
       let hour = Math.floor(millisecond / (1000 * 60 * 60))
       let min = Math.floor((millisecond % (1000 * 60 * 60)) / (1000 * 60))
-      string = 'early ' + (hour ?  (hour + ' hour ') : '') + min + ' minutes' 
+      string = 'early ' + (hour ? (hour + ' hour ') : '') + min + ' minutes'
       // console.log(string)
     }
-    else if(num1 > num2)
-    {
+    else if (num1 > num2) {
       let millisecond = num1 - num2
       let hour = Math.floor(millisecond / (1000 * 60 * 60))
       let min = Math.floor((millisecond % (1000 * 60 * 60)) / (1000 * 60))
-      string = 'late ' + (hour ?  (hour + ' hour ') : '') + min + ' minutes' 
+      string = 'late ' + (hour ? (hour + ' hour ') : '') + min + ' minutes'
       // console.log(string)
     }
     // if(num1 <= num2)
@@ -699,7 +745,7 @@ export class CheckInPage implements OnInit {
     // }
     // console.log(this.checkin.now) 
     // console.log(this.appointment_time)
-    
+
     return string
   }
 

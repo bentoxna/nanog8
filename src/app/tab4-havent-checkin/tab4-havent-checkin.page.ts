@@ -68,7 +68,7 @@ export class Tab4HaventCheckinPage implements OnInit {
   yearToCheck3 = this.currentYear3
 
   daysv1 = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT']
-  days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sut']
+  days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 
   temp = [] as any
   appointment = [] as any
@@ -149,9 +149,9 @@ export class Tab4HaventCheckinPage implements OnInit {
 
       // console.log(this.userid, this.temp.todaymilli, this.temp.tomorrowmilli)
 
-      this.http.post('https://api.nanogapp.com/getAppointmentForExecByDatev2forlistTab4', { execId: this.userid, startDate: this.temp.todaymilli, endDate: this.temp.tomorrowmilli }).subscribe((s) => {
+      this.http.post('https://api.nanogapp.com/getAppointmentForExecByDatev2forlistTab4', { execId: this.userid, startDate: 1682244742000, endDate: this.temp.tomorrowmilli }).subscribe((s) => {
         this.appointment =  s['data'].filter(a =>( (a['phone_row_number'] == 1) || a['verified'] == true || a['warranty_id'])  )
-        // console.log(this.appointment)
+        console.log(this.appointment)
 
         this.appointmentwithpaymentdone = this.filterappointment('done')
         // console.log(this.appointmentwithpaymentdone)

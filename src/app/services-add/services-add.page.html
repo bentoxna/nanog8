@@ -160,14 +160,14 @@
       </div>
     </div> -->
 
-    <div 
-    (click)="nonpackage()" style="margin-top: 20px; display: flex; background: #6DAD48; border-radius: 9999999px; align-items: center;
+      <div (click)="nonpackage()"
+        style="margin-top: 20px; display: flex; background: #6DAD48; border-radius: 9999999px; align-items: center;
     color: #fff; display: flex; justify-content: center; border: 1px solid #3f791e; font-size: 14px; padding: 10px 0; font-weight: 600; gap: 5px;">
-      <ion-icon name="{{nonpackagestatus ? 'checkbox-outline' : 'square-outline'}}"
-        style="margin-right: 4px; font-size: 20px;"></ion-icon>
-      <div>Click Here to Non-Package</div>
-    </div>
-    
+        <ion-icon name="{{nonpackagestatus ? 'checkbox-outline' : 'square-outline'}}"
+          style="margin-right: 4px; font-size: 20px;"></ion-icon>
+        <div>Click Here to Non-Package</div>
+      </div>
+
 
 
       <div *ngIf="!nonpackagestatus" style="margin-top: 15px; width: 100%;">
@@ -180,7 +180,7 @@
         <div style="display: flex; align-items:center; justify-content: space-between; margin-top: 10px;">
           <ion-input placeholder="Enter sqft" type="number" style="background: #E6EED7; padding: 8px 0; text-align: center; font-size: 14px; 
         --padding-start: 5px; --padding-end: 5px; border-radius: 4px; box-shadow: 0 0 4px 0 #CCCCCC;"
-            [(ngModel)]="service.sqft" (ionChange)="dropdown = true"></ion-input>
+            [(ngModel)]="service.sqft" (ionInput)="dropdown = true"></ion-input>
         </div>
 
 
@@ -213,25 +213,28 @@
         </div>
       </div> -->
 
-      <div *ngIf="!nonpackagestatus" style="margin-top: 20px; width: 100%; display: flex; justify-content: right; font-size: 14px;">
+      <div *ngIf="!nonpackagestatus"
+        style="margin-top: 20px; width: 100%; display: flex; justify-content: right; font-size: 14px;">
         <div (click)="changeToRemove()" style="display: flex; align-items: center;">
           <ion-icon style="font-size: 12px;" *ngIf="!remove" name="square-outline"></ion-icon>
           <ion-icon style="font-size: 12px;" *ngIf="remove" name="checkbox-outline"></ion-icon>
-          <div style="margin-left: 2px;">Removal</div></div>
+          <div style="margin-left: 2px;">Removal</div>
+        </div>
       </div>
 
 
       <div *ngIf="!nonpackagestatus" style="background: #DEE9CB; margin-top: 5px; border-radius: 8px;">
         <div (click)="dropdownlist()" style="display: flex; justify-content:space-between; align-items: center; background: #C6D8A6; border-radius: 8px; padding: 12px 16px; 
             box-shadow: 0 1px 0 0 #CCCCCC;">
-          <div style="font-size: 14px; font-weight:600;">{{service.package ? service.package.name + ' (' + service.package.area + ') (' + service.package.service + ')' : 'Select Package'}}
+          <div style="font-size: 14px; font-weight:600;">{{service.package ? service.package.name + ' (' +
+            service.package.area + ') (' + service.package.service + ')' : 'Select Package'}}
           </div>
           <ion-icon style="font-size: 16px;"
             name="{{dropdown == false ? 'chevron-forward-outline' : 'chevron-down-outline'}}"></ion-icon>
         </div>
         <!-- <div *ngIf="dropdown" style="width: 100%; display: flex; justify-content: center; margin: 4px 0;">
           <div *ngIf="dropdown" style="width: 96%; box-shadow: 0 0 6px 0 #cccccc;">
-            <ion-input (ionChange)="filterer(packages)" placeholder="Search..." [(ngModel)]="filterword"
+            <ion-input (ionInput)="filterer(packages)" placeholder="Search..." [(ngModel)]="filterword"
               style="width:100%; font-size: 12px; background: transparent;"></ion-input>
           </div>
         </div> -->
@@ -291,8 +294,8 @@
         <div style="display: flex; align-items:center; justify-content: space-between;">
           <ion-input placeholder="sqft" type="number" style="background: #E6EED7; padding: 8px 0; text-align: center; font-size: 14px; 
         --padding-start: 5px; --padding-end: 5px; border-radius: 4px; box-shadow: 0 0 4px 0 #CCCCCC;"
-            [(ngModel)]="service.size" (ionChange)="calculateothersubtotal()"></ion-input>
-          <!-- <ion-input (ionChange)="setsqft()" placeholder="Width (ft)" type="number" style="background: #E6EED7; padding: 8px 0; text-align: center; font-size: 14px; 
+            [(ngModel)]="service.size" (ionInput)="calculateothersubtotal()"></ion-input>
+          <!-- <ion-input (ionInput)="setsqft()" placeholder="Width (ft)" type="number" style="background: #E6EED7; padding: 8px 0; text-align: center; font-size: 14px; 
         --padding-start: 5px; --padding-end: 5px; border-radius: 4px; box-shadow: 0 0 4px 0 #CCCCCC;" [(ngModel)]="service.width"></ion-input> -->
           <!-- <ion-input placeholder="Width (ft)" type="number" style="background: #E6EED7; padding: 8px 0; text-align: center; font-size: 14px; 
         --padding-start: 5px; --padding-end: 5px; border-radius: 4px; box-shadow: 0 0 4px 0 #CCCCCC;"
@@ -300,7 +303,7 @@
 
           <!-- <ion-icon name="close-outline" style="font-size: 14px; margin: 0 12px;"></ion-icon> -->
 
-          <!-- <ion-input (ionChange)="setsqft()" placeholder="Length (ft)" type="number" style="background: #E6EED7; padding: 8px 0; text-align: center; font-size: 14px; 
+          <!-- <ion-input (ionInput)="setsqft()" placeholder="Length (ft)" type="number" style="background: #E6EED7; padding: 8px 0; text-align: center; font-size: 14px; 
         --padding-start: 5px; --padding-end: 5px; border-radius: 4px; box-shadow: 0 0 4px 0 #CCCCCC;" [(ngModel)]="service.height"></ion-input> -->
           <!-- <ion-input placeholder="Length (ft)" type="number" style="background: #E6EED7; padding: 8px 0; text-align: center; font-size: 14px; 
         --padding-start: 5px; --padding-end: 5px; border-radius: 4px; box-shadow: 0 0 4px 0 #CCCCCC;"
@@ -314,23 +317,29 @@
         <div style="display: flex; align-items:center; justify-content: space-between;">
           <ion-input placeholder="0" type="number" style="background: #E6EED7; padding: 8px 0; text-align: center; font-size: 14px; 
       --padding-start: 5px; --padding-end: 5px; border-radius: 4px; box-shadow: 0 0 4px 0 #CCCCCC;"
-            [(ngModel)]="service.sizerate" (ionChange)="calculateothersubtotal()"></ion-input>
+            [(ngModel)]="service.sizerate" (ionInput)="calculateothersubtotal()"></ion-input>
         </div>
       </div>
 
       <div style="margin-top: 30px; width: 100%;">
         <!-- <div style="display: flex; justify-content:space-between; align-items: center; background: #C6D8A6; border-radius: 8px; padding: 6px 16px; 
         box-shadow: 0 1px 0 0 #CCCCCC; width: 100%;"> -->
-          <div style="font-size: 14px; display: flex; align-items: center; gap: 5px;"><ion-icon style="color: #579334;" name="caret-forward-outline"></ion-icon><div>Price</div></div>
-          <div style="font-size: 14px; font-weight:600; text-align: right; background: #C6D8A6; border-radius: 8px;padding: 12px 16px; margin-top: 3px;">{{nonpackagestatus ? (service.subtotal ? service.subtotal : '0') : (service.subtotal ? service.subtotal : '0')}}</div>
-          <!-- <ion-input *ngIf="packageselected && packageselected.length > 0" (ionChange)="calculateTotal()"  [(ngModel)]="packageprice"  placeholder="{{packageselected[0].amount}}" type="number" style="font-size: 14px; text-align: right;  --placeholder-opacity: 1 !important;"></ion-input> -->
-          <!-- <ion-input *ngIf="packageselected.length < 1 && service.size != 'others' && service.area != 'others'" disabled="true" placeholder="0"  type="number" style="font-size: 14px; text-align: right;"></ion-input>
+        <div style="font-size: 14px; display: flex; align-items: center; gap: 5px;"><ion-icon style="color: #579334;"
+            name="caret-forward-outline"></ion-icon>
+          <div>Price</div>
+        </div>
+        <div
+          style="font-size: 14px; font-weight:600; text-align: right; background: #C6D8A6; border-radius: 8px;padding: 12px 16px; margin-top: 3px;">
+          {{nonpackagestatus ? (service.subtotal ? service.subtotal : '0') : (service.subtotal ? service.subtotal :
+          '0')}}</div>
+        <!-- <ion-input *ngIf="packageselected && packageselected.length > 0" (ionInput)="calculateTotal()"  [(ngModel)]="packageprice"  placeholder="{{packageselected[0].amount}}" type="number" style="font-size: 14px; text-align: right;  --placeholder-opacity: 1 !important;"></ion-input> -->
+        <!-- <ion-input *ngIf="packageselected.length < 1 && service.size != 'others' && service.area != 'others'" disabled="true" placeholder="0"  type="number" style="font-size: 14px; text-align: right;"></ion-input>
           <ion-input *ngIf="!service.size && !service.area && !service.services && !service.sqft" disabled="true" placeholder="0"  type="number" style="font-size: 14px; text-align: right;"></ion-input>
-          <ion-input *ngIf="packageselected.length < 1 && service.size == 'others' || service.area == 'others'" (ionChange)="calculateTotal()" [(ngModel)]="packageprice" placeholder="0"  type="number" style="font-size: 14px; text-align: right;"></ion-input> -->
+          <ion-input *ngIf="packageselected.length < 1 && service.size == 'others' || service.area == 'others'" (ionInput)="calculateTotal()" [(ngModel)]="packageprice" placeholder="0"  type="number" style="font-size: 14px; text-align: right;"></ion-input> -->
         <!-- </div> -->
       </div>
 
-        <!-- <div style="margin-top: 10px; width: 100%;">
+      <!-- <div style="margin-top: 10px; width: 100%;">
           <div style="display: flex; justify-content:space-between; align-items: center; background: #C6D8A6; border-radius: 8px; padding: 6px 16px; 
           box-shadow: 0 1px 0 0 #CCCCCC; width: 100%;">
             <div style="font-size: 14px;">Discount(%)</div>
@@ -343,7 +352,7 @@
         <div style="display: flex; justify-content:space-between; align-items: center; background: #C6D8A6; border-radius: 8px; padding: 6px 16px; 
         box-shadow: 0 1px 0 0 #CCCCCC; width: 100%;">
           <div style="font-size: 14px;">Discount(%)</div>
-          <ion-input (ionChange)="calculateTotal('packages')" [(ngModel)]="service.discount" placeholder="example : 5"
+          <ion-input (ionInput)="calculateTotal('packages')" [(ngModel)]="service.discount" placeholder="example : 5"
             type="number" style="font-size: 14px; text-align: right;"></ion-input>
         </div>
       </div>
@@ -352,7 +361,7 @@
         <div style="display: flex; justify-content:space-between; align-items: center; background: #C6D8A6; border-radius: 8px; padding: 6px 16px; 
           box-shadow: 0 1px 0 0 #CCCCCC; width: 100%;">
           <div style="font-size: 14px;">Discount(%)</div>
-          <ion-input (ionChange)="calculateTotal('others')" [(ngModel)]="service.discount" placeholder="example : 5"
+          <ion-input (ionInput)="calculateTotal('others')" [(ngModel)]="service.discount" placeholder="example : 5"
             type="number" style="font-size: 14px; text-align: right;"></ion-input>
         </div>
       </div>
@@ -361,7 +370,7 @@
         <div style="display: flex; justify-content:space-between; align-items: center; background: #C6D8A6; border-radius: 8px; padding: 6px 16px; 
         box-shadow: 0 1px 0 0 #CCCCCC; width: 100%;">
           <div style="font-size: 14px;">Discount(RM)</div>
-          <ion-input (ionChange)="calculateTotal('packages')" [(ngModel)]="service.discount_roundoff" placeholder="example : 5"
+          <ion-input (ionInput)="calculateTotal('packages')" [(ngModel)]="service.discount_roundoff" placeholder="example : 5"
             type="number" style="font-size: 14px; text-align: right;"></ion-input>
         </div>
       </div>
@@ -370,7 +379,7 @@
         <div style="display: flex; justify-content:space-between; align-items: center; background: #C6D8A6; border-radius: 8px; padding: 6px 16px; 
           box-shadow: 0 1px 0 0 #CCCCCC; width: 100%;">
           <div style="font-size: 14px;">Discount(RM)</div>
-          <ion-input (ionChange)="calculateTotal('others')" [(ngModel)]="service.discount_roundoff" placeholder="example : 5"
+          <ion-input (ionInput)="calculateTotal('others')" [(ngModel)]="service.discount_roundoff" placeholder="example : 5"
             type="number" style="font-size: 14px; text-align: right;"></ion-input>
         </div>
       </div> -->
@@ -379,11 +388,14 @@
       <div *ngIf="service.package && !nonpackagestatus" style="margin-top: 10px; width: 100%;">
         <!-- <div style="display: flex; justify-content:space-between; align-items: center; background: #C6D8A6; border-radius: 8px; padding: 6px 16px; 
           box-shadow: 0 1px 0 0 #CCCCCC; width: 100%;"> -->
-          <!-- <div style="font-size: 14px; font-weight:600;">Total</div> -->
-          <div style="font-size: 14px; display: flex; align-items: center; gap: 5px;"><ion-icon style="color: #579334;" name="caret-forward-outline"></ion-icon><div style="font-weight: 600;">Total</div></div>
-          <ion-input [(ngModel)]="service.total" type="number"
-            style="font-size: 14px; font-weight:600; text-align: right; background: #C6D8A6; border-radius: 8px; --padding-end: 16px; --padding-start : 16px; --placeholder-opacity: 1 !important; opacity: 1 !important; margin-top: 3px;"></ion-input>
-            <!-- <div
+        <!-- <div style="font-size: 14px; font-weight:600;">Total</div> -->
+        <div style="font-size: 14px; display: flex; align-items: center; gap: 5px;"><ion-icon style="color: #579334;"
+            name="caret-forward-outline"></ion-icon>
+          <div style="font-weight: 600;">Total</div>
+        </div>
+        <ion-input [(ngModel)]="service.total" type="number"
+          style="font-size: 14px; font-weight:600; text-align: right; background: #C6D8A6; border-radius: 8px; --padding-end: 16px; --padding-start : 16px; --placeholder-opacity: 1 !important; opacity: 1 !important; margin-top: 3px;"></ion-input>
+        <!-- <div
             style="font-size: 14px; font-weight:600; text-align: right; padding: 10px 0;">
           {{service.total}}</div> -->
         <!-- </div> -->
@@ -392,16 +404,19 @@
       <div *ngIf="nonpackagestatus" style="margin-top: 10px; width: 100%;">
         <!-- <div style="display: flex; justify-content:space-between; align-items: center; background: #C6D8A6; border-radius: 8px; padding: 6px 16px; 
             box-shadow: 0 1px 0 0 #CCCCCC; width: 100%;"> -->
-          <!-- <div style="font-size: 14px; font-weight:600;">Total</div> -->
-          <div style="font-size: 14px; display: flex; align-items: center; gap: 5px;"><ion-icon style="color: #579334;" name="caret-forward-outline"></ion-icon><div style="font-weight: 600;">Total</div></div>
-          <ion-input [(ngModel)]="service.total" type="number"
-            style="font-size: 14px; font-weight:600; text-align: right; background: #C6D8A6; border-radius: 8px; --padding-end: 16px; --padding-start : 16px; --placeholder-opacity: 1 !important; opacity: 1 !important; margin-top: 3px;"></ion-input>
-            <!-- <div
+        <!-- <div style="font-size: 14px; font-weight:600;">Total</div> -->
+        <div style="font-size: 14px; display: flex; align-items: center; gap: 5px;"><ion-icon style="color: #579334;"
+            name="caret-forward-outline"></ion-icon>
+          <div style="font-weight: 600;">Total</div>
+        </div>
+        <ion-input [(ngModel)]="service.total" type="number"
+          style="font-size: 14px; font-weight:600; text-align: right; background: #C6D8A6; border-radius: 8px; --padding-end: 16px; --padding-start : 16px; --placeholder-opacity: 1 !important; opacity: 1 !important; margin-top: 3px;"></ion-input>
+        <!-- <div
             style="font-size: 14px; font-weight:600; text-align: right; padding: 10px 0;">
           {{service.total}}</div> -->
         <!-- </div> -->
       </div>
-      
+
 
       <!-- <div *ngIf="service.size == 'others'" style="margin-top: 10px; width: 100%;">
             <div style="display: flex; justify-content:space-between; align-items: center; background: #C6D8A6; border-radius: 8px; padding: 6px 16px; 
@@ -414,23 +429,27 @@
 
 
 
-            <!-- warranty -->
-            <!-- <div style="margin-top: 10px; width: 100%;">
+      <!-- warranty -->
+      <!-- <div style="margin-top: 10px; width: 100%;">
                 <div style="font-size: 14px; display: flex; align-items: center; gap: 5px;"><ion-icon style="color: #579334;" name="caret-forward-circle-outline"></ion-icon><div>Package Warranty</div></div>
                 <ion-input [(ngModel)]="service.package_warranty" type="number" placeholder="{{service.package_warranty ? 0 : 0}}"
                   style="font-size: 14px; font-weight:600; text-align: right; background: #C6D8A6; border-radius: 8px; --padding-end: 16px; --padding-start : 16px; --placeholder-opacity: 1 !important; opacity: 1 !important; margin-top: 5px;"></ion-input>
             </div> -->
-            <div style="width: 90%; margin-top: 15px;">
-              <div style="font-size: 14px; display: flex; align-items: center; gap: 5px;"><ion-icon style="color: #579334;" name="caret-forward-circle-outline"></ion-icon><div>Package Warranty</div></div>
-        
-            
-                <ion-item>
-                  <ion-select (ionChange)="handleChange($event)" [(ngModel)]="service['package_warranty']" placeholder="Select/Change Warranty" style="font-size: 12px;">
-                    <ion-select-option *ngFor="let x of warranty" value="{{x}}">{{x}}</ion-select-option>
-                  </ion-select>
-                </ion-item>
-            </div>
-        
+      <div style="width: 90%; margin-top: 15px;">
+        <div style="font-size: 14px; display: flex; align-items: center; gap: 5px;"><ion-icon style="color: #579334;"
+            name="caret-forward-circle-outline"></ion-icon>
+          <div>Package Warranty</div>
+        </div>
+
+
+        <ion-item>
+          <ion-select (ionInput)="handleChange($event)" [(ngModel)]="service['package_warranty']"
+            placeholder="Select/Change Warranty" style="font-size: 12px;">
+            <ion-select-option *ngFor="let x of warranty" value="{{x}}">{{x}}</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </div>
+
 
 
 
@@ -449,8 +468,11 @@
       </div>
 
       <label for="uploadfiles" id="uploadlabel"></label>
-      <input readonly (change)="fileChange2($event, 600)" type="file" id="uploadfiles" accept="image/*" multiple
-        name="files[]" style="display: none;" />
+      <input readonly (change)="fileChange2($event, 600)" type="file" id="uploadfiles" accept="image/*" name="files[]" 
+        style="display: none;" />
+      <label for="uploadfiles3" id="uploadlabelmul"></label>
+      <input readonly (change)="fileChange2($event, 600)" type="file" id="uploadfiles3" accept="image/*" name="files[]" multiple
+        style="display: none;" />
 
       <!-- <div style="background: #DEE9CB; margin-top: 16px; border-radius: 8px; padding: 16px; display: flex;justify-content: space-between;">
         <div style="display: flex; justify-content:center; align-items:center; width: calc(100% / 3); border: 1px solid #6DAD48; margin-right: 8px; height: 100px;">

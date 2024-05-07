@@ -1,0 +1,68 @@
+.add_button {
+    background-color: #84d058;
+    color: #ffffff;
+}
+
+.add_button:hover {
+    color: #ffffff;
+    background-color: #82e04c;
+}
+
+.quo_list {
+    background-color: #f0f1f3;
+    color: black;
+}
+
+.quo_list:hover {
+    color: black;
+    background-color: #d9d9d9;
+}
+
+.cancel_button {
+    background-color: tomato;
+    color: #ffffff;
+}
+
+.cancel_button:hover {
+    background-color: rgb(255, 79, 48);
+    color: #ffffff;
+}
+
+.dropdown {
+    background-color: #f0f1f3;
+}
+
+.dropdown:hover {
+    background-color: #d9d9d9;
+}
+
+ion-input {
+    --padding-top: 7px;
+    --padding-bottom: 7px;
+}
+
+ion-select {
+    --padding-top: 7px;
+    --padding-bottom: 7px;
+}
+
+// COLOUR PICKER START
+.wrapper {
+    // margin: 50px auto;
+    max-width: 1400px;
+    min-width: max-content;
+    display: flex;
+    flex-flow: row;
+}
+
+
+input {
+    width: 100%;
+    height: 20px;
+}
+
+.palette {
+    width: 0px;
+}
+
+// COLOUR PICKER END

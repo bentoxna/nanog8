@@ -500,45 +500,63 @@ export class PdfSalesOrderFormPage implements OnInit {
   extraservicetable() {
     if (this.appointment.scaff_fee > 0 || this.appointment.skylift_fee > 0 || this.appointment.transportation_fee > 0) {
 
+      let items = [
+        [
+          { text: 'Additional Service', style: "tableHeader" },
+          { text: 'Price(RM)', style: "tableHeader" }
+        ],
+
+      ] as any
+
+      if (this.appointment.scaff_fee) {
+        items.push(
+          [
+            [
+              { text: 'Scaffolding', alignment: 'center', style: 'tableData' }
+            ],
+            [
+              { text: this.appointment.scaff_fee ? 'RM ' + this.appointment.scaff_fee : '-', alignment: 'center', style: 'tableData' }
+
+            ],
+
+          ],
+        )
+      }
+
+      if (this.appointment.skylift_fee) {
+        items.push(
+          [
+            [
+
+              { text: 'Skylift', alignment: 'center', style: 'tableData' }
+            ],
+            [
+              { text: this.appointment.skylift_fee ? 'RM ' + this.appointment.skylift_fee : '-', alignment: 'center', style: 'tableData' }
+            ],
+          ],
+        )
+      }
+
+      if (this.appointment.transportation_fee) {
+        items.push(
+          [
+            [
+
+              { text: 'Transportation', alignment: 'center', style: 'tableData' }
+            ],
+            [
+              { text: this.appointment.transportation_fee ? 'RM ' + this.appointment.transportation_fee : '-', alignment: 'center', style: 'tableData' }
+            ],
+          ],
+        )
+      }
+
       return {
         style: 'tableExample',
         table: {
           layout: 'lightHorizontalLines',
           widths: ['33%', '33%'],
-          body: [
-            [
-              { text: 'Additional Service', style: "tableHeader" },
-              { text: 'Price(RM)', style: "tableHeader" }
-            ],
-            [
-              [
-                { text: 'Scaffolding', alignment: 'center', style: 'tableData' }
-              ],
-              [
-                { text: this.appointment.scaff_fee ? 'RM ' + this.appointment.scaff_fee : '-', alignment: 'center', style: 'tableData' }
-
-              ],
-
-            ],
-            [
-              [
-
-                { text: 'Skylift', alignment: 'center', style: 'tableData' }
-              ],
-              [
-                { text: this.appointment.skylift_fee ? 'RM ' + this.appointment.skylift_fee : '-', alignment: 'center', style: 'tableData' }
-              ],
-            ],
-            [
-              [
-
-                { text: 'Transportation', alignment: 'center', style: 'tableData' }
-              ],
-              [
-                { text: this.appointment.transportation_fee ? 'RM ' + this.appointment.transportation_fee : '-', alignment: 'center', style: 'tableData' }
-              ],
-            ],
-          ]
+          body: items
         },
         margin: [0, 15, 0, 0],
       };
@@ -638,8 +656,6 @@ export class PdfSalesOrderFormPage implements OnInit {
 
 
   }
-
-
 
   quoteid
 

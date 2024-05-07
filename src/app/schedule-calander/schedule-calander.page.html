@@ -4,7 +4,8 @@
     <ion-icon (click)="back()" name="arrow-back-outline" style="font-size: 16px;"></ion-icon>
     <div>Work Schedule</div>
     <ion-icon *ngIf="!searchmode" (click)="select()" name="search-outline" style="font-size: 16px;"></ion-icon>
-    <ion-icon *ngIf="searchmode" (click)="select()" name="close-outline" style="font-size: 20px; color: red;"></ion-icon>
+    <ion-icon *ngIf="searchmode" (click)="select()" name="close-outline"
+      style="font-size: 20px; color: red;"></ion-icon>
   </div>
 </ion-header>
 
@@ -106,27 +107,36 @@
         </div>
 
 
-        <div style="display: flex; width: 100%; align-items: flex-start; margin: 3px 0 0 0 ;">
-          <div style="font-size: 12px; font-weight: 600;">Remark :&nbsp;</div>
-          <!-- <ion-textarea [ngStyle]="{'box-shadow': x.data ? x.data.approve_status == true ? '0 0 10px 0 green' : '0 0 10px 0 #ff9900' : ''}" 
-  style="width:100%; display: flex; flex-wrap: wrap; height: 100%; align-items: flex-start; 
-  font-size: 12px; white-space: normal; overflow: hidden; text-overflow: ellipsis; word-wrap: break-word; -webkit-line-clamp: 6; 
-  display: -webkit-box; -webkit-box-orient: vertical; margin: 0; padding: 5px 0;" readonly>
-    {{x.remark}}
-  </ion-textarea> -->
+        <!-- <div style="display: flex; width: 100%; align-items: flex-start; margin: 3px 0 0 0 ;">
+          <div style="min-width: 52px; font-size: 12px; font-weight: 600;">Remark :&nbsp;</div>
+
           <ion-textarea [ngStyle]="{color : x.from_date ? 'red' : 'black'}" class="ion-no-padding ion-no-margin"
             [(ngModel)]="x.from_date ? 'This time slot has been assigned by project coordinator' : x.remark"
             style="font-size: 12px;" [readonly]="true" [autoGrow]="true"> </ion-textarea>
+        </div> -->
+
+        <div style="display: flex; width: 100%; align-items: flex-start; margin: 3px 0 0 0; font-size: 12px;">
+          <div style="min-width: 52px; font-size: 12px; font-weight: 600;">Remark :&nbsp;</div>
+          <div>
+            <div *ngIf="x.remark">{{x.remark || ''}}</div>
+            <!-- <div *ngIf="x.remark2>{{x.remark2 || ''}}</div> -->
+            <div *ngIf="x.remark2"><span *ngFor="let y of x.remark2; let l = last">{{y}}<span *ngIf="!l"><br />
+                </span></span></div>
+            <ion-textarea *ngIf="x.from_date || x.remark" [ngStyle]="{color : x.from_date ? 'red' : 'black'}"
+              class="ion-no-padding ion-no-margin"
+              [(ngModel)]="x.from_date ? 'Time Slot Assigned by Project Coordinator' : x.remark"
+              style="cursor: pointer;" [readonly]="true" [autoGrow]="true"> </ion-textarea>
+          </div>
         </div>
 
         <div style="display: flex; width: 100%; align-items: center; margin: 3px 0 0 0 ; gap: 3px;">
           <div style="font-size: 12px; font-weight: 600;">SE :&nbsp;</div>
-  
+
           <div *ngFor="let y of x.assign_se" style="font-size: 12px;">
             ({{y}})
           </div>
         </div>
-  
+
 
 
 
@@ -178,7 +188,7 @@
 
 
         <div style="display: flex; width: 100%; align-items: flex-start; margin: 3px 0 0 0 ;">
-          <div style="font-size: 12px; font-weight: 600;">Remark :&nbsp;</div>
+          <div style="min-width: 52px; font-size: 12px; font-weight: 600;">Remark :&nbsp;</div>
           <!-- <ion-textarea [ngStyle]="{'box-shadow': x.data ? x.data.approve_status == true ? '0 0 10px 0 green' : '0 0 10px 0 #ff9900' : ''}" 
 style="width:100%; display: flex; flex-wrap: wrap; height: 100%; align-items: flex-start; 
 font-size: 12px; white-space: normal; overflow: hidden; text-overflow: ellipsis; word-wrap: break-word; -webkit-line-clamp: 6; 
@@ -189,8 +199,6 @@ display: -webkit-box; -webkit-box-orient: vertical; margin: 0; padding: 5px 0;" 
             [(ngModel)]="x.from_date ? 'This time slot has been assigned by project coordinator' : x.remark"
             style="font-size: 12px;" [readonly]="true" [autoGrow]="true"> </ion-textarea>
         </div>
-
-
 
         <div style="width: 100%; display: flex; justify-content: space-between; ">
           <div style="display: flex;">
@@ -261,7 +269,7 @@ display: -webkit-box; -webkit-box-orient: vertical; margin: 0; padding: 5px 0;" 
 
     <!-- <div style="width: 100%;">
     <div *ngFor="let x of dates; let i = index" style="width: 100%;">
-        <ion-textarea (ionChange)="test(x.data)" style="width: 100%; border: 1px solid black; min-height: 100px;" [(ngModel)]="x.data" rols="6"></ion-textarea>
+        <ion-textarea (ionInput)="test(x.data)" style="width: 100%; border: 1px solid black; min-height: 100px;" [(ngModel)]="x.data" rols="6"></ion-textarea>
     </div>
   </div> -->
 

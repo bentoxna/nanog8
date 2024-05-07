@@ -2,8 +2,9 @@
   <div
     style="display: flex; align-items:center; justify-content: center; flex-direction:column; height: 100vh; width: 100vw;">
 
-    <div style="display: flex; flex-direction: column; justify-content:center; align-items:center;padding-bottom: 60px; color: #6DAD48;">
-      <img style="padding:10px 0; width: 80%; " src="assets/icon/nano-g-nb.png"/>
+    <div
+      style="display: flex; flex-direction: column; justify-content:center; align-items:center;padding-bottom: 60px; color: #6DAD48;">
+      <img style="padding:10px 0; width: 80%; " src="assets/icon/nano-g-nb.png" />
     </div>
 
     <div style="display:flex; align-items: center; justify-content: center; padding-bottom: 45px;">
@@ -15,27 +16,36 @@
 
       <div style="margin:5px">
         <div style="padding: 10px 0px;">Email : </div>
-        <div id="1" style="display: flex; align-items: center; border:1px solid #CBDF7D; border-radius: 10px; width: 80vw; padding: 5px 0;">
-        <ion-input style="--padding-start:10px;" (ionFocus)="focus($event, 1)" (ionBlur)="blur($event, 1)" type="text" placeholder="Enter your email" [(ngModel)]="user.email" ></ion-input>
+        <div id="1"
+          style="display: flex; align-items: center; border:1px solid #CBDF7D; border-radius: 10px; width: 80vw; padding: 5px 0;">
+          <ion-input style="--padding-start:10px;" (ionFocus)="focus($event, 1)" (ionBlur)="blur($event, 1)" type="text"
+            placeholder="Enter your email" [(ngModel)]="user['email']"></ion-input>
         </div>
       </div>
 
       <div style="margin:5px">
         <div style="padding: 10px 0px;">Password: </div>
-        <div  id="2" style="display: flex; align-items: center; border:1px solid #CBDF7D; border-radius: 10px; width: 80vw; padding: 5px 0;">
-        <ion-input style="--padding-start:10px;" [type]="eye ? 'text' : 'password' " (ionFocus)="focus($event, 2)" (ionBlur)="blur($event, 2)"  placeholder="Enter your password" [(ngModel)]="user.password"></ion-input>
-        <ion-icon (click)="eye = !eye" [name]="eye ? 'eye-outline' : 'eye-off-outline' " style="cursor: pointer; font-size: 20px; padding-right: 5px; padding-left: 5px;"></ion-icon>
-      </div>
+        <div id="2"
+          style="display: flex; align-items: center; border:1px solid #CBDF7D; border-radius: 10px; width: 80vw; padding: 5px 0;">
+          <ion-input style="--padding-start:10px;" [type]="eye ? 'text' : 'password' " (ionFocus)="focus($event, 2)" (keyup.enter)="login()"
+            (ionBlur)="blur($event, 2)" placeholder="Enter your password" [(ngModel)]="user['password']"></ion-input>
+          <ion-icon (click)="eye = !eye" [name]="eye ? 'eye-outline' : 'eye-off-outline' "
+            style="cursor: pointer; font-size: 20px; padding-right: 5px; padding-left: 5px;"></ion-icon>
+        </div>
       </div>
 
     </div>
 
-    <div (click)="forgotpassword()" style="margin-top:8px; cursor: pointer; text-align: right; width: 80%; font-size: 14px;">
+    <div (click)="forgotpassword()"
+      style="margin-top:8px; cursor: pointer; text-align: right; width: 80%; font-size: 14px;">
       Forgot your password?
     </div>
 
-    <div style="width: 100%; display:flex; align-items:center; justify-content:center; text-align:center; padding-top: 70px ;">
-      <div (click)="login()" style="font-weight: bolder; width: 60%; padding: 15px 0px; border-radius:10px; color: white; cursor: pointer; background-color: #6DAD48;">LOGIN</div>
+    <div
+      style="width: 100%; display:flex; align-items:center; justify-content:center; text-align:center; padding-top: 70px ;">
+      <div (click)="login()"
+        style="font-weight: bolder; width: 60%; padding: 15px 0px; border-radius:10px; color: white; cursor: pointer; background-color: #6DAD48;">
+        LOGIN</div>
     </div>
 
 
@@ -58,4 +68,3 @@
     </div> -->
   </div>
 </ion-content>
-

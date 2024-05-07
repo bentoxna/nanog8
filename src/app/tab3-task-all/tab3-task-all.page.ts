@@ -70,7 +70,7 @@ export class Tab3TaskAllPage implements OnInit {
   yearToCheck3 = this.currentYear3
 
   daysv1 = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT']
-  days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sut']
+  days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 
   temp = [] as any
   appointment = [] as any

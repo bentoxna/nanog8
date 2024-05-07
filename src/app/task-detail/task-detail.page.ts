@@ -2,23 +2,19 @@ import { Component, OnInit, Directive, Input, ViewChild, ElementRef } from '@ang
 import { ActivatedRoute } from '@angular/router';
 import { ActionSheetController, ModalController, NavController, Platform } from '@ionic/angular';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { ServicesAddPage } from '../services-add/services-add.page';
 import { LocationAccuracy } from '@awesome-cordova-plugins/location-accuracy/ngx';
 import { Geolocation } from '@awesome-cordova-plugins/geolocation/ngx';
 import { Diagnostic } from '@awesome-cordova-plugins/diagnostic/ngx';
 import Swal from 'sweetalert2';
-import { ServicesEditPage } from '../services-edit/services-edit.page';
-import { Camera, CameraOptions } from '@awesome-cordova-plugins/camera/ngx';
+// import { Camera, CameraOptions } from '@awesome-cordova-plugins/camera/ngx';
 // import { PhotoViewer } from '@awesome-cordova-plugins/photo-viewer/ngx';
-import * as EXIF from 'exif-js';
 import * as pdfMake from "pdfmake/build/pdfmake";
 import * as pdfFonts from 'pdfmake/build/vfs_fonts';
 // import { FileOpener } from '@awesome-cordova-plugins/file-opener/ngx';
 import { File } from '@awesome-cordova-plugins/file/ngx';
-import { fakeAsync } from '@angular/core/testing';
 import { TaskDiscountPage } from '../task-discount/task-discount.page';
-import { Icon } from 'ionicons/dist/types/components/icon/icon';
-import { AnonymousSubject } from 'rxjs/internal/Subject';
+import { Plugins } from '@capacitor/core';
+const { Camera } = Plugins;
 
 (<any>pdfMake).vfs = pdfFonts.pdfMake.vfs;
 declare let cordova: any;
@@ -110,7 +106,7 @@ export class TaskDetailPage implements OnInit {
   scafffee
   skyliftfee
   scaffnSkylift
- 
+
   buttonstatus = false
 
   constructor(private route: ActivatedRoute,
@@ -121,8 +117,8 @@ export class TaskDetailPage implements OnInit {
     private geolocation: Geolocation,
     private diagnostic: Diagnostic,
     private actionSheetController: ActionSheetController,
-    private camera: Camera,
-    private actRoute : ActivatedRoute,
+    // private camera: Camera,
+    private actRoute: ActivatedRoute,
     // private photoViewer: PhotoViewer,
     // private fileOpener: FileOpener,
     private file: File) { }
@@ -133,7 +129,7 @@ export class TaskDetailPage implements OnInit {
 
   ngOnInit() {
     // this.actRoute.queryParams.subscribe((c) => {
-      this.refresher()
+    this.refresher()
     // })
   }
 
@@ -167,17 +163,16 @@ export class TaskDetailPage implements OnInit {
           this.sales_packages = s['data']['sales_packages']
           this.sales_packages_main = s['data']['sales_packages'] ? s['data']['sales_packages'].filter(a => !a['addon_id']) : []
           this.sales_packages_addon = s['data']['sales_packages'] ? s['data']['sales_packages'].filter(a => a['addon_id']) : []
-          for(let i = 0; i < this.sales_packages_main.length ; i++)
-          {
+          for (let i = 0; i < this.sales_packages_main.length; i++) {
             let temp = this.sales_packages_main[i].sap_id
             let temparr = [] as any
             this.sales_packages_main[i].sum_total = this.sales_packages.filter(a => a['addon_id'] == temp || a['sap_id'] == temp).map(b => b['total']).reduce((c, d) => c + d, 0)
-            this.sales_packages_main[i].sum_total_after = this.sales_packages.filter(a => a['addon_id'] == temp || a['sap_id'] == temp).map(b => b['total_after'] ? b['total_after'] : b['total']).reduce((c,d) => c + d, 0)
+            this.sales_packages_main[i].sum_total_after = this.sales_packages.filter(a => a['addon_id'] == temp || a['sap_id'] == temp).map(b => b['total_after'] ? b['total_after'] : b['total']).reduce((c, d) => c + d, 0)
             temparr.push(this.sales_packages_addon.filter(a => a['addon_id'] == temp))
             this.sales_packages_main[i].addon_packages = temparr[0]
           }
           // console.log(this.sales_packages_main)
-          
+
           // this.service = s['data']['sales_packages']
 
           // if (!this.appointment.checkin_latt || !this.appointment.checkin_long|| !this.appointment.checkin_time || !this.appointment.checkin_img) {
@@ -189,7 +184,7 @@ export class TaskDetailPage implements OnInit {
 
           this.http.post('https://api.nanogapp.com/getAllMainAndAddOnPackagesJoinDiscount', { sales_id: this.salesid }).subscribe((s) => {
 
-          // console.log(s)
+            // console.log(s)
           })
 
           // getAllMainAndAddOnPackagesJoinDiscount
@@ -199,9 +194,9 @@ export class TaskDetailPage implements OnInit {
             this.pendingPayment = 0
             // console.log(res)s
             let temp = 0
-            res['data'].filter(a => (a['ac_approval'] == 'Approved' && a['sc_approval'] == 'Approved') ?  this.approvedPayment += a['total'] : this.approvedPayment = this.approvedPayment)
+            res['data'].filter(a => (a['ac_approval'] == 'Approved' && a['sc_approval'] == 'Approved') ? this.approvedPayment += a['total'] : this.approvedPayment = this.approvedPayment)
             // temp = res['data'].map(a => a['total']).reduce((a,b) => a+b, 0)
-            res['data'].filter(a => (a['ac_approval'] == 'Rejected' || a['sc_approval'] == 'Rejected') ? temp = temp : temp += a['total'] )
+            res['data'].filter(a => (a['ac_approval'] == 'Rejected' || a['sc_approval'] == 'Rejected') ? temp = temp : temp += a['total'])
             this.pendingPayment = temp - this.approvedPayment
             // console.log(this.approvedPayment, this.pendingPayment, temp)
 
@@ -251,13 +246,14 @@ export class TaskDetailPage implements OnInit {
 
     if (this.appointment.sales_packages && this.appointment.sales_packages.length > 0 && this.dpercentage == 0 && this.dnumber == 0) {
 
-      this.total = this.subtotal - this.approvedPayment - this.pendingPayment  + this.scaffnSkylift
+      this.total = this.subtotal - this.approvedPayment - this.pendingPayment + this.scaffnSkylift + this.appointment.transportation_fee
     }
     else if (this.appointment.sales_packages && this.appointment.sales_packages.length > 0 && ((this.dpercentage != 0 || this.dnumber != 0) || (this.dpercentage != 0 && this.dnumber != 0))) {
-      this.total = this.subtotal - this.deductprice - this.dnumber - this.approvedPayment - this.pendingPayment  + this.scaffnSkylift
+      this.total = this.subtotal - this.deductprice - this.dnumber - this.approvedPayment - this.pendingPayment + this.scaffnSkylift + this.appointment.transportation_fee
     }
 
     this.deductprice = (this.deductprice / 100 * 100).toFixed(2)
+
     this.total = (this.total / 100 * 100).toFixed(2)
     this.subtotalstring = (this.subtotal / 100 * 100).toFixed(2)
     this.totaldiscountdisplay = (this.dpercentage / 100 * 100).toFixed(2)
@@ -274,7 +270,7 @@ export class TaskDetailPage implements OnInit {
     });
     // this.deductprice = this.appointment.sub_total * this.dpercentage / 100
 
-    this.total = this.subtotal - this.deductprice - this.approvedPayment - this.pendingPayment + this.scaffnSkylift
+    this.total = this.subtotal - this.deductprice - this.approvedPayment - this.pendingPayment + this.scaffnSkylift + this.appointment.transportation_fee
     this.deductprice = (this.deductprice / 100 * 100).toFixed(2)
     this.total = (this.total / 100 * 100).toFixed(2)
     this.subtotalstring = (this.subtotal / 100 * 100).toFixed(2)
@@ -375,9 +371,9 @@ export class TaskDetailPage implements OnInit {
     // }
     // (!appointment.checkin_latt || !appointment.checkin_long|| !appointment.checkin_time || !appointment.checkin_img) && !appointment.check_detail
     // else 
-    
-    if ((!this.appointment.checkin_latt || !this.appointment.checkin_long|| !this.appointment.checkin_time || !this.appointment.checkin_img) 
-    && !this.appointment.check_detail && !this.appointment.bypass) {
+
+    if ((!this.appointment.checkin_latt || !this.appointment.checkin_long || !this.appointment.checkin_time || !this.appointment.checkin_img)
+      && !this.appointment.check_detail && !this.appointment.bypass) {
       Swal.fire({
         icon: 'info',
         title: 'Please check in first',
@@ -387,7 +383,7 @@ export class TaskDetailPage implements OnInit {
     }
     else {
       // console.log('add')
-      this.nav.navigateForward('services-add?uid=' + this.userid + '&tid=' + this.taskid + '&sid=' + this.salesid + '&lid=' + this.appointment.lead_id )
+      this.nav.navigateForward('services-add2?uid=' + this.userid + '&tid=' + this.taskid + '&sid=' + this.salesid + '&lid=' + this.appointment.lead_id)
 
       // const modal = await this.modal.create({
       //   component: ServicesAddPage,
@@ -435,7 +431,7 @@ export class TaskDetailPage implements OnInit {
     }
   }
 
-  goServiceList(service){
+  goServiceList(service) {
     // if (this.sales_status != 'Quotation' && this.sales_status != null) {
 
     // }
@@ -671,12 +667,12 @@ export class TaskDetailPage implements OnInit {
           // if (this.appointment.sales_packages.length < 1) {
           //   this.appointment.sales_packages = null
           // }
-          this.http.post('https://api.nanogapp.com/deleteSalesPackage', { 
+          this.http.post('https://api.nanogapp.com/deleteSalesPackage', {
             sap_id: sap_id,
-            leadid : this.appointment.lead_id,
-            aid : this.taskid,
-            uid : this.userid,
-            servicetype : 'normal' 
+            leadid: this.appointment.lead_id,
+            aid: this.taskid,
+            uid: this.userid,
+            servicetype: 'normal'
           }).subscribe(res => {
             // console.log(res)
             // this.appointment.sales_packages.forEach(a => {
@@ -1187,24 +1183,47 @@ export class TaskDetailPage implements OnInit {
   }
 
   takePhoto() {
-    const options: CameraOptions = {
-      quality : 25,
-      destinationType: this.camera.DestinationType.DATA_URL,
-      encodingType: this.camera.EncodingType.JPEG,
-      mediaType: this.camera.MediaType.PICTURE,
-      correctOrientation: true,
-      saveToPhotoAlbum: true
-    }
-    this.camera.getPicture(options).then((imageData) => {
-      let base64Image = 'data:image/jpeg;base64,' + imageData;
-      this.uploadserve(base64Image).then(res => {
-        Swal.close()
-        // console.log(res)
-      })
-    },
-      (err) => {
-        alert(err)
-      });
+    // const options: CameraOptions = {
+    //   quality: 25,
+    //   destinationType: this.camera.DestinationType.DATA_URL,
+    //   encodingType: this.camera.EncodingType.JPEG,
+    //   mediaType: this.camera.MediaType.PICTURE,
+    //   correctOrientation: true,
+    //   saveToPhotoAlbum: true
+    // }
+    // this.camera.getPicture(options).then((imageData) => {
+    //   let base64Image = 'data:image/jpeg;base64,' + imageData;
+    //   this.uploadserve(base64Image).then(res => {
+    //     Swal.close()
+    //     // console.log(res)
+    //   })
+    // },
+    //   (err) => {
+    //     alert(err)
+    //   });
+    console.log('take photo');
+    return new Promise(async (resolve, reject) => {
+      try {
+        const image = await Camera.getPhoto({
+          quality: 50,
+          allowEditing: false,
+          resultType: 'base64',
+          source: 'CAMERA',
+          width: 600,
+          height: 1000
+        });
+
+        let base64Image = 'data:image/jpeg;base64,' + image.base64String;
+        this.uploadserve(base64Image).then(res => {
+          Swal.close()
+          resolve(res)
+        })
+
+      } catch (error) {
+        console.error('Error taking photo', error);
+        // Handle error
+      }
+    })
   }
 
   imagectype;
@@ -1215,8 +1234,7 @@ export class TaskDetailPage implements OnInit {
     return new Promise((resolve, reject) => {
       const files = event.target.files;
 
-      for(let i = 0; i< files.length ; i++)
-      {
+      for (let i = 0; i < files.length; i++) {
         Swal.fire({
           title: 'processing...',
           text: 'Larger size of image may result in a longer upload time.',
@@ -1225,12 +1243,12 @@ export class TaskDetailPage implements OnInit {
           allowOutsideClick: false,
           showConfirmButton: false,
         })
-      if (event.target.files && event.target.files[i]) {
-        this.imagectype = event.target.files[i].type;
-        // EXIF.getData(event.target.files[0], () => {
-        //   console.log(event.target.files[0]);
-        //   console.log(event.target.files[0].exifdata.Orientation);
-        //   const orientation = EXIF.getTag(this, 'Orientation');
+        if (event.target.files && event.target.files[i]) {
+          this.imagectype = event.target.files[i].type;
+          // EXIF.getData(event.target.files[0], () => {
+          //   console.log(event.target.files[0]);
+          //   console.log(event.target.files[0].exifdata.Orientation);
+          //   const orientation = EXIF.getTag(this, 'Orientation');
           const can = document.createElement('canvas');
           const ctx = can.getContext('2d');
           const thisImage = new Image;
@@ -1299,9 +1317,9 @@ export class TaskDetailPage implements OnInit {
             })
           };
           thisImage.src = URL.createObjectURL(event.target.files[i]);
-        // });
+          // });
+        }
       }
-    }
 
     })
   }
@@ -1355,12 +1373,11 @@ export class TaskDetailPage implements OnInit {
   // }
 
   viewPhoto(i) {
-    this.nav.navigateForward('image-viewer?imageurl=' +  this.discountimageurl[i])
+    this.nav.navigateForward('image-viewer?imageurl=' + this.discountimageurl[i])
   }
 
 
-  viewPhoto2(x)
-  {
+  viewPhoto2(x) {
     // this.nav.navigateForward('image-viewer?imageurl=' +  x)
     Swal.fire({
       heightAuto: false,
@@ -1371,7 +1388,7 @@ export class TaskDetailPage implements OnInit {
       showConfirmButton: false,
       // customClass : 'swalimage',
       // footer : false,
-      background : 'rgba(0,0,0,0)',
+      background: 'rgba(0,0,0,0)',
       // imageHeight : '100%',
     })
 
@@ -1403,7 +1420,7 @@ export class TaskDetailPage implements OnInit {
   serviceform() {
 
     this.nav.navigateForward('pdf-service-form-view?uid=' + this.userid + '&tid=' + this.taskid + '&sid=' + this.salesid + '&leadid=' + this.appointment.lead_id)
- 
+
   }
 
 
@@ -1700,6 +1717,7 @@ export class TaskDetailPage implements OnInit {
 
   signature() {
     this.nav.navigateForward('signature?uid=' + this.userid + '&tid=' + this.taskid)
+
   }
 
   goreceipt() {
@@ -1716,6 +1734,7 @@ export class TaskDetailPage implements OnInit {
 
   goLabelPage() {
     this.nav.navigateForward('task-label?uid=' + this.userid + '&tid=' + this.taskid + '&sid=' + this.salesid + '&lid=' + this.appointment.lead_id + '&labelm=' + this.appointment.label_m + '&labels=' + this.appointment.label_s)
+    this.buttonstatus = !this.buttonstatus
   }
 
   platformType() {
@@ -1732,16 +1751,16 @@ export class TaskDetailPage implements OnInit {
   }
 
 
-  dropdownPreviousServices(){
+  dropdownPreviousServices() {
     this.dropdownPreviousServicesStatus ? this.dropdownPreviousServicesStatus = false : this.dropdownPreviousServicesStatus = true
   }
 
-  addWarrantyTask(){
+  addWarrantyTask() {
     if (this.sales_status != 'Quotation' && this.sales_status != null) {
 
     }
-    else if ((!this.appointment.checkin_latt || !this.appointment.checkin_long|| !this.appointment.checkin_time || !this.appointment.checkin_img) 
-    && !this.appointment.check_detail && !this.appointment.bypass) {
+    else if ((!this.appointment.checkin_latt || !this.appointment.checkin_long || !this.appointment.checkin_time || !this.appointment.checkin_img)
+      && !this.appointment.check_detail && !this.appointment.bypass) {
       Swal.fire({
         icon: 'info',
         title: 'Please check in first',
@@ -1754,13 +1773,12 @@ export class TaskDetailPage implements OnInit {
     }
   }
 
-  addWarrantyTask2(x)
-  {
+  addWarrantyTask2(x) {
     // console.log(x)
-    this.nav.navigateForward('service-warranty2?uid=' + this.userid + '&tid=' + this.taskid + '&salesid=' + this.salesid  + '&linked_sapid=' + x.sap_id)
+    this.nav.navigateForward('service-warranty2?uid=' + this.userid + '&tid=' + this.taskid + '&salesid=' + this.salesid + '&linked_sapid=' + x.sap_id)
   }
 
-  editWarrantyService(x){
+  editWarrantyService(x) {
     if (this.sales_status != 'Quotation' && this.sales_status != null) {
 
     }
@@ -1769,8 +1787,9 @@ export class TaskDetailPage implements OnInit {
     }
   }
 
-  hold(x){
+  hold(x) {
     this.nav.navigateForward('task-label-cancel-reschedule?uid=' + this.userid + '&tid=' + this.taskid + '&sid=' + this.salesid + '&lid=' + this.appointment.lead_id + '&labelm=' + this.appointment.label_m + '&labels=' + this.appointment.label_s + '&tab=' + x)
+    this.buttonstatus = !this.buttonstatus
 
     // this.userid + '&tid=' + this.taskid + '&sid=' + this.salesid + '&lid=' + this.appointment.lead_id + '&labelm=' + this.appointment.label_m + '&labels=' + this.appointment.label_s
     // if (this.permission == 0) {
@@ -1802,27 +1821,25 @@ export class TaskDetailPage implements OnInit {
     // }
   }
 
-  buttons(){
+  buttons() {
     this.buttonstatus = !this.buttonstatus
   }
 
-  holdBtn(){
-    if(!this.appointment.check_detail &&
-      (!this.appointment.checkin_latt || !this.appointment.checkin_long|| !this.appointment.checkin_time || !this.appointment.checkin_img))
-    {
+  holdBtn() {
+    if (!this.appointment.check_detail &&
+      (!this.appointment.checkin_latt || !this.appointment.checkin_long || !this.appointment.checkin_time || !this.appointment.checkin_img)) {
       Swal.fire({
         text: "You're havent Check In!",
         heightAuto: false,
-        icon : 'info',
-        timer : 1500,
+        icon: 'info',
+        timer: 1500,
       })
     }
-    else
-    {
+    else {
       Swal.fire({
         html: 'Are you sure want to hold this appointment?<br> <b>Insert “Yes” to continue.</b>',
-        icon : 'info',
-        heightAuto : false,
+        icon: 'info',
+        heightAuto: false,
         showCancelButton: true,
         reverseButtons: true,
         input: 'text',
@@ -1831,8 +1848,7 @@ export class TaskDetailPage implements OnInit {
         },
         showLoaderOnConfirm: true,
       }).then(a => {
-        if(a['isConfirmed'] && a['value'].toLowerCase() == 'yes')
-        {
+        if (a['isConfirmed'] && a['value'].toLowerCase() == 'yes') {
           // console.log(a)
           Swal.fire({
             text: 'Processing...',
@@ -1843,19 +1859,19 @@ export class TaskDetailPage implements OnInit {
           this.http.post('https://api.nanogapp.com/insertCheckOut2', {
             // label_m : this.label.mainlabel.id,
             // label_s : this.label.sublabel.id,
-            lead_id : this.appointment.lead_id,
-            uid : this.userid,
-            by : this.user.user_name,
+            lead_id: this.appointment.lead_id,
+            uid: this.userid,
+            by: this.user.user_name,
             // image : JSON.stringify(this.imageurl) || JSON.stringify([]),
             // label_video : JSON.stringify(this.videourl) || JSON.stringify([]),
             // remark : this.label.remark,
-  
+
             // latt: this.location.latitude,
             // long: this.location.longitude,
             // image: JSON.stringify(this.imageurl),
             aid: this.taskid,
             // checkin_address: this.addressstring,
-            check_status : 'hold', 
+            check_status: 'hold',
             // event_time : this.eventtime ? new Date(this.eventtime).getTime() : new Date().getTime() 
           }).subscribe(a => {
             console.log(a)
@@ -1868,17 +1884,16 @@ export class TaskDetailPage implements OnInit {
                 heightAuto: false,
                 timer: 3000,
               })
-             this.refresher()
+              this.refresher()
             }, 700);
           })
-  
+
         }
-        else if(a['isConfirmed'] && a['value'].toLowerCase() != 'yes')
-        {
+        else if (a['isConfirmed'] && a['value'].toLowerCase() != 'yes') {
           Swal.fire({
             text: 'Kindly insert the word "Yes" to hold this appointment.',
-            icon : 'error',
-            heightAuto : false,
+            icon: 'error',
+            heightAuto: false,
           }).then(a => {
             this.holdBtn()
           })
@@ -1888,26 +1903,26 @@ export class TaskDetailPage implements OnInit {
 
   }
 
-  magnify(x){
+  magnify(x) {
     Swal.fire({
-      imageUrl : x,
-      heightAuto : false,
+      imageUrl: x,
+      heightAuto: false,
       confirmButtonText: 'Close',
       text: x,
     })
   }
 
-  openvideo(x){
+  openvideo(x) {
     this.nav.navigateForward('video-viewer?link=' + x)
   }
 
-  addequipment(){
+  addequipment() {
     // console.log('equipment')
     if (this.sales_status != 'Quotation' && this.sales_status != null) {
 
     }
-    else if ((!this.appointment.checkin_latt || !this.appointment.checkin_long|| !this.appointment.checkin_time || !this.appointment.checkin_img) 
-    && !this.appointment.check_detail && !this.appointment.bypass) {
+    else if ((!this.appointment.checkin_latt || !this.appointment.checkin_long || !this.appointment.checkin_time || !this.appointment.checkin_img)
+      && !this.appointment.check_detail && !this.appointment.bypass) {
       Swal.fire({
         icon: 'info',
         title: 'Please check in first',
@@ -1916,16 +1931,21 @@ export class TaskDetailPage implements OnInit {
       })
     }
     else {
-    this.nav.navigateForward('task-equipment?salesid=' + this.salesid + '&leadid=' + this.appointment.lead_id)
+      this.nav.navigateForward('task-equipment?salesid=' + this.salesid + '&leadid=' + this.appointment.lead_id)
+      this.buttonstatus = !this.buttonstatus
     }
   }
 
-  inspect(){
+  inspect() {
     this.nav.navigateForward('inspect?aid=' + this.appointment.appointment_id + '&salesid=' + this.salesid + '&leadid=' + this.appointment.lead_id)
+    this.buttonstatus = !this.buttonstatus
   }
 
 
   openSignature() {
+
+    this.buttonstatus = !this.buttonstatus
+
     Swal.fire({
       title: 'Signature Type',
       icon: 'info',
@@ -1944,6 +1964,7 @@ export class TaskDetailPage implements OnInit {
         this.copyLinkToClipboard('https://admin-nanog.web.app/form-page?no=' + this.appointment.lead_id + '&form=4&type=2&t=' + new Date().getTime())
         // window.open('https://admin-nanog.web.app/form-page?no=' + this.lead.lead_id + '&form=4&type=2&t=' + new Date().getTime(), '_blank');
       }
+
     })
   }
 

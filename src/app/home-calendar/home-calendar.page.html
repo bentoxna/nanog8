@@ -1,4 +1,5 @@
 <ion-content>
+
   <div
     style="display: flex; width: 100%; justify-content: space-between; padding: 13px 16px 13px 16px; font-weight: 600; z-index: 1002; background: #6DAD48; color: white; box-shadow: 0 0 10px 0 #ccc;">
     <ion-icon (click)="back()" name="arrow-back-outline" style="font-size: 16px;"></ion-icon>
@@ -11,7 +12,7 @@
     <div
       style="width: 90%; display:flex; flex-direction: column; justify-content: center; align-items: center; border-radius: 12px; margin-top: 10px;">
 
-      <div style="width: 98%; display: flex; padding: 10px 0 20px; ">
+      <div style="width: 98%; display: flex; padding: 10px 0 ; ">
         <div style="width: 20%; display: flex; justify-content: flex-start; align-items: center; color: #79aa65;">
           <div (click)="previousmonth()" style="font-size: 16px;">
             <ion-icon name="chevron-back-outline"></ion-icon>
@@ -57,22 +58,22 @@
               </div> -->
 
               <div
-              [ngStyle]="{'color': x.date == selecteddate ? '#ffffff' : (x.num != 0 ? '#ff0000' : '#000000'), 'font-weight' : x.num > 4 ? '600' : ''}"
-              style="font-size: 10px;">
-              {{x.num < 5 ? x.num + '/5' : 'Full' }} </div>
+                [ngStyle]="{'color': x.date == selecteddate ? '#ffffff' : (x.num != 0 ? '#ff0000' : '#000000'), 'font-weight' : x.num > 4 ? '600' : ''}"
+                style="font-size: 10px;">
+                {{x.num &lt; 5 ? x.num + '/5' : 'Full' }} </div>
             </div>
           </div>
         </div>
       </div>
+
     </div>
   </div>
-
 
   <div *ngIf="selecteddate"
     style="width: 100%; display: flex; flex-direction: column; align-items: center; margin-top: 10px; margin-bottom: 10px;">
 
-    <div *ngFor="let x of alllist;let i = index;"
-      [ngStyle]="{'border': x.sales_id == salesid ? '1px solid black' : ''}" style="width: 90%; min-height: 100px; height: max-content; display: flex; flex-direction: column; margin-top: 20px; 
+    <div *ngFor="let x of alllist;let i = index;" [ngStyle]="{'border': x.sales_id == salesid ? '1px solid black' : ''}"
+      style="width: 90%; min-height: 100px; height: max-content; display: flex; flex-direction: column; margin-top: 20px; 
         background: #E4EFDE; border-radius: 8px;padding: 0 10px; box-shadow: 0 0 4px 0 #999999; padding: 5px 10px;">
 
       <div style="font-size: 12px; border-bottom: 1px solid #000; padding-bottom: 10px;">
@@ -81,14 +82,26 @@
         <div>{{x.address}}</div>
       </div>
 
+      <!-- <div style="display: flex; width: 100%; align-items: flex-start; margin: 3px 0 0 0 ;">
+        <div style="min-width: 52px; font-size: 12px; font-weight: 600;">Remark :&nbsp;</div>
 
-      <div style="display: flex; width: 100%; align-items: flex-start; margin: 3px 0 0 0 ;">
-        <div style="font-size: 12px; font-weight: 600;">Remark :&nbsp;</div>
-
-        <ion-textarea [ngStyle]="{color : x.from_date ? 'red' : 'black'}" class="ion-no-padding ion-no-margin" [(ngModel)]="x.from_date ? 'This time slot has been assigned by project coordinator' : x.remark" style="font-size: 12px;"
-          [readonly]="true" [autoGrow]="true"> </ion-textarea>
+        <ion-textarea [ngStyle]="{color : x.from_date ? 'red' : 'black'}" class="ion-no-padding ion-no-margin"
+          [(ngModel)]="x.from_date ? 'This time slot has been assigned by project coordinator' : x.remark"
+          style="font-size: 12px;" readonly="true" [autoGrow]="true"> </ion-textarea>
+      </div> -->
+      <div style="display: flex; width: 100%; align-items: flex-start; margin: 3px 0 0 0; font-size: 12px;">
+        <div style="min-width: 52px; font-size: 12px; font-weight: 600;">Remark :&nbsp;</div>
+        <div>
+          <div *ngIf="x.remark">{{x.remark || ''}}</div>
+          <!-- <div *ngIf="x.remark2>{{x.remark2 || ''}}</div> -->
+          <div *ngIf="x.remark2"><span *ngFor="let y of x.remark2; let l = last">{{y}}<span *ngIf="!l"><br />
+              </span></span></div>
+          <ion-textarea *ngIf="x.from_date || x.remark" [ngStyle]="{color : x.from_date ? 'red' : 'black'}"
+            class="ion-no-padding ion-no-margin"
+            [(ngModel)]="x.from_date ? 'Time Slot Assigned by Project Coordinator' : x.remark" style="cursor: pointer;"
+            [readonly]="true" [autoGrow]="true"> </ion-textarea>
+        </div>
       </div>
-
 
       <div style="display: flex; width: 100%; align-items: center; margin: 3px 0 0 0 ; gap: 3px;">
         <div style="font-size: 12px; font-weight: 600;">SE :&nbsp;</div>
@@ -97,8 +110,6 @@
           ({{y}})
         </div>
       </div>
-
-
 
       <div style="width: 100%; display: flex; justify-content: space-between; ">
         <div style="display: flex;">
@@ -116,7 +127,6 @@
         </div>
       </div>
 
-
       <!-- <div style="width: 100%; display: flex; justify-content: space-between; align-items: center;">
         <div style="font-size: 10px;  width: max-content;">
           From Date:&nbsp;
@@ -130,9 +140,6 @@
           </div>
         </div>
       </div> -->
-
-
-
 
     </div>
   </div>

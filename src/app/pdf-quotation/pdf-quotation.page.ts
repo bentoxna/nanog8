@@ -85,7 +85,7 @@ export class PdfQuotationPage implements OnInit {
   fontsize
   loading = false
 
-  warranty = [0, 1, 2, 3, 4, 5]
+  warranty = [0, 1, 2, 3, 4, 5, 6, 7]
   selectedwarranty
 
   quotationnumber
@@ -133,7 +133,7 @@ export class PdfQuotationPage implements OnInit {
           }
           this.sales_status = s['data']['sales_status']
           this.pdffileurl = s['data']['gen_quotation']
-  
+
           if (this.pdffileurl.length > 0) {
             for (let i = 0; i < this.pdffileurl.length; i++) {
               this.pdffilename.push(this.pdffileurl[i]['pdf'].split('/')[4])
@@ -240,8 +240,8 @@ export class PdfQuotationPage implements OnInit {
     // this.deductprice = (this.deductprice / 100 * 100).toFixed(2)
     this.total = (this.total / 100 * 100).toFixed(2)
     // this.subtotalstring = (this.subtotal / 100 * 100).toFixed(2)
-    this.subtotalstring = ((this.appointment.sales_packages.map(a => a['total']).reduce((a,b) => a+b)) + this.appointment.skylift_fee + this.appointment.scaff_fee + this.appointment.transportation_fee).toFixed(2)
-    this.deductpricestring = ((this.appointment.sales_packages.map(a => Number(a['discount'])).reduce((a,b) => a+b)) + this.deductprice).toFixed(2)
+    this.subtotalstring = ((this.appointment.sales_packages.map(a => a['total']).reduce((a, b) => a + b)) + this.appointment.skylift_fee + this.appointment.scaff_fee + this.appointment.transportation_fee).toFixed(2)
+    this.deductpricestring = ((this.appointment.sales_packages.map(a => Number(a['discount'])).reduce((a, b) => a + b)) + this.deductprice).toFixed(2)
     this.totaldiscountdisplay = (this.dpercentage / 100 * 100).toFixed(2)
   }
 
@@ -255,8 +255,8 @@ export class PdfQuotationPage implements OnInit {
     });
 
     // this.subtotalstring = (this.subtotal / 100 * 100).toFixed(2)
-    this.subtotalstring = ((this.appointment.sales_packages.map(a => a['total']).reduce((a,b) => a+b)) + this.appointment.skylift_fee + this.appointment.scaff_fee + this.appointment.transportation_fee).toFixed(2)
-    this.deductpricestring = ((this.appointment.sales_packages.map(a => Number(a['discount'])).reduce((a,b) => a+b)) + Number(this.deductprice)).toFixed(2)
+    this.subtotalstring = ((this.appointment.sales_packages.map(a => a['total']).reduce((a, b) => a + b)) + this.appointment.skylift_fee + this.appointment.scaff_fee + this.appointment.transportation_fee).toFixed(2)
+    this.deductpricestring = ((this.appointment.sales_packages.map(a => Number(a['discount'])).reduce((a, b) => a + b)) + Number(this.deductprice)).toFixed(2)
     this.total = this.subtotal - this.deductprice + this.appointment.scaff_fee + this.appointment.skylift_fee + this.appointment.transportation_fee
     this.total = (this.total / 100 * 100).toFixed(2)
   }
@@ -480,7 +480,7 @@ export class PdfQuotationPage implements OnInit {
         this.returnquotenumber().then(a => {
           // console.log(a)
           this.http.post('https://api.nanogapp.com/updateSalesQuotation', {
-            quote_no : a,
+            quote_no: a,
             sales_id: this.appointment.sales_id,
             sales_status: status,
             total: this.total,
@@ -498,7 +498,7 @@ export class PdfQuotationPage implements OnInit {
     })
   }
 
-  async returnquotenumber(){
+  async returnquotenumber() {
     return new Promise((resolve, reject) => {
       this.quotationnumber = this.appointment.sales_id
       resolve(this.quotationnumber)
@@ -523,45 +523,63 @@ export class PdfQuotationPage implements OnInit {
   extraservicetable() {
     if (this.appointment.scaff_fee > 0 || this.appointment.skylift_fee > 0 || this.appointment.transportation_fee > 0) {
 
+      let items = [
+        [
+          { text: 'Additional Service', style: "tableHeader" },
+          { text: 'Price(RM)', style: "tableHeader" }
+        ],
+
+      ] as any
+
+      if (this.appointment.scaff_fee) {
+        items.push(
+          [
+            [
+              { text: 'Scaffolding', alignment: 'center', style: 'tableData' }
+            ],
+            [
+              { text: this.appointment.scaff_fee ? 'RM ' + this.appointment.scaff_fee : '-', alignment: 'center', style: 'tableData' }
+
+            ],
+
+          ],
+        )
+      }
+
+      if (this.appointment.skylift_fee) {
+        items.push(
+          [
+            [
+
+              { text: 'Skylift', alignment: 'center', style: 'tableData' }
+            ],
+            [
+              { text: this.appointment.skylift_fee ? 'RM ' + this.appointment.skylift_fee : '-', alignment: 'center', style: 'tableData' }
+            ],
+          ],
+        )
+      }
+
+      if (this.appointment.transportation_fee) {
+        items.push(
+          [
+            [
+
+              { text: 'Transportation', alignment: 'center', style: 'tableData' }
+            ],
+            [
+              { text: this.appointment.transportation_fee ? 'RM ' + this.appointment.transportation_fee : '-', alignment: 'center', style: 'tableData' }
+            ],
+          ],
+        )
+      }
+
       return {
         style: 'tableExample',
         table: {
           layout: 'lightHorizontalLines',
           widths: ['33%', '33%'],
-          body: [
-            [
-              { text: 'Additional Service', style: "tableHeader" },
-              { text: 'Price(RM)', style: "tableHeader" }
-            ],
-            [
-              [
-                { text: 'Scaffolding', alignment: 'center', style: 'tableData' }
-              ],
-              [
-                { text: this.appointment.scaff_fee ? 'RM ' + this.appointment.scaff_fee : '-', alignment: 'center', style: 'tableData' }
-
-              ],
-
-            ],
-            [
-              [
-
-                { text: 'Skylift', alignment: 'center', style: 'tableData' }
-              ],
-              [
-                { text: this.appointment.skylift_fee ? 'RM ' + this.appointment.skylift_fee : '-', alignment: 'center', style: 'tableData' }
-              ],
-            ],
-            [
-              [
-
-                { text: 'Transportation', alignment: 'center', style: 'tableData' }
-              ],
-              [
-                { text: this.appointment.transportation_fee ? 'RM ' + this.appointment.transportation_fee : '-', alignment: 'center', style: 'tableData' }
-              ],
-            ],
-          ]
+          body: items
         },
         margin: [0, 15, 0, 0],
       };
@@ -611,21 +629,21 @@ export class PdfQuotationPage implements OnInit {
               width: '3%'
             },
             {
-              columns : [
+              columns: [
                 {
                   stack: [
-                    { text: 'NANO G CENTRAL SDN BHD 201401003990 (1080064-V)', fontSize: 9, color: '#444444', width: '100%'},
-                    { text: 'D-1-11, Block D, Oasis Square Jalan PJU 1A/7, Oasis Damansara, Ara Damansara, 47301 Petaling Jaya, Selangor', fontSize: 9, color: '#444444', alignment: 'left', width: '100%'},          
+                    { text: 'NANO G CENTRAL SDN BHD 201401003990 (1080064-V)', fontSize: 9, color: '#444444', width: '100%' },
+                    { text: 'D-1-11, Block D, Oasis Square Jalan PJU 1A/7, Oasis Damansara, Ara Damansara, 47301 Petaling Jaya, Selangor', fontSize: 9, color: '#444444', alignment: 'left', width: '100%' },
                   ],
                 },
               ],
               width: '56%',
-              margin : [0,0,5,0]
+              margin: [0, 0, 5, 0]
             },
             {
-              columns : [
+              columns: [
                 {
-                  stack : [
+                  stack: [
                     { text: 'Tel : 1-800-18-6266', fontSize: 9, width: 'auto', color: '#444444', alignment: 'left' },
                     { text: 'W : www.nanog.com.my', fontSize: 9, width: 'auto', color: '#444444', alignment: 'left' },
                     { text: 'S : fb.com/nanogmalaysia', fontSize: 9, width: 'auto', color: '#444444', alignment: 'left' }
@@ -644,17 +662,17 @@ export class PdfQuotationPage implements OnInit {
         {
           columns: [
             {
-              stack : [
+              stack: [
                 { text: 'From: ', fontSize: 11, width: '45%', bold: true, margin: [0, 2, 0, 2], alignment: 'left', },
                 { text: this.user.user_name + '(' + this.user.user_role + ')', fontSize: 10, color: '#444444', alignment: 'left', margin: [1, 0.5, 1, 0.5] },
                 { text: this.user.user_phone_no, fontSize: 10, color: '#444444', alignment: 'left', margin: [1, 0.5, 1, 0.5] },
                 { text: this.user.user_email, fontSize: 10, color: '#444444', alignment: 'left', margin: [1, 0.5, 1, 0.5] },
               ],
-              width : '45%'
+              width: '45%'
             },
             {
-              stack : [
-                { alignment: 'right', text: 'Quotation', fontSize: 20, color: '#6DAD48', bold: 'true', width: '20%', margin: [0,0,0,2] },
+              stack: [
+                { alignment: 'right', text: 'Quotation', fontSize: 20, color: '#6DAD48', bold: 'true', width: '20%', margin: [0, 0, 0, 2] },
                 {
                   columns: [
                     { text: 'Issue Date:', bold: true, fontSize: 10, width: '50%', color: '#000000', alignment: 'right', },
@@ -750,33 +768,33 @@ export class PdfQuotationPage implements OnInit {
         // },
         this.extraservicetable(),
 
-        { 
+        {
           columns: [
             {
-              text : 'Duration of works is estimated to last at approximately ' + (this.appointment.working_duration ? this.appointment.working_duration : 'x') + ' working day/s subject to climate factor.',
-              width : '70%',
-              alignment : 'left',
+              text: 'Duration of works is estimated to last at approximately ' + (this.appointment.working_duration ? this.appointment.working_duration : 'x') + ' working day/s subject to climate factor.',
+              width: '70%',
+              alignment: 'left',
               margin: [0, 20, 10, 0],
-              fontSize : 11
+              fontSize: 11
             },
             {
-              stack : [
+              stack: [
                 {
-                  columns : [
+                  columns: [
                     { text: 'Subtotal: ', alignment: 'left', margin: [0, 20, 0, 0], fontSize: 9, color: '#444444' },
                     { text: 'RM ' + this.subtotalstring, alignment: 'right', width: '65%', margin: [0, 20, 0, 0], fontSize: 9, color: '#444444' },
                   ],
                 },
                 {
-                  columns : [
-                    { text: this.discounttext, alignment: 'left', fontSize: this.fontsize,  margin: [0, 2, 0, 0], color: '#444444' },
+                  columns: [
+                    { text: this.discounttext, alignment: 'left', fontSize: this.fontsize, margin: [0, 2, 0, 0], color: '#444444' },
                     { text: '- RM ' + this.deductpricestring, alignment: 'right', width: '65%', margin: [0, 2, 0, 0], fontSize: this.fontsize, color: '#444444' },
                   ],
                 },
                 {
-                  columns : [
-                    { text: 'Total: ', alignment: 'left', fontSize: 11, margin: [0, 5, 0, 0]},
-                    { text: 'RM ' + this.total, alignment: 'right', width: '65%', margin: [0, 5, 0, 0], fontSize: 11 }, 
+                  columns: [
+                    { text: 'Total: ', alignment: 'left', fontSize: 11, margin: [0, 5, 0, 0] },
+                    { text: 'RM ' + this.total, alignment: 'right', width: '65%', margin: [0, 5, 0, 0], fontSize: 11 },
                   ],
                 }
               ]
@@ -830,16 +848,16 @@ export class PdfQuotationPage implements OnInit {
         // },
 
 
-        { text: 'Payment Terms', fontSize: 11, width: '100%', bold: true, margin: [0, 2, 0, 2], alignment: 'left'},
+        { text: 'Payment Terms', fontSize: 11, width: '100%', bold: true, margin: [0, 2, 0, 2], alignment: 'left' },
         { text: '100% Full Payment Upon Confirmation', alignment: 'left', fontSize: 9 },
 
-        { text: 'All Payment should be payable to: ', fontSize: 11, width: '100%', bold: true, margin: [0, 10, 0, 2], alignment: 'left'},
+        { text: 'All Payment should be payable to: ', fontSize: 11, width: '100%', bold: true, margin: [0, 10, 0, 2], alignment: 'left' },
         { text: 'MAYBANK BERHAD', alignment: 'left', width: 'auto', fontSize: 10 },
         { text: 'Nano G Central Sdn Bhd', alignment: 'left', width: 'auto', fontSize: 10 },
         { text: '512978013332', alignment: 'left', width: 'auto', fontSize: 10 },
 
 
-        { text: 'Quotation validity thirty (30) days from the date of issue', fontSize: 11, width: '100%', bold: true, margin: [0, 10, 0, 2], alignment: 'left'},
+        { text: 'Quotation validity thirty (30) days from the date of issue', fontSize: 11, width: '100%', bold: true, margin: [0, 10, 0, 2], alignment: 'left' },
 
 
       ],
@@ -868,57 +886,11 @@ export class PdfQuotationPage implements OnInit {
       if (!window.open(pdfurl, '_system')) {
         window.location.href = pdfurl;
       }
-      // let globalVariable = this
-      // pdfMake.createPdf(docDefinition).getBuffer((buffer) => {
-      //   var utf8 = new Uint8Array(buffer); // Convert to UTF-8...
-      //   let binaryArray = utf8.buffer; // Convert to Binary...
 
-      //   let fileName = 'sadasd' + ' - Payslip.pdf';
-      //   let saveDir = cordova.file.dataDirectory;
-
-      //   this.file.createFile(saveDir, fileName, true).then((fileEntry) => {
-      //     fileEntry.createWriter((fileWriter) => {
-      //       fileWriter.onwriteend = async () => {
-
-      //         Swal.fire({
-      //           title: 'Generating PDF',
-      //           text: "Please Wait! Generating the PDF...",
-      //           icon: 'info',
-      //           timer: 2000,
-      //           heightAuto: false,
-      //           showCancelButton: false,
-      //           showConfirmButton: false
-      //         }).then(function (result) {
-
-      //           // console.log(result.dismiss);
-
-      //           if (result.dismiss === Swal.DismissReason.timer) {
-      //             // globalVariable.fileOpener.open(
-      //             //   saveDir + fileName,
-      //             //   'application/pdf');
-
-      //             // console.log(saveDir + fileName,'application/pdf', '_system')
-
-
-      //             window.open(saveDir + fileName,'application/pdf', '_system')
-      //           }
-
-      //         });
-      //       };
-      //       fileWriter.onerror = (e) => {
-      //         // console.log('file writer - error event fired: ' + e.toString());
-      //       };
-      //       fileWriter.write(binaryArray);
-      //       // console.log(binaryArray)
-      //     });
-      //   });
-      // });
     })
 
-
-
-
   }
+
 
   getBase64ImageFromURL(url) {
     return new Promise((resolve, reject) => {

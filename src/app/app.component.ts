@@ -16,7 +16,7 @@ const { NativeMarket } = Plugins;
 })
 export class AppComponent {
 
-  version_appstore = '010049';
+  version_appstore = '010061';
 
   showDownload = false
   showFail = false
@@ -26,72 +26,77 @@ export class AppComponent {
   versionAndroid = 0;
 
 
-  constructor( private platform: Platform ) {
-    firebase.initializeApp(firebaseConfig)
-
-    firebase.database().ref('versions').on('value', data => {
-      if (data.val()['Appstore'][this.platform.is('ios') ? "ios" : "md"][this.version_appstore]) {
-        console.log('Latest Version')
-      } else {
-        console.log('Old Version')
-
-        Swal.fire({
-          icon: 'warning',
-          title: 'Update App',
-          text: 'Please update your app to the latest version.',
-          heightAuto: false,
-          timerProgressBar: false,
-          allowOutsideClick: false,
-          confirmButtonText: 'Ok',
-        }).then(() => {
-          this.navigateToNewVersion()
-          if (this.platform.is('ios')) {
-            firebase.database().ref('versions/Bundle/ios').once('value', link => {
-              window.open(link.val())
-            })
-          } else {
-            NativeMarket.openStoreListing({
-              appId: 'com.nano.user'
-            });
-          }
-        })
-      }
-    })
-
+  constructor(private platform: Platform) {
     this.platform.ready().then(() => {
-      CapacitorUpdater.notifyAppReady()
+      firebase.initializeApp(firebaseConfig);
+      console.log('Firebase initialized');
 
-      CapacitorUpdater.addListener('download', (info: any) => {
-        // this.progress = `${info.percent}`
-        this.showDownload = true
-        this.showFail = false
-        this.p_bar_value = ((info.percent / 100) >= this.p_bar_value) ? (info.percent / 100) : this.p_bar_value;
+      firebase.database().ref('versions').on('value', data => {
+        if (data.val()['Appstore'][this.platform.is('ios') ? "ios" : "md"][this.version_appstore]) {
+          console.log('Latest Version')
+        } else {
+          console.log('Old Version')
 
-        if (this.p_bar_value >= 1) {
-          this.showLoader = false
+          Swal.fire({
+            icon: 'warning',
+            title: 'Update App',
+            text: 'Please update your app to the latest version.',
+            heightAuto: false,
+            timerProgressBar: false,
+            allowOutsideClick: false,
+            confirmButtonText: 'Ok',
+          }).then(() => {
+            this.navigateToNewVersion()
+            if (this.platform.is('ios')) {
+              firebase.database().ref('versions/Bundle/ios').once('value', link => {
+                window.open(link.val())
+              })
+            } else {
+              NativeMarket.openStoreListing({
+                appId: 'com.nano.user'
+              });
+            }
+          })
+        }
+      })
+
+      this.platform.ready().then(() => {
+        CapacitorUpdater.notifyAppReady()
+
+        CapacitorUpdater.addListener('download', (info: any) => {
+          // this.progress = `${info.percent}`
+          this.showDownload = true
+          this.showFail = false
+          this.p_bar_value = ((info.percent / 100) >= this.p_bar_value) ? (info.percent / 100) : this.p_bar_value;
+
+          if (this.p_bar_value >= 1) {
+            this.showLoader = false
+          }
+        });
+
+        CapacitorUpdater.addListener('downloadFailed', (info: any) => {
+          this.showDownload = false
+          this.showFail = true
+        });
+      })
+
+      this.platform.resume.subscribe(async () => {
+        if (this.showFail == true) {
+          this.checkForUpdate()
         }
       });
 
-      CapacitorUpdater.addListener('downloadFailed', (info: any) => {
-        this.showDownload = false
-        this.showFail = true
-      });
-    })
+      PushNotifications.requestPermissions();
+      PushNotifications.register();
 
-    this.platform.resume.subscribe(async () => {
-      if (this.showFail == true) {
-        this.checkForUpdate()
-      }
+      firebase.auth().onAuthStateChanged(a => {
+        if (a) {
+
+          FCM.subscribeTo({ topic: a.uid })
+        }
+      })
     });
 
-    PushNotifications.requestPermissions();
-    PushNotifications.register();
-
-    firebase.auth().onAuthStateChanged(a => {
-      if (a) {
-        FCM.subscribeTo({ topic: a.uid })
-      }
-    })
   }
 
   navigateToNewVersion() {
@@ -103,7 +108,7 @@ export class AppComponent {
       timerProgressBar: false,
       allowOutsideClick: false,
       didOpen: () => {
-       Swal.showLoading(Swal.getConfirmButton())
+        Swal.showLoading(Swal.getConfirmButton())
       },
     }).then(() => {
       this.navigateToNewVersion()
@@ -114,7 +119,6 @@ export class AppComponent {
       }
     })
   }
-
 
   checkForUpdate() {
     let appVersion = (this.platform.is('ios') ? `ios/${this.versioniOS}` : `android/${this.versionAndroid}`);

@@ -1,12 +1,15 @@
-import { HttpClient,HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ActionSheetController, NavController, Platform } from '@ionic/angular';
 import Swal from 'sweetalert2';
-import * as S3 from 'aws-sdk/clients/s3';
-import { Camera, CameraOptions } from '@awesome-cordova-plugins/camera/ngx';
+// import * as S3 from 'aws-sdk/clients/s3';
+import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
+// import { Camera, CameraOptions } from '@awesome-cordova-plugins/camera/ngx';
 
 import { Geolocation } from '@awesome-cordova-plugins/geolocation/ngx';
+import { Plugins } from '@capacitor/core';
+const { Camera } = Plugins;
 
 @Component({
   selector: 'app-task-label-cancel-reschedule',
@@ -25,7 +28,7 @@ export class TaskLabelCancelReschedulePage implements OnInit {
 
   location = {} as any
   addressstring
-  
+
   alllabel = [] as any
   mainlabel = [] as any
   sublabel = [] as any
@@ -37,12 +40,12 @@ export class TaskLabelCancelReschedulePage implements OnInit {
 
   eventtime
 
-  constructor(private nav : NavController,
-    private route : ActivatedRoute,
-    private http : HttpClient,
+  constructor(private nav: NavController,
+    private route: ActivatedRoute,
+    private http: HttpClient,
     private platform: Platform,
-    private actionSheetController : ActionSheetController,
-    private camera : Camera,
+    private actionSheetController: ActionSheetController,
+    // private camera : Camera,
     private geolocation: Geolocation) { }
 
   ngOnInit() {
@@ -59,7 +62,7 @@ export class TaskLabelCancelReschedulePage implements OnInit {
       this.labels = this.tab == 1 ? 80 : 81
 
       // console.log(this.leadid, this.labelm, this.labels)
-      
+
       this.http.get('https://api.nanogapp.com/getLabel').subscribe(a => {
         // console.log(a)
         this.alllabel = a['data']
@@ -76,7 +79,7 @@ export class TaskLabelCancelReschedulePage implements OnInit {
         // console.log(this.label)
       })
 
-      this.http.post('https://api.nanogapp.com/getLabelForLead', {lead_id : this.leadid}).subscribe(a => {
+      this.http.post('https://api.nanogapp.com/getLabelForLead', { lead_id: this.leadid }).subscribe(a => {
         // console.log(a['data'])
         this.label.remark = a['data']['label_remark']
         !a['data']['label_photo'] ? this.imageurl = [] : this.imageurl = a['data']['label_photo']
@@ -87,27 +90,26 @@ export class TaskLabelCancelReschedulePage implements OnInit {
     })
   }
 
-  platformType(){
+  platformType() {
     return this.platform.platforms()
   }
 
-  back(){
+  back() {
     this.nav.pop()
   }
 
-  getmainlabel(i){
+  getmainlabel(i) {
     this.label.mainlabel = this.mainlabel[i]
     this.sublabelDependMainLabel = this.sublabel.filter(a => a['category'] == this.label.mainlabel.category)
   }
 
-  getsublabel(i){
+  getsublabel(i) {
     this.label.sublabel = this.sublabelDependMainLabel[i]
   }
 
-  submit(){
-    
-    if(!this.label.mainlabel || !this.label.sublabel || !this.label.remark)
-    {
+  submit() {
+
+    if (!this.label.mainlabel || !this.label.sublabel || !this.label.remark) {
       Swal.fire({
         text: 'Please insert all the information',
         icon: 'info',
@@ -115,8 +117,7 @@ export class TaskLabelCancelReschedulePage implements OnInit {
         timer: 1500,
       })
     }
-    else
-    {
+    else {
       Swal.fire({
         html: this.tab == 1 ? 'Are you sure to cancel this appointment?<br> <b>Insert “Yes” to continue</b>' : 'Are you sure to re-schedule appointment?<br> <b>Insert “Yes” to continue</b>',
         icon: 'info',
@@ -129,25 +130,23 @@ export class TaskLabelCancelReschedulePage implements OnInit {
         },
         showLoaderOnConfirm: true,
       }).then(a => {
-        if(a['isConfirmed'] && a['value'].toLowerCase() == 'yes')
-        {
+        if (a['isConfirmed'] && a['value'].toLowerCase() == 'yes') {
           Swal.fire({
             text: 'Processing...',
             icon: 'info',
             heightAuto: false,
             showConfirmButton: false,
           })
-          if(this.tab == 1)
-          {
+          if (this.tab == 1) {
             this.http.post('https://api.nanogapp.com/cancelAppointmemntBySE', {
-              label_m : this.label.mainlabel.id,
-              label_s : this.label.sublabel.id,
-              lead_id : this.leadid,
-              uid : this.userid,
+              label_m: this.label.mainlabel.id,
+              label_s: this.label.sublabel.id,
+              lead_id: this.leadid,
+              uid: this.userid,
               // image : JSON.stringify(this.imageurl) || JSON.stringify([]),
               // label_video : JSON.stringify(this.videourl) || JSON.stringify([]),
-              remark : this.label.remark,
-  
+              remark: this.label.remark,
+
               // latt: this.location.latitude,
               // long: this.location.longitude,
               // image: JSON.stringify(this.imageurl),
@@ -170,17 +169,16 @@ export class TaskLabelCancelReschedulePage implements OnInit {
               }, 700);
             })
           }
-          else if(this.tab == 2)
-          {
+          else if (this.tab == 2) {
             this.http.post('https://api.nanogapp.com/rescheduleAppointmemntBySE', {
-              label_m : this.label.mainlabel.id,
-              label_s : this.label.sublabel.id,
-              lead_id : this.leadid,
-              uid : this.userid,
+              label_m: this.label.mainlabel.id,
+              label_s: this.label.sublabel.id,
+              lead_id: this.leadid,
+              uid: this.userid,
               // image : JSON.stringify(this.imageurl) || JSON.stringify([]),
               // label_video : JSON.stringify(this.videourl) || JSON.stringify([]),
-              remark : this.label.remark,
-  
+              remark: this.label.remark,
+
               // latt: this.location.latitude,
               // long: this.location.longitude,
               // image: JSON.stringify(this.imageurl),
@@ -205,12 +203,11 @@ export class TaskLabelCancelReschedulePage implements OnInit {
           }
 
         }
-        else if(a['isConfirmed'] && a['value'].toLowerCase() != 'yes')
-        {
+        else if (a['isConfirmed'] && a['value'].toLowerCase() != 'yes') {
           Swal.fire({
             text: 'Kindly insert the word "Yes" to confirm your submission',
-            icon : 'error',
-            heightAuto : false,
+            icon: 'error',
+            heightAuto: false,
           }).then(a => {
             this.submit()
           })
@@ -258,69 +255,70 @@ export class TaskLabelCancelReschedulePage implements OnInit {
     this.uploadToS3(uploadedFile.item(0))
   }
 
-  uploadToS3(file) {
-    Swal.fire({
-      title: "Uploading",
-      text: "Thank You for Your Patient...",
-      heightAuto: false,
-      icon: 'info',
-      showConfirmButton: false,
-    })
+  async uploadToS3(file) {
+    try {
+      // Show uploading message
+      Swal.fire({
+        title: "Uploading",
+        text: "Thank you for your patience...",
+        heightAuto: false,
+        icon: 'info',
+        showConfirmButton: false,
+      });
 
-    const bucket = new S3({
-      accessKeyId: "AKIA4FJWF7YCVSZJKLFE",
-      secretAccessKey: "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",
-      region: 'ap-southeast-1',
-      signatureVersion: 'v4'
-    })
-
-    const params = {
-      Bucket: 'nanogbucket',
-      Key: 'video name:' + file.name,
-      Body: file
-    }
-
-    bucket.upload(params, (err, data) => {
-      // console.log(data)
-      if (err) {
-
-        Swal.close()
-
-        Swal.fire({
-          title: "Something Wrong",
-          text: "Please try again later",
-          icon: 'error',
-          timer: 2000,
-          heightAuto: false,
-          showConfirmButton: false,
-        })
-        // console.log('There was an error uploading file: ' + err)
-        return false
-      }
-
-
-      Swal.close()
-
-      // console.log('Successfully uploaded file.', data)
-
-      // // console.log(i)
-      // console.log(data);
-
-      this.videourl.push(
-        {
-          link : data.Location,
-          filename : file.name
+      // const s3Client = new S3Client({
+      //   accessKeyId: "AKIA4FJWF7YCVSZJKLFE",
+      //   secretAccessKey: "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",
+      //   region: 'ap-southeast-1',
+      //   signatureVersion: 'v4'
+      // });
+      const s3Client = new S3Client({
+        region: 'ap-southeast-1',
+        credentials: {
+          accessKeyId: "AKIA4FJWF7YCVSZJKLFE",
+          secretAccessKey: "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",
         }
-      )
+      });
+      const params = {
+        Bucket: 'nanogbucket',
+        Key: 'video name:' + file.name,
+        Body: file
+      };
 
-      // this.videourl.link[i].link = data.Location
-      // this.videourl.link[i].filename = file.name
-      return true
-    })
+      const command = new PutObjectCommand(params);
+      const data = await s3Client.send(command);
+      const objectUrl = `https://nanogbucket.s3.ap-southeast-1.amazonaws.com/${encodeURIComponent(params.Key)}`;
 
+      // Close uploading message
+      Swal.close();
+
+      // Add uploaded file details to videourl array
+      this.videourl.push({
+        link: objectUrl,
+        filename: file.name
+      });
+
+      return true; // Indicates successful upload
+    } catch (error) {
+      // Close uploading message on error
+      Swal.close();
+
+      // Show error message
+      Swal.fire({
+        title: "Something went wrong",
+        text: "Please try again later",
+        icon: 'error',
+        timer: 2000,
+        heightAuto: false,
+        showConfirmButton: false,
+      });
+
+      console.error('Error uploading file:', error);
+      return false; // Indicates upload failure
+    }
   }
 
-  removeVideo(i){
+  removeVideo(i) {
     Swal.fire({
       title: 'Are you sure want to delete this video?',
       heightAuto: false,
@@ -437,27 +435,50 @@ export class TaskLabelCancelReschedulePage implements OnInit {
 
 
   captureImage() {
-    const options: CameraOptions = {
-      quality : 25,
-      destinationType: this.camera.DestinationType.DATA_URL,
-      encodingType: this.camera.EncodingType.JPEG,
-      mediaType: this.camera.MediaType.PICTURE,
-      targetHeight: 1000,
-      targetWidth: 600,
-      // correctOrientation: true,
-      saveToPhotoAlbum: true
-    }
+    // const options: CameraOptions = {
+    //   quality : 25,
+    //   destinationType: this.camera.DestinationType.DATA_URL,
+    //   encodingType: this.camera.EncodingType.JPEG,
+    //   mediaType: this.camera.MediaType.PICTURE,
+    //   targetHeight: 1000,
+    //   targetWidth: 600,
+    //   // correctOrientation: true,
+    //   saveToPhotoAlbum: true
+    // }
 
-    this.camera.getPicture(options).then((imageData) => {
-      let base64Image = 'data:image/jpeg;base64,' + imageData;
-      this.uploadserve2(base64Image).then(res => {
-        Swal.close()
-        // console.log(res)
-      })
-    },
-      (err) => {
-        alert(err)
-      });
+    // this.camera.getPicture(options).then((imageData) => {
+    //   let base64Image = 'data:image/jpeg;base64,' + imageData;
+    //   this.uploadserve2(base64Image).then(res => {
+    //     Swal.close()
+    //     // console.log(res)
+    //   })
+    // },
+    //   (err) => {
+    //     alert(err)
+    //   });
+    console.log('take photo');
+    return new Promise(async (resolve, reject) => {
+      try {
+        const image = await Camera.getPhoto({
+          quality: 50,
+          allowEditing: false,
+          resultType: 'base64',
+          source: 'CAMERA',
+          width: 600,
+          height: 1000
+        });
+
+        let base64Image = 'data:image/jpeg;base64,' + image.base64String;
+        this.uploadserve2(base64Image).then(res => {
+          Swal.close()
+          resolve(res)
+        })
+
+      } catch (error) {
+        console.error('Error taking photo', error);
+        // Handle error
+      }
+    })
   }
 
   imagectype;
@@ -468,8 +489,7 @@ export class TaskLabelCancelReschedulePage implements OnInit {
     return new Promise((resolve, reject) => {
       const files = event.target.files;
 
-      for(let i = 0; i< files.length ; i++)
-      {
+      for (let i = 0; i < files.length; i++) {
         Swal.fire({
           title: 'processing...',
           text: 'Larger size of image may result in a longer upload time.',
@@ -478,15 +498,15 @@ export class TaskLabelCancelReschedulePage implements OnInit {
           allowOutsideClick: false,
           showConfirmButton: false,
         })
-      if (event.target.files && event.target.files[i]) {
-        this.imagectype = event.target.files[i].type;
-        // // console.log(this.imagectype)
-        // // console.log(event.target.files[0])
-        // EXIF.getData(event.target.files[0], () => {
-        //   // console.log('run here 4')
-        //   // console.log(event.target.files[0]);
-        //   // console.log(event.target.files[0].exifdata.Orientation);
-        //   const orientation = EXIF.getTag(this, 'Orientation');
+        if (event.target.files && event.target.files[i]) {
+          this.imagectype = event.target.files[i].type;
+          // // console.log(this.imagectype)
+          // // console.log(event.target.files[0])
+          // EXIF.getData(event.target.files[0], () => {
+          //   // console.log('run here 4')
+          //   // console.log(event.target.files[0]);
+          //   // console.log(event.target.files[0].exifdata.Orientation);
+          //   const orientation = EXIF.getTag(this, 'Orientation');
           const can = document.createElement('canvas');
           const ctx = can.getContext('2d');
           const thisImage = new Image;
@@ -554,10 +574,10 @@ export class TaskLabelCancelReschedulePage implements OnInit {
 
           };
           thisImage.src = URL.createObjectURL(event.target.files[i]);
-        // });
-      }
+          // });
+        }
 
-    }
+      }
 
     })
   }

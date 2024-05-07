@@ -25,7 +25,7 @@ export class ScheduleCalanderPage implements OnInit {
   appointment = {} as any
 
   months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-  days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sut']
+  days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
   today = this.changeformat(new Date())
   todayyear
   todaymonth
@@ -48,15 +48,15 @@ export class ScheduleCalanderPage implements OnInit {
   schedulework
   scheduleworkapprove
 
-  heighfordate = (((this.widther() / 100 * 90) / 100 * 95) /7) + 'px'
+  heighfordate = (((this.widther() / 100 * 90) / 100 * 95) / 7) + 'px'
 
   constructor(private http: HttpClient,
     private route: ActivatedRoute,
     private modal: ModalController,
     private platform: Platform,
     private nav: NavController,
-    private datepipe : DatePipe,
-    private socket : Socket) { }
+    private datepipe: DatePipe,
+    private socket: Socket) { }
 
   ngOnInit() {
     // this.selectedyear = new Date().getFullYear()
@@ -68,14 +68,14 @@ export class ScheduleCalanderPage implements OnInit {
     this.socket.fromEvent('a').subscribe(message => {
       // // console.log(message)
       this.refresher()
-    }); 
+    });
     // // console.log(new Date().getMonth() + 1)
     // // console.log(new Date().getFullYear())
 
     this.createdate((new Date().getMonth() + 1), new Date().getFullYear())
 
     this.route.queryParams.subscribe(a => {
-      
+
       this.userid = a['uid']
       this.taskid = a['tid']
       this.salesid = a['sid']
@@ -84,10 +84,10 @@ export class ScheduleCalanderPage implements OnInit {
       // // console.log(this.userid, this.taskid, this.salesid)
 
       // // console.log(this.selectedyear, this.selectedmonth)
-      this.startdate = new Date(parseInt(this.selectedyear), parseInt(this.selectedmonth) -1 , 1).getTime()
+      this.startdate = new Date(parseInt(this.selectedyear), parseInt(this.selectedmonth) - 1, 1).getTime()
       // // console.log(this.startdate)
 
-      this.enddate = new Date(parseInt(this.selectedyear), parseInt(this.selectedmonth), 0, 23,59,59).getTime()
+      this.enddate = new Date(parseInt(this.selectedyear), parseInt(this.selectedmonth), 0, 23, 59, 59).getTime()
       // // console.log(this.enddate)
       this.getworkschedule()
     })
@@ -113,12 +113,12 @@ export class ScheduleCalanderPage implements OnInit {
   //   }, 4000);
   // }
 
-  refresher(){
+  refresher() {
     // console.log('here')
     this.createdate((new Date().getMonth() + 1), new Date().getFullYear())
 
     this.route.queryParams.subscribe(a => {
-      
+
       this.userid = a['uid']
       this.taskid = a['tid']
       this.salesid = a['sid']
@@ -126,10 +126,10 @@ export class ScheduleCalanderPage implements OnInit {
       // console.log(this.userid, this.taskid, this.salesid)
 
       // console.log(this.selectedyear, this.selectedmonth)
-      this.startdate = new Date(parseInt(this.selectedyear), parseInt(this.selectedmonth) -1 , 1).getTime()
+      this.startdate = new Date(parseInt(this.selectedyear), parseInt(this.selectedmonth) - 1, 1).getTime()
       // console.log(this.startdate)
 
-      this.enddate = new Date(parseInt(this.selectedyear), parseInt(this.selectedmonth), 0, 23,59,59).getTime()
+      this.enddate = new Date(parseInt(this.selectedyear), parseInt(this.selectedmonth), 0, 23, 59, 59).getTime()
       // console.log(this.enddate)
       this.getworkschedule()
     })
@@ -142,58 +142,81 @@ export class ScheduleCalanderPage implements OnInit {
   //   })
   // }
 
-  getworkschedule(){
-      // for (let i = 0; i < this.dates.length; i++) {
-      //   if(this.dates[i] != '')
-      //   {
-      //     this.dates[i].num = 0
-      //     let start = new Date(parseInt(this.selectedyear), parseInt(this.selectedmonth) - 1, parseInt(this.dates[i]['date'])).getTime()
-      //     let end = new Date(parseInt(this.selectedyear), parseInt(this.selectedmonth) - 1, parseInt(this.dates[i]['date']) , 23, 59, 59).getTime()
-      //     this.http.post('https://api.nanogapp.com/getScheduleByDate2', { minimum:start, maximum: end, sales_id : this.salesid}).subscribe(res => {
-      //       this.dates[i].num = res['data']['sum']
-      //     })
-      //   }
-      // }
-      // console.log(this.startdate, this.enddate)
-      this.http.post('https://api.nanogapp.com/getScheduleByDateForList', { minimum: this.startdate, maximum: this.enddate}).subscribe(res => {
-  
+  getworkschedule() {
+    // for (let i = 0; i < this.dates.length; i++) {
+    //   if(this.dates[i] != '')
+    //   {
+    //     this.dates[i].num = 0
+    //     let start = new Date(parseInt(this.selectedyear), parseInt(this.selectedmonth) - 1, parseInt(this.dates[i]['date'])).getTime()
+    //     let end = new Date(parseInt(this.selectedyear), parseInt(this.selectedmonth) - 1, parseInt(this.dates[i]['date']) , 23, 59, 59).getTime()
+    //     this.http.post('https://api.nanogapp.com/getScheduleByDate2', { minimum:start, maximum: end, sales_id : this.salesid}).subscribe(res => {
+    //       this.dates[i].num = res['data']['sum']
+    //     })
+    //   }
+    // }
+    // console.log(this.startdate, this.enddate)
+    this.http.post('https://api.nanogapp.com/getScheduleByDateForList', { minimum: this.startdate, maximum: this.enddate }).subscribe(res => {
 
-        this.allschedule = res['data']
-        // console.log(this.allschedule)
-        this.http.post('https://api.nanogapp.com/getFromDateByDateForList', { minimum: this.startdate, maximum: this.enddate }).subscribe(s => {
-          // console.log(s)
-          this.allfromdate = s['data']
-          this.alldate = this.allschedule.concat(this.allfromdate)
-          // console.log(this.alldate)
-          if (this.alldate.length < 1) {
-            for (let i = 0; i < this.dates.length; i++) {
-              if (this.dates[i] != '') {
-                this.dates[i].num = 0
-                this.dates[i].isthisappointment = false
-              }
+
+      this.allschedule = res['data']
+      // console.log(this.allschedule)
+      this.http.post('https://api.nanogapp.com/getFromDateByDateForList', { minimum: this.startdate, maximum: this.enddate }).subscribe(s => {
+        // console.log(s)
+        this.allfromdate = s['data']
+        this.alldate = this.allschedule.concat(this.allfromdate)
+
+        console.log(this.alldate)
+        if (this.alldate.length < 1) {
+          for (let i = 0; i < this.dates.length; i++) {
+            if (this.dates[i] != '') {
+              this.dates[i].num = 0
+              this.dates[i].isthisappointment = false
             }
           }
-          else if (this.alldate.length > 0) {
-            for (let i = 0; i < this.dates.length; i++) {
-              if (this.dates[i] != '') {
-                this.dates[i].num = 0
-                this.dates[i].isthisappointment = false
-                for (let j = 0; j < this.alldate.length; j++) {
-                  // // console.log(new Date(parseInt(this.alldate[j].schedule_date)).getDate())
-                  if(this.alldate[j].schedule_date && (!this.alldate[j].schedule_date2 || this.alldate[j].schedule_date2 && this.alldate[j].schedule_date2.length < 1))
-                  {
-                    if (this.dates[i].date == new Date(parseInt(this.alldate[j].schedule_date)).getDate()) {
+        }
+        else if (this.alldate.length > 0) {
+          for (let i = 0; i < this.dates.length; i++) {
+            if (this.dates[i] != '') {
+              this.dates[i].num = 0
+              this.dates[i].isthisappointment = false
+              for (let j = 0; j < this.alldate.length; j++) {
+                // // console.log(new Date(parseInt(this.alldate[j].schedule_date)).getDate())
+                if (this.alldate[j].schedule_date && (this.lengthof(this.alldate[j].schedule_date2) > 0 || !('schedule_date2' in this.alldate[j]))) {
+                  if (this.dates[i].date == new Date(parseInt(this.alldate[j].schedule_date)).getDate()) {
 
-                      if(this.dates[i]['sales_id'] && this.dates[i]['sales_id'].length > 0)
-                      {
-                        let findsalesid = this.dates[i]['sales_id'].findIndex(a => a == this.alldate[j].sales_id)
-                        if(i == 8)
-                        {
-                          // console.log(findsalesid)
-                          // console.log(this.alldate[j].sales_id)
+                    if (this.dates[i]['sales_id'] && this.dates[i]['sales_id'].length > 0) {
+                      let findsalesid = this.dates[i]['sales_id'].findIndex(a => a == this.alldate[j].sales_id)
+                      if (i == 8) {
+                        // console.log(findsalesid)
+                        // console.log(this.alldate[j].sales_id)
+                      }
+                      if (findsalesid == -1) {
+                        this.dates[i]['sales_id'].push(this.alldate[j].sales_id)
+                        this.dates[i].num = this.dates[i].num + 1
+                        if (this.alldate[j]['sales_id'] == this.salesid) {
+                          this.dates[i].isthisappointment = true
                         }
-                        if(findsalesid == -1)
-                        {
+                      }
+                    }
+                    else {
+                      this.dates[i]['sales_id'] = [this.alldate[j].sales_id]
+                      this.dates[i].num = this.dates[i].num + 1
+                      if (this.alldate[j]['sales_id'] == this.salesid) {
+                        this.dates[i].isthisappointment = true
+                      }
+                    }
+
+
+                  }
+                }
+                else if (this.alldate[j].schedule_date2) {
+                  for (let k = 0; k < this.alldate[j].schedule_date2.length; k++) {
+                    if (this.dates[i].date == new Date(parseInt(this.alldate[j].schedule_date2[k])).getDate() && new Date(parseInt(this.alldate[j].schedule_date2)).getMonth() == parseInt(this.todaymonth) - 1) {
+
+
+                      if (this.dates[i]['sales_id'] && this.dates[i]['sales_id'].length > 0) {
+                        let findsalesid = this.dates[i]['sales_id'].findIndex(a => a == this.alldate[j].sales_id)
+                        if (findsalesid == -1) {
                           this.dates[i]['sales_id'].push(this.alldate[j].sales_id)
                           this.dates[i].num = this.dates[i].num + 1
                           if (this.alldate[j]['sales_id'] == this.salesid) {
@@ -201,8 +224,8 @@ export class ScheduleCalanderPage implements OnInit {
                           }
                         }
                       }
-                      else
-                      {
+                      else {
+
                         this.dates[i]['sales_id'] = [this.alldate[j].sales_id]
                         this.dates[i].num = this.dates[i].num + 1
                         if (this.alldate[j]['sales_id'] == this.salesid) {
@@ -211,86 +234,57 @@ export class ScheduleCalanderPage implements OnInit {
                       }
 
 
+
+
                     }
                   }
-                  else if(this.alldate[j].schedule_date2)
-                  {
-                    for(let k = 0; k < this.alldate[j].schedule_date2.length; k++)
-                    {
-                      if (this.dates[i].date == new Date(parseInt(this.alldate[j].schedule_date2[k])).getDate()) {
-                        
-
-                        if(this.dates[i]['sales_id'] && this.dates[i]['sales_id'].length > 0)
-                        {
-                          let findsalesid = this.dates[i]['sales_id'].findIndex(a => a == this.alldate[j].sales_id)
-                          if(findsalesid == -1)
-                          {
-                            this.dates[i]['sales_id'].push(this.alldate[j].sales_id)
-                            this.dates[i].num = this.dates[i].num + 1
-                            if (this.alldate[j]['sales_id'] == this.salesid) {
-                              this.dates[i].isthisappointment = true
-                            }
-                          }
-                        }
-                        else{
-                          
-                          this.dates[i]['sales_id'] = [this.alldate[j].sales_id]
-                          this.dates[i].num = this.dates[i].num + 1
-                          if (this.alldate[j]['sales_id'] == this.salesid) {
-                            this.dates[i].isthisappointment = true
-                          }
-                        }
-                        
-
-                        
-
-                      }
-                    }
-                  }
-
                 }
+
               }
             }
           }
-          this.getdate(this.selecteddate)
-        })
-        // this.refresher()
+        }
+        console.log(this.dates);
+
+        this.getdate(this.selecteddate)
       })
-      // this.http.post('https://api.nanogapp.com/getScheduleByDate', { minimum: this.startdate, maximum: this.enddate}).subscribe(res => {
-      //   // console.log(res)
-      //   this.allschedule = res['data']
-      //   if (this.allschedule.length < 1) {
-      //     for (let i = 0; i < this.dates.length; i++) {
-      //       if (this.dates[i] != '') {
-      //         this.dates[i].num = this.dates[i].num
-      //         this.dates[i].isthisappointment = false
-      //       }
-      //     }
-      //   }
-      //   else if(this.allschedule.length > 0) {
-      //     for (let i = 0; i < this.dates.length; i++) {
-      //       if (this.dates[i] != '') {
-      //         this.dates[i].isthisappointment = false
-      //         for (let j = 0; j < this.allschedule.length; j++) {
-      //           if (this.dates[i].date == new Date(parseInt(this.allschedule[j].schedule_date)).getDate()) {
-      //             this.dates[i].num = this.dates[i].num + 1
-      //             if (this.allschedule['sales_id'] == this.salesid) {
-      //               this.dates[i].isthisappointment = true
-      //             }
-      //           }
-      //           else if (this.dates[i].date != new Date(parseInt(this.allschedule[j].schedule_date)).getDate()) {
-      //             this.dates[i].num = this.dates[i].num
-      //           }
-      //         }
-      //       }
-      //     }
-      //   }
-      //   // this.refresher()
-      // })
+      // this.refresher()
+    })
+    // this.http.post('https://api.nanogapp.com/getScheduleByDate', { minimum: this.startdate, maximum: this.enddate}).subscribe(res => {
+    //   // console.log(res)
+    //   this.allschedule = res['data']
+    //   if (this.allschedule.length < 1) {
+    //     for (let i = 0; i < this.dates.length; i++) {
+    //       if (this.dates[i] != '') {
+    //         this.dates[i].num = this.dates[i].num
+    //         this.dates[i].isthisappointment = false
+    //       }
+    //     }
+    //   }
+    //   else if(this.allschedule.length > 0) {
+    //     for (let i = 0; i < this.dates.length; i++) {
+    //       if (this.dates[i] != '') {
+    //         this.dates[i].isthisappointment = false
+    //         for (let j = 0; j < this.allschedule.length; j++) {
+    //           if (this.dates[i].date == new Date(parseInt(this.allschedule[j].schedule_date)).getDate()) {
+    //             this.dates[i].num = this.dates[i].num + 1
+    //             if (this.allschedule['sales_id'] == this.salesid) {
+    //               this.dates[i].isthisappointment = true
+    //             }
+    //           }
+    //           else if (this.dates[i].date != new Date(parseInt(this.allschedule[j].schedule_date)).getDate()) {
+    //             this.dates[i].num = this.dates[i].num
+    //           }
+    //         }
+    //       }
+    //     }
+    //   }
+    //   // this.refresher()
+    // })
   }
 
-  getworkschedule2(){
-    this.http.post('https://api.nanogapp.com/getScheduleByDate', { minimum: this.startdate, maximum: this.enddate}).subscribe(res => {
+  getworkschedule2() {
+    this.http.post('https://api.nanogapp.com/getScheduleByDate', { minimum: this.startdate, maximum: this.enddate }).subscribe(res => {
       this.allschedule = res['data']
       if (this.allschedule.length < 1) {
         for (let i = 0; i < this.dates.length; i++) {
@@ -300,7 +294,7 @@ export class ScheduleCalanderPage implements OnInit {
           }
         }
       }
-      else if(this.allschedule.length > 0) {
+      else if (this.allschedule.length > 0) {
         for (let i = 0; i < this.dates.length; i++) {
           if (this.dates[i] != '') {
             this.dates[i].num = 0
@@ -308,8 +302,7 @@ export class ScheduleCalanderPage implements OnInit {
             for (let j = 0; j < this.allschedule.length; j++) {
               if (this.dates[i].date == new Date(parseInt(this.allschedule[j].schedule_date)).getDate()) {
                 this.dates[i].num = this.dates[i].num + 1
-               if(this.allschedule[j]['sales_id'] == this.salesid)
-                {
+                if (this.allschedule[j]['sales_id'] == this.salesid) {
                   this.dates[i].isthisappointment = true
                 }
               }
@@ -381,7 +374,7 @@ export class ScheduleCalanderPage implements OnInit {
     }
     if (x >= 1) {
       x = x - 1
-    }else {
+    } else {
       x = 12
     }
     let monthfirstday = new Date(new Date(parseInt(y), parseInt(x), 1)).getDay()
@@ -413,7 +406,7 @@ export class ScheduleCalanderPage implements OnInit {
 
     this.createdate(this.todaymonth, this.todayyear)
     this.startdate = new Date(parseInt(this.todayyear), parseInt(this.todaymonth) - 1, 1).getTime()
-    this.enddate = new Date(parseInt(this.todayyear) , parseInt(this.todaymonth), 0, 23, 59, 59).getTime()
+    this.enddate = new Date(parseInt(this.todayyear), parseInt(this.todaymonth), 0, 23, 59, 59).getTime()
     // console.log(this.todayyear, this.todaymonth)
     // console.log(this.startdate, this.enddate)
     this.getworkschedule()
@@ -425,7 +418,7 @@ export class ScheduleCalanderPage implements OnInit {
       this.todaymonth = parseInt(this.todaymonth) + 1
       this.todayyear = this.todayyear
     }
-    else if(this.todaymonth > 11) {
+    else if (this.todaymonth > 11) {
       this.todaymonth = 1
       this.todayyear = this.todayyear + 1
     }
@@ -455,18 +448,23 @@ export class ScheduleCalanderPage implements OnInit {
     // // console.log(this.fulldate, fulltomorrow)
 
     this.http.post('https://api.nanogapp.com/getScheduleByDate', { minimum: this.fulldate, maximum: fulltomorrow }).subscribe(res => {
-      // console.log(res['data'])
       this.bookinglist = res['data']
+      console.log(this.bookinglist)
 
-
-      this.http.post('https://api.nanogapp.com/getFromDateByDate', { minimum: this.fulldate, maximum: fulltomorrow }).subscribe(s => {
+      this.http.post('https://api.nanogapp.com/getFromDateByDate2', { minimum: this.fulldate, maximum: fulltomorrow }).subscribe(s => {
         this.installlist = s['data']
-        // console.log(this.installlist)
+        console.log(this.installlist)
 
         this.alllist = this.bookinglist.concat(this.installlist)
 
-        // console.log(this.alllist)
+        console.log(this.alllist)
         this.alllist.filter(a => a['created_by'] == this.userid ? a['owm'] = true : a['owm'] = false)
+
+        this.alllist = this.alllist.filter((item, index, array) => {
+          const isUniqueCustomer = array.findIndex(entry => entry.customer_name === item.customer_name) === index;
+          const isUniqueLead = array.findIndex(entry => entry.lead_id === item.lead_id) === index;
+          return isUniqueCustomer || isUniqueLead
+        });
 
       })
       // let temp = res['data']
@@ -533,8 +531,7 @@ export class ScheduleCalanderPage implements OnInit {
         this.schedulework = res['data']
         this.scheduleworkapprove = this.schedulework.filter(a => a['approve_status'] != false)
         // console.log(this.scheduleworkapprove)
-        if(this.scheduleworkapprove.length > 0)
-        {
+        if (this.scheduleworkapprove.length > 0) {
           Swal.fire({
             title: 'Already have existing schedule',
             // text: 'Are you sure want to add one more schedule?',
@@ -543,14 +540,12 @@ export class ScheduleCalanderPage implements OnInit {
             // showCancelButton: true,
             // reverseButtons: true,
           }).then(a => {
-            if(a['isConfirmed'] == false)
-            {
+            if (a['isConfirmed'] == false) {
               this.insert(x, i, scid)
             }
           })
         }
-        else if(this.scheduleworkapprove.length < 1)
-        {
+        else if (this.scheduleworkapprove.length < 1) {
           this.insert(x, i, scid)
         }
       })
@@ -581,73 +576,84 @@ export class ScheduleCalanderPage implements OnInit {
     // console.log(x, i, scid)
   }
 
-  async insert(x, i , scid){
-      const modal = await this.modal.create({
-        cssClass: 'schedulemodal',
-        component: ScheduleCalanderInsertPage,
-        componentProps: { selecteddate: this.fulldate, data: i, uid: this.userid, tid: this.taskid, sid: this.salesid }
-      })
+  async insert(x, i, scid) {
+    const modal = await this.modal.create({
+      cssClass: 'schedulemodal',
+      component: ScheduleCalanderInsertPage,
+      componentProps: { selecteddate: this.fulldate, data: i, uid: this.userid, tid: this.taskid, sid: this.salesid }
+    })
 
-      modal.onDidDismiss().then(a => {
-        // console.log(a)
-        if (a['data'] == 'success') {
-          this.getdate(this.selecteddate)
-          for (let i = 0; i < this.dates.length; i++) {
-            if (this.dates[i] != '') {
-              this.dates[i].num = 0
-            }
+    modal.onDidDismiss().then(a => {
+      // console.log(a)
+      if (a['data'] == 'success') {
+        this.getdate(this.selecteddate)
+        for (let i = 0; i < this.dates.length; i++) {
+          if (this.dates[i] != '') {
+            this.dates[i].num = 0
           }
-          this.http.post('https://api.nanogapp.com/getScheduleByDate', { minimum: this.startdate, maximum: this.enddate}).subscribe(res => {
-            // console.log(res)
-            this.allschedule = res['data']
-            this.http.post('https://api.nanogapp.com/getFromDateByDate', { minimum: this.startdate, maximum: this.enddate }).subscribe(s => {
-              // console.log(s)
-              this.allfromdate = s['data']
-              this.alldate = this.allschedule.concat(this.allfromdate)
-              // console.log(this.alldate)
-              if (this.alldate.length < 1) {
-                for (let i = 0; i < this.dates.length; i++) {
-                  if (this.dates[i] != '') {
-                    this.dates[i].num = 0
-                    this.dates[i].isthisappointment = false
-                  }
+        }
+        this.http.post('https://api.nanogapp.com/getScheduleByDate', { minimum: this.startdate, maximum: this.enddate }).subscribe(res => {
+          // console.log(res)
+          this.allschedule = res['data']
+          this.http.post('https://api.nanogapp.com/getFromDateByDate2', { minimum: this.startdate, maximum: this.enddate }).subscribe(s => {
+            // console.log(s)
+            this.allfromdate = s['data']
+            this.alldate = this.allschedule.concat(this.allfromdate)
+
+            this.alllist = this.alllist.filter((item, index, array) => {
+              const isUniqueCustomer = array.findIndex(entry => entry.customer_name === item.customer_name) === index;
+              const isUniqueLead = array.findIndex(entry => entry.lead_id === item.lead_id) === index;
+              return isUniqueCustomer || isUniqueLead
+            });
+
+            // console.log(this.alldate)
+            if (this.alldate.length < 1) {
+              for (let i = 0; i < this.dates.length; i++) {
+                if (this.dates[i] != '') {
+                  this.dates[i].num = 0
+                  this.dates[i].isthisappointment = false
                 }
               }
-              else if (this.alldate.length > 0) {
-                for (let i = 0; i < this.dates.length; i++) {
-                  if (this.dates[i] != '') {
-                    this.dates[i].num = 0
-                    this.dates[i].isthisappointment = false
-                    for (let j = 0; j < this.alldate.length; j++) {
-                      // // console.log(new Date(parseInt(this.alldate[j].schedule_date)).getDate())
-                      if (this.dates[i].date == new Date(parseInt(this.alldate[j].schedule_date)).getDate()) {
-                        this.dates[i].num = this.dates[i].num + 1
-                        if (this.alldate[j]['sales_id'] == this.salesid) {
-                          this.dates[i].isthisappointment = true
-                        }
+            }
+            else if (this.alldate.length > 0) {
+              for (let i = 0; i < this.dates.length; i++) {
+                if (this.dates[i] != '') {
+                  this.dates[i].num = 0
+                  this.dates[i].isthisappointment = false
+                  for (let j = 0; j < this.alldate.length; j++) {
+                    // // console.log(new Date(parseInt(this.alldate[j].schedule_date)).getDate())
+                    if (this.dates[i].date == new Date(parseInt(this.alldate[j].schedule_date)).getDate()) {
+                      this.dates[i].num = this.dates[i].num + 1
+                      if (this.alldate[j]['sales_id'] == this.salesid) {
+                        this.dates[i].isthisappointment = true
                       }
                     }
                   }
                 }
               }
-            })
-            // console.log(this.dates)
+            }
           })
-        }
-      })
+          // console.log(this.dates)
+        })
+      }
+    })
 
-      await modal.present()
+    await modal.present()
   }
 
   widther() {
     return this.platform.width()
   }
 
+  lengthof(x) {
+    return x ? x.length : 0
+  }
+
   deleteschedule(scid) {
     // let temp = this.bookinglist.filter(a => a['id'] == scid)
     // if(temp[0].approve_status == true)
     // {
-      
+
     // }
     Swal.fire({
       text: 'Are you sure to delete this schedule?',
@@ -721,54 +727,53 @@ export class ScheduleCalanderPage implements OnInit {
 
   scheduletasklist
 
-  search(){
+  search() {
     let temp1
     let temp2
     // console.log(this.keyword)
     this.http.post('https://api.nanogapp.com/getFromDateBySearch', {
-      keyword : this.keyword.toLowerCase()
-        }).subscribe(a => {
-          // console.log(a)
-          temp1 = a['data']
-          this.http.post('https://api.nanogapp.com/getScheduleBySearch', {
-            keyword : this.keyword.toLowerCase()
-          }).subscribe(b => {
-            // console.log(b)
-            temp2 = b['data']
-            this.scheduletasklist = temp1.concat(temp2)
-            // console.log(this.scheduletasklist)
-          })
-        })
+      keyword: this.keyword.toLowerCase()
+    }).subscribe(a => {
+      // console.log(a)
+      temp1 = a['data']
+      this.http.post('https://api.nanogapp.com/getScheduleBySearch', {
+        keyword: this.keyword.toLowerCase()
+      }).subscribe(b => {
+        // console.log(b)
+        temp2 = b['data']
+        this.scheduletasklist = temp1.concat(temp2)
+        // console.log(this.scheduletasklist)
+      })
+    })
   }
 
-  addtask(){
+  addtask() {
     let finddate = this.dates.findIndex(a => a['date'] == this.selecteddate)
-    if(this.dates[finddate].num > 4){
+    if (this.dates[finddate].num > 4) {
       Swal.fire({
         text: 'There already have 5 task in the selected day, Are you sure to continue',
-        icon : 'info',
+        icon: 'info',
         heightAuto: false,
         showCancelButton: true,
         reverseButtons: true,
       }).then(a => {
-        if(a['isConfirmed'] == true)
-        {
+        if (a['isConfirmed'] == true) {
           this.addtasktodatabase()
         }
       })
     }
-    else{
+    else {
       this.addtasktodatabase()
     }
 
   }
 
-  async addtasktodatabase(){
+  async addtasktodatabase() {
     let selecteddate = new Date(parseInt(this.selectedyear), parseInt(this.selectedmonth) - 1, parseInt(this.selecteddate), 0).getTime()
     const modal = await this.modal.create({
       cssClass: 'schedulemodal',
       component: ScheduleCalanderInsertPage,
-      componentProps: { selecteddate: selecteddate, uid: this.userid, lid: this.leadid, tid: this.taskid, sid: this.salesid}
+      componentProps: { selecteddate: selecteddate, uid: this.userid, lid: this.leadid, tid: this.taskid, sid: this.salesid }
     })
 
     modal.onDidDismiss().then(a => {
@@ -785,7 +790,7 @@ export class ScheduleCalanderPage implements OnInit {
     await modal.present()
   }
 
-  platformType(){
+  platformType() {
     return this.platform.platforms()
   }
 }

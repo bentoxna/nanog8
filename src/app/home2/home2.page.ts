@@ -232,6 +232,21 @@ export class Home2Page {
     this.nav.navigateForward('tab4-havent-checkin')
   }
 
+  gocompletedjob(){
+    // const Toast = Swal.mixin({
+    //   toast: true,
+    //   position: 'top',
+    //   showConfirmButton: false,
+    //   timer: 2000,
+    //   timerProgressBar: true,
+    // })
+
+    // Toast.fire({
+    //   icon: 'info',
+    //   title: 'Coming Soon'
+    // })
+    this.nav.navigateForward('tab4-completed-job')
+  }
 
   goupcomingtask(){
     this.nav.navigateForward('tab1-upcoming-task')

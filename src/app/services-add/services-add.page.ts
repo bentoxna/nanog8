@@ -1,15 +1,15 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActionSheetController, ModalController, NavController, NavParams, Platform } from '@ionic/angular';
-import { Camera, CameraOptions } from '@awesome-cordova-plugins/camera/ngx';
+// import { Camera, CameraOptions } from '@awesome-cordova-plugins/camera/ngx';
 import { MediaCapture, MediaFile, MediaFileData, CaptureError } from '@awesome-cordova-plugins/media-capture/ngx';
 // import { PhotoViewer } from '@awesome-cordova-plugins/photo-viewer/ngx';
 import Swal from 'sweetalert2';
-import * as EXIF from 'exif-js';
-import { ServicePackageDetailPage } from '../service-package-detail/service-package-detail.page';
-import { identity } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
-import * as S3 from 'aws-sdk/clients/s3';
+// import * as S3 from 'aws-sdk/clients/s3';
+import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
+import { Plugins } from '@capacitor/core';
+const { Camera } = Plugins;
 
 @Component({
   selector: 'app-services-add',
@@ -44,7 +44,7 @@ export class ServicesAddPage implements OnInit {
   taskid
   salesid
   sapid = 0
-  leadid 
+  leadid
   servicetype
 
 
@@ -66,14 +66,14 @@ export class ServicesAddPage implements OnInit {
   otherpackage = {} as any
 
 
-  warranty = [0,1,2,3,4,5]
+  warranty = [0, 1, 2, 3, 4, 5, 6, 7]
   selectedwarranty
 
 
   constructor(
     private http: HttpClient,
     private actionSheetController: ActionSheetController,
-    private camera: Camera,
+    // private camera: Camera,
     private mediaCapture: MediaCapture,
     private nav: NavController,
     private modal: ModalController,
@@ -116,7 +116,7 @@ export class ServicesAddPage implements OnInit {
   }
 
 
-  handleChange(x){
+  handleChange(x) {
     this.service.package_warranty = x['detail']['value']
     // let warranty = x['detail']['value']
     // this.http.post('https://api.nanogapp.com/updatewarranty', {warranty : warranty , salesid: this.salesid}).subscribe(a => { 
@@ -156,9 +156,16 @@ export class ServicesAddPage implements OnInit {
       buttons: [
         {
           cssClass: 'actionsheet-selection',
-          text: 'Upload from gallery',
+          text: 'Upload Single Photo',
           handler: () => {
             document.getElementById('uploadlabel').click()
+          }
+        },
+        {
+          cssClass: 'actionsheet-selection',
+          text: 'Upload Multiple Photo',
+          handler: () => {
+            document.getElementById('uploadlabelmul').click()
           }
         },
         {
@@ -252,29 +259,52 @@ export class ServicesAddPage implements OnInit {
 
 
   captureImage() {
-    const options: CameraOptions = {
-      quality : 25,
-      destinationType: this.camera.DestinationType.DATA_URL,
-      encodingType: this.camera.EncodingType.JPEG,
-      mediaType: this.camera.MediaType.PICTURE,
-      targetHeight: 1000,
-      targetWidth: 600,
-      correctOrientation: true,
-      saveToPhotoAlbum: true
-    }
+    // const options: CameraOptions = {
+    //   quality: 25,
+    //   destinationType: this.camera.DestinationType.DATA_URL,
+    //   encodingType: this.camera.EncodingType.JPEG,
+    //   mediaType: this.camera.MediaType.PICTURE,
+    //   targetHeight: 1000,
+    //   targetWidth: 600,
+    //   correctOrientation: true,
+    //   saveToPhotoAlbum: true
+    // }
 
-    this.camera.getPicture(options).then((imageData) => {
-      this.sweetalert = true
-      let base64Image = 'data:image/jpeg;base64,' + imageData;
-      this.uploadserve2(base64Image).then(res => {
-        this.sweetalert = false
-        Swal.close()
-        // console.log(res)
-      })
-    },
-      (err) => {
-        alert(err)
-      });
+    // this.camera.getPicture(options).then((imageData) => {
+    //   this.sweetalert = true
+    //   let base64Image = 'data:image/jpeg;base64,' + imageData;
+    //   this.uploadserve2(base64Image).then(res => {
+    //     this.sweetalert = false
+    //     Swal.close()
+    //     // console.log(res)
+    //   })
+    // },
+    //   (err) => {
+    //     alert(err)
+    //   });
+    console.log('take photo');
+    return new Promise(async (resolve, reject) => {
+      try {
+        const image = await Camera.getPhoto({
+          quality: 50,
+          allowEditing: false,
+          resultType: 'base64',
+          source: 'CAMERA',
+          width: 600,
+          height: 1000
+        });
+
+        let base64Image = 'data:image/jpeg;base64,' + image.base64String;
+        this.uploadserve2(base64Image).then(res => {
+          Swal.close()
+          resolve(res)
+        })
+
+      } catch (error) {
+        console.error('Error taking photo', error);
+        // Handle error
+      }
+    })
   }
 
   imagectype;
@@ -282,100 +312,70 @@ export class ServicesAddPage implements OnInit {
   base64img;
 
   fileChange2(event, maxsize) {
-    return new Promise((resolve, reject) => {
-      this.sweetalert = true
+    console.log('test'); // Check if this line is executed
 
-      // // console.log(event)
+    return new Promise((resolve, reject) => {
+      this.sweetalert = true;
+
       const files = event.target.files;
-      // const files2 = event.target.files[1]
-      // // console.log(files)
-      // // console.log(files2)
-      for(let i = 0; i< files.length ; i++)
-      {
+
+      const processImage = (file) => {
         Swal.fire({
-          title: 'processing...',
-          text: 'Larger size of image may result in a longer upload time.',
+          title: 'Processing...',
+          text: 'Larger size of the image may result in a longer upload time.',
           icon: 'info',
           heightAuto: false,
           allowOutsideClick: false,
           showConfirmButton: false,
-        })
-        if (event.target.files && event.target.files[i]) {
-          this.imagectype = event.target.files[i].type;
-          // // console.log(this.imagectype)
-          // // console.log(event.target.files[0])
-          // EXIF.getData(event.target.files[0], () => {
-          //   // console.log('run here 4')
-          //   // console.log(event.target.files[0]);
-          //   // console.log(event.target.files[0].exifdata.Orientation);
-          //   const orientation = EXIF.getTag(this, 'Orientation');
-          const can = document.createElement('canvas');
-          const ctx = can.getContext('2d');
-          const thisImage = new Image;
-          const maxW = maxsize;
-          const maxH = maxsize;
-          thisImage.onload = (a) => {
-  
-            // // console.log(a);
-            const iw = thisImage.width;
-            const ih = thisImage.height;
-            const scale = Math.min((maxW / iw), (maxH / ih));
-            const iwScaled = iw * scale;
-            const ihScaled = ih * scale;
-            can.width = iwScaled;
-            can.height = ihScaled;
-            ctx.save();
-            // const width = can.width; const styleWidth = can.style.width;
-            // const height = can.height; const styleHeight = can.style.height;
-            // // console.log(event.target.files[0]);
-            // if (event.target.files[0] && event.target.files[0].exifdata.Orientation) {
-            //   // console.log(event.target.files[0].exifdata.Orientation);
-            //   if (event.target.files[0].exifdata.Orientation > 4) {
-            //     can.width = height; can.style.width = styleHeight;
-            //     can.height = width; can.style.height = styleWidth;
-            //   }
-            //   switch (event.target.files[0].exifdata.Orientation) {
-            //     case 2: ctx.translate(width, 0); ctx.scale(-1, 1); break;
-            //     case 3: ctx.translate(width, height); ctx.rotate(Math.PI); break;
-            //     case 4: ctx.translate(0, height); ctx.scale(1, -1); break;
-            //     case 5: ctx.rotate(0.5 * Math.PI); ctx.scale(1, -1); break;
-            //     case 6: ctx.rotate(0.5 * Math.PI); ctx.translate(0, -height); break;
-            //     case 7: ctx.rotate(0.5 * Math.PI); ctx.translate(width, -height); ctx.scale(-1, 1); break;
-            //     case 8: ctx.rotate(-0.5 * Math.PI); ctx.translate(-width, 0); break;
-            //   }
-            // }
-  
-            ctx.drawImage(thisImage, 0, 0, iwScaled, ihScaled);
-            ctx.restore();
-  
-            this.imagec = can.toDataURL();
-  
-            const imgggg = this.imagec.replace(';base64,', 'thisisathingtoreplace;');
-            const imgarr = imgggg.split('thisisathingtoreplace;');
-            let base64 = imgarr[1]
-            event.target.value = '';
-  
-            const headers = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' })
-            let body = new URLSearchParams()
-            body.set('image', this.base64img)
-  
-  
-            this.http.post('https://api.nanogapp.com/upload', { image: this.imagec, folder: 'nanog', uid: 'nanog' }).subscribe((res) => {
-              this.imageurl.push(res['imageURL'])
-              this.sweetalert = false
-              Swal.close()
-              resolve(res['imageURL'])
-            }, awe => {
-              // console.log('run here 3')
-              reject(awe)
-            })
-  
-          };
-          thisImage.src = URL.createObjectURL(event.target.files[i]);
-        } 
+        });
+
+        const thisImage = new Image();
+        const can = document.createElement('canvas');
+        const ctx = can.getContext('2d');
+
+        thisImage.onload = () => {
+          const iw = thisImage.width;
+          const ih = thisImage.height;
+          const scale = Math.min((maxsize / iw), (maxsize / ih));
+          const iwScaled = iw * scale;
+          const ihScaled = ih * scale;
+
+          can.width = iwScaled;
+          can.height = ihScaled;
+          ctx.save();
+          ctx.drawImage(thisImage, 0, 0, iwScaled, ihScaled);
+          ctx.restore();
+
+          this.imagec = can.toDataURL();
+
+          const headers = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' });
+          let body = new URLSearchParams();
+          body.set('image', this.base64img);
+
+          this.http.post('https://api.nanogapp.com/upload', { image: this.imagec, folder: 'nanog', uid: 'nanog' }).subscribe(
+            (res) => {
+              this.imageurl.push(res['imageURL']);
+              resolve(res['imageURL']);
+            },
+            (error) => {
+              reject(error);
+            }
+          );
+          Swal.close();
+        };
+
+        thisImage.src = URL.createObjectURL(file);
+      };
+
+      if (files.length > 0) {
+        for (let i = 0; i < files.length; i++) {
+          processImage(files[i]);
+        }
       }
-    })
+    });
   }
+
+
 
   filechange(ev, maxsize) {
     // console.log(ev)
@@ -516,11 +516,11 @@ export class ServicesAddPage implements OnInit {
         //   didOpen : () => {
         //     Swal.showLoading(Swal.getConfirmButton())
         //     let startTime = new Date().getTime();
-    
+
         //     // Update the loading time every second
         //     const timerInterval = setInterval(() => {
         //       const elapsedTime = Math.floor((new Date().getTime() - startTime) / 1000); // Calculate elapsed time in seconds
-              
+
         //       // Update the Swal.fire dialog with the new loading time
         //       Swal.update({
         //         icon: 'info',
@@ -530,7 +530,7 @@ export class ServicesAddPage implements OnInit {
         //         showConfirmButton : false,
         //       });
         //     }, 1000);
-            
+
         //   }
         // }
       ).then(a => {
@@ -546,7 +546,7 @@ export class ServicesAddPage implements OnInit {
             sub_total: this.service.subtotal,
             total: this.service.total,
             total_total: ((this.allPackagesSubtotal) + parseFloat(this.service.total)),
-            package_warranty : this.service.package_warranty,
+            package_warranty: this.service.package_warranty,
             // discount: this.service.discount,
             service: this.service.services,
             area: this.service.area,
@@ -556,10 +556,10 @@ export class ServicesAddPage implements OnInit {
             other_area: this.service.area == 'others' ? this.service.otherarea : null,
             // discount_roundoff : this.service.discount_roundoff
             addon_id: this.sapid == 0 ? null : this.sapid,
-            leadid : this.leadid,
-            aid : this.taskid,
-            uid : this.uid,
-            servicetype : this.servicetype
+            leadid: this.leadid,
+            aid: this.taskid,
+            uid: this.uid,
+            servicetype: this.servicetype
           }).subscribe(a => {
             if (a['success']) {
               Swal.fire(
@@ -662,9 +662,9 @@ export class ServicesAddPage implements OnInit {
 
   nonpackage() {
     // if (this.service.services && this.service.area) {
-      this.dropdown = true
-      this.service.sqft = 'others'
-      this.nonpackagestatus = !this.nonpackagestatus
+    this.dropdown = true
+    this.service.sqft = 'others'
+    this.nonpackagestatus = !this.nonpackagestatus
     // }
   }
 
@@ -706,19 +706,19 @@ export class ServicesAddPage implements OnInit {
     // console.log(this.package_install)
     if (this.service.services && this.service.sqft && this.service.area && this.remove == false) {
       let temp = this.package_install.filter(a => a['service'].toLowerCase() == this.service.services.toLowerCase()
-        && (this.service.area == 'others' ? a['area'] :a['area'].toLowerCase() == (this.service.area).toLowerCase()) &&
-        Number(a['sqft'].split('-')[0]) < (this.service.sqft == 'others' ?  -1 :  Number(this.service.sqft)) 
+        && (this.service.area == 'others' ? a['area'] : a['area'].toLowerCase() == (this.service.area).toLowerCase()) &&
+        Number(a['sqft'].split('-')[0]) < (this.service.sqft == 'others' ? -1 : Number(this.service.sqft))
         && Number(a['sqft'].split('-')[1]) >= (this.service.sqft == 'others' ? -1 : Number(this.service.sqft))
-        )
-        // console.log(temp)
+      )
+      // console.log(temp)
       return temp
     }
     else if (this.service.services && this.service.sqft && this.service.area && this.remove == true) {
       let temp = this.package_remove.filter(a => a['service'].toLowerCase() == this.service.services.toLowerCase()
-      && (this.service.area == 'others' ? a['area'] :a['area'].toLowerCase() == (this.service.area).toLowerCase()) &&
-      Number(a['sqft'].split('-')[0]) < (this.service.sqft == 'others' ? -1 : Number(this.service.sqft)) 
+        && (this.service.area == 'others' ? a['area'] : a['area'].toLowerCase() == (this.service.area).toLowerCase()) &&
+        Number(a['sqft'].split('-')[0]) < (this.service.sqft == 'others' ? -1 : Number(this.service.sqft))
         && Number(a['sqft'].split('-')[1]) >= (this.service.sqft == 'others' ? -1 : Number(this.service.sqft))
-        )
+      )
       // console.log(temp)
       return temp
     }
@@ -869,66 +869,67 @@ export class ServicesAddPage implements OnInit {
     this.uploadToS3(uploadedFile.item(0))
   }
 
-  uploadToS3(file) {
-    Swal.fire({
-      title: "Uploading",
-      text: "Thank You for Your Patient...",
-      heightAuto: false,
-      icon: 'info',
-      showConfirmButton: false,
-    })
+  async uploadToS3(file) {
+    try {
+      // Show uploading message
+      Swal.fire({
+        title: "Uploading",
+        text: "Thank you for your patience...",
+        heightAuto: false,
+        icon: 'info',
+        showConfirmButton: false,
+      });
 
-    const bucket = new S3({
-      accessKeyId: "AKIA4FJWF7YCVSZJKLFE",
-      secretAccessKey: "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",
-      region: 'ap-southeast-1',
-      signatureVersion: 'v4'
-    })
-
-    const params = {
-      Bucket: 'nanogbucket',
-      Key: 'video name:' + file.name,
-      Body: file
-    }
-
-    bucket.upload(params, (err, data) => {
-      // console.log(data)
-      if (err) {
-
-        Swal.close()
-
-        Swal.fire({
-          title: "Something Wrong",
-          text: "Please try again later",
-          icon: 'error',
-          timer: 2000,
-          heightAuto: false,
-          showConfirmButton: false,
-        })
-        // console.log('There was an error uploading file: ' + err)
-        return false
-      }
-
-
-      Swal.close()
-
-      // console.log('Successfully uploaded file.', data)
-
-      // // console.log(i)
-      // console.log(data);
-
-      this.videourl.push(
-        {
-          link: data.Location,
-          filename: file.name
+      // const s3Client = new S3Client({
+      //   accessKeyId: "AKIA4FJWF7YCVSZJKLFE",
+      //   secretAccessKey: "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",
+      //   region: 'ap-southeast-1',
+      //   signatureVersion: 'v4'
+      // });
+      const s3Client = new S3Client({
+        region: 'ap-southeast-1',
+        credentials: {
+          accessKeyId: "AKIA4FJWF7YCVSZJKLFE",
+          secretAccessKey: "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",
         }
-      )
+      });
+      const params = {
+        Bucket: 'nanogbucket',
+        Key: 'video name:' + file.name,
+        Body: file
+      };
 
-      // this.videourl.link[i].link = data.Location
-      // this.videourl.link[i].filename = file.name
-      return true
-    })
+      const command = new PutObjectCommand(params);
+      const data = await s3Client.send(command);
+      const objectUrl = `https://nanogbucket.s3.ap-southeast-1.amazonaws.com/${encodeURIComponent(params.Key)}`;
 
+      // Close uploading message
+      Swal.close();
+
+      // Add uploaded file details to videourl array
+      this.videourl.push({
+        link: objectUrl,
+        filename: file.name
+      });
+
+      return true; // Indicates successful upload
+    } catch (error) {
+      // Close uploading message on error
+      Swal.close();
+
+      // Show error message
+      Swal.fire({
+        title: "Something went wrong",
+        text: "Please try again later",
+        icon: 'error',
+        timer: 2000,
+        heightAuto: false,
+        showConfirmButton: false,
+      });
+
+      console.error('Error uploading file:', error);
+      return false; // Indicates upload failure
+    }
   }
 
   removeVideo(i) {
@@ -946,9 +947,10 @@ export class ServicesAddPage implements OnInit {
     })
   }
 
-  changeToRemove(){
+  changeToRemove() {
     this.remove = !this.remove
     this.dropdown = true
     // this.service.package = null
   }
+
 }

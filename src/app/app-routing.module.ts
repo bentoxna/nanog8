@@ -180,7 +180,8 @@ const routes: Routes = [
   {
     path: 'task-discount3',
     loadChildren: () => import('./task-discount3/task-discount3.module').then( m => m.TaskDiscount3PageModule)
-  },  {
+  },
+  {
     path: 'tab1-upcoming-task',
     loadChildren: () => import('./tab1-upcoming-task/tab1-upcoming-task.module').then( m => m.Tab1UpcomingTaskPageModule)
   },
@@ -267,6 +268,25 @@ const routes: Routes = [
   {
     path: 'pdf-service-form-view',
     loadChildren: () => import('./pdf-service-form-view/pdf-service-form-view.module').then( m => m.PdfServiceFormViewPageModule)
+  },
+  {
+    path: 'services-add2',
+    loadChildren: () => import('./services-add2/services-add2.module').then( m => m.ServicesAdd2PageModule)
+  },
+  {
+    path: 'tab1-upcoming-task2',
+    loadChildren: () => import('./tab1-upcoming-task2/tab1-upcoming-task2.module').then( m => m.Tab1UpcomingTask2PageModule)
+  },  {
+    path: 'tab4-completed-job',
+    loadChildren: () => import('./tab4-completed-job/tab4-completed-job.module').then( m => m.Tab4CompletedJobPageModule)
+  },
+  {
+    path: 'completed-job-detail',
+    loadChildren: () => import('./completed-job-detail/completed-job-detail.module').then( m => m.CompletedJobDetailPageModule)
+  },
+  {
+    path: 'completed-job-service',
+    loadChildren: () => import('./completed-job-service/completed-job-service.module').then( m => m.CompletedJobServicePageModule)
   },
 
 

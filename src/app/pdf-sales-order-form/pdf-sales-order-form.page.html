@@ -15,7 +15,7 @@
           </ion-icon>
         </div>
 
-<!-- 
+        <!-- 
         <div style="width: 100%; display:flex; justify-content:space-between; align-items:center; box-shadow: 0 0 6px 0 #ddd;">
           <div (click)="changetab('tab1')"
             [ngStyle]="{'background': tab1 == true ? '#acd196' : '#FFFFFF' , 'color' : tab1 == true ? '#FFFFFF' : '#acd196'}"
@@ -73,16 +73,16 @@
   <div *ngIf="tab1 == true" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
 
 
-      <div *ngIf="tab != 2" [ngClass]="popup ? 'pop' : 'popx'"
+    <!-- <div *ngIf="tab != 2" [ngClass]="popup ? 'pop' : 'popx'"
       style="width: max-content; z-index: 3000; display: flex; align-items: center; background: #6DAD48; color: #FFFFFF; padding: 8px 16px; border-radius: 10px; margin-top: 10px; gap: 3px;">
-        <ion-icon (click)="clicktopop()" name="{{popup ? 'chevron-forward-outline' : 'chevron-back-outline'}}"></ion-icon>
-        <div (click)="createpdf()" style="display: flex; width: max-content;">
-          <ion-icon name="add-outline" style="font-size: 24px;"></ion-icon>
-          <div *ngIf="popup" style="margin-left: 3px;">Create Sales Order Form</div>
-        </div>
-
-
+      <ion-icon (click)="clicktopop()" name="{{popup ? 'chevron-forward-outline' : 'chevron-back-outline'}}"></ion-icon>
+      <div (click)="createpdf()" style="display: flex; width: max-content;">
+        <ion-icon name="add-outline" style="font-size: 24px;"></ion-icon>
+        <div *ngIf="popup" style="margin-left: 3px;">Create Sales Order Form</div>
       </div>
+
+
+    </div> -->
 
 
     <!-- <div style="width: 90%;" *ngFor="let x of pdffileurl">
@@ -91,35 +91,56 @@
         <div style="width: 80%;">{{x['sales_order_form'].split('/')[4]}}</div>
       </div>
     </div> -->
+
+    <div *ngIf="appointment.salesorderform_list" style="width: 100%; margin: 15px 0 5px 0; padding: 0 15px;;">Status:
+      <span
+        [ngStyle]="{'color' : appointment.salesorderform_list[0].isvoid ? 'tomato' : '#6DAD48' }">{{appointment.salesorderform_list[0].isvoid
+        ? 'Void' : 'Valid' }}</span>
+    </div>
+
+    <div *ngIf="!appointment.salesorderform_list && tab == 2" style="font-size: 13px; font-weight: 500; margin-top: 20px;">Proceed to Make Payment
+      Page to Create New SOF</div>
+
     <div *ngIf="pdffileurl" style="width: 90%;">
-      <div (click)="getpdf(pdffileurl['sales_order_form'],'system')" style="display: flex; align-items: center; padding: 10px 0; margin: 10px 0; box-shadow: 0 0 6px 0 #ddd;">
-        <img src="assets/icon/pdflogo.png" style="width: 20%;"/>
-        <div style="width: 80%;">{{(pdffileurl['sales_order_form'].split('/')[4]).split('-')[0]}} / {{(pdffileurl['sales_order_form'].split('/')[4]).split('-')[1]}} - {{(pdffileurl['sales_order_form'].split('/')[4]).split('-')[2]}}</div>
+      <div (click)="getpdf(pdffileurl['sales_order_form'],'system')"
+        style="display: flex; align-items: center; padding: 10px 0; margin: 10px 0; box-shadow: 0 0 6px 0 #ddd;">
+        <img src="assets/icon/pdflogo.png" style="width: 20%;" />
+        <div style="width: 80%;">{{(pdffileurl['sales_order_form'].split('/')[4]).split('-')[0]}} /
+          {{(pdffileurl['sales_order_form'].split('/')[4]).split('-')[1]}} -
+          {{(pdffileurl['sales_order_form'].split('/')[4]).split('-')[2]}}</div>
       </div>
     </div>
 
-
-    <div *ngIf="pdffileurl && pdffileurl.length < 1" style="width: 90%; display: flex; flex-direction: column; justify-content: center; align-items: center; height: 90%;">
+    <div *ngIf="pdffileurl && pdffileurl.length < 1"
+      style="width: 90%; display: flex; flex-direction: column; justify-content: center; align-items: center; height: 90%;">
       <img src="assets/icon/nocontent-nobackground.gif" />
       <b>No system pdf yet</b>
     </div>
 
+    <div *ngIf="tab != 2" (click)="createpdf()"
+      style="display: flex; width: max-content; background-color: #6DAD48; color: white; border-radius: 5px; padding: 5px 10px;margin-top: 20px; font-size: 14px;;">
+      <div style="margin-left: 3px;">Create Sales Order Form</div>
+    </div>
+
   </div>
 
-  <div *ngIf="tab2 == true" style="width: 100%; display: flex; flex-direction: column; align-items: center; height: 100%;">
+  <div *ngIf="tab2 == true"
+    style="width: 100%; display: flex; flex-direction: column; align-items: center; height: 100%;">
 
     <!-- <div style="margin: 20px 0 10px; width: 35px; height: 35px; border-radius: 50%; border: 1px solid #6DAD48;color: #6DAD48; display: flex; align-items: center; justify-content: center;">
       <ion-icon name="add-outline" style="font-size: 16px;"></ion-icon>
     </div> -->
 
     <div style="width: 90%;" *ngFor="let x of custompdffilename">
-      <div (click)="getpdf(x, 'custom')" style="display: flex; align-items: center; padding: 10px 0; margin: 10px 0; box-shadow: 0 0 6px 0 #ddd;">
-        <img src="assets/icon/pdflogo.png" style="width: 20%;"/>
+      <div (click)="getpdf(x, 'custom')"
+        style="display: flex; align-items: center; padding: 10px 0; margin: 10px 0; box-shadow: 0 0 6px 0 #ddd;">
+        <img src="assets/icon/pdflogo.png" style="width: 20%;" />
         <div style="width: 80%;">{{x}}</div>
       </div>
     </div>
 
-    <div *ngIf="custompdffilename && custompdffilename.length < 1" style="width: 90%; display: flex; flex-direction: column; justify-content: center; align-items: center; height: 90%;">
+    <div *ngIf="custompdffilename && custompdffilename.length < 1"
+      style="width: 90%; display: flex; flex-direction: column; justify-content: center; align-items: center; height: 90%;">
       <img src="assets/icon/nocontent-nobackground.gif" />
       <b>No custom pdf yet</b>
     </div>

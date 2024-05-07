@@ -14,11 +14,11 @@ export class LoginPage implements OnInit {
 
   eye = false
 
-  user: any = {}
+  user = {} as any
 
   constructor(private nav: NavController,
-    private http : HttpClient,
-    private platform : Platform) { }
+    private http: HttpClient,
+    private platform: Platform) { }
 
   ngOnInit() {
 
@@ -26,36 +26,42 @@ export class LoginPage implements OnInit {
       if (user) {
         // console.log(user)
         this.user.uid = user.uid
-        // console.log(this.user.uid)
+        console.log(this.user.uid)
         localStorage.setItem('nanogapp_uid', this.user.uid)
-        this.http.post('https://api.nanogapp.com/getSalesExec', {uid:this.user.uid}).subscribe((a) => {
+        this.http.post('https://api.nanogapp.com/getSalesExec', { uid: this.user.uid }).subscribe((a) => {
           this.user = a['data']
-          // console.log(this.user)
-          Swal.fire({
-            title: 'Welcome',
-            text: this.user.user_name,
-            timer: 1500,
-            showConfirmButton: false,
-            icon: 'success',
-            heightAuto: false
-          }).then(a => {
+          console.log(this.user)
 
-            // console.log(a)
-            if(this.user['user_role'] == 'Sales Executive')
-            {
-              this.nav.navigateRoot("home2?uid=" + this.user.uid)
-            }
-            else if(this.user['user_role'] == 'Project Coordinator')
-            {
-              this.nav.navigateRoot("pc-home?uid=" + this.user.uid)
-              // Swal.fire({
-              //   text: 'Developing....',
-              //   heightAuto: false,
-              //   icon: 'warning',
-              // })
-            }
-            // 
-          })
+          if (this.user) {
+
+            Swal.fire({
+              title: 'Welcome',
+              text: this.user.user_name,
+              timer: 1500,
+              showConfirmButton: false,
+              icon: 'success',
+              heightAuto: false
+            }).then(a => {
+
+              // console.log(a)
+              if (this.user['user_role'] == 'Sales Executive') {
+                this.nav.navigateRoot("home2?uid=" + this.user.uid)
+              }
+              else if (this.user['user_role'] == 'Project Coordinator') {
+                this.nav.navigateRoot("pc-home?uid=" + this.user.uid)
+                // Swal.fire({
+                //   text: 'Developing....',
+                //   heightAuto: false,
+                //   icon: 'warning',
+                // })
+              }
+              // 
+            })
+
+          } else {
+            firebase.auth().signOut()
+          }
+
         })
 
         // firebase.database().ref("users/" + this.user.uid).on('value', (a) => {
@@ -104,7 +110,7 @@ export class LoginPage implements OnInit {
     // firebase.auth().sendPasswordResetEmail('')
   }
 
-  platformType(){
+  platformType() {
     return this.platform.platforms()
   }
 

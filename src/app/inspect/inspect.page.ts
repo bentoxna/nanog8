@@ -3,8 +3,11 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ActionSheetButton, ActionSheetController, NavController } from '@ionic/angular';
 import Swal from 'sweetalert2';
-import * as S3 from 'aws-sdk/clients/s3';
-import { Camera, CameraOptions } from '@awesome-cordova-plugins/camera/ngx';
+// import * as S3 from 'aws-sdk/clients/s3';
+import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
+// import { Camera, CameraOptions } from '@awesome-cordova-plugins/camera/ngx';
+import { Plugins } from '@capacitor/core';
+const { Camera } = Plugins;
 
 @Component({
   selector: 'app-inspect',
@@ -14,16 +17,16 @@ import { Camera, CameraOptions } from '@awesome-cordova-plugins/camera/ngx';
 export class InspectPage implements OnInit {
 
   salesid
-  leadid 
+  leadid
   appointmentid
   inspect = {} as any
   uid = localStorage.getItem('nanogapp_uid') || ''
 
-  constructor(private route : ActivatedRoute,
-    private nav : NavController,
-    private http : HttpClient,
-    private actionSheetController : ActionSheetController,
-    private camera: Camera) { }
+  constructor(private route: ActivatedRoute,
+    private nav: NavController,
+    private http: HttpClient,
+    private actionSheetController: ActionSheetController,
+  ) { }
 
   ngOnInit() {
     this.route.queryParams.subscribe(a => {
@@ -31,10 +34,10 @@ export class InspectPage implements OnInit {
       this.salesid = a['salesid']
       this.leadid = a['leadid']
       this.appointmentid = a['aid']
-
-      this.refresher()
-
     })
+
+    this.refresher()
+
   }
 
   removeVideo(i) {
@@ -68,11 +71,10 @@ export class InspectPage implements OnInit {
     })
   }
 
-  refresher(){
-    this.http.post('https://api.nanogapp.com/getinspectation', {lead_id : this.leadid}).subscribe(a => {
+  refresher() {
+    this.http.post('https://api.nanogapp.com/getinspectation', { lead_id: this.leadid }).subscribe(a => {
       // console.log(a)
-      if(a['data'])
-      {
+      if (a['data']) {
         this.inspect = a['data']
         this.imageurl = this.inspect['label_photo'] || []
         // console.log(this.inspect)
@@ -82,7 +84,7 @@ export class InspectPage implements OnInit {
     })
   }
 
-  back(){
+  back() {
     this.nav.pop()
   }
 
@@ -93,9 +95,16 @@ export class InspectPage implements OnInit {
       buttons: [
         {
           cssClass: 'actionsheet-selection',
-          text: 'Upload from gallery',
+          text: 'Upload Single Photo',
           handler: () => {
             document.getElementById('uploadlabel').click()
+          }
+        },
+        {
+          cssClass: 'actionsheet-selection',
+          text: 'Upload Multiple Photo',
+          handler: () => {
+            document.getElementById('uploadlabelmul').click()
           }
         },
         {
@@ -117,7 +126,7 @@ export class InspectPage implements OnInit {
     await actionsheet.present()
   }
 
-  
+
   async selectMedia2() {
     const actionsheet = await this.actionSheetController.create({
       header: 'What would you want to add?',
@@ -141,29 +150,55 @@ export class InspectPage implements OnInit {
     await actionsheet.present()
   }
 
-  captureImage() {
-    const options: CameraOptions = {
-      quality: 25,
-      destinationType: this.camera.DestinationType.DATA_URL,
-      encodingType: this.camera.EncodingType.JPEG,
-      mediaType: this.camera.MediaType.PICTURE,
-      targetHeight: 1000,
-      targetWidth: 600,
-      // correctOrientation: true,
-      saveToPhotoAlbum: true
-    }
+  async captureImage() {
+    console.log('take photo');
+    return new Promise(async (resolve, reject) => {
+      try {
+        const image = await Camera.getPhoto({
+          quality: 50,
+          allowEditing: false,
+          resultType: 'base64',
+          source: 'CAMERA',
+          width: 600,
+          height: 1000
+        });
 
-    this.camera.getPicture(options).then((imageData) => {
-      let base64Image = 'data:image/jpeg;base64,' + imageData;
-      this.uploadserve2(base64Image).then(res => {
-        Swal.close()
-        // console.log(res)
-      })
-    },
-      (err) => {
-        alert(err)
-      });
+        let base64Image = 'data:image/jpeg;base64,' + image.base64String;
+        this.uploadserve2(base64Image).then(res => {
+          Swal.close()
+          resolve(res)
+        })
+
+      } catch (error) {
+        console.error('Error taking photo', error);
+        // Handle error
+      }
+    })
   }
+
+  // captureImage() {
+  //   const options: CameraOptions = {
+  //     quality: 25,
+  //     destinationType: this.camera.DestinationType.DATA_URL,
+  //     encodingType: this.camera.EncodingType.JPEG,
+  //     mediaType: this.camera.MediaType.PICTURE,
+  //     targetHeight: 1000,
+  //     targetWidth: 600,
+  //     // correctOrientation: true,
+  //     saveToPhotoAlbum: true
+  //   }
+
+  //   this.camera.getPicture(options).then((imageData) => {
+  //     let base64Image = 'data:image/jpeg;base64,' + imageData;
+  //     this.uploadserve2(base64Image).then(res => {
+  //       Swal.close()
+  //       // console.log(res)
+  //     })
+  //   },
+  //     (err) => {
+  //       alert(err)
+  //     });
+  // }
 
   imagectype;
   imagec;
@@ -207,7 +242,7 @@ export class InspectPage implements OnInit {
             ctx.restore();
 
             this.imagec = can.toDataURL();
-            
+
             this.http.post('https://api.nanogapp.com/upload', { image: this.imagec, folder: 'nanog', userid: 'nanog' }).subscribe((res) => {
               this.imageurl.push(res['imageURL'])
               Swal.close()
@@ -232,67 +267,69 @@ export class InspectPage implements OnInit {
     this.uploadToS3(uploadedFile.item(0))
   }
 
-  uploadToS3(file) {
-    Swal.fire({
-      title: "Uploading",
-      text: "Thank You for Your Patient...",
-      heightAuto: false,
-      icon: 'info',
-      showConfirmButton: false,
-    })
+  async uploadToS3(file) {
+    try {
+      // Show uploading message
+      Swal.fire({
+        title: "Uploading",
+        text: "Thank you for your patience...",
+        heightAuto: false,
+        icon: 'info',
+        showConfirmButton: false,
+      });
 
-    // console.log(file)
-    // console.log(file.type)
-
-    const bucket = new S3({
-      region: 'ap-southeast-1',
-      accessKeyId: "AKIA4FJWF7YCVSZJKLFE",
-      secretAccessKey: "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",
-      signatureVersion: 'v4'
-    })
-
-    const params = {
-      Bucket: 'nanogbucket',
-      Key: 'video name:' + file.name,
-      Body: file,
-      ContentType: file.type,
-    }
-
-    bucket.upload(params, (err, data) => {
-      // console.log(data)
-      if (err) {
-        Swal.close()
-
-        Swal.fire({
-          title: "Something Wrong",
-          text: "Please try again later",
-          icon: 'error',
-          timer: 2000,
-          heightAuto: false,
-          showConfirmButton: false,
-        })
-        // console.log('There was an error uploading file: ' + err)
-        return false
-      }
-
-
-      Swal.close()
-
-      // console.log('Successfully uploaded file.', data)
-
-      // console.log(data);
-
-      this.videourl.push(
-        {
-          link: data.Location,
-          filename: file.name
+      // const s3Client = new S3Client({
+      //   accessKeyId: "AKIA4FJWF7YCVSZJKLFE",
+      //   secretAccessKey: "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",
+      //   region: 'ap-southeast-1',
+      //   signatureVersion: 'v4'
+      // });
+      const s3Client = new S3Client({
+        region: 'ap-southeast-1',
+        credentials: {
+          accessKeyId: "AKIA4FJWF7YCVSZJKLFE",
+          secretAccessKey: "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",
         }
-      )
-      return true
-    })
+      });
+      const params = {
+        Bucket: 'nanogbucket',
+        Key: 'video name:' + file.name,
+        Body: file
+      };
 
+      const command = new PutObjectCommand(params);
+      const data = await s3Client.send(command);
+      const objectUrl = `https://nanogbucket.s3.ap-southeast-1.amazonaws.com/${encodeURIComponent(params.Key)}`;
+
+      // Close uploading message
+      Swal.close();
+
+      // Add uploaded file details to videourl array
+      this.videourl.push({
+        link: objectUrl,
+        filename: file.name
+      });
+
+      return true; // Indicates successful upload
+    } catch (error) {
+      // Close uploading message on error
+      Swal.close();
+
+      // Show error message
+      Swal.fire({
+        title: "Something went wrong",
+        text: "Please try again later",
+        icon: 'error',
+        timer: 2000,
+        heightAuto: false,
+        showConfirmButton: false,
+      });
+
+      console.error('Error uploading file:', error);
+      return false; // Indicates upload failure
+    }
   }
-  
+
   uploadserve2(image) {
     return new Promise((resolve, reject) => {
       Swal.fire({
@@ -343,41 +380,40 @@ export class InspectPage implements OnInit {
   submit() {
 
 
-      Swal.fire({
-        text: 'Are you sure to update inspection?',
-        icon: 'info',
-        heightAuto: false,
-        showCancelButton: true,
-        reverseButtons: true,
-      }).then(a => {
-        if (a['isConfirmed']) {
-          Swal.fire({
-            text: 'Processing...',
-            icon: 'info',
-            heightAuto: false,
-            showConfirmButton: false,
-          })
-          this.http.post('https://api.nanogapp.com/updateinspect', {
-            lead_id: this.leadid,
-            uid: this.uid,
-            inspect_photo: JSON.stringify(this.imageurl) || JSON.stringify([]),
-            inspect_video: JSON.stringify(this.videourl) || JSON.stringify([]),
-            inspect_remark: this.inspect.inspect_remark,
-          }).subscribe(a => {
-            // console.log(a)
-            setTimeout(() => {
-              Swal.close()
-              this.nav.pop()
-            }, 700);
-          })
-        }
-      })
+    Swal.fire({
+      text: 'Are you sure to update inspection?',
+      icon: 'info',
+      heightAuto: false,
+      showCancelButton: true,
+      reverseButtons: true,
+    }).then(a => {
+      if (a['isConfirmed']) {
+        Swal.fire({
+          text: 'Processing...',
+          icon: 'info',
+          heightAuto: false,
+          showConfirmButton: false,
+        })
+        this.http.post('https://api.nanogapp.com/updateinspect', {
+          lead_id: this.leadid,
+          uid: this.uid,
+          inspect_photo: JSON.stringify(this.imageurl) || JSON.stringify([]),
+          inspect_video: JSON.stringify(this.videourl) || JSON.stringify([]),
+          inspect_remark: this.inspect.inspect_remark,
+        }).subscribe(a => {
+          // console.log(a)
+          setTimeout(() => {
+            Swal.close()
+            this.nav.pop()
+          }, 700);
+        })
+      }
+    })
   }
-  
+
   submit2() {
 
-    if(this.inspect['inspect_no'])
-    {
+    if (this.inspect['inspect_no']) {
       Swal.fire({
         text: 'Are you sure to update inspection?',
         icon: 'info',
@@ -393,7 +429,7 @@ export class InspectPage implements OnInit {
             showConfirmButton: false,
           })
           this.http.post('https://api.nanogapp.com/updateinspect', {
-            appointment_id : this.appointmentid,
+            appointment_id: this.appointmentid,
             lead_id: this.leadid,
             uid: this.uid,
             inspect_photo: JSON.stringify(this.imageurl) || JSON.stringify([]),
@@ -409,8 +445,7 @@ export class InspectPage implements OnInit {
         }
       })
     }
-    else
-    {
+    else {
       Swal.fire({
         text: 'Are you sure to insert inspection?',
         icon: 'info',
@@ -426,7 +461,7 @@ export class InspectPage implements OnInit {
             showConfirmButton: false,
           })
           this.http.post('https://api.nanogapp.com/insertinspect', {
-            appointment_id : this.appointmentid,
+            appointment_id: this.appointmentid,
             lead_id: this.leadid,
             uid: this.uid,
             inspect_photo: JSON.stringify(this.imageurl) || JSON.stringify([]),
@@ -444,6 +479,6 @@ export class InspectPage implements OnInit {
     }
 
   }
-  
+
 
 }

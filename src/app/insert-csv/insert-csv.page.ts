@@ -26,7 +26,7 @@ export class InsertCsvPage implements OnInit {
       x = x.substring(1);
     } else if (x[0] === '1') {
       x = '60' + x.substring(0);
-    } else if (x[0] === '0') {
+    } else if (x[0] === '0' || x[0] === '5') {
       x = '6' + x.substring(0);
     } else if (x[0] !== '6') {
       x = '60' + x;

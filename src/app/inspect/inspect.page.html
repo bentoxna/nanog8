@@ -19,8 +19,8 @@
 
       <!-- image -->
       <div
-      style="display: flex; margin-top: 20px;  justify-content:space-between; align-items: center; background: #C6D8A6;  border-radius: 8px; padding: 10px 16px; box-shadow: 0 1px 0 0 #CCCCCC;">
-      <div style="font-size: 13px; font-weight:600;">Upload your inspection image & video</div>
+        style="display: flex; margin-top: 20px;  justify-content:space-between; align-items: center; background: #C6D8A6;  border-radius: 8px; padding: 10px 16px; box-shadow: 0 1px 0 0 #CCCCCC;">
+        <div style="font-size: 13px; font-weight:600;">Upload your inspection image & video</div>
       </div>
 
       <div
@@ -38,9 +38,11 @@
       </div>
 
       <label for="uploadfiles" id="uploadlabel"></label>
-      <input readonly (change)="fileChange2($event, 600)" type="file" id="uploadfiles" accept="image/*" multiple
-        name="files[]" style="display: none;" />
-
+      <input readonly (change)="fileChange2($event, 600)" type="file" id="uploadfiles" accept="image/*" name="files[]"
+        style="display: none;" />
+      <label for="uploadfiles3" id="uploadlabelmul"></label>
+      <input readonly (change)="fileChange2($event, 600)" type="file" id="uploadfiles3" accept="image/*" name="files[]"
+        multiple style="display: none;" />
 
       <!-- video -->
       <div
